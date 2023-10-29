@@ -1,0 +1,77 @@
+body {
+    margin: 0 !important;
+}
+
+
+/* Styles de base pour la barre de navigation */
+
+nav {
+    background-color: #333;
+    color: #fff;
+    display: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Styles pour les liens dans la barre de navigation */
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+
+/* Styles pour le conteneur de profil */
+
+#profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#logo {
+    width: 7%;
+}
+
+
+/* Styles pour la liste déroulante de connexion */
+
+#link-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#link-list a {
+    color: #fff;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+
+/* Styles pour afficher la liste déroulante au survol du profil */
+
+#profile-container:hover #link-list {
+    display: flex;
+    flex-direction: column;
+}
