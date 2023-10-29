@@ -96,6 +96,7 @@
     transition: .4s ease-in-out;
     background-color: #252525;
     color: white;
+    margin-bottom: 3em;
 }
 
 .button2:hover {
