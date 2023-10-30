@@ -1,8 +1,4 @@
-/* src/styles.css */
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 body {
     margin: 0 !important;
 }
@@ -79,4 +75,28 @@ nav a {
 #profile-container:hover #link-list {
     display: flex;
     flex-direction: column;
+}
+
+
+
+
+
+/* Ajoutez ce code CSS à votre fichier de style ou dans une balise <style> dans l'en-tête de votre document HTML */
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #00f;
 }
