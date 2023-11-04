@@ -8,23 +8,22 @@
       <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="prenom">
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Adresse e-mail" class="input-field" type="text" formControlName="email"(input)="emailFieldTouched = true" (blur)="emailFieldTouched = false">
+      <input autocomplete="off" placeholder="Adresse e-mail" class="input-field" type="text" formControlName="email" 
+             (input)="emailFieldTouched = true" (blur)="emailFieldTouched = false">
       <div *ngIf="emailFieldTouched && inscriptionForm?.get('email')?.hasError('invalidEmail')">
         L'adresse e-mail n'est pas valide.
       </div>
     </div>
-
-
+    
+    
     <div class="field">
-      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password"
-        formControlName="motDePasse">
+      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="motDePasse">
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password"
-        formControlName="confirmationMotDePasse">
+      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="confirmationMotDePasse">
       <div *ngIf="inscriptionForm.get('confirmationMotDePasse')!.hasError('mismatch')">
         Les mots de passe ne correspondent pas.
-      </div>
+      </div>      
     </div>
     <div class="btn">
       <button class="button1" type="submit">S'inscrire</button>

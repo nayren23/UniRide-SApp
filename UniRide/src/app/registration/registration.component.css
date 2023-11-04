@@ -1,11 +1,10 @@
 #inscriptionDiv {
-    border: 2px solid purple;
     text-align: center;
+    width: 100%;
+    padding-top: 10%;
 }
 
-#inscriptionForm {
-    border: 2px solid blue;
-}
+
 
 .form {
     display: flex;
