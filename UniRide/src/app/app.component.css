@@ -18,6 +18,8 @@ nav {
 .navbar-container {
     display: flex;
     align-items: center;
+    display: inline-block;
+    display: inline-flex
 }
 
 
@@ -34,9 +36,10 @@ nav a {
 
 #profile-container {
     position: relative;
-    display: flex;
-    align-items: center;
+    display: inline-block;
     cursor: pointer;
+    float: right;
+    margin-left: 70%;
 }
 
 #profile-image {
@@ -47,7 +50,7 @@ nav a {
 }
 
 #logo {
-    width: 7%;
+    width: 5%;
 }
 
 
