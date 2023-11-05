@@ -32,7 +32,7 @@ export class LogInComponent {
     const url = 'https://127.0.0.1:5050/user/auth'; // Assurez-vous que l'URL correspond à votre route Flask
     this.http.get(url, formData).subscribe(
       (response) => {
-        console.log(response);
+        console.log(response);        
       },
       (error) => {
         console.error(error);

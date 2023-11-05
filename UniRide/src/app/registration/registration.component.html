@@ -2,40 +2,40 @@
   <form class="form" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
     <p id="heading">Inscription</p>
     <div class="field">
-      <input autocomplete="off" placeholder="Nom utilisateur" class="input-field" type="text" formControlName="login" >
+      <input autocomplete="off" placeholder="Nom utilisateur" class="input-field" type="text" formControlName="login" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="firstname" >
+      <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="firstname" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" >
+      <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email"  >
+      <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email" required>
         </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="password" >
+      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="password" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="password_confirmation" >
+      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="password_confirmation" required>
       <div *ngIf="inscriptionForm.get('confirmationMotDePasse')?.hasError('mismatch')">
         Les mots de passe ne correspondent pas.
       </div>
     </div>
     <div class="field">
-      <select formControlName="gender" name="gender" aria-placeholder="Gender" >
+      <select formControlName="gender" name="gender" aria-placeholder="Gender" required>
         <option value="" disabled>Choisissez un genre</option>
         <option value="N">N</option>
         <option value="F">F</option>
         <option value="H">H</option>
       </select>
     </div>
-    <div class="field">
-      
-      <input autocomplete="off" placeholder="+33" class="input-field" type="text" formControlName="phone_number" required>
+    <div class="field">      
+      <label for="">+33</label>
+      <input autocomplete="off" placeholder="Numéro de téléphone*" maxlength="9" class="input-field" type="text" formControlName="phone_number" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Description *" class="input-field" type="text" formControlName="description" required>
+      <input autocomplete="off" placeholder="Description" class="input-field" type="text" formControlName="description" required>
     </div>
 
     <div class="btn">
