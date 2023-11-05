@@ -22,30 +22,12 @@ export class RegistrationComponent {
       phone_number: ['', Validators.required],
       description: ['', Validators.required],
     }, {
-      validator: this.passwordMatchValidator
     });
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const passwordControl = formGroup.get('password');
-    const confirmPasswordControl = formGroup.get('password_confirmation');
-
-    if (passwordControl && confirmPasswordControl) {
-      const password = passwordControl.value;
-      const confirmPassword = confirmPasswordControl.value;
-
-      if (password !== confirmPassword) {
-        confirmPasswordControl.setErrors({ mismatch: true });
-      } else {
-        confirmPasswordControl.setErrors(null);
-      }
-    }
-  }
 
   onSubmit() {
-    console.log(this.inscriptionForm.valid)
-    console.log(this.inscriptionForm.value)
-    if (this.inscriptionForm.valid) {
+      if (this.inscriptionForm.valid) {
       const formData = this.inscriptionForm.value;
       console.log(formData);
 
