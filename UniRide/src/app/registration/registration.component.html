@@ -2,31 +2,28 @@
   <form class="form" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
     <p id="heading">Inscription</p>
     <div class="field">
-      <input autocomplete="off" placeholder="Nom utilisateur" class="input-field" type="text" formControlName="login" [(ngModel)]="formData.login" required>
+      <input autocomplete="off" placeholder="Nom utilisateur" class="input-field" type="text" formControlName="login" >
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="firstname" [(ngModel)]="formData.firstname" required>
+      <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="firstname" >
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" [(ngModel)]="formData.lastname" required>
+      <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" >
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email"  [(ngModel)]="formData.student_email" required>
-      <div *ngIf="emailFieldTouched && inscriptionForm.get('email')?.hasError('invalidEmail')">
-        L'adresse e-mail n'est pas valide.
-      </div>
+      <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email"  >
+        </div>
+    <div class="field">
+      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="password" >
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="password" [(ngModel)]="formData.password" required>
-    </div>
-    <div class="field">
-      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="password_confirmation"  [(ngModel)]="formData.password_confirmation" >
+      <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="password_confirmation" >
       <div *ngIf="inscriptionForm.get('confirmationMotDePasse')?.hasError('mismatch')">
         Les mots de passe ne correspondent pas.
       </div>
     </div>
     <div class="field">
-      <select [(ngModel)]="formData.gender" name="gender" aria-placeholder="Gender">
+      <select formControlName="gender" name="gender" aria-placeholder="Gender" >
         <option value="" disabled>Choisissez un genre</option>
         <option value="N">N</option>
         <option value="F">F</option>
@@ -35,10 +32,10 @@
     </div>
     <div class="field">
       
-      <input autocomplete="off" placeholder="Numéro de téléphone" class="input-field" type="text" formControlName="phone_number" [(ngModel)]="formData.phone_number" required>
+      <input autocomplete="off" placeholder="+33" class="input-field" type="text" formControlName="phone_number" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Description *" class="input-field" type="text" formControlName="description" [(ngModel)]="formData.description">
+      <input autocomplete="off" placeholder="Description *" class="input-field" type="text" formControlName="description" required>
     </div>
 
     <div class="btn">

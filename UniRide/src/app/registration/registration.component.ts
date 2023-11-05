@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -9,19 +9,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegistrationComponent {
   inscriptionForm: FormGroup;
-  emailFieldTouched = false;
-
-  formData = {
-    login: '',
-    firstname: '',
-    lastname: '',
-    student_email: '',
-    password: '',
-    password_confirmation: '',
-    gender: '',
-    phone_number: '',
-    description: '',
-  };
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.inscriptionForm = this.formBuilder.group({
@@ -37,10 +24,6 @@ export class RegistrationComponent {
     }, {
       validator: this.passwordMatchValidator
     });
-  }
-
-  onGenderChange(event: any) {
-    this.formData.gender = event.target.value;
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
@@ -60,11 +43,14 @@ export class RegistrationComponent {
   }
 
   onSubmit() {
+    console.log(this.inscriptionForm.valid)
+    console.log(this.inscriptionForm.value)
     if (this.inscriptionForm.valid) {
-      console.log(this.formData);
+      const formData = this.inscriptionForm.value;
+      console.log(formData);
 
       const url = 'https://127.0.0.1:5050/user/register'; // Assurez-vous que l'URL correspond à votre route Flask
-      this.http.post(url, this.formData).subscribe(
+      this.http.post(url, formData).subscribe(
         (response) => {
           console.log(response);
         },
