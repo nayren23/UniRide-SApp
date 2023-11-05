@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environements/environment.prod';
+
 
 @Component({
   selector: 'app-registration',
@@ -25,6 +27,10 @@ export class RegistrationComponent {
   }
 
   onSubmit() {
+
+    const apiUrl = environment.apiUrl + "/user/register"; // Récupérez l'URL à partir de l'environnement
+    console.log(apiUrl)
+
     if (this.inscriptionForm && this.inscriptionForm.valid) {
       const formData = new FormData();
       formData.append('login', this.inscriptionForm.get('login')?.value || '');
@@ -36,11 +42,9 @@ export class RegistrationComponent {
       formData.append('gender', this.inscriptionForm.get('gender')?.value || '');
       formData.append('phone_number', this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
-  
-      const url = 'https://127.0.0.1:5050/user/register'; // Assurez-vous que l'URL correspond à votre route Flask
-  
+    
       // Envoyer la requête POST avec FormData
-      this.http.post(url, formData).subscribe(
+      this.http.post(apiUrl, formData).subscribe(
         (response) => {
           console.log(response);
         },

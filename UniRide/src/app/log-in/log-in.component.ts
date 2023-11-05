@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environements/environment.prod';
+
+
 
 
 
@@ -25,12 +28,12 @@ export class LogInComponent {
 
 
   onSubmit() {
+    const apiUrl = environment.apiUrl + "/user/auth"; // Récupérez l'URL à partir de l'environnement
+    console.log(apiUrl)
     if (this.connexionForm.valid) {
     const formData = this.connexionForm.value;
     console.log(formData);
-
-    const url = 'https://127.0.0.1:5050/user/auth'; // Assurez-vous que l'URL correspond à votre route Flask
-    this.http.post(url, formData).subscribe(
+    this.http.post(apiUrl, formData).subscribe(
       (response) => {
         console.log(response);        
       },
