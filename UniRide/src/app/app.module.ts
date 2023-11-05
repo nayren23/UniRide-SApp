@@ -6,6 +6,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LogInComponent } from './log-in/log-in.component';
 import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsModule
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -22,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsM
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   providers: [],

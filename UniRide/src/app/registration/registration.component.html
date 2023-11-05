@@ -11,7 +11,7 @@
       <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" [(ngModel)]="formData.lastname" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Adresse e-mail" class="input-field" type="text" formControlName="student_email"  [(ngModel)]="formData.student_email" required>
+      <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email"  [(ngModel)]="formData.student_email" required>
       <div *ngIf="emailFieldTouched && inscriptionForm.get('email')?.hasError('invalidEmail')">
         L'adresse e-mail n'est pas valide.
       </div>
@@ -26,13 +26,19 @@
       </div>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Gender" class="input-field" type="text" formControlName="gender" [(ngModel)]="formData.gender">
+      <select [(ngModel)]="formData.gender" name="gender" aria-placeholder="Gender">
+        <option value="" disabled>Choisissez un genre</option>
+        <option value="N">N</option>
+        <option value="F">F</option>
+        <option value="H">H</option>
+      </select>
     </div>
     <div class="field">
+      
       <input autocomplete="off" placeholder="Numéro de téléphone" class="input-field" type="text" formControlName="phone_number" [(ngModel)]="formData.phone_number" required>
     </div>
     <div class="field">
-      <input autocomplete="off" placeholder="Description" class="input-field" type="text" formControlName="description" [(ngModel)]="formData.description">
+      <input autocomplete="off" placeholder="Description *" class="input-field" type="text" formControlName="description" [(ngModel)]="formData.description">
     </div>
 
     <div class="btn">
