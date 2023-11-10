@@ -9,37 +9,28 @@
 </head>
 
 <body>
-    <nav>
-        <div class="navbar-container">
-            <img id="logo" src="assets/logo.png" alt="Logo de la navigation">
-            <a href="/recherche">Recherche</a>
-            <a href="/proposer-trajet">Proposer un trajet</a>
-            <div id="profile-container">
-                <img src="assets/gon.jpg" alt="Photo de profil" id="profile-image">
-                <div id="link-list" class="hidden">
-                    <a href="/registration">Inscription</a>
-                    <a href="/logIn">Connexion</a>
-                </div>
-            </div>
+
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>LOGO .</p>
         </div>
-        
-    </nav>
-
-    
-
-    <router-outlet></router-outlet>
-    
-
-
-    <footer>
-        <div class="footer">
-            <p>&copy; 2023 Votre Nom. Tous droits réservés.</p>
-            <ul class="footer-links">
-                <a href="/mentions-legales">Mentions Légales</a>
-                <a href="/politique-de-confidentialite">Politique de Confidentialité</a>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#" class="link active">Home</a></li>
+                <li><a href="#" class="link">Recherche</a></li>
+                <li><a href="#" class="link">Proposer un trajet</a></li>
             </ul>
         </div>
-    </footer>
+        <div class="nav-button">
+            <button class="btn white-btn" id="loginBtn" onclick="window.location.href='/registration'">Inscription</button>
+            <button class="btn" id="registerBtn" onclick="window.location.href='/logIn'">Connexion</button>
+        </div>
+    </nav>
+
+
+    <router-outlet></router-outlet>
+
+
 
 </body>
 
