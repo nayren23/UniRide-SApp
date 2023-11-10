@@ -1,12 +1,15 @@
 <form (ngSubmit)="onSubmit()">
   <div class="form-group">
+    
     <label for="adresseDepart">Adresse de Départ</label>
-    <input type="text" id="adresseDepart" name="adresseDepart" [(ngModel)]="rideData.adresseDepart" required>
+    <input type="text" id="adresseDepart" #addressText name="adresseDepart" [(ngModel)]="dataAddress.adresseDepart" (input)="onAddressChange()" required>
+
   </div>
+  
 
   <div class="form-group">
     <label for="adresseArrivee">Adresse d'Arrivée</label>
-    <input type="text" id="adresseArrivee" name="adresseArrivee" [(ngModel)]="rideData.adresseArrivee" required>
+    <input type="text" id="adresseArrivee" #addressText name="adresseArrivee" [(ngModel)]="dataAddress.adresseArrivee"(input)="onAddressChange()" required>
   </div>
 
   <div class="form-group">

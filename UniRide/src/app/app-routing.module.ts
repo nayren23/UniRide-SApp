@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateTripComponent } from './create-trip/create-trip.component';
+import { CreateTripComponent } from './Create-trip/create-trip.component';
 
 
 
