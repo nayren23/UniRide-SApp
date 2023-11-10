@@ -1,5 +1,9 @@
-/* src/styles.css */
+body {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Masquer la barre de défilement horizontale */
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+}

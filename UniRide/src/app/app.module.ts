@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LogInComponent } from './log-in/log-in.component';
+import { ReactiveFormsModule } from '@angular/forms'; // Importez ReactiveFormsModule
+import { FormsModule } from '@angular/forms';
+
+
 
 
 
@@ -13,16 +17,21 @@ import { LogInComponent } from './log-in/log-in.component';
   declarations: [
     AppComponent,
     RegistrationComponent,
-    LogInComponent
+    LogInComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  
+}
+

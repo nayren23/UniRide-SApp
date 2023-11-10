@@ -1,11 +1,11 @@
 #inscriptionDiv {
-    border: 2px solid purple;
     text-align: center;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
-#inscriptionForm {
-    border: 2px solid blue;
-}
+
 
 .form {
     display: flex;
@@ -119,3 +119,39 @@
     background-color: red;
     color: white;
 }
+
+
+.field select {
+    appearance: none; /* Supprime la flèche de la liste déroulante native */
+    background-color: #171717; /* Couleur d'arrière-plan */
+    border: 1px solid #ccc; /* Bordure */
+    border-radius: 25px; /* Coins arrondis */
+    color: white; /* Couleur du texte en blanc */
+    padding: 10px; /* Rembourrage */
+    width: 100%; /* Largeur de la liste déroulante */
+    cursor: pointer; /* Curseur de la main au survol */
+  
+    /* Style au survol de la liste déroulante */
+    &:hover {
+      border-color: #555;
+    }
+  }
+  
+  
+  /* Stylisation de l'option sélectionnée */
+  .field select option:checked {
+    background-color: #2196F3; /* Couleur de fond de l'option sélectionnée */
+    color: #fff; /* Couleur du texte de l'option sélectionnée */
+  }
+  
+  /* Style des options */
+  .field select option {
+    background-color: #fff; /* Couleur de fond des options */
+    color: #333; /* Couleur du texte des options */
+  
+    /* Style au survol des options */
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+  

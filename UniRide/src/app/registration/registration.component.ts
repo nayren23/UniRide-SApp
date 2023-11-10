@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { environment } from '../environements/environment.prod';
 
 
 @Component({
@@ -9,49 +9,50 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-
-
-
-
 export class RegistrationComponent {
-  inscriptionForm: FormGroup; // Déclaration de la propriété inscriptionForm
+  inscriptionForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,private http: HttpClient) {
-    // Initialisation de l'inscriptionForm dans le constructeur
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     this.inscriptionForm = this.formBuilder.group({
-      // Définissez ici les champs du formulaire
-
-
+      login: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      student_email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      password_confirmation: [''],
+      gender: ['', Validators.required],
+      phone_number: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
+  onSubmit() {
 
+    const apiUrl = environment.apiUrl + "/user/register"; // Récupérez l'URL à partir de l'environnement
+    console.log(apiUrl)
 
-  onsubmit() {
-    if (this.inscriptionForm.valid) {
-      const formData = this.inscriptionForm.value;
-  
-      // Envoyez la requête POST vers votre API Flask
-      this.http.post('URL_de_votre_API', formData)
-        .subscribe(
-          (response) => {
-            console.log('Inscription réussie ! Réponse du serveur :', response);
-            // Vous pouvez rediriger l'utilisateur ou effectuer d'autres actions ici.
-          },
-          (error) => {
-            console.error('Erreur lors de l\'inscription :', error);
-            // Gérez les erreurs, affichez des messages d'erreur, etc.
-          }
-        );
-    } else {
-      console.error('Le formulaire contient des erreurs');
+    if (this.inscriptionForm && this.inscriptionForm.valid) {
+      const formData = new FormData();
+      formData.append('login', this.inscriptionForm.get('login')?.value || '');
+      formData.append('firstname', this.inscriptionForm.get('firstname')?.value || '');
+      formData.append('lastname', this.inscriptionForm.get('lastname')?.value || '');
+      formData.append('student_email', this.inscriptionForm.get('student_email')?.value || '');
+      formData.append('password', this.inscriptionForm.get('password')?.value || '');
+      formData.append('password_confirmation', this.inscriptionForm.get('password_confirmation')?.value || '');
+      formData.append('gender', this.inscriptionForm.get('gender')?.value || '');
+      formData.append('phone_number', this.inscriptionForm.get('phone_number')?.value || '');
+      formData.append('description', this.inscriptionForm.get('description')?.value || '');
+    
+      // Envoyer la requête POST avec FormData
+      this.http.post(apiUrl, formData).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
   }
   
-
-
 }
-
-
-
-
