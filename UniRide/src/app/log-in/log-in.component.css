@@ -1,101 +1,127 @@
-#connexionDiv {
-    text-align: center;
-    width: 100%;
-    padding-top: 10%;
-    padding-bottom: 10%;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
 }
 
-
-.form {
+section {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 2em;
-    padding-right: 2em;
-    padding-bottom: 0.4em;
-    background-color: #171717;
-    border-radius: 25px;
-    transition: .4s ease-in-out;
-    width: 20%;
-    margin-left: 40%;
-}
-
-.form:hover {
-    transform: scale(1.05);
-    border: 1px solid black;
-}
-
-#heading {
-    text-align: center;
-    margin: 2em;
-    color: rgb(255, 255, 255);
-    font-size: 1.2em;
-}
-
-.field {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-    gap: 0.5em;
-    border-radius: 25px;
-    padding: 0.6em;
-    border: none;
-    outline: none;
-    color: white;
-    background-color: #171717;
-    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
-}
-
-.input-icon {
-    height: 1.3em;
-    width: 1.3em;
-    fill: white;
-}
-
-.input-field {
-    background: none;
-    border: none;
-    outline: none;
+    min-height: 100vh;
     width: 100%;
-    color: #d3d3d3;
+    background-position: center;
+    background-size: cover;
 }
 
-.form .btn {
+.form-box {
+    position: relative;
+    width: 400px;
+    height: 450px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
     display: flex;
     justify-content: center;
-    flex-direction: row;
-    margin-top: 2.5em;
+    align-items: center;
 }
 
-.button1 {
-    padding: 0.5em;
-    padding-left: 2.3em;
-    padding-right: 2.3em;
-    border-radius: 5px;
+h2 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+
+.inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 310px;
+    border-bottom: 2px solid #fff;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+
+input:focus~label,
+input:valid~label {
+    top: -5px;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
     border: none;
     outline: none;
-    transition: .4s ease-in-out;
-    background-color: #252525;
-    color: white;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: #fff;
 }
 
-.button1:hover {
-    background-color: black;
-    color: white;
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    top: 20px;
 }
 
-.button3 {
-    margin-bottom: 3em;
-    padding: 0.5em;
-    border-radius: 5px;
+.forget {
+    margin: -15px 0 15px;
+    font-size: .9em;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.forget label input {
+    margin-right: 3px;
+}
+
+.forget label a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.forget label a:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #fff;
     border: none;
     outline: none;
-    transition: .4s ease-in-out;
-    background-color: #252525;
-    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
 }
 
-.button3:hover {
-    background-color: red;
-    color: white;
+.register {
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.register p a:hover {
+    text-decoration: underline;
 }

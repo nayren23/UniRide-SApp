@@ -34,6 +34,10 @@
     font-weight: 600;
 }
 
+#logo {
+    width: 10%;
+}
+
 .nav-menu ul {
     display: flex;
 }

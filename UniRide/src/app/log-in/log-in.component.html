@@ -1,15 +1,22 @@
-<div id="connexionDiv">
-  <form class="form" [formGroup]="connexionForm" (ngSubmit)="onSubmit()">
-    <p id="heading">Connexion</p>
-    <div class="field">
-      <input autocomplete="off" placeholder="Nom Utilisateur" class="input-field" type="text" formControlName="login">
+<section>
+    <div class="form-box">
+        <div class="form-value">
+            <form class="form" [formGroup]="connexionForm" (ngSubmit)="onSubmit()">
+                <h2>Connexion</h2>
+                <div class="inputbox">
+                    <input type="texte" required formControlName="login">
+                    <label for="">Nom utilisateur</label>
+                </div>
+                <div class="inputbox">
+                    <input type="password" required formControlName="password">
+                    <label for="">Password</label>
+                </div>
+
+                <button type="submit">Connexion</button>
+                <div class="register">
+                    <p>Vous n'avez pas de compte ? <a href="/resgistration">Inscription</a></p>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="field">
-      <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password"
-        formControlName="password">
-    </div>
-    <div class="btn">
-      <button class="button2" type="submit">Connexion</button>
-    </div>
-  </form>
-</div>
+</section>
