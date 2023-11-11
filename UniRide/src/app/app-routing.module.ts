@@ -5,9 +5,8 @@ import { CreateTripComponent } from './Create-trip/create-trip.component';
 
 
 const routes: Routes = [
-  { path: 'create-trip', component: CreateTripComponent },
+  { path: 'create-trip', component: CreateTripComponent }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

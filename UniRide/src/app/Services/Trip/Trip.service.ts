@@ -15,7 +15,7 @@ export class TripService {
   }
   createAddress(tripaddressData: any) {
     
-    return this.http.post(this.apiUrl + 'address/add', tripaddressData);
+    return this.http.post(this.apiUrl + '/address/add', tripaddressData);
   }
 
 }
