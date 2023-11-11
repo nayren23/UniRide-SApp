@@ -32,16 +32,18 @@ export class RegistrationComponent implements FileInputHandlers {
       password_confirmation: [''],
       gender: ['', Validators.required],
       phone_number: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
     });
 
     this.votreFormulaire = this.formBuilder.group({
-      permis: ['', Validators.required],
+      permis: [''],
       CNI: ['', Validators.required],
       certificat: ['', Validators.required],
     });
   }
 
+
+  //methodes pour changer les attributs du form
   changerAttributs(): void {
     const formulaire = document.getElementById('monFormulaire');
     if (formulaire) {
@@ -79,6 +81,7 @@ export class RegistrationComponent implements FileInputHandlers {
 
     return input;
   }
+
   createButton(text: string, clickHandler: () => void): HTMLElement {
     const button = this.renderer.createElement('button');
     this.renderer.setAttribute(button, 'class', 'button1');
@@ -102,15 +105,16 @@ export class RegistrationComponent implements FileInputHandlers {
 
 
   onSubmit() {
-    const apiUrl = environment.apiUrl + "/user/register";
-    console.log(apiUrl);
-     // Concaténer les deux FormGroup
+    //Route pour insertion data
+    const apiUrlRegister = environment.apiUrl + "/user/register";
 
 
 
     if (this.inscriptionForm && this.inscriptionForm.valid) {
       const formData = new FormData();
-      // append your form data here
+      const docsFormData = new FormData();
+
+      //Form user data
       formData.append('login', this.inscriptionForm.get('login')?.value || '');
       formData.append('firstname', this.inscriptionForm.get('firstname')?.value || '');
       formData.append('lastname', this.inscriptionForm.get('lastname')?.value || '');
@@ -120,11 +124,16 @@ export class RegistrationComponent implements FileInputHandlers {
       formData.append('gender', this.inscriptionForm.get('gender')?.value || '');
       formData.append('phone_number', this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
-      formData.append('permis', this.inscriptionForm.get('permis')?.value || '');
-      formData.append('CNI', this.inscriptionForm.get('CNI')?.value || '');
-      formData.append('certificat', this.inscriptionForm.get('certificat')?.value || '');
 
-      this.http.post(apiUrl, formData).subscribe(
+
+      //Form docs
+      docsFormData.append('permis', this.votreFormulaire.get('permis')?.value || '');
+      docsFormData.append('CNI', this.votreFormulaire.get('CNI')?.value || '');
+      docsFormData.append('certificat', this.votreFormulaire.get('certificat')?.value || '');
+
+
+      //Envoie des infos personnel
+      this.http.post(apiUrlRegister, formData).subscribe(
         (response) => {
           console.log(response);
         },
@@ -132,6 +141,9 @@ export class RegistrationComponent implements FileInputHandlers {
           console.error(error);
         }
       );
+
+
+      //Envoie des docs
     }
   }
 }
