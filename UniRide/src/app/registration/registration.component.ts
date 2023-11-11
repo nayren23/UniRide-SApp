@@ -29,16 +29,17 @@ export class RegistrationComponent implements FileInputHandlers {
       lastname: ['', Validators.required],
       student_email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      password_confirmation: [''],
+      password_confirmation: ['',Validators.required],
       gender: ['', Validators.required],
       phone_number: ['', Validators.required],
       description: [''],
-    });
+     });
 
     this.votreFormulaire = this.formBuilder.group({
-      permis: [''],
-      CNI: ['', Validators.required],
-      certificat: ['', Validators.required],
+      license: [''],
+      id_card: [''],
+      school_certificate: [''],
+      pfp: [''],
     });
   }
 
@@ -55,11 +56,12 @@ export class RegistrationComponent implements FileInputHandlers {
     this.renderer.appendChild(heading, this.renderer.createText('Inscription'));
     formulaire.appendChild(heading);
 
+      const inputPhotoProfile = this.createFileInput('pfp', this.onFileChange);
+      const inputPermis = this.createFileInput('license', this.onFileChange);
+      const inputCNI = this.createFileInput('id_card', this.onFileChange);
+      const inputCertificat = this.createFileInput('school_certificate', this.onFileChange);
 
-      const inputPermis = this.createFileInput('permis', this.onFileChange);
-      const inputCNI = this.createFileInput('CNI', this.onFileChange);
-      const inputCertificat = this.createFileInput('certificat', this.onFileChange);
-
+      this.renderer.appendChild(formulaire, inputPhotoProfile);
       this.renderer.appendChild(formulaire, inputPermis);
       this.renderer.appendChild(formulaire, inputCNI);
       this.renderer.appendChild(formulaire, inputCertificat);
@@ -95,24 +97,25 @@ export class RegistrationComponent implements FileInputHandlers {
     const files = event.target.files;
 
     if (files.length > 0) {
-      const fileName = files[0].name;
-      console.log(`Chemin de l'image pour ${controlName}: ${fileName}`);
+      const file = files[0];
 
-      // Si vous souhaitez également mettre à jour la valeur du contrôle dans le formulaire, vous pouvez le faire ainsi :
-      this.votreFormulaire.get(controlName)?.setValue(fileName);
+      // Ajoutez le fichier réel à la FormData
+      this.votreFormulaire.get(controlName)?.setValue(file);
     }
   }
+
 
 
   onSubmit() {
     //Route pour insertion data
     const apiUrlRegister = environment.apiUrl + "/user/register";
+    console.log(this.inscriptionForm.value)
 
 
 
     if (this.inscriptionForm && this.inscriptionForm.valid) {
       const formData = new FormData();
-      const docsFormData = new FormData();
+
 
       //Form user data
       formData.append('login', this.inscriptionForm.get('login')?.value || '');
@@ -124,12 +127,16 @@ export class RegistrationComponent implements FileInputHandlers {
       formData.append('gender', this.inscriptionForm.get('gender')?.value || '');
       formData.append('phone_number', this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
+      formData.append('pfp', this.votreFormulaire.get('pfp')?.value || '');
+      formData.append('license', this.votreFormulaire.get('license')?.value || '');
+      formData.append('id_card', this.votreFormulaire.get('id_card')?.value || '');
+      formData.append('school_certificate', this.votreFormulaire.get('school_certificate')?.value || '');
 
 
-      //Form docs
-      docsFormData.append('permis', this.votreFormulaire.get('permis')?.value || '');
-      docsFormData.append('CNI', this.votreFormulaire.get('CNI')?.value || '');
-      docsFormData.append('certificat', this.votreFormulaire.get('certificat')?.value || '');
+      formData.forEach((value, key) => {
+        console.log(`Clé: ${key}, Valeur: ${value}`);
+      });
+
 
 
       //Envoie des infos personnel
@@ -141,9 +148,6 @@ export class RegistrationComponent implements FileInputHandlers {
           console.error(error);
         }
       );
-
-
-      //Envoie des docs
     }
   }
 }
