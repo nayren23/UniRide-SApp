@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 #inscriptionDiv {
     text-align: center;
     width: 100%;
