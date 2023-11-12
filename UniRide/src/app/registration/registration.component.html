@@ -1,48 +1,78 @@
-<div id="inscriptionDiv">
-    <form id="monFormulaire" class="form" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
-        <p id="heading">Inscription</p>
-        <div class="field">
-            <input autocomplete="off" placeholder="Nom utilisateur" class="input-field" type="text" formControlName="login" required>
+<div class="max-w-md mx-auto p-8 border rounded shadow-md blur-backgroud">
+    <h2 class="text-2xl font-semibold mb-6">Inscription</h2>
+
+    <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+        <!-- Nom utilisateur -->
+        <div class="mb-4">
+            <label for="username" class="block text-gray-600 text-sm font-semibold mb-2">Nom utilisateur</label>
+            <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
         </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Prenom" class="input-field" type="text" formControlName="firstname" required>
+
+        <!-- Prénom -->
+        <div class="mb-4">
+            <label for="firstName" class="block text-gray-600 text-sm font-semibold mb-2">Prénom</label>
+            <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded" formControlName="firstname" required>
         </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Nom" class="input-field" type="text" formControlName="lastname" required>
+
+        <!-- Nom -->
+        <div class="mb-4">
+            <label for="lastName" class="block text-gray-600 text-sm font-semibold mb-2">Nom</label>
+            <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded" formControlName="lastname" required>
         </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Adresse e-mail étudiante" class="input-field" type="text" formControlName="student_email" required>
+
+        <!-- Adresse e-mail étudiante -->
+        <div class="mb-4">
+            <label for="email" class="block text-gray-600 text-sm font-semibold mb-2">Adresse e-mail étudiante</label>
+            <input type="email" id="email" name="email" class="w-full p-2 border rounded" formControlName="student_email" required>
         </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Mot De Passe" class="input-field" type="password" formControlName="password" required>
+
+        <!-- Mot De Passe -->
+        <div class="mb-4">
+            <label for="password" class="block text-gray-600 text-sm font-semibold mb-2">Mot De Passe</label>
+            <input type="password" id="password" name="password" class="w-full p-2 border rounded" formControlName="password" required>
         </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Confirmer Mot De Passe" class="input-field" type="password" formControlName="password_confirmation" required>
+
+        <!-- Confirmer Mot De Passe -->
+        <div class="mb-4">
+            <label for="confirmPassword" class="block text-gray-600 text-sm font-semibold mb-2">Confirmer Mot De Passe</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded" formControlName="password_confirmation" required>
         </div>
-        <div class="field">
-            <select formControlName="gender" name="gender" aria-placeholder="Gender" required>
-        <option value="" disabled>Choisissez un genre</option>
-        <option value="N">N</option>
-        <option value="F">F</option>
-        <option value="H">H</option>
-      </select>
+
+        <!-- Dropdown list pour le genre -->
+        <div class="mb-4">
+            <label for="gender" class="block text-gray-600 text-sm font-semibold mb-2">Genre</label>
+            <select id="gender" name="gender" class="w-full p-2 border rounded" formControlName="gender" required>
+              <option value="H">Homme</option>
+              <option value="F">Femme</option>
+              <option value="N">Autre</option>
+          </select>
         </div>
-        <div class="field">
+
+        <!-- Numéro de téléphone -->
+        <div class="mb-4">
+            <label for="phoneNumber" class="block text-gray-600 text-sm font-semibold mb-2">Numéro de téléphone</label>
             <label for="">+33</label>
-            <input autocomplete="off" placeholder="Numéro de téléphone*" maxlength="9" class="input-field" type="text" formControlName="phone_number" required>
-        </div>
-        <div class="field">
-            <input autocomplete="off" placeholder="Description" class="input-field" type="text" formControlName="description" required>
+            <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded" maxlength="9" formControlName="phone_number" required>
         </div>
 
+        <!-- Description -->
+        <div class="mb-4">
+            <label for="description" class="block text-gray-600 text-sm font-semibold mb-2">Description</label>
+            <input class="w-full p-2 border rounded" type="text" formControlName="description" required>
+        </div>
 
-
-        <button class="button1" type="button" (click)="changerAttributs()">Suivant</button>
-
-
+        <!-- Bouton Suivant -->
+        <div>
+            <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()">Suivant</button>
+        </div>
     </form>
+</div>
 
-
-
-
+<!-- Alerte de succès -->
+<div id="successAlert" class="hidden mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+    <strong class="font-bold">Succès!</strong>
+    <span class="block sm:inline" id="successMessage">Le post a bien fonctionné.</span>
+    <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="closeAlert()">
+      <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849c.195.195.451.293.707.293s.512-.098.707-.293c.391-.391.391-1.023 0-1.414l-2.829-2.829 2.829-2.829c.391-.391.391-1.023 0-1.414s-1.023-.391-1.414 0l-2.829 2.829-2.829-2.829c-.391-.391-1.023-.391-1.414 0s-.391 1.023 0 1.414l2.829 2.829-2.829 2.829c-.391.391-.391 1.023 0 1.414s1.023.391 1.414 0l2.829-2.829 2.829 2.829c.391.391 1.023.391 1.414 0s.391-1.023 0-1.414l-2.829-2.829z"/></svg>
+  </span>
 </div>

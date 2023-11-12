@@ -51,10 +51,7 @@ export class RegistrationComponent implements FileInputHandlers {
       while (formulaire.firstChild) {
         this.renderer.removeChild(formulaire, formulaire.firstChild);
       }
-      const heading = this.renderer.createElement('p');
-    this.renderer.setAttribute(heading, 'id', 'heading');
-    this.renderer.appendChild(heading, this.renderer.createText('Inscription'));
-    formulaire.appendChild(heading);
+
 
       const inputPhotoProfile = this.createFileInput('pfp', this.onFileChange);
       const inputPermis = this.createFileInput('license', this.onFileChange);
@@ -143,6 +140,7 @@ export class RegistrationComponent implements FileInputHandlers {
       this.http.post(apiUrlRegister, formData).subscribe(
         (response) => {
           console.log(response);
+
         },
         (error) => {
           console.error(error);
