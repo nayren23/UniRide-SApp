@@ -28,3 +28,7 @@
     border-radius: 20px;
     backdrop-filter: blur(15px);
 }
+
+.text-white {
+    color: white;
+}

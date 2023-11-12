@@ -53,10 +53,10 @@ export class RegistrationComponent implements FileInputHandlers {
       }
 
 
-      const inputPhotoProfile = this.createFileInput('pfp', this.onFileChange);
-      const inputPermis = this.createFileInput('license', this.onFileChange);
-      const inputCNI = this.createFileInput('id_card', this.onFileChange);
-      const inputCertificat = this.createFileInput('school_certificate', this.onFileChange);
+      const inputPhotoProfile = this.createFileInput('pfp','Photo de profile', this.onFileChange);
+      const inputPermis = this.createFileInput('license','Permis',  this.onFileChange);
+      const inputCNI = this.createFileInput('id_card',"Carte d'identité", this.onFileChange);
+      const inputCertificat = this.createFileInput('school_certificate','Certificat de scolarité', this.onFileChange);
 
       this.renderer.appendChild(formulaire, inputPhotoProfile);
       this.renderer.appendChild(formulaire, inputPermis);
@@ -71,15 +71,37 @@ export class RegistrationComponent implements FileInputHandlers {
     this.cdRef.detectChanges();
   }
 
-  createFileInput(controlName: string, changeHandler: (event: any, controlName: string) => void): HTMLElement {
+  createFileInput(controlName: string, label: string, changeHandler: (event: any, controlName: string) => void): HTMLElement {
+    // Créer le label
+    const labelElement = this.renderer.createElement('label');
+    this.renderer.setAttribute(labelElement, 'class', 'block mb-2 text-sm font-medium text-white dark:text-white');
+    this.renderer.setAttribute(labelElement, 'for', 'file_input');
+    this.renderer.setProperty(labelElement, 'textContent', label);
+
+    // Créer l'input
     const input = this.renderer.createElement('input');
+    this.renderer.setAttribute(input, 'class', 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400');
+    this.renderer.setAttribute(input, 'aria-describedby', 'file_input_help');
+    this.renderer.setAttribute(input, 'id', 'file_input');
     this.renderer.setAttribute(input, 'type', 'file');
-    this.renderer.setAttribute(input, 'class', 'file-upload');
-    this.renderer.setAttribute(input, 'formControlName', controlName);
     this.renderer.listen(input, 'change', (event) => changeHandler.call(this, event, controlName));
 
-    return input;
-  }
+    // Créer le paragraphe d'aide
+    const helpParagraph = this.renderer.createElement('p');
+    this.renderer.setAttribute(helpParagraph, 'class', 'mt-1 text-sm text-gray-500 dark:text-gray-300');
+    this.renderer.setAttribute(helpParagraph, 'id', 'file_input_help');
+    this.renderer.setProperty(helpParagraph, 'textContent', 'SVG, PNG, JPG or GIF (MAX. 800x400px).');
+
+    // Créer le conteneur div pour regrouper les éléments
+    const containerDiv = this.renderer.createElement('div');
+    this.renderer.appendChild(containerDiv, labelElement);
+    this.renderer.appendChild(containerDiv, input);
+    this.renderer.appendChild(containerDiv, helpParagraph);
+
+    return containerDiv;
+}
+
+
 
   createButton(text: string, clickHandler: () => void): HTMLElement {
     const button = this.renderer.createElement('button');

@@ -1,28 +1,28 @@
 <div class="max-w-md mx-auto p-8 border rounded shadow-md blur-backgroud">
-    <h2 class="text-2xl font-semibold mb-6">Inscription</h2>
+    <h2 class="text-2xl font-semibold mb-6 text-white">Inscription</h2>
 
     <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
         <!-- Nom utilisateur -->
         <div class="mb-4">
-            <label for="username" class="block text-gray-600 text-sm font-semibold mb-2">Nom utilisateur</label>
+            <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
             <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
         </div>
 
         <!-- Prénom -->
         <div class="mb-4">
-            <label for="firstName" class="block text-gray-600 text-sm font-semibold mb-2">Prénom</label>
+            <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
             <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded" formControlName="firstname" required>
         </div>
 
         <!-- Nom -->
         <div class="mb-4">
-            <label for="lastName" class="block text-gray-600 text-sm font-semibold mb-2">Nom</label>
+            <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
             <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded" formControlName="lastname" required>
         </div>
 
         <!-- Adresse e-mail étudiante -->
         <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">
-            <label for="email" class="block text-gray-600 text-sm font-semibold mb-2">Adresse e-mail étudiante</label>
+            <label for="email" class="block text-white text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
             <input type="email" id="email" name="email" class="w-full p-2 border rounded" formControlName="student_email" required>
             <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched" class="text-xs text-red-500 mt-1">
                 Adresse e-mail non valide
@@ -32,19 +32,19 @@
 
         <!-- Mot De Passe -->
         <div class="mb-4">
-            <label for="password" class="block text-gray-600 text-sm font-semibold mb-2">Mot De Passe</label>
+            <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe*</label>
             <input type="password" id="password" name="password" class="w-full p-2 border rounded" formControlName="password" required>
         </div>
 
         <!-- Confirmer Mot De Passe -->
         <div class="mb-4">
-            <label for="confirmPassword" class="block text-gray-600 text-sm font-semibold mb-2">Confirmer Mot De Passe</label>
+            <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De Passe*</label>
             <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded" formControlName="password_confirmation" required>
         </div>
 
         <!-- Dropdown list pour le genre -->
         <div class="mb-4">
-            <label for="gender" class="block text-gray-600 text-sm font-semibold mb-2">Genre</label>
+            <label for="gender" class="block text-white text-sm font-semibold mb-2">Genre*</label>
             <select id="gender" name="gender" class="w-full p-2 border rounded" formControlName="gender" required>
               <option value="H">Homme</option>
               <option value="F">Femme</option>
@@ -54,14 +54,14 @@
 
         <!-- Numéro de téléphone -->
         <div class="mb-4">
-            <label for="phoneNumber" class="block text-gray-600 text-sm font-semibold mb-2">Numéro de téléphone</label>
+            <label for="phoneNumber" class="block text-white text-sm font-semibold mb-2">Numéro de téléphone*</label>
             <label for="">+33</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded" maxlength="9" formControlName="phone_number" required>
         </div>
 
         <!-- Description -->
         <div class="mb-4">
-            <label for="description" class="block text-gray-600 text-sm font-semibold mb-2">Description</label>
+            <label for="description" class="block text-white text-sm font-semibold mb-2">Description</label>
             <input class="w-full p-2 border rounded" type="text" formControlName="description" required>
         </div>
 
