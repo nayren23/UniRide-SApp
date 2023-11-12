@@ -83,7 +83,7 @@ export class RegistrationComponent implements FileInputHandlers {
 
   createButton(text: string, clickHandler: () => void): HTMLElement {
     const button = this.renderer.createElement('button');
-    this.renderer.setAttribute(button, 'class', 'button1');
+    this.renderer.setAttribute(button, 'class', 'bg-blue-500 text-white p-2 rounded');
     this.renderer.listen(button, 'click', () => clickHandler.call(this));
     this.renderer.appendChild(button, this.renderer.createText(text));
 

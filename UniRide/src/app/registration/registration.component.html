@@ -21,10 +21,14 @@
         </div>
 
         <!-- Adresse e-mail étudiante -->
-        <div class="mb-4">
+        <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">
             <label for="email" class="block text-gray-600 text-sm font-semibold mb-2">Adresse e-mail étudiante</label>
             <input type="email" id="email" name="email" class="w-full p-2 border rounded" formControlName="student_email" required>
+            <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched" class="text-xs text-red-500 mt-1">
+                Adresse e-mail non valide
+            </div>
         </div>
+
 
         <!-- Mot De Passe -->
         <div class="mb-4">
