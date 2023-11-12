@@ -40,7 +40,11 @@
         <div class="mb-4">
             <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De Passe*</label>
             <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded" formControlName="password_confirmation" required>
+            <div *ngIf="!passwordsMatch()" class="text-xs text-red-500 mt-1">
+                Les mots de passe ne correspondent pas.
+            </div>
         </div>
+
 
         <!-- Dropdown list pour le genre -->
         <div class="mb-4">
@@ -70,13 +74,4 @@
             <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()">Suivant</button>
         </div>
     </form>
-</div>
-
-<!-- Alerte de succès -->
-<div id="successAlert" class="hidden mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-    <strong class="font-bold">Succès!</strong>
-    <span class="block sm:inline" id="successMessage">Le post a bien fonctionné.</span>
-    <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" onclick="closeAlert()">
-      <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849c.195.195.451.293.707.293s.512-.098.707-.293c.391-.391.391-1.023 0-1.414l-2.829-2.829 2.829-2.829c.391-.391.391-1.023 0-1.414s-1.023-.391-1.414 0l-2.829 2.829-2.829-2.829c-.391-.391-1.023-.391-1.414 0s-.391 1.023 0 1.414l2.829 2.829-2.829 2.829c-.391.391-.391 1.023 0 1.414s1.023.391 1.414 0l2.829-2.829 2.829 2.829c.391.391 1.023.391 1.414 0s.391-1.023 0-1.414l-2.829-2.829z"/></svg>
-  </span>
 </div>

@@ -170,4 +170,12 @@ export class RegistrationComponent implements FileInputHandlers {
       );
     }
   }
+
+  passwordsMatch(): boolean {
+    const password = this.inscriptionForm.get('password')?.value;
+    const confirmPassword = this.inscriptionForm.get('password_confirmation')?.value;
+
+    return password === confirmPassword;
+  }
+
 }

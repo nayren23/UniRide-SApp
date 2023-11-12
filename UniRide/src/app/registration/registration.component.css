@@ -32,3 +32,8 @@
 .text-white {
     color: white;
 }
+
+.text-red-500 {
+    color: #e53e3e;
+    /* Couleur rouge de Tailwind */
+}
