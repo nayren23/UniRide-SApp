@@ -5,26 +5,31 @@
         <!-- Nom utilisateur -->
         <div class="mb-4">
             <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
-            <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
+            <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login"
+                required>
         </div>
 
         <!-- Prénom -->
         <div class="mb-4">
             <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
-            <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded" formControlName="firstname" required>
+            <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded"
+                formControlName="firstname" required>
         </div>
 
         <!-- Nom -->
         <div class="mb-4">
             <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
-            <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded" formControlName="lastname" required>
+            <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded"
+                formControlName="lastname" required>
         </div>
 
         <!-- Adresse e-mail étudiante -->
         <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">
             <label for="email" class="block text-white text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
-            <input type="email" id="email" name="email" class="w-full p-2 border rounded" formControlName="student_email" required>
-            <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched" class="text-xs text-red-500 mt-1">
+            <input type="email" id="email" name="email" class="w-full p-2 border rounded"
+                formControlName="student_email" required>
+            <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched"
+                class="text-xs text-red-500 mt-1">
                 Adresse e-mail non valide
             </div>
         </div>
@@ -33,13 +38,21 @@
         <!-- Mot De Passe -->
         <div class="mb-4">
             <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe*</label>
-            <input type="password" id="password" name="password" class="w-full p-2 border rounded" formControlName="password" required>
+            <input type="password" id="password" name="password" class="w-full p-2 border rounded"
+                formControlName="password" required>
+                <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched" class="text-xs text-red-500 mt-1">
+                    Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et un caractère spécial.
+                </div>
+                
         </div>
+
 
         <!-- Confirmer Mot De Passe -->
         <div class="mb-4">
-            <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De Passe*</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded" formControlName="password_confirmation" required>
+            <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De
+                Passe*</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded"
+                formControlName="password_confirmation" required>
             <div *ngIf="!passwordsMatch()" class="text-xs text-red-500 mt-1">
                 Les mots de passe ne correspondent pas.
             </div>
@@ -50,17 +63,18 @@
         <div class="mb-4">
             <label for="gender" class="block text-white text-sm font-semibold mb-2">Genre*</label>
             <select id="gender" name="gender" class="w-full p-2 border rounded" formControlName="gender" required>
-              <option value="H">Homme</option>
-              <option value="F">Femme</option>
-              <option value="N">Autre</option>
-          </select>
+                <option value="H">Homme</option>
+                <option value="F">Femme</option>
+                <option value="N">Autre</option>
+            </select>
         </div>
 
         <!-- Numéro de téléphone -->
         <div class="mb-4">
             <label for="phoneNumber" class="block text-white text-sm font-semibold mb-2">Numéro de téléphone*</label>
             <label for="">+33</label>
-            <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded" maxlength="9" formControlName="phone_number" required>
+            <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded" maxlength="9"
+                formControlName="phone_number" required>
         </div>
 
         <!-- Description -->
@@ -70,15 +84,13 @@
         </div>
 
         <!-- Bouton Suivant -->
-<!-- Bouton Suivant -->
-<div>
-    <button type="button" class="bg-blue-500 text-white p-2 rounded" 
-            (click)="changerAttributs()" 
-            [disabled]="!inscriptionForm.valid"
-            [ngClass]="{'button-disabled': !inscriptionForm.valid}">
-        Suivant
-    </button>
-</div>
+        <!-- Bouton Suivant -->
+        <div>
+            <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()"
+                [disabled]="!inscriptionForm.valid" [ngClass]="{'button-disabled': !inscriptionForm.valid}">
+                Suivant
+            </button>
+        </div>
 
 
     </form>
