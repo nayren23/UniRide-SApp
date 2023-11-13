@@ -48,3 +48,9 @@
     color: #666; /* Couleur de texte correspondante */
     cursor: not-allowed;
 }
+.italique {
+    font-style: italic;
+}
+.font-bold{
+    font-weight: bold;
+}

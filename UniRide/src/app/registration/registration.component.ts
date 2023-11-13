@@ -74,7 +74,7 @@ export class RegistrationComponent implements FileInputHandlers {
   createFileInput(controlName: string, label: string, changeHandler: (event: any, controlName: string) => void): HTMLElement {
     // Créer le label
     const labelElement = this.renderer.createElement('label');
-    this.renderer.setAttribute(labelElement, 'class', 'block mb-2 text-sm font-medium text-white dark:text-white');
+    this.renderer.setAttribute(labelElement, 'class', 'block font-bold mb-2 text-sm font-medium text-white dark:text-white');
     this.renderer.setAttribute(labelElement, 'for', 'file_input');
     this.renderer.setProperty(labelElement, 'textContent', label);
 
@@ -88,7 +88,7 @@ export class RegistrationComponent implements FileInputHandlers {
 
     // Créer le paragraphe d'aide
     const helpParagraph = this.renderer.createElement('p');
-    this.renderer.setAttribute(helpParagraph, 'class', 'mt-1 text-sm text-gray-500 dark:text-gray-300');
+    this.renderer.setAttribute(helpParagraph, 'class', 'mt-1 text-xs italique');
     this.renderer.setAttribute(helpParagraph, 'id', 'file_input_help');
     this.renderer.setProperty(helpParagraph, 'textContent', 'SVG, PNG, JPG or GIF (MAX. 800x400px).');
 
