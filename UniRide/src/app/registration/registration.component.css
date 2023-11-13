@@ -54,3 +54,12 @@
 .font-bold{
     font-weight: bold;
 }
+
+.tailleTel{
+    width: 92%;
+}
+
+#taillePlus33{
+    padding-right: 3px;
+    color: white;
+}
