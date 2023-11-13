@@ -90,7 +90,7 @@ export class RegistrationComponent implements FileInputHandlers {
     const helpParagraph = this.renderer.createElement('p');
     this.renderer.setAttribute(helpParagraph, 'class', 'mt-1 text-xs italique');
     this.renderer.setAttribute(helpParagraph, 'id', 'file_input_help');
-    this.renderer.setProperty(helpParagraph, 'textContent', 'SVG, PNG, JPG or GIF (MAX. 800x400px).');
+    this.renderer.setProperty(helpParagraph, 'textContent', 'PNG, JPG, PDF (MAX. 5 MO).');
 
     // Créer le conteneur div pour regrouper les éléments
     const containerDiv = this.renderer.createElement('div');
