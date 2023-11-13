@@ -29,7 +29,7 @@ export class RegistrationComponent implements FileInputHandlers {
       lastname: ['', Validators.required],
       student_email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/),],],
-      password_confirmation: ['',Validators.required],
+      password_confirmation: ['',[Validators.required,Validators.minLength(8)]],
       gender: ['', Validators.required],
       phone_number: ['', [Validators.required,Validators.minLength(9)]],
       description: [''],

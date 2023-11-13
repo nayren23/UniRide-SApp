@@ -40,10 +40,12 @@
             <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe*</label>
             <input type="password" id="password" name="password" class="w-full p-2 border rounded"
                 formControlName="password" required>
-                <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched" class="text-xs text-red-500 mt-1">
-                    Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et un caractère spécial.
-                </div>
-                
+            <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched"
+                class="text-xs text-red-500 mt-1">
+                Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et un
+                caractère spécial.
+            </div>
+
         </div>
 
 
@@ -84,13 +86,14 @@
         </div>
 
         <!-- Bouton Suivant -->
-        <!-- Bouton Suivant -->
         <div>
             <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()"
-                [disabled]="!inscriptionForm.valid" [ngClass]="{'button-disabled': !inscriptionForm.valid}">
+                [disabled]="!inscriptionForm.valid || !passwordsMatch()"
+                [ngClass]="{'button-disabled': !inscriptionForm.valid || !passwordsMatch()}">
                 Suivant
             </button>
         </div>
+
 
 
     </form>
