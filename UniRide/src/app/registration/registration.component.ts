@@ -124,7 +124,9 @@ export class RegistrationComponent implements FileInputHandlers {
   }
 
 
-
+  isFormValid(): boolean {
+    return this.inscriptionForm.valid;
+  }
   onSubmit() {
     //Route pour insertion data
     const apiUrlRegister = environment.apiUrl + "/user/register";

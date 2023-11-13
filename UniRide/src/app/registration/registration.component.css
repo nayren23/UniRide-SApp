@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 #inscriptionDiv {
     text-align: center;
     width: 100%;
@@ -36,4 +40,11 @@
 .text-red-500 {
     color: #e53e3e;
     /* Couleur rouge de Tailwind */
+}
+
+
+.button-disabled {
+    background-color: #ccc; /* Remplacez ceci par la couleur grise que vous souhaitez utiliser */
+    color: #666; /* Couleur de texte correspondante */
+    cursor: not-allowed;
 }

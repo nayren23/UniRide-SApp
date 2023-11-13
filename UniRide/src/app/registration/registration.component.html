@@ -66,12 +66,20 @@
         <!-- Description -->
         <div class="mb-4">
             <label for="description" class="block text-white text-sm font-semibold mb-2">Description</label>
-            <input class="w-full p-2 border rounded" type="text" formControlName="description" required>
+            <input class="w-full p-2 border rounded" type="text" formControlName="description">
         </div>
 
         <!-- Bouton Suivant -->
-        <div>
-            <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()">Suivant</button>
-        </div>
+<!-- Bouton Suivant -->
+<div>
+    <button type="button" class="bg-blue-500 text-white p-2 rounded" 
+            (click)="changerAttributs()" 
+            [disabled]="!inscriptionForm.valid"
+            [ngClass]="{'button-disabled': !inscriptionForm.valid}">
+        Suivant
+    </button>
+</div>
+
+
     </form>
 </div>
