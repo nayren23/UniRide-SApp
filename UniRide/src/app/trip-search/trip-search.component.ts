@@ -1,36 +1,32 @@
+// trip-search.component.ts
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { TripService } from '../Services/Trip/trip.service';
+import { Router } from '@angular/router'; 
 
 declare var google: any;
 
 @Component({
-  selector: 'app-create-trip',
-  templateUrl: './create-trip.component.html',
-  styleUrls: ['./create-trip.component.css']
+  selector: 'app-trip-search',
+  templateUrl: './trip-search.component.html',
+  styleUrls: ['./trip-search.component.css']
 })
-export class CreateTripComponent implements OnInit, OnDestroy {
-  createTripForm!: FormGroup;
-  description: string = " ";
-  addressIdDepart:any;
-  addressIdArrivee:any;
-  @ViewChild('searchInputDepart', { static: true }) searchInputDepart!: ElementRef<HTMLInputElement>;
-  @ViewChild('searchInputArrivee', { static: true }) searchInputArrivee!: ElementRef<HTMLInputElement>;
+export class TripSearchComponent implements OnInit, OnDestroy {
+  searchResults: any[] = [];
+  searchTripForm!: FormGroup;
+  private autocompleteDepart: any;
+  private autocompleteArrivee: any;
   private autocompleteDepartSubscription: Subscription | undefined;
   private autocompleteArriveeSubscription: Subscription | undefined;
-  private autocompleteDepart: any;
-private autocompleteArrivee: any;
 
+  @ViewChild('searchInputDepart', { static: true }) searchInputDepart!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchInputArrivee', { static: true }) searchInputArrivee!: ElementRef<HTMLInputElement>;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private tripService: TripService,
-    private renderer: Renderer2
-  ) {}
+  constructor(private tripService: TripService, private formBuilder: FormBuilder, private renderer: Renderer2, private router: Router) {}
 
   ngOnInit(): void {
-    this.createTripForm = this.formBuilder.group({
+    this.searchTripForm = this.formBuilder.group({
       adresseDepart: ['', Validators.required],
       adresseArrivee: ['', Validators.required],
       date: ['', Validators.required],
@@ -50,59 +46,58 @@ private autocompleteArrivee: any;
       this.autocompleteArriveeSubscription.unsubscribe();
     }
   }
-  onSubmit() {
-    if (this.createTripForm.valid) {
-        // Utilise l'autocomplétion pour obtenir les données de l'adresse de départ
-    const placeDepart = this.autocompleteDepart.getPlace();
-    const addressDataDepart = this.extractAddressData(placeDepart);
 
-    // Utilise l'autocomplétion pour obtenir les données de l'adresse d'arrivée
-    const placeArrivee = this.autocompleteArrivee.getPlace();
-    const addressDataArrivee = this.extractAddressData(placeArrivee);
+  search() {
+    if (this.searchTripForm.valid) {
+      // Utilisez les valeurs du formulaire pour la recherche
+  
 
-     
-      console.log("json", JSON.stringify(addressDataDepart));
-      this.tripService.createAddress(addressDataDepart).subscribe(
-        (addressResponseDepart: any) => {
-          this.addressIdDepart = this.extractIdFromResponse(addressResponseDepart);
+      // Utilise l'autocomplétion pour obtenir les données de l'adresse de départ
+      const placeDepart = this.autocompleteDepart.getPlace();
+      const addressDataDepart = this.extractAddressData(placeDepart);
+
+      // Utilise l'autocomplétion pour obtenir les données de l'adresse d'arrivée
+      const placeArrivee = this.autocompleteArrivee.getPlace();
+      const addressDataArrivee = this.extractAddressData(placeArrivee);
+
+    
+
+      const searchData = {
+        depart: {
+          street_number: addressDataDepart.street_number,
+          street_name:addressDataDepart.street_name,
+          city: addressDataDepart.city, 
+          postal_code : addressDataDepart.postal_code,
+          description : addressDataDepart.description
+      },
   
-          this.tripService.createAddress(addressDataArrivee).subscribe(
-            (addressResponseArrivee: any) => {
-              this.addressIdArrivee = this.extractIdFromResponse(addressResponseArrivee);
+      arrival : {
+        street_number: addressDataArrivee.street_number,
+          street_name:addressDataArrivee.street_name,
+          city: addressDataArrivee.city, 
+          postal_code : addressDataArrivee.postal_code,
+          description : addressDataArrivee.description
+      },
   
-              const tripData = {
-                address_depart_id: this.addressIdDepart,
-                address_arrival_id: this.addressIdArrivee,
-                timestamp_proposed: this.createTripForm.value.date + " " +this.createTripForm.value.horaire +":00" ,
-                total_passenger_count: this.createTripForm.value.nombrePassagers,
-              };
-  console.log("trip", tripData)
-              this.tripService.createTrip(tripData).subscribe(
-                (tripId) => {
-                  console.log('Trajet créé avec succès, ID :', tripId);
-                },
-                (tripError) => {
-                  console.error('Erreur lors de la création du trajet', tripError);
-                }
-              );
-            },
-            (addressErrorArrivee: any) => {
-              console.error('Erreur lors de la création de l\'adresse d\'arrivée', addressErrorArrivee);
-            }
-          );
+      trip : {
+          passenger_count : this.searchTripForm.value.nombrePassagers,
+          departure_date :  this.searchTripForm.value.date + ' ' + this.searchTripForm.value.horaire + ':00'
+      }
+
+
+      }
+      console.log("search", searchData)
+      // Utilise la fonction searchTrips du service pour rechercher des trajets
+      this.tripService.searchTrips(searchData).subscribe(
+        (response) => {
+          this.searchResults = response.trips;
+          this.router.navigate(['/search-results'], { state: { resultData: searchData } });
         },
-        (addressErrorDepart: any) => {
-          console.error('Erreur lors de la création de l\'adresse de départ', addressErrorDepart);
+        (error) => {
+          console.error('Erreur lors de la recherche de trajet', error);
         }
       );
-    } else {
-      console.error('Le formulaire est invalide');
     }
-  }
-  // Fonction générique pour extraire l'identifiant de la réponse
-  private extractIdFromResponse(response: any): any {
-    // Adapter cette partie en fonction de la structure réelle de la réponse
-    return response.id_address || response.data?.id_address || null;
   }
 
   private addGoogleMapsScript() {
@@ -121,7 +116,7 @@ private autocompleteArrivee: any;
       this.searchInputDepart.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
     );
-  
+
     this.autocompleteArrivee = new google.maps.places.Autocomplete(
       this.searchInputArrivee.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
@@ -149,6 +144,7 @@ private autocompleteArrivee: any;
     const formattedAddress = `${street_number},${street},${city} ${postal_code}`;
     return formattedAddress;
   }
+
   private extractAddressData(place: any): any {
     const street_number = place.address_components.find((component: any) => component.types.includes('street_number'))?.long_name || '';
     const street_name = place.address_components.find((component: any) => component.types.includes('route'))?.long_name || '';
@@ -164,5 +160,4 @@ private autocompleteArrivee: any;
       description: description
     };
   }
-  
 }

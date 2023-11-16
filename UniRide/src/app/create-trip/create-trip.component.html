@@ -1,10 +1,9 @@
-<!-- create-trip.component.html -->
 
 <section>
   <div class="form-box">
     <div class="form-value">
       <form class="form" [formGroup]="createTripForm" (ngSubmit)="onSubmit()">
-        <h2>Mon Formulaire</h2>
+        <h2>Proposer un trajet</h2>
 
         <div class="inputbox">
           <input type="text" required formControlName="adresseDepart" id="adresseDepart" #searchInputDepart autocomplete="off">

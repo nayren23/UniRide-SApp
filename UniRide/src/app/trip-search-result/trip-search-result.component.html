@@ -1,0 +1,24 @@
+<!-- trip-search-result.component.html -->
+<section>
+    <h2>Résultats de la recherche</h2>
+    <div *ngIf="searchResults.length > 0; else noResults">
+      <div *ngFor="let result of searchResults">
+        <div>
+          <strong>Departure:</strong> {{ result.address.departure.nom_complet }}
+        </div>
+        <div>
+          <strong>Arrival:</strong> {{ result.address.arrival.nom_complet }}
+        </div>
+        <div><strong>Driver ID:</strong> {{ result.driver_id }}</div>
+        <div><strong>Price:</strong> {{ result.price }}</div>
+        <div><strong>Proposed Date:</strong> {{ result.proposed_date }}</div>
+        <div><strong>Total Passenger Count:</strong> {{ result.total_passenger_count }}</div>
+        <div><strong>Trip ID:</strong> {{ result.trip_id }}</div>
+        <hr />
+      </div>
+    </div>
+    <ng-template #noResults>
+      <p>Aucun résultat trouvé.</p>
+    </ng-template>
+  </section>
+  

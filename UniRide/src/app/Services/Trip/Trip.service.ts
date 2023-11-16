@@ -11,12 +11,12 @@ export class TripService {
   private apiUrl = environment.apiUrl;
 
   // Utilisation d'un jeton en dur pour les fins de test
-  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDE1Mjg0MSwianRpIjoiYzg1ZjgxODAtZjM2MC00ZmUxLWIwZjYtMzE5NTBlM2RmZWI5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NTQsIm5iZiI6MTcwMDE1Mjg0MSwiZXhwIjoxNzAwMTU2NDQxfQ.38vZbLUNXA9E8G0TVYc8Obykgpt_HIKlFL77-NpT5dM';
+  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDE1OTQ4MSwianRpIjoiMTc1MjI3NzUtYTliMS00NGY1LTg2NDgtYTNkMDc3Y2I3NGNjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NTQsIm5iZiI6MTcwMDE1OTQ4MSwiZXhwIjoxNzAwMTYzMDgxfQ.KFImM2C_H4W63EPH0E_tvJZVgfUqA4UIVMCqUn7cdKw';
 
   constructor(private http: HttpClient) {}
 
   private handleError(error: any): Observable<never> {
-    console.error('create address error:', error);
+    console.error(' error:', error);
     return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
   }
 
@@ -36,6 +36,19 @@ export class TripService {
       catchError(this.handleError)
     );
   }
+    searchTrips(searchData: any): Observable<any> {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+      return this.http.post(
+        `${this.apiUrl}trips`,
+        JSON.stringify(searchData),
+        { headers: headers }
+      ).pipe(
+        catchError(this.handleError)
+      );
+    }
+  
 
   createAddress(addressData: any): Observable<any> {
     const headers = new HttpHeaders({
