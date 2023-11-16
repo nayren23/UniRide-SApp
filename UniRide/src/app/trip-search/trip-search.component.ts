@@ -46,59 +46,38 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       this.autocompleteArriveeSubscription.unsubscribe();
     }
   }
+// trip-search.component.ts
 
-  search() {
-    if (this.searchTripForm.valid) {
-      // Utilisez les valeurs du formulaire pour la recherche
-  
-
-      // Utilise l'autocomplétion pour obtenir les données de l'adresse de départ
-      const placeDepart = this.autocompleteDepart.getPlace();
-      const addressDataDepart = this.extractAddressData(placeDepart);
-
-      // Utilise l'autocomplétion pour obtenir les données de l'adresse d'arrivée
-      const placeArrivee = this.autocompleteArrivee.getPlace();
-      const addressDataArrivee = this.extractAddressData(placeArrivee);
-
-    
-
-      const searchData = {
-        depart: {
-          street_number: addressDataDepart.street_number,
-          street_name:addressDataDepart.street_name,
-          city: addressDataDepart.city, 
-          postal_code : addressDataDepart.postal_code,
-          description : addressDataDepart.description
-      },
-  
-      arrival : {
-        street_number: addressDataArrivee.street_number,
-          street_name:addressDataArrivee.street_name,
-          city: addressDataArrivee.city, 
-          postal_code : addressDataArrivee.postal_code,
-          description : addressDataArrivee.description
-      },
-  
-      trip : {
-          passenger_count : this.searchTripForm.value.nombrePassagers,
-          departure_date :  this.searchTripForm.value.date + ' ' + this.searchTripForm.value.horaire + ':00'
+search() {
+  if (this.searchTripForm.valid) {
+    const searchData = {
+      depart: this.extractAddressData(this.autocompleteDepart.getPlace()),
+      arrival: this.extractAddressData(this.autocompleteArrivee.getPlace()),
+      trip: {
+        passenger_count: this.searchTripForm.value.nombrePassagers,
+        departure_date: `${this.searchTripForm.value.date} ${this.searchTripForm.value.horaire}:00`
       }
+    };
 
+    this.tripService.searchTrips(searchData).subscribe(
+      (response) => {
+        this.searchResults = response['trips'];
+        console.log('Search results:', this.searchResults);
 
-      }
-      console.log("search", searchData)
-      // Utilise la fonction searchTrips du service pour rechercher des trajets
-      this.tripService.searchTrips(searchData).subscribe(
-        (response) => {
-          this.searchResults = response.trips;
-          this.router.navigate(['/search-results'], { state: { resultData: searchData } });
-        },
-        (error) => {
-          console.error('Erreur lors de la recherche de trajet', error);
+        if (this.searchResults && this.searchResults.length > 0) {
+          // Naviguez vers le composant de résultat en passant les résultats via queryParams
+          this.router.navigate(['/search-results'], { queryParams: { trips: JSON.stringify(this.searchResults) } });
         }
-      );
-    }
+      },
+      (error) => {
+        console.error('Erreur lors de la recherche de trajet', error);
+      }
+    );
   }
+}
+
+
+  
 
   private addGoogleMapsScript() {
     const script = this.renderer.createElement('script');

@@ -8,7 +8,12 @@ import{TripSearchResultComponent} from './trip-search-result/trip-search-result.
 const routes: Routes = [
   { path: 'create-trip', component: CreateTripComponent },
   { path: 'create-search', component: TripSearchComponent },
-  { path: 'search-results', component: TripSearchResultComponent }
+  {
+    path: 'search-results',
+    component: TripSearchResultComponent,
+    // Utilisez la même clé que celle que vous essayez d'accéder dans TripSearchResultComponent
+    data: { trips: null } 
+  }
 
 ];
 

@@ -1,51 +1,43 @@
 <!-- trip-search.component.html -->
-<section>
-    <div class="form-box">
-      <div class="form-value">
-        <form class="form" [formGroup]="searchTripForm" (ngSubmit)="search()">
-          <h2>Rechercher un trajet </h2>
-  
-          <div class="inputbox">
-            <input type="text" required formControlName="adresseDepart" id="adresseDepart" #searchInputDepart autocomplete="off">
-            <label for="">Adresse de Départ</label>
-          </div>
-  
-          <div class="inputbox">
-            <input type="text" required formControlName="adresseArrivee" id="adresseArrivee" #searchInputArrivee autocomplete="off">
-            <label for="">Adresse d'Arrivée</label>
-          </div>
-  
-          <div class="inputbox">  
-            <input type="date" required formControlName="date">
-            <label for="">Date</label>
-          </div>
-  
-          <div class="inputbox">
-            <input type="time" required formControlName="horaire">
-            <label for="">Horaire</label>
-          </div>
-  
-          <div class="inputbox">
-            <input type="number" required formControlName="nombrePassagers">
-            <label for="">Nombre de Passagers</label>
-          </div>
-  
-          <!-- Affiche un message d'erreur si le nombre de passagers dépasse 4 -->
-          <div *ngIf="searchTripForm?.get('nombrePassagers')?.hasError('max')" class="error-message">
-            Le nombre de passagers ne peut pas dépasser 4.
-          </div>
-          <button type="submit">Rechercher</button>
-        </form>
-      </div>
+
+<section class="trip-search">
+  <div class="form-box">
+    <div class="form-value">
+      <form class="form" [formGroup]="searchTripForm" (ngSubmit)="search()">
+        <h2>Rechercher un trajet</h2>
+
+        <div class="inputbox">
+          <input type="text" required formControlName="adresseDepart" id="adresseDepart" #searchInputDepart autocomplete="off">
+          <label for="">Adresse de Départ</label>
+        </div>
+
+        <div class="inputbox">
+          <input type="text" required formControlName="adresseArrivee" id="adresseArrivee" #searchInputArrivee autocomplete="off">
+          <label for="">Adresse d'Arrivée</label>
+        </div>
+
+        <div class="inputbox">
+          <input type="date" required formControlName="date">
+          <label for="">Date</label>
+        </div>
+
+        <div class="inputbox">
+          <input type="time" required formControlName="horaire">
+          <label for="">Horaire</label>
+        </div>
+
+        <div class="inputbox">
+          <input type="number" required formControlName="nombrePassagers">
+          <label for="">Nombre de Passagers</label>
+        </div>
+
+        <!-- Affiche un message d'erreur si le nombre de passagers dépasse 4 -->
+        <div *ngIf="searchTripForm?.get('nombrePassagers')?.hasError('max')" class="error-message">
+          Le nombre de passagers ne peut pas dépasser 4.
+        </div>
+
+        <button type="button" (click)="search()">Rechercher</button>
+      </form>
     </div>
-  
-    <!-- Affichez les résultats de la recherche -->
-    <div *ngIf="searchResults.length > 0">
-      <h3>Résultats de la recherche :</h3>
-      <ul>
-        <li *ngFor="let result of searchResults">{{ result | json }}</li>
-      </ul>
-    </div>
-  </section>
-  
-  <app-trip-search-result [searchResults]="searchResults"></app-trip-search-result>
+  </div>
+</section>
