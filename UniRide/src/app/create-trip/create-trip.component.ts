@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { TripService } from '../Services/Trip/Trip.service';
-
 
 declare var google: any;
 
@@ -10,10 +10,17 @@ declare var google: any;
   templateUrl: './create-trip.component.html',
   styleUrls: ['./create-trip.component.css']
 })
-export class CreateTripComponent implements OnInit {
+export class CreateTripComponent implements OnInit, OnDestroy {
   createTripForm!: FormGroup;
-  @ViewChild('searchInputDepart') searchInputDepart!: ElementRef;
-  @ViewChild('searchInputArrivee') searchInputArrivee!: ElementRef;
+  description: string = " ";
+  addressIdDepart:any;
+  addressIdArrivee:any;
+  @ViewChild('searchInputDepart', { static: true }) searchInputDepart!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchInputArrivee', { static: true }) searchInputArrivee!: ElementRef<HTMLInputElement>;
+  private autocompleteDepartSubscription: Subscription | undefined;
+  private autocompleteArriveeSubscription: Subscription | undefined;
+  private autocompleteDepart: any;
+private autocompleteArrivee: any;
 
 
   constructor(
@@ -32,65 +39,66 @@ export class CreateTripComponent implements OnInit {
     });
     this.addGoogleMapsScript();
   }
+
+  ngOnDestroy(): void {
+    // Désabonner les observables pour éviter les fuites de mémoire
+    if (this.autocompleteDepartSubscription) {
+      this.autocompleteDepartSubscription.unsubscribe();
+    }
+
+    if (this.autocompleteArriveeSubscription) {
+      this.autocompleteArriveeSubscription.unsubscribe();
+    }
+  }
   onSubmit() {
     if (this.createTripForm.valid) {
-      const tripData = {
-        adresseDepart: this.searchInputDepart, // Utilisez la propriété sélectionnée pour l'adresse de départ
-        adresseArrivee: this.searchInputArrivee, // Utilisez la propriété sélectionnée pour l'adresse d'arrivée
-        date: this.createTripForm.value.date,
-        horaire: this.createTripForm.value.horaire,
-        nombrePassagers: this.createTripForm.value.nombrePassagers
-      };
-      console.log('Données du formulaire :', tripData);
-      
-      // Appeler le service pour créer l'adresse de départ
-      this.tripService.createAddress({ address: tripData.adresseDepart }).subscribe(
-        (departAddressResponse) => {
-          // Adapter cette partie en fonction de la structure réelle de la réponse
-          const departAddressId = this.extractIdFromResponse(departAddressResponse);
+        // Utilise l'autocomplétion pour obtenir les données de l'adresse de départ
+    const placeDepart = this.autocompleteDepart.getPlace();
+    const addressDataDepart = this.extractAddressData(placeDepart);
+
+    // Utilise l'autocomplétion pour obtenir les données de l'adresse d'arrivée
+    const placeArrivee = this.autocompleteArrivee.getPlace();
+    const addressDataArrivee = this.extractAddressData(placeArrivee);
+
+     
+      console.log("json", JSON.stringify(addressDataDepart));
+      this.tripService.createAddress(addressDataDepart).subscribe(
+        (addressResponseDepart: any) => {
+          this.addressIdDepart = this.extractIdFromResponse(addressResponseDepart);
   
-          // Appeler le service pour créer l'adresse d'arrivée
-          this.tripService.createAddress({ address: tripData.adresseArrivee }).subscribe(
-            (arriveeAddressResponse) => {
-              // Adapter cette partie en fonction de la structure réelle de la réponse
-              const arriveeAddressId = this.extractIdFromResponse(arriveeAddressResponse);
+          this.tripService.createAddress(addressDataArrivee).subscribe(
+            (addressResponseArrivee: any) => {
+              this.addressIdArrivee = this.extractIdFromResponse(addressResponseArrivee);
   
-              // Maintenant, vous avez les IDs des adresses, vous pouvez les utiliser pour créer le trajet
-              const tripWithAddresses = {
-                adresseDepartId: departAddressId,
-                adresseArriveeId: arriveeAddressId,
-                date_horaire: tripData.date + ' ' + tripData.horaire + ":00",
-                nombrePassagers: tripData.nombrePassagers
+              const tripData = {
+                address_depart_id: this.addressIdDepart,
+                address_arrival_id: this.addressIdArrivee,
+                timestamp_proposed: this.createTripForm.value.date + " " +this.createTripForm.value.horaire +":00" ,
+                total_passenger_count: this.createTripForm.value.nombrePassagers,
               };
-  
-              // Appeler le service pour créer le trajet
-              this.tripService.createTrip(tripWithAddresses).subscribe(
+  console.log("trip", tripData)
+              this.tripService.createTrip(tripData).subscribe(
                 (tripId) => {
-                  // Gérer la réponse du service, par exemple, afficher un message de succès
                   console.log('Trajet créé avec succès, ID :', tripId);
                 },
                 (tripError) => {
-                  // Gérer les erreurs lors de la création du trajet
                   console.error('Erreur lors de la création du trajet', tripError);
                 }
               );
             },
-            (arriveeAddressError) => {
-              // Gérer les erreurs lors de la création de l'adresse d'arrivée
-              console.error('Erreur lors de la création de l\'adresse d\'arrivée', arriveeAddressError);
+            (addressErrorArrivee: any) => {
+              console.error('Erreur lors de la création de l\'adresse d\'arrivée', addressErrorArrivee);
             }
           );
         },
-        (departAddressError) => {
-          // Gérer les erreurs lors de la création de l'adresse de départ
-          console.error('Erreur lors de la création de l\'adresse de départ', departAddressError);
+        (addressErrorDepart: any) => {
+          console.error('Erreur lors de la création de l\'adresse de départ', addressErrorDepart);
         }
       );
     } else {
       console.error('Le formulaire est invalide');
     }
   }
-
   // Fonction générique pour extraire l'identifiant de la réponse
   private extractIdFromResponse(response: any): any {
     // Adapter cette partie en fonction de la structure réelle de la réponse
@@ -108,24 +116,53 @@ export class CreateTripComponent implements OnInit {
   }
 
   private handleGoogleMapsLoad() {
-    const autocompleteDepart = new google.maps.places.Autocomplete(this.searchInputDepart.nativeElement, {
-      types: ['geocode'],
-      componentRestrictions: { country: 'fr' }
+    // Initialisation l'autocomplétion pour les adresses de départ
+    this.autocompleteDepart = new google.maps.places.Autocomplete(
+      this.searchInputDepart.nativeElement,
+      { types: ['geocode'], componentRestrictions: { country: 'fr' } }
+    );
+  
+    this.autocompleteArrivee = new google.maps.places.Autocomplete(
+      this.searchInputArrivee.nativeElement,
+      { types: ['geocode'], componentRestrictions: { country: 'fr' } }
+    );
+
+    // Ajout d'un écouteur d'événements pour détecter le changement de lieu
+    this.autocompleteDepart.addListener('place_changed', () => {
+      const place = this.autocompleteDepart.getPlace();
+      const formattedAddress = this.formatAddress(place.address_components);
+      this.searchInputDepart.nativeElement.value = formattedAddress;
     });
 
-    autocompleteDepart.addListener('place_changed', () => {
-      const place = autocompleteDepart.getPlace();
-      this.searchInputDepart = place.formatted_address;
-    });
-
-    const autocompleteArrivee = new google.maps.places.Autocomplete(this.searchInputArrivee.nativeElement, {
-      types: ['geocode'],
-      componentRestrictions: { country: 'fr' }
-    });
-
-    autocompleteArrivee.addListener('place_changed', () => {
-      const place = autocompleteArrivee.getPlace();
-      this.searchInputArrivee = place.formatted_address;
+    this.autocompleteArrivee.addListener('place_changed', () => {
+      const place = this.autocompleteArrivee.getPlace();
+      const formattedAddress = this.formatAddress(place.address_components);
+      this.searchInputArrivee.nativeElement.value = formattedAddress;
     });
   }
+
+  private formatAddress(addressComponents: any): string {
+    const street_number = addressComponents.find((component: any) => component.types.includes('street_number'))?.long_name || '';
+    const street = addressComponents.find((component: any) => component.types.includes('route'))?.long_name || '';
+    const city = addressComponents.find((component: any) => component.types.includes('locality'))?.long_name || '';
+    const postal_code = addressComponents.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
+    const formattedAddress = `${street_number},${street},${city} ${postal_code}`;
+    return formattedAddress;
+  }
+  private extractAddressData(place: any): any {
+    const street_number = place.address_components.find((component: any) => component.types.includes('street_number'))?.long_name || '';
+    const street_name = place.address_components.find((component: any) => component.types.includes('route'))?.long_name || '';
+    const city = place.address_components.find((component: any) => component.types.includes('locality'))?.long_name || '';
+    const postal_code = place.address_components.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
+    const description = place.formatted_address || '';
+  
+    return {
+      street_number: street_number,
+      street_name: street_name,
+      city: city,
+      postal_code: postal_code,
+      description: description
+    };
+  }
+  
 }

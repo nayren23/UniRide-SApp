@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -10,28 +10,44 @@ import { environment } from '../../../environments/environment';
 export class TripService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  // Utilisation d'un jeton en dur pour les fins de test
+  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDA3NTg3MywianRpIjoiNjdjMWI1Y2QtY2FkZi00NmY1LTk3NjAtMmJmODY4ZTI3Y2RkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NTQsIm5iZiI6MTcwMDA3NTg3MywiZXhwIjoxNzAwMDc5NDczfQ.n8LK6yEn-YrgRINzQ_VIGehlWs1WsTtZr1BdscrxvZI';
 
- 
+  constructor(private http: HttpClient) {}
+
+  private handleError(error: any): Observable<never> {
+    console.error('create address error:', error);
+    return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
+  }
+
   createTrip(tripData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}trip/propose`, tripData).pipe(
-      map((response: any) => {
-        // Utilisez les données de la réponse comme nécessaire
-        const tripId = response.trip_id;
-        console.log('ID du trajet créé :', tripId);
-        return tripId;
-      })
+    // Ajouter le jeton d'accès à l'en-tête d'autorisation
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authToken}`
+    });
+
+    // Effectuer la requête HTTP avec l'en-tête d'autorisation
+    return this.http.post(
+      `${this.apiUrl}trip/propose`,
+      JSON.stringify(tripData),
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
-  createAddress(tripaddressData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}address/add`, tripaddressData).pipe(
-      map((response: any) => {
-        // Utilisez les données de la réponse comme nécessaire
-        const idAddress = response.id_address;
-        console.log('ID de l\'adresse créée :', idAddress);
-        return idAddress;
-      })
+  createAddress(addressData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(
+      `${this.apiUrl}address/add`,
+      JSON.stringify(addressData),
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 }
