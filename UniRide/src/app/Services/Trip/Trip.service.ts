@@ -11,7 +11,7 @@ export class TripService {
   private apiUrl = environment.apiUrl;
 
   // Utilisation d'un jeton en dur pour les fins de test
-  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDA3NTg3MywianRpIjoiNjdjMWI1Y2QtY2FkZi00NmY1LTk3NjAtMmJmODY4ZTI3Y2RkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NTQsIm5iZiI6MTcwMDA3NTg3MywiZXhwIjoxNzAwMDc5NDczfQ.n8LK6yEn-YrgRINzQ_VIGehlWs1WsTtZr1BdscrxvZI';
+  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDE1Mjg0MSwianRpIjoiYzg1ZjgxODAtZjM2MC00ZmUxLWIwZjYtMzE5NTBlM2RmZWI5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NTQsIm5iZiI6MTcwMDE1Mjg0MSwiZXhwIjoxNzAwMTU2NDQxfQ.38vZbLUNXA9E8G0TVYc8Obykgpt_HIKlFL77-NpT5dM';
 
   constructor(private http: HttpClient) {}
 
