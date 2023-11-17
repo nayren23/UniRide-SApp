@@ -1,0 +1,105 @@
+<div class="max-w-md mx-auto p-8 border rounded shadow-md blur-backgroud">
+    <h2 class="text-2xl font-semibold mb-6 text-white">Inscription</h2>
+
+    <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+        <!-- Nom utilisateur -->
+        <div class="mb-4">
+            <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
+            <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login"
+                required>
+        </div>
+
+        <!-- Prénom -->
+        <div class="mb-4">
+            <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
+            <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded"
+                formControlName="firstname" required>
+        </div>
+
+        <!-- Nom -->
+        <div class="mb-4">
+            <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
+            <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded"
+                formControlName="lastname" required>
+        </div>
+
+        <!-- Adresse e-mail étudiante -->
+        <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">
+            <label for="email" class="block text-white text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
+            <input type="email" id="email" name="email" class="w-full p-2 border rounded"
+                formControlName="student_email" required>
+            <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched"
+                class="text-xs text-red-500 mt-1">
+                Adresse e-mail non valide
+            </div>
+        </div>
+
+
+        <!-- Mot De Passe -->
+        <div class="mb-4">
+            <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe*</label>
+            <input type="password" id="password" name="password" class="w-full p-2 border rounded"
+                formControlName="password" required>
+            <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched"
+                class="text-xs text-red-500 bg-white mt-1">
+                Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et un
+                caractère spécial.
+            </div>
+
+        </div>
+
+
+        <!-- Confirmer Mot De Passe -->
+        <div class="mb-4">
+            <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De
+                Passe*</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded"
+                formControlName="password_confirmation" required>
+            <div *ngIf="!passwordsMatch()" class="text-xs text-red-500 mt-1 ">
+                Les mots de passe ne correspondent pas.
+            </div>
+        </div>
+
+
+        <!-- Dropdown list pour le genre -->
+        <div class="mb-4">
+            <label for="gender" class="block text-white text-sm font-semibold mb-2">Genre*</label>
+            <select id="gender" name="gender" class="w-full p-2 border rounded" formControlName="gender" required>
+                <option value="H">Homme</option>
+                <option value="F">Femme</option>
+                <option value="N">Autre</option>
+            </select>
+        </div>
+
+       <!-- Numéro de téléphone -->
+<div class="mb-4">
+    <label for="phoneNumber" class="block text-white text-sm font-semibold mb-2">Numéro de téléphone*</label>
+    <span id="taillePlus33">+33</span>
+    <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded tailleTel"
+        formControlName="phone_number" maxlength="9" pattern="^[1-9][0-9]*$">
+    <!-- Ajoutez la ligne suivante pour afficher un message d'erreur personnalisé -->
+    <div *ngIf="inscriptionForm.get('phone_number')?.hasError('pattern') && inscriptionForm.get('phone_number')?.touched" class="text-xs text-red-500 mt-1">
+        Le numéro de téléphone doit commencer par ne peut pas commencer par 0.
+    </div>
+</div>
+
+
+        <!-- Description -->
+        <div class="mb-4">
+            <label for="description" class="block text-white text-sm font-semibold mb-2">Description</label>
+            <input class="w-full p-2 border rounded" type="text" formControlName="description">
+        </div>
+        <p class="italique text-red-500">* : champs obligatoire</p>
+
+        <!-- Bouton Suivant -->
+        <div>
+            <button type="button" class="bg-blue-500 text-white p-2 rounded" (click)="changerAttributs()"
+                [disabled]="!inscriptionForm.valid || !passwordsMatch()"
+                [ngClass]="{'button-disabled': !inscriptionForm.valid || !passwordsMatch()}">
+                Suivant
+            </button>
+        </div>
+
+
+    </form>
+</div>

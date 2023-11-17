@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+#inscriptionDiv {
+    text-align: center;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0.4em;
+    background-color: #171717;
+    border-radius: 25px;
+    transition: .4s ease-in-out;
+    width: 20%;
+    margin-left: 40%;
+}
+
+.blur-backgroud {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+}
+
+.text-white {
+    color: white;
+}
+
+.text-red-500 {
+    color: #e53e3e;
+    /* Couleur rouge de Tailwind */
+}
+
+
+.button-disabled {
+    background-color: #ccc; /* Remplacez ceci par la couleur grise que vous souhaitez utiliser */
+    color: #666; /* Couleur de texte correspondante */
+    cursor: not-allowed;
+}
+.italique {
+    font-style: italic;
+}
+.font-bold{
+    font-weight: bold;
+}
+
+.tailleTel{
+    width: 92%;
+}
+
+#taillePlus33{
+    padding-right: 3px;
+    color: white;
+}
