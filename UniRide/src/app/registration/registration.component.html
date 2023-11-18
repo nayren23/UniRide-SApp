@@ -2,26 +2,36 @@
     <h2 class="text-2xl font-semibold mb-6 text-white">Inscription</h2>
 
     <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
-        <!-- Nom utilisateur -->
-        <div class="mb-4">
-            <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
-            <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login"
-                required>
-        </div>
+       <!-- Nom utilisateur -->
+<div class="mb-4">
+    <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
+    <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
+    <div *ngIf="inscriptionForm.get('login')?.hasError('pattern') && inscriptionForm.get('login')?.touched"
+        class="text-xs text-red-500 mt-1">
+        Le nom utilisateur doit contenir uniquement des lettres.
+    </div>
+</div>
 
-        <!-- Prénom -->
-        <div class="mb-4">
-            <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
-            <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded"
-                formControlName="firstname" required>
-        </div>
+<!-- Nom -->
+<div class="mb-4">
+    <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
+    <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded" formControlName="lastname" required>
+    <div *ngIf="inscriptionForm.get('lastname')?.hasError('pattern') && inscriptionForm.get('lastname')?.touched"
+        class="text-xs text-red-500 mt-1">
+        Le nom doit contenir uniquement des lettres.
+    </div>
+</div>
 
-        <!-- Nom -->
-        <div class="mb-4">
-            <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
-            <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded"
-                formControlName="lastname" required>
-        </div>
+<!-- Prénom -->
+<div class="mb-4">
+    <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
+    <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded" formControlName="firstname" required>
+    <div *ngIf="inscriptionForm.get('firstname')?.hasError('pattern') && inscriptionForm.get('firstname')?.touched"
+        class="text-xs text-red-500 mt-1">
+        Le prénom doit contenir uniquement des lettres.
+    </div>
+</div>
+
 
         <!-- Adresse e-mail étudiante -->
         <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">

@@ -24,9 +24,9 @@ export class RegistrationComponent implements FileInputHandlers {
     private cdRef: ChangeDetectorRef
   ) {
     this.inscriptionForm = this.formBuilder.group({
-      login: ['', Validators.required],
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
+      login: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
+      firstname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
+      lastname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       student_email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/),],],
       password_confirmation: ['',[Validators.required,Validators.minLength(8)]],
