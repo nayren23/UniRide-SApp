@@ -12,6 +12,8 @@ import { environment } from '../environements/environment.prod';
 export class RegistrationComponent{
   inscriptionForm: FormGroup;
   afficherChampsFichier = false;
+  showLicenseSection: boolean = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -19,6 +21,7 @@ export class RegistrationComponent{
   
   ) {
     this.inscriptionForm = this.formBuilder.group({
+      showLicenseSection: [false], // Assure-toi que cette ligne est présente
       login: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       firstname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
@@ -106,6 +109,9 @@ export class RegistrationComponent{
     if (fileNameLabel) {
       fileNameLabel.innerText = file.name;
     }
+  }
+  toggleLicenseSection(): void {
+    this.showLicenseSection = !this.showLicenseSection;
   }
 
   passwordsMatch(): boolean {
