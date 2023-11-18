@@ -76,8 +76,7 @@ export class RegistrationComponent{
 
 
       const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        // Ajoute d'autres en-têtes CORS si nécessaire
+       
       });
       
 
