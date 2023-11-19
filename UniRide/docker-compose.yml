@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  uniride_frontend:
+    container_name: uniride_frontend
+    image: uniride1/uniride_front #automatically latest
+    restart: always
+    ports:
+      - "4200:4200"
+    depends_on:
+      - uniride_backend
+
+  uniride_backend:
+    container_name: uniride_backend
+    image: uniride1/uniride_back #automatically latest
+    restart: always
+    ports:
+      - "5050:5050"
+      
+x-environment:
+  COMPOSE_PROJECT_NAME: uniride

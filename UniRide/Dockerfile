@@ -2,12 +2,9 @@ FROM node:20.9-alpine
 
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the working directory
-COPY package*.json ./
+COPY . .
 
 RUN npm install
-
-COPY . .
 
 #Which port the container will listen to
 EXPOSE 4200
