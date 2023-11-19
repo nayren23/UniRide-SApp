@@ -1,0 +1,24 @@
+<section>
+    <div class="form-box">
+        <div class="form-value">
+            <form class="form" [formGroup]="connexionForm" (ngSubmit)="onSubmit()">
+                <h2>Connexion</h2>
+                <!-- Nom utilisateur -->
+                <div class="mb-4">
+                    <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur</label>
+                    <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
+                </div>
+                <!-- Mot De Passe -->
+                <div class="mb-4">
+                    <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe</label>
+                    <input type="password" id="password" name="password" class="w-full p-2 border rounded" formControlName="password" required>
+                </div>
+
+                <button type="submit">Connexion</button>
+                <div class="register">
+                    <p>Vous n'avez pas de compte ? <a href="/registration">Inscription</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

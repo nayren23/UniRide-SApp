@@ -1,0 +1,21 @@
+
+
+<div *ngIf="searchResults.length > 0" class="search-results">
+  <h3>Résultats de la recherche :</h3>
+  <ul>
+    <li *ngFor="let result of searchResults" class="result-item">
+      <div class="address">
+        <p><strong>Départ:</strong> {{ result.address.departure.nom_complet }}</p>
+        <p><strong>Arrivée:</strong> {{ result.address.arrival.nom_complet }}</p>
+      </div>
+      <div class="details">
+        <p><strong>Nombre de Passagers:</strong> {{ result.total_passenger_count }}</p>
+        <p><strong>Date de Départ:</strong> {{ result.proposed_date }}</p>
+        <p><strong>Prix:</strong> {{ result.price }} €</p>
+  <!--(click)="reserveCourse(result.trip_id)"-->
+        <button >Réserver la course</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
