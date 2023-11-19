@@ -115,6 +115,8 @@
 
             <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
 
+            <p class="italique text-red-500">* : champs obligatoire</p>
+
 
         </section>
 
@@ -134,6 +136,7 @@
                 type="file" id="school_certificate" name="school_certificate"
                 (change)="handleFileInput($event, 'school_certificate')" accept="image/*">
             <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+            
 
         </section>
 
@@ -156,11 +159,10 @@
   
 
 
-        <p class="italique text-red-500">* : champs obligatoire</p>
 
         <!-- Bouton Suivant -->
         <div>
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded"
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded boutonCenter"
                 [disabled]="!inscriptionForm.valid || !passwordsMatch()"
                 [ngClass]="{'button-disabled': !inscriptionForm.valid || !passwordsMatch()}">
                 S'inscrire
