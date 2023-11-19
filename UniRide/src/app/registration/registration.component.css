@@ -58,8 +58,12 @@
 .tailleTel{
     width: 92%;
 }
-.boutonCenter{
+.alignCenter{
     margin-left: 135px;
+}
+.buttonInscription{
+    margin-bottom: 100px;
+    margin-top: 20px;
 }
 
 #taillePlus33{

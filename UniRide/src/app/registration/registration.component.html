@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto p-8  rounded">
-    <h2 class="text-2xl font-semibold mb-6 text-white">Inscription</h2>
+    <h2 class="text-2xl font-semibold mb-6 text-white alignCenter">Inscription</h2>
 
     <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
         <section class="max-w-md mx-auto p-8 rounded shadow-md blur-backgroud">
@@ -162,7 +162,7 @@
 
         <!-- Bouton Suivant -->
         <div>
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded boutonCenter"
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded alignCenter buttonInscription"
                 [disabled]="!inscriptionForm.valid || !passwordsMatch()"
                 [ngClass]="{'button-disabled': !inscriptionForm.valid || !passwordsMatch()}">
                 S'inscrire
