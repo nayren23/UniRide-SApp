@@ -1,0 +1,21 @@
+/* trip-search-result.component.css */
+
+.search-results {
+    margin-top: 20px;
+  }
+  
+  .result-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .address {
+    margin-bottom: 10px;
+  }
+  
+  .details {
+    font-style: italic;
+  }
+  
