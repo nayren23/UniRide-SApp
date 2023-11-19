@@ -1,4 +1,4 @@
-<div class="max-w-md mx-auto p-8  rounded shadow-md blur-backgroud">
+<div class="max-w-md mx-auto p-8  rounded">
     <h2 class="text-2xl font-semibold mb-6 text-white">Inscription</h2>
 
     <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
@@ -137,14 +137,7 @@
 
         </section>
 
-         <!-- Section du permis conditionnellement affichée -->
-  <section *ngIf="inscriptionForm.get('showLicenseSection')?.value" class="border max-w-md mx-auto p-8 mt-10 shadow-md blur-backgroud">
-    <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white" for="license">Permis</label>
-    <input
-      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      type="file" id="license" name="license" (change)="handleFileInput($event, 'license')" accept="image/*">
-    <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
-  </section>
+ 
 
 <!-- Checkbox pour afficher la section du permis -->
 <div class="mb-4">
@@ -152,7 +145,14 @@
     <label for="showLicense" class="text-white text-sm ml-2">Avez-vous un permis ?</label>
   </div>
   
- 
+         <!-- Section du permis conditionnellement affichée -->
+         <section *ngIf="inscriptionForm.get('showLicenseSection')?.value" class="border max-w-md mx-auto p-8 mt-10 shadow-md blur-backgroud">
+            <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white" for="license">Permis</label>
+            <input
+              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="file" id="license" name="license" (change)="handleFileInput($event, 'license')" accept="image/*">
+            <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+          </section>
   
 
 
