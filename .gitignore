@@ -8,6 +8,9 @@ dist/
 tmp/
 app/**/*.js
 app/**/*.js.map
+.env
+docker-compose.debug.yml
+Dockerfile.dev
 
 # dependencies
 node_modules/

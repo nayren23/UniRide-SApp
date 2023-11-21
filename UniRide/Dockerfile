@@ -2,9 +2,11 @@ FROM node:20.9-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
 
-RUN npm install
+RUN npm install --force
+
+COPY . .
 
 #Which port the container will listen to
 EXPOSE 4200
