@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { CreateTripComponent } from './Create-trip/create-trip.component';
 import { TripSearchComponent } from './trip-search/trip-search.component';
 import { TripSearchResultComponent } from './trip-search-result/trip-search-result.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -21,8 +23,6 @@ import { TripSearchResultComponent } from './trip-search-result/trip-search-resu
     AppComponent,
     RegistrationComponent,
     LogInComponent,
-
-    AppComponent,
     CreateTripComponent,
     TripSearchComponent,
     TripSearchResultComponent
@@ -32,7 +32,9 @@ import { TripSearchResultComponent } from './trip-search-result/trip-search-resu
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule, // required for toastr animations
+    ToastrModule.forRoot()
 
   ],
   providers: [],

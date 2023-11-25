@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../Services/Auth/auth.service'; // Importez le service d'authentification
 import { environment } from '../environements/environment.prod';
-import { Token } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -17,7 +18,9 @@ export class LogInComponent {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router,
   ) {
     this.connexionForm = this.formBuilder.group({
       login: ['', Validators.required],
@@ -32,11 +35,18 @@ export class LogInComponent {
       this.http.post(apiUrl, formData).subscribe(
         (response: any) => {
           this.authService.setToken(response["token"]); // Utilisez le service d'authentification pour stocker le token
-          console.log(response["token"])
-          window.location.href = "/create-search";
+
+          this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
+          setTimeout(() => {
+            this.router.navigate(['/create-search']);
+          }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
+
+
         },
         (error) => {
           console.error(error);
+          this.toastr.error('Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.', 'Erreur de connexion');
+
         }
       );
     }
