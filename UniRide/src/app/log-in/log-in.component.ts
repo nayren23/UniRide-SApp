@@ -1,11 +1,10 @@
+// log-in.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../Services/Auth/auth.service'; // Importez le service d'authentification
 import { environment } from '../environements/environment.prod';
-
-
-
-
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-log-in',
@@ -15,32 +14,31 @@ import { environment } from '../environements/environment.prod';
 export class LogInComponent {
   connexionForm: FormGroup;
 
-
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService
+  ) {
     this.connexionForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],
-    }, {
     });
-
   }
-
-
 
   onSubmit() {
-    const apiUrl = environment.apiUrl + "/user/auth"; // Récupérez l'URL à partir de l'environnement
-    console.log(apiUrl)
+    const apiUrl = environment.apiUrl + "/user/auth";
     if (this.connexionForm.valid) {
-    const formData = this.connexionForm.value;
-    console.log(formData);
-    this.http.post(apiUrl, formData).subscribe(
-      (response) => {
-        console.log(response);        
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+      const formData = this.connexionForm.value;
+      this.http.post(apiUrl, formData).subscribe(
+        (response: any) => {
+          this.authService.setToken(response["token"]); // Utilisez le service d'authentification pour stocker le token
+          console.log(response["token"])
+          window.location.href = "/create-search";
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
-}
 }
