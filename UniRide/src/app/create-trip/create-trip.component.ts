@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { TripService } from '../Services/Trip/trip.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var google: any;
 
@@ -20,13 +21,16 @@ export class CreateTripComponent implements OnInit, OnDestroy {
   private autocompleteDepartSubscription: Subscription | undefined;
   private autocompleteArriveeSubscription: Subscription | undefined;
   private autocompleteDepart: any;
-private autocompleteArrivee: any;
+  private autocompleteArrivee: any;
+
 
 
   constructor(
     private formBuilder: FormBuilder,
     private tripService: TripService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private toastr: ToastrService,
+
   ) {}
 
   ngOnInit(): void {
@@ -60,16 +64,16 @@ private autocompleteArrivee: any;
     const placeArrivee = this.autocompleteArrivee.getPlace();
     const addressDataArrivee = this.extractAddressData(placeArrivee);
 
-     
+
       console.log("json", JSON.stringify(addressDataDepart));
       this.tripService.createAddress(addressDataDepart).subscribe(
         (addressResponseDepart: any) => {
           this.addressIdDepart = this.extractIdFromResponse(addressResponseDepart);
-  
+
           this.tripService.createAddress(addressDataArrivee).subscribe(
             (addressResponseArrivee: any) => {
               this.addressIdArrivee = this.extractIdFromResponse(addressResponseArrivee);
-  
+
               const tripData = {
                 address_depart_id: this.addressIdDepart,
                 address_arrival_id: this.addressIdArrivee,
@@ -80,23 +84,32 @@ private autocompleteArrivee: any;
               this.tripService.createTrip(tripData).subscribe(
                 (tripId) => {
                   console.log('Trajet créé avec succès, ID :', tripId);
+                  this.toastr.success('Trajet créé avec succès', 'Trajet créé');
+
                 },
                 (tripError) => {
                   console.error('Erreur lors de la création du trajet', tripError);
+                  this.toastr.error('Erreur lors de la création du trajet', 'Erreur');
+
                 }
               );
             },
             (addressErrorArrivee: any) => {
               console.error('Erreur lors de la création de l\'adresse d\'arrivée', addressErrorArrivee);
+              this.toastr.error('Erreur lors de la création de l\'adresse d\'arrivée', 'Erreur');
+
             }
           );
         },
         (addressErrorDepart: any) => {
           console.error('Erreur lors de la création de l\'adresse de départ', addressErrorDepart);
+          this.toastr.error('Erreur lors de la création de l\'adresse de départ', 'Erreur');
         }
       );
     } else {
       console.error('Le formulaire est invalide');
+      this.toastr.error('Le formulaire est invalide', 'formulaire est invalide');
+
     }
   }
   // Fonction générique pour extraire l'identifiant de la réponse
@@ -121,7 +134,7 @@ private autocompleteArrivee: any;
       this.searchInputDepart.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
     );
-  
+
     this.autocompleteArrivee = new google.maps.places.Autocomplete(
       this.searchInputArrivee.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
@@ -155,7 +168,7 @@ private autocompleteArrivee: any;
     const city = place.address_components.find((component: any) => component.types.includes('locality'))?.long_name || '';
     const postal_code = place.address_components.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
     const description = place.formatted_address || '';
-  
+
     return {
       street_number: street_number,
       street_name: street_name,
@@ -164,5 +177,5 @@ private autocompleteArrivee: any;
       description: description
     };
   }
-  
+
 }
