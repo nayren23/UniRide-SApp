@@ -26,41 +26,43 @@ export class EmailVerificationComponent implements OnInit{
   }
 
 
-    ngOnInit(): void {
-      const tokenEmail = this.route.snapshot.params['token'];
+  ngOnInit(): void {
+    const tokenEmail = this.route.snapshot.params['token'];
 
     if (tokenEmail) {
       const apiUrl = environment.apiUrl + "/user/verify/email/" + tokenEmail;
 
       // Utilisez subscribe pour déclencher la requête GET
       this.http.get(apiUrl).subscribe(
-        (response = "EMAIL_VERIFIED_SUCCESSFULLY") => {
+        (response: any) => {
           console.log("Réponse de la requête GET :", response);
-          this.toastr.success("Félicitations ! La verification s'est bien effectué.", 'Connexion réussie');
-          setTimeout(() => {
-            this.router.navigate(['/logIn']);
-          }, 2000);
-        },
 
-        (error = "EMAIL_ALREADY_VERIFIED") => {
+          if (response === "EMAIL_VERIFIED_SUCCESSFULLY") {
+            this.toastr.success("Félicitations ! La vérification s'est bien effectuée.", 'Connexion réussie');
+          } else if (response === "EMAIL_ALREADY_VERIFIED") {
+            this.toastr.error('Erreur de vérification', 'Email déjà vérifié');
+          } else {
+            this.toastr.error('Erreur de vérification', 'Réponse inattendue du serveur');
+          }
+        },
+        (error) => {
           console.error("Erreur de la requête GET :", error);
-          this.toastr.error('Erreur de verification', 'Email deja verifier');
 
-        },
-
-        (error = "LINK_EXPIRED") => {
-          console.error("Erreur de la requête GET :", error);
-          this.toastr.error('Erreur de verification', 'Lien expiré');
-
-        },
-
+          if (error.error && error.error.message === "LINK_EXPIRED") {
+            this.toastr.error('Erreur de vérification', 'Lien expiré');
+          } else if (error.error.message === " LINK_INVALID") {
+            this.toastr.error('Erreur de vérification', 'Lien invalide');
+          }else {
+            this.toastr.error('Erreur de vérification', 'Erreur inattendue du serveur');
+          }
+        }
       );
     } else {
       console.error("Token non disponible. L'utilisateur n'est peut-être pas connecté.");
-      this.toastr.error("Erreur de verification', 'Lien expiré");
+      this.toastr.error('Erreur de vérification', 'Lien expiré');
     }
+  }
 
-    }
 
 
 
