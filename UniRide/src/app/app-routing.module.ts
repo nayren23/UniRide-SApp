@@ -2,9 +2,9 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateTripComponent } from './Create-trip/create-trip.component';
+import { CreateTripComponent } from './create-trip/create-trip.component';
 import { TripSearchComponent } from './trip-search/trip-search.component';
-import{TripSearchResultComponent} from './trip-search-result/trip-search-result.component'
+import { TripSearchResultComponent } from './trip-search-result/trip-search-result.component'
 
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'search-results',
     component: TripSearchResultComponent,
     // Utilisez la même clé que celle que vous essayez d'accéder dans TripSearchResultComponent
-    data: { trips: null } 
+    data: { trips: null }
   }
 ];
 @NgModule({
