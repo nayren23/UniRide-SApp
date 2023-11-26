@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { AuthService } from '../app/Services/Auth/auth.service'; // Importez le service d'authentification
+import { AuthService } from './Services/auth/auth.service'; // Importez le service d'authentification
 
 
 @Component({

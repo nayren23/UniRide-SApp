@@ -2,9 +2,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateTripComponent } from './Create-trip/create-trip.component';
+import { CreateTripComponent } from './create-trip/create-trip.component';
 import { TripSearchComponent } from './trip-search/trip-search.component';
 import{TripSearchResultComponent} from './trip-search-result/trip-search-result.component'
+import { EmailVerificationComponent } from './email-verification/email-verification.component';
 
 
 const routes: Routes = [
@@ -12,12 +13,13 @@ const routes: Routes = [
   { path: 'logIn', component: LogInComponent }, // Chemin vers le premier composant
   { path: 'create-trip', component: CreateTripComponent },
   { path: 'create-search', component: TripSearchComponent },
-  {
-    path: 'search-results',
+  {    path: 'search-results',
     component: TripSearchResultComponent,
-    // Utilisez la même clé que celle que vous essayez d'accéder dans TripSearchResultComponent
-    data: { trips: null } 
-  }
+    data: { trips: null } },
+  { path: 'email-verification/:token', component: EmailVerificationComponent }
+
+
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

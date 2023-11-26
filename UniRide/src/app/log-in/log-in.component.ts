@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../Services/Auth/auth.service'; // Importez le service d'authentification
+import { AuthService } from '../Services/auth/auth.service'; // Importez le service d'authentification
 import { environment } from '../environements/environment.prod';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -54,5 +54,7 @@ export class LogInComponent {
         }
       );
     }
+
   }
+
 }

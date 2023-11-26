@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../Auth/auth.service'; // Importez le service d'authentification
+import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
 
 
 @Injectable({

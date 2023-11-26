@@ -2,8 +2,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { TripService } from '../Services/Trip/trip.service';
-import { Router } from '@angular/router'; 
+import { TripService } from '../Services/trip/trip.service';
+import { Router } from '@angular/router';
 
 declare var google: any;
 
@@ -77,7 +77,7 @@ search() {
 }
 
 
-  
+
 
   private addGoogleMapsScript() {
     const script = this.renderer.createElement('script');
@@ -130,7 +130,7 @@ search() {
     const city = place.address_components.find((component: any) => component.types.includes('locality'))?.long_name || '';
     const postal_code = place.address_components.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
     const description = place.formatted_address || '';
-  
+
     return {
       street_number: street_number,
       street_name: street_name,
