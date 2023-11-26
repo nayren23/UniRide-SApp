@@ -34,13 +34,17 @@ export class LogInComponent {
       const formData = this.connexionForm.value;
       this.http.post(apiUrl, formData).subscribe(
         (response: any) => {
+          console.log(response)
+          if(response['informations_verified']['email_verified']){
           this.authService.setToken(response["token"]); // Utilisez le service d'authentification pour stocker le token
 
           this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
           setTimeout(() => {
             this.router.navigate(['/create-search']);
           }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
-
+        }else{
+          this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
+        }
 
         },
         (error) => {
