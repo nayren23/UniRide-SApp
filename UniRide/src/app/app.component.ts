@@ -24,7 +24,10 @@ export class AppComponent implements OnInit{
 
   logout(): void {
     this.authService.logout();
-    // Vous pouvez également effectuer d'autres actions après la déconnexion, par exemple, rediriger l'utilisateur vers une page de connexion.
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   ngOnInit(): void {
