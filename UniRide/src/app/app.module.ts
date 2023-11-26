@@ -27,7 +27,7 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
     CreateTripComponent,
     TripSearchComponent,
     TripSearchResultComponent,
-    EmailVerificationComponent
+    EmailVerificationComponent,
   ],
   imports: [
     BrowserModule,

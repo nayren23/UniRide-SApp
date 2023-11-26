@@ -32,27 +32,25 @@ export class EmailVerificationComponent implements OnInit {
           console.log('Réponse de la requête GET :', response);
 
           if (response.message === 'EMAIL_VERIFIED_SUCCESSFULLY') {
-            this.toastr.success(
-              "Félicitations ! La vérification s'est bien effectuée.",
-              'Connexion réussie'
-            );
+            this.toastr.success("Félicitations ! La vérification s'est bien effectuée.",'Connexion réussie');
             setTimeout(() => {
               this.router.navigate(['/logIn']);
             }, 2000);
           } else {
-            console.log('Réponse de la requête GET :', response.message);
-            this.toastr.error(
-              'Erreur de vérification',
-              'Réponse inattendue du serveur'
-            );
+            this.toastr.error('Erreur de vérification','Réponse inattendue du serveur');
           }
         },
         (error) => {
-          console.error('Erreur de la requête GET :', error);
           if (error.error && error.error.message === 'LINK_EXPIRED') {
             this.toastr.error('Erreur de vérification', 'Lien expiré');
+            setTimeout(() => {
+              this.router.navigate(['/resend-email']);
+            }, 2000);
           } else if (error.error.message === ' LINK_INVALID') {
             this.toastr.error('Erreur de vérification', 'Lien invalide');
+            setTimeout(() => {
+              this.router.navigate(['/resend-email']);
+            }, 2000);
           } else if (error.error.message === 'EMAIL_ALREADY_VERIFIED') {
             this.toastr.error('Erreur de vérification', 'Email déjà vérifié');
             setTimeout(() => {
