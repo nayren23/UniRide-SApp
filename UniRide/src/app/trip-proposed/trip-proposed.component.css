@@ -1,0 +1,51 @@
+.result-item {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 60%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.price {
+    flex: right;
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.address p {
+    margin: 5px 0;
+}
