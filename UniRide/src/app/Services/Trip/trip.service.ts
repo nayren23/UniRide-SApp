@@ -1,8 +1,7 @@
-import { LogInComponent } from 'src/app/log-in/log-in.component';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../Auth/auth.service'; // Importez le service d'authentification
 
@@ -14,7 +13,7 @@ export class TripService {
   private apiUrl = environment.apiUrl;
 
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   private get token(): string {
     return this.authService.getToken();
@@ -42,28 +41,13 @@ export class TripService {
       catchError(this.handleError)
     );
   }
-    searchTrips(searchData: any): Observable<any> {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-      });
-      return this.http.post(
-        `${this.apiUrl}trips`,
-        JSON.stringify(searchData),
-        { headers: headers }
-      ).pipe(
-        catchError(this.handleError)
-      );
-    }
-
-
-  createAddress(addressData: any): Observable<any> {
+  searchTrips(searchData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
     return this.http.post(
-      `${this.apiUrl}address/add`,
-      JSON.stringify(addressData),
+      `${this.apiUrl}trips`,
+      JSON.stringify(searchData),
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
