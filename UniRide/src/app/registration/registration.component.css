@@ -4,7 +4,6 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
 #inscriptionDiv {
     text-align: center;
     width: 100%;
@@ -37,36 +36,36 @@
     color: white;
 }
 
-.text-red-500 {
-    color: #e53e3e;
-    /* Couleur rouge de Tailwind */
-}
-
-
 .button-disabled {
-    background-color: #ccc; /* Remplacez ceci par la couleur grise que vous souhaitez utiliser */
-    color: #666; /* Couleur de texte correspondante */
+    background-color: #ccc;
+    /* Remplacez ceci par la couleur grise que vous souhaitez utiliser */
+    color: #666;
+    /* Couleur de texte correspondante */
     cursor: not-allowed;
 }
+
 .italique {
     font-style: italic;
 }
-.font-bold{
+
+.font-bold {
     font-weight: bold;
 }
 
-.tailleTel{
+.tailleTel {
     width: 92%;
 }
-.alignCenter{
+
+.alignCenter {
     margin-left: 135px;
 }
-.buttonInscription{
+
+.buttonInscription {
     margin-bottom: 100px;
     margin-top: 20px;
 }
 
-#taillePlus33{
+#taillePlus33 {
     padding-right: 3px;
     color: white;
 }
