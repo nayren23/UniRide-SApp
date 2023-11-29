@@ -7,12 +7,14 @@
         <h2>Rechercher un trajet</h2>
 
         <div class="inputbox">
-          <input type="text" required formControlName="adresseDepart" id="adresseDepart" #searchInputDepart autocomplete="off">
+          <input type="text" required formControlName="addressDeparture" id="addressDeparture" #searchInputDeparture
+            autocomplete="off">
           <label for="">Adresse de Départ</label>
         </div>
 
         <div class="inputbox">
-          <input type="text" required formControlName="adresseArrivee" id="adresseArrivee" #searchInputArrivee autocomplete="off">
+          <input type="text" required formControlName="addressArrival" id="addressArrival" #searchInputArrival
+            autocomplete="off">
           <label for="">Adresse d'Arrivée</label>
         </div>
 
@@ -22,17 +24,17 @@
         </div>
 
         <div class="inputbox">
-          <input type="time" required formControlName="horaire">
+          <input type="time" required formControlName="time">
           <label for="">Horaire</label>
         </div>
 
         <div class="inputbox">
-          <input type="number" required formControlName="nombrePassagers">
+          <input type="number" required formControlName="passengerNumber">
           <label for="">Nombre de Passagers</label>
         </div>
 
-        <!-- Affiche un message d'erreur si le nombre de passagers dépasse 4 -->
-        <div *ngIf="searchTripForm?.get('nombrePassagers')?.hasError('max')" class="error-message">
+        <!-- Display an error if the number of passengers is over 4 -->
+        <div *ngIf="searchTripForm?.get('passengerNumber')?.hasError('max')" class="error-message">
           Le nombre de passagers ne peut pas dépasser 4.
         </div>
 
