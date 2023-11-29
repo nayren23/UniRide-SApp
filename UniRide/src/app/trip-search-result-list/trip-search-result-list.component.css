@@ -12,3 +12,10 @@ h1 {
   align-items: center;
   margin-top: 20px;
 }
+
+.noTrips {
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}

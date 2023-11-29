@@ -1,8 +1,8 @@
 // trip-search-result-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TripService } from '../Services/Trip/trip.service';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { Trip } from '../models/trip.models';
 
 @Component({
@@ -13,6 +13,7 @@ import { Trip } from '../models/trip.models';
 export class TripSearchResultListComponent implements OnInit {
 
   searchResults: Trip[] = [];
+  subscriptionComplete: boolean = false;
 
   constructor(private tripService: TripService, private route: ActivatedRoute) { }
 
@@ -44,11 +45,10 @@ export class TripSearchResultListComponent implements OnInit {
                 distance: trip.address.distance,
               });
             });
+            console.log('searchResults:', this.searchResults);
           }),
-        ).subscribe();
-        console.log('searchResults:', this.searchResults);
+        ).subscribe(() => this.subscriptionComplete = true);
       }),
     ).subscribe();
   }
-
 }
