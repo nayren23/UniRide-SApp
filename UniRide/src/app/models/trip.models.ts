@@ -7,4 +7,6 @@ export class Trip {
     departure!: Address;
     arrival!: Address;
     proposedDate!: Date;
+    numberOfPassenger?: number;
+    distance?: number;
 }

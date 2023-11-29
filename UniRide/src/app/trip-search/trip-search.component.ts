@@ -54,7 +54,7 @@ export class TripSearchComponent implements OnInit, OnDestroy {
 
   search() {
     if (this.searchTripForm.valid) {
-      const searchData = {
+      const searchParams = {
         depart: this.addressService.extractAddressData(this.autocompleteDeparture.getPlace()),
         arrival: this.addressService.extractAddressData(this.autocompleteArrival.getPlace()),
         trip: {
@@ -62,21 +62,7 @@ export class TripSearchComponent implements OnInit, OnDestroy {
           departure_date: `${this.searchTripForm.value.date} ${this.searchTripForm.value.time}:00`
         }
       };
-
-      this.tripService.searchTrips(searchData).subscribe(
-        (response) => {
-          this.searchResults = response['trips'];
-          console.log('Search results:', this.searchResults);
-
-          if (this.searchResults && this.searchResults.length > 0) {
-            // Naviguez vers le composant de résultat en passant les résultats via queryParams
-            this.router.navigate(['/search-results'], { queryParams: { trips: JSON.stringify(this.searchResults) } });
-          }
-        },
-        (error) => {
-          console.error('Erreur lors de la recherche de trajet', error);
-        }
-      );
+      this.router.navigate(['/search-results'], { queryParams: { params: JSON.stringify(searchParams) } });
     }
   }
 

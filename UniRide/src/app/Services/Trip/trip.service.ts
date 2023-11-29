@@ -13,7 +13,6 @@ export class TripService {
 
   private apiUrl = environment.apiUrl;
 
-
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   private get token(): string {
@@ -42,14 +41,14 @@ export class TripService {
       catchError(this.handleError)
     );
   }
-  
-  searchTrips(searchData: any): Observable<any> {
+
+  searchTrips(searchParams: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     return this.http.post(
       `${this.apiUrl}trips`,
-      JSON.stringify(searchData),
+      searchParams,
       { headers: headers }
     ).pipe(
       catchError(this.handleError)

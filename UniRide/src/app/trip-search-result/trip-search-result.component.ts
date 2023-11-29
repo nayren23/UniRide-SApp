@@ -1,6 +1,5 @@
-// trip-search-result.component.ts
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Trip } from '../models/trip.models';
 
 @Component({
   selector: 'app-trip-search-result',
@@ -9,18 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TripSearchResultComponent implements OnInit {
 
-  searchResults: any[] = [];
+  @Input() trip!: Trip;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor() { }
 
- // trip-search-result.component.ts
-
-ngOnInit(): void {
-  this.route.queryParams.subscribe((queryParams) => {
-    const resultData = queryParams['trips'] ? JSON.parse(queryParams['trips']) : [];
-    this.searchResults = resultData;
-    console.log('Search results in result component:', this.searchResults);
-  });
-}
+  ngOnInit(): void { }
 
 }
