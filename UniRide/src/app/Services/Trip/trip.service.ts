@@ -73,7 +73,7 @@ export class TripService {
     });
     return this.http.post(
       `${this.apiUrl}trips`,
-      JSON.stringify(searchData),
+      JSON.stringify(addressData),
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
