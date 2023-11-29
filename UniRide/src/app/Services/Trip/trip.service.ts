@@ -10,6 +10,7 @@ import { AuthService } from '../Auth/auth.service'; // Importez le service d'aut
   providedIn: 'root'
 })
 export class TripService {
+
   private apiUrl = environment.apiUrl;
 
 
@@ -41,7 +42,32 @@ export class TripService {
       catchError(this.handleError)
     );
   }
+  
   searchTrips(searchData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(
+      `${this.apiUrl}trips`,
+      JSON.stringify(searchData),
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTripsProposed(page: number = 1): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.http.get(
+      `${this.apiUrl}trips/driver/current?page=${page}`,
+      { headers: headers }
+    )
+  }
+
+  createAddress(addressData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
