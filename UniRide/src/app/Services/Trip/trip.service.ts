@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../Auth/auth.service'; // Importez le service d'authentification
 
@@ -42,7 +42,7 @@ export class TripService {
       catchError(this.handleError)
     );
   }
-
+  
   searchTrips(searchData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -71,10 +71,9 @@ export class TripService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
     return this.http.post(
-      `${this.apiUrl}address/add`,
-      JSON.stringify(addressData),
+      `${this.apiUrl}trips`,
+      JSON.stringify(searchData),
       { headers: headers }
     ).pipe(
       catchError(this.handleError)

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { TripService } from '../Services/Trip/trip.service';
 import { ToastrService } from 'ngx-toastr';
+import { AddressService } from '../Services/address/address.service';
 
 declare var google: any;
 
@@ -14,73 +15,77 @@ declare var google: any;
 export class CreateTripComponent implements OnInit, OnDestroy {
   createTripForm!: FormGroup;
   description: string = " ";
-  addressIdDepart:any;
-  addressIdArrivee:any;
-  @ViewChild('searchInputDepart', { static: true }) searchInputDepart!: ElementRef<HTMLInputElement>;
-  @ViewChild('searchInputArrivee', { static: true }) searchInputArrivee!: ElementRef<HTMLInputElement>;
-  private autocompleteDepartSubscription: Subscription | undefined;
-  private autocompleteArriveeSubscription: Subscription | undefined;
-  private autocompleteDepart: any;
-  private autocompleteArrivee: any;
+  addressIdDeparture: any;
+  addressIdArrival: any;
+  @ViewChild('searchInputDeparture', { static: true }) searchInputDeparture!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchInputArrival', { static: true }) searchInputArrival!: ElementRef<HTMLInputElement>;
+  private autocompleteDepartureSubscription: Subscription | undefined;
+  private autocompleteArrivalSubscription: Subscription | undefined;
+  private autocompleteDeparture: any;
+  private autocompleteArrival: any;
 
 
 
   constructor(
     private formBuilder: FormBuilder,
     private tripService: TripService,
+    private addressService: AddressService,
     private renderer: Renderer2,
     private toastr: ToastrService,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createTripForm = this.formBuilder.group({
-      adresseDepart: ['', Validators.required],
-      adresseArrivee: ['', Validators.required],
+      addressDeparture: ['', Validators.required],
+      addressArrival: ['', Validators.required],
       date: ['', Validators.required],
-      horaire: ['', Validators.required],
-      nombrePassagers: ['', [Validators.required, Validators.max(4)]]
+      time: ['', Validators.required],
+      passengerNumber: ['', [Validators.required, Validators.max(4)]]
     });
     this.addGoogleMapsScript();
+    if (!this.addressService.getUniversityAddress()) {
+      this.addressService.callUniversityAddress().subscribe();
+    }
   }
 
   ngOnDestroy(): void {
     // Désabonner les observables pour éviter les fuites de mémoire
-    if (this.autocompleteDepartSubscription) {
-      this.autocompleteDepartSubscription.unsubscribe();
+    if (this.autocompleteDepartureSubscription) {
+      this.autocompleteDepartureSubscription.unsubscribe();
     }
 
-    if (this.autocompleteArriveeSubscription) {
-      this.autocompleteArriveeSubscription.unsubscribe();
+    if (this.autocompleteArrivalSubscription) {
+      this.autocompleteArrivalSubscription.unsubscribe();
     }
   }
   onSubmit() {
     if (this.createTripForm.valid) {
-        // Utilise l'autocomplétion pour obtenir les données de l'adresse de départ
-    const placeDepart = this.autocompleteDepart.getPlace();
-    const addressDataDepart = this.extractAddressData(placeDepart);
+      // Utilise l'autocomplétion pour obtenir les données de l'address de départ
+      const placeDeparture = this.autocompleteDeparture.getPlace();
+      const addressDataDeparture = this.addressService.extractAddressData(placeDeparture);
 
-    // Utilise l'autocomplétion pour obtenir les données de l'adresse d'arrivée
-    const placeArrivee = this.autocompleteArrivee.getPlace();
-    const addressDataArrivee = this.extractAddressData(placeArrivee);
+      // Utilise l'autocomplétion pour obtenir les données de l'address d'arrivée
+      const placeArrival = this.autocompleteArrival.getPlace();
+      const addressDataArrival = this.addressService.extractAddressData(placeArrival);
 
 
-      console.log("json", JSON.stringify(addressDataDepart));
-      this.tripService.createAddress(addressDataDepart).subscribe(
-        (addressResponseDepart: any) => {
-          this.addressIdDepart = this.extractIdFromResponse(addressResponseDepart);
+      console.log("json", JSON.stringify(addressDataDeparture));
+      this.addressService.createAddress(addressDataDeparture).subscribe(
+        (addressResponseDeparture: any) => {
+          this.addressIdDeparture = this.extractIdFromResponse(addressResponseDeparture);
 
-          this.tripService.createAddress(addressDataArrivee).subscribe(
-            (addressResponseArrivee: any) => {
-              this.addressIdArrivee = this.extractIdFromResponse(addressResponseArrivee);
+          this.addressService.createAddress(addressDataArrival).subscribe(
+            (addressResponseArrival: any) => {
+              this.addressIdArrival = this.extractIdFromResponse(addressResponseArrival);
 
               const tripData = {
-                address_depart_id: this.addressIdDepart,
-                address_arrival_id: this.addressIdArrivee,
-                timestamp_proposed: this.createTripForm.value.date + " " +this.createTripForm.value.horaire +":00" ,
-                total_passenger_count: this.createTripForm.value.nombrePassagers,
+                address_depart_id: this.addressIdDeparture,
+                address_arrival_id: this.addressIdArrival,
+                timestamp_proposed: this.createTripForm.value.date + " " + this.createTripForm.value.time + ":00",
+                total_passenger_count: this.createTripForm.value.passengerNumber,
               };
-  console.log("trip", tripData)
+              console.log("trip", tripData)
               this.tripService.createTrip(tripData).subscribe(
                 (tripId) => {
                   console.log('Trajet créé avec succès, ID :', tripId);
@@ -94,16 +99,16 @@ export class CreateTripComponent implements OnInit, OnDestroy {
                 }
               );
             },
-            (addressErrorArrivee: any) => {
-              console.error('Erreur lors de la création de l\'adresse d\'arrivée', addressErrorArrivee);
-              this.toastr.error('Erreur lors de la création de l\'adresse d\'arrivée', 'Erreur');
+            (addressErrorArrival: any) => {
+              console.error('Erreur lors de la création de l\'address d\'arrivée', addressErrorArrival);
+              this.toastr.error('Erreur lors de la création de l\'address d\'arrivée', 'Erreur');
 
             }
           );
         },
-        (addressErrorDepart: any) => {
-          console.error('Erreur lors de la création de l\'adresse de départ', addressErrorDepart);
-          this.toastr.error('Erreur lors de la création de l\'adresse de départ', 'Erreur');
+        (addressErrorDeparture: any) => {
+          console.error('Erreur lors de la création de l\'address de départ', addressErrorDeparture);
+          this.toastr.error('Erreur lors de la création de l\'address de départ', 'Erreur');
         }
       );
     } else {
@@ -129,53 +134,59 @@ export class CreateTripComponent implements OnInit, OnDestroy {
   }
 
   private handleGoogleMapsLoad() {
-    // Initialisation l'autocomplétion pour les adresses de départ
-    this.autocompleteDepart = new google.maps.places.Autocomplete(
-      this.searchInputDepart.nativeElement,
+    // Initialisation l'autocomplétion pour les addresss de départ
+    this.autocompleteDeparture = new google.maps.places.Autocomplete(
+      this.searchInputDeparture.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
     );
 
-    this.autocompleteArrivee = new google.maps.places.Autocomplete(
-      this.searchInputArrivee.nativeElement,
+    this.autocompleteArrival = new google.maps.places.Autocomplete(
+      this.searchInputArrival.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
     );
 
     // Ajout d'un écouteur d'événements pour détecter le changement de lieu
-    this.autocompleteDepart.addListener('place_changed', () => {
-      const place = this.autocompleteDepart.getPlace();
-      const formattedAddress = this.formatAddress(place.address_components);
-      this.searchInputDepart.nativeElement.value = formattedAddress;
-    });
-
-    this.autocompleteArrivee.addListener('place_changed', () => {
-      const place = this.autocompleteArrivee.getPlace();
-      const formattedAddress = this.formatAddress(place.address_components);
-      this.searchInputArrivee.nativeElement.value = formattedAddress;
-    });
+    this.autocompleteDeparture.addListener('place_changed', () => this.handleDepartureChange());
+    this.autocompleteArrival.addListener('place_changed', () => this.handleArrivalChange());
   }
 
-  private formatAddress(addressComponents: any): string {
-    const street_number = addressComponents.find((component: any) => component.types.includes('street_number'))?.long_name || '';
-    const street = addressComponents.find((component: any) => component.types.includes('route'))?.long_name || '';
-    const city = addressComponents.find((component: any) => component.types.includes('locality'))?.long_name || '';
-    const postal_code = addressComponents.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
-    const formattedAddress = `${street_number},${street},${city} ${postal_code}`;
-    return formattedAddress;
-  }
-  private extractAddressData(place: any): any {
-    const street_number = place.address_components.find((component: any) => component.types.includes('street_number'))?.long_name || '';
-    const street_name = place.address_components.find((component: any) => component.types.includes('route'))?.long_name || '';
-    const city = place.address_components.find((component: any) => component.types.includes('locality'))?.long_name || '';
-    const postal_code = place.address_components.find((component: any) => component.types.includes('postal_code'))?.long_name || '';
-    const description = place.formatted_address || '';
+  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
+    const place = autocomplete.getPlace();
+    if (!place) return;
 
-    return {
-      street_number: street_number,
-      street_name: street_name,
-      city: city,
-      postal_code: postal_code,
-      description: description
-    };
+    this.createTripForm.controls[formControlName].setValue(place.formatted_address);
+
+    // check if the place is the university address
+    const uni = this.addressService.getUniversityAddress();
+    // if not set the other address to the university address
+    if (place.place_id != uni.place_id) {
+      this.createTripForm.controls[otherFormControlName].setValue(uni.formatted_address);
+      otherAutocomplete.set('place', uni);
+    } else {
+      // if it is the university address, check if the other address is the same
+      const otherPlace = otherAutocomplete.getPlace();
+      if (!otherPlace) return;
+      if (place.place_id == otherPlace.place_id) {
+        this.createTripForm.controls[otherFormControlName].setValue('');
+        otherAutocomplete.set('place', undefined);
+      }
+    }
+  }
+  private handleDepartureChange() {
+    this.handlePlaceChange(
+      this.autocompleteDeparture,
+      this.autocompleteArrival,
+      'addressDeparture',
+      'addressArrival'
+    );
   }
 
+  private handleArrivalChange() {
+    this.handlePlaceChange(
+      this.autocompleteArrival,
+      this.autocompleteDeparture,
+      'addressArrival',
+      'addressDeparture'
+    );
+  }
 }
