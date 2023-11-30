@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { TripService } from '../Services/trip/trip.service';
+import { TripService } from '../Services/Trip/trip.service';
 import { ToastrService } from 'ngx-toastr';
 
 declare var google: any;

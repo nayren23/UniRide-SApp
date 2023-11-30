@@ -44,12 +44,12 @@ export class EmailVerificationComponent implements OnInit {
           if (error.error && error.error.message === 'LINK_EXPIRED') {
             this.toastr.error('Erreur de vérification', 'Lien expiré');
             setTimeout(() => {
-              this.router.navigate(['/resend-email']);
+              this.router.navigate(['/resend-mail']);
             }, 2000);
           } else if (error.error.message === ' LINK_INVALID') {
             this.toastr.error('Erreur de vérification', 'Lien invalide');
             setTimeout(() => {
-              this.router.navigate(['/resend-email']);
+              this.router.navigate(['/resend-mail']);
             }, 2000);
           } else if (error.error.message === 'EMAIL_ALREADY_VERIFIED') {
             this.toastr.error('Erreur de vérification', 'Email déjà vérifié');

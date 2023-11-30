@@ -13,6 +13,7 @@ import { TripSearchResultComponent } from './trip-search-result/trip-search-resu
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { ResendMailComponent } from './resend-mail/resend-mail.component';
 
 
 
@@ -28,6 +29,7 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
     TripSearchComponent,
     TripSearchResultComponent,
     EmailVerificationComponent,
+    ResendMailComponent,
   ],
   imports: [
     BrowserModule,

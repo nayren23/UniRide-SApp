@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateTripComponent } from './create-trip/create-trip.component';
 import { TripSearchComponent } from './trip-search/trip-search.component';
-import{TripSearchResultComponent} from './trip-search-result/trip-search-result.component'
+import {TripSearchResultComponent} from './trip-search-result/trip-search-result.component'
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { ResendMailComponent } from './resend-mail/resend-mail.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,9 @@ const routes: Routes = [
   {    path: 'search-results',
     component: TripSearchResultComponent,
     data: { trips: null } },
-  { path: 'email-verification/:token', component: EmailVerificationComponent }
+  { path: 'email-verification/:token', component: EmailVerificationComponent },
+  { path: 'resend-mail', component: ResendMailComponent }
+
 
 
 
