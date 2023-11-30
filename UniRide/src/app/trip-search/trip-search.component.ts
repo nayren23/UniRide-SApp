@@ -97,9 +97,21 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     );
 
     // Add listener to handle place changes
-    this.autocompleteDeparture.addListener('place_changed', () => this.handleDepartureChange());
-    this.autocompleteArrival.addListener('place_changed', () => this.handleArrivalChange());
+    this.autocompleteDeparture.addListener('place_changed', () => this.handlePlaceChange(
+      this.autocompleteDeparture,
+      this.autocompleteArrival,
+      'addressDeparture',
+      'addressArrival',
+    ));
 
+    this.autocompleteArrival.addListener('place_changed', () => this.handlePlaceChange(
+      this.autocompleteArrival,
+      this.autocompleteDeparture,
+      'addressArrival',
+      'addressDeparture',
+    ));
+
+    // Initialize map
     this.map = new google.maps.Map(document.getElementById('map'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoom: 16,
@@ -110,12 +122,45 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       streetViewControl: false,
     });
 
+    // Initialize directions
     this.directionsService = new google.maps.DirectionsService();
     this.directionsRenderer = new google.maps.DirectionsRenderer({
       suppressMarkers: true
     });
-    this.arrivalMarker;
-    this.departureMarker;
+  }
+
+  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
+    let place = autocomplete.getPlace();
+    let otherPlace = otherAutocomplete.getPlace();
+    this.removeMarker(formControlName);
+    if (place == undefined || place.place_id === undefined) {
+      this.removeRoutePolyline();
+      this.centerMap();
+      return;
+    }
+
+    // check if the place is the university address
+    const uni = this.addressService.getUniversityAddress();
+    // if not set the other address to the university address
+    if (place.place_id != uni.place_id) {
+      this.searchTripForm.controls[otherFormControlName].setValue(uni.formatted_address);
+      otherAutocomplete.set('place', uni);
+    } else {
+      // if it is the university address, check if the other address is the same
+      if (otherPlace && place.place_id == otherPlace.place_id) {
+        this.searchTripForm.controls[otherFormControlName].setValue('');
+        otherAutocomplete.set('place', undefined);
+      }
+    }
+
+    this.searchTripForm.controls[formControlName].setValue(place.formatted_address);
+    this.setMarker(formControlName, place);
+    this.centerMap()
+
+    place = autocomplete.getPlace();
+    otherPlace = otherAutocomplete.getPlace();
+    if (place != undefined && place.place_id != undefined && otherPlace != undefined && otherPlace.place_id != undefined)
+      this.setRoutePolyline();
   }
 
   private setRoutePolyline() {
@@ -166,58 +211,6 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     if (this.map.getZoom() > 16) {
       this.map.setZoom(16);
     }
-  }
-
-  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
-    let place = autocomplete.getPlace();
-    let otherPlace = otherAutocomplete.getPlace();
-    this.removeMarker(formControlName);
-    if (place == undefined || place.place_id === undefined) {
-      this.removeRoutePolyline();
-      this.centerMap();
-      return;
-    }
-
-    // check if the place is the university address
-    const uni = this.addressService.getUniversityAddress();
-    // if not set the other address to the university address
-    if (place.place_id != uni.place_id) {
-      this.searchTripForm.controls[otherFormControlName].setValue(uni.formatted_address);
-      otherAutocomplete.set('place', uni);
-    } else {
-      // if it is the university address, check if the other address is the same
-      if (otherPlace && place.place_id == otherPlace.place_id) {
-        this.searchTripForm.controls[otherFormControlName].setValue('');
-        otherAutocomplete.set('place', undefined);
-      }
-    }
-
-    this.searchTripForm.controls[formControlName].setValue(place.formatted_address);
-    this.setMarker(formControlName, place);
-    this.centerMap()
-
-    place = autocomplete.getPlace();
-    otherPlace = otherAutocomplete.getPlace();
-    if (place != undefined && place.place_id != undefined && otherPlace != undefined && otherPlace.place_id != undefined)
-      this.setRoutePolyline();
-  }
-
-  private handleDepartureChange() {
-    this.handlePlaceChange(
-      this.autocompleteDeparture,
-      this.autocompleteArrival,
-      'addressDeparture',
-      'addressArrival',
-    );
-  }
-
-  private handleArrivalChange() {
-    this.handlePlaceChange(
-      this.autocompleteArrival,
-      this.autocompleteDeparture,
-      'addressArrival',
-      'addressDeparture',
-    );
   }
 
   private getPosition(place: any) {
