@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { TripService } from '../Services/Trip/trip.service';
 import { ToastrService } from 'ngx-toastr';
 import { AddressService } from '../Services/address/address.service';
@@ -17,6 +17,12 @@ export class CreateTripComponent implements OnInit, OnDestroy {
   description: string = " ";
   addressIdDeparture: any;
   addressIdArrival: any;
+  map!: any;
+  directionsService!: any;
+  directionsRenderer!: any;
+  arrivalMarker!: any;
+  departureMarker!: any;
+
   @ViewChild('searchInputDeparture', { static: true }) searchInputDeparture!: ElementRef<HTMLInputElement>;
   @ViewChild('searchInputArrival', { static: true }) searchInputArrival!: ElementRef<HTMLInputElement>;
   private autocompleteDepartureSubscription: Subscription | undefined;
@@ -43,9 +49,12 @@ export class CreateTripComponent implements OnInit, OnDestroy {
       time: ['', Validators.required],
       passengerNumber: ['', [Validators.required, Validators.max(4)]]
     });
-    this.addGoogleMapsScript();
     if (!this.addressService.getUniversityAddress()) {
-      this.addressService.callUniversityAddress().subscribe();
+      this.addressService.callUniversityAddress().pipe(
+        tap(() => {
+          this.addGoogleMapsScript();
+        })
+      ).subscribe();
     }
   }
 
@@ -134,7 +143,7 @@ export class CreateTripComponent implements OnInit, OnDestroy {
   }
 
   private handleGoogleMapsLoad() {
-    // Initialisation l'autocomplétion pour les addresss de départ
+    // Initialize autocomplete
     this.autocompleteDeparture = new google.maps.places.Autocomplete(
       this.searchInputDeparture.nativeElement,
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
@@ -145,16 +154,84 @@ export class CreateTripComponent implements OnInit, OnDestroy {
       { types: ['geocode'], componentRestrictions: { country: 'fr' } }
     );
 
-    // Ajout d'un écouteur d'événements pour détecter le changement de lieu
+    // Add listener to handle place changes
     this.autocompleteDeparture.addListener('place_changed', () => this.handleDepartureChange());
     this.autocompleteArrival.addListener('place_changed', () => this.handleArrivalChange());
+
+    this.map = new google.maps.Map(document.getElementById('map'), {
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoom: 16,
+      maxZoom: 16,
+      center: {
+        lat: this.addressService.getUniversityAddress().geometry.location.lat,
+        lng: this.addressService.getUniversityAddress().geometry.location.lng
+      }
+    });
+
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsRenderer = new google.maps.DirectionsRenderer({
+      suppressMarkers: true
+    });
+    this.arrivalMarker;
+    this.departureMarker;
+  }
+
+  private setRoutePolyline() {
+    const departure = this.autocompleteDeparture.getPlace();
+    const arrival = this.autocompleteArrival.getPlace();
+
+    const origin = this.getPosition(departure);
+    const destination = this.getPosition(arrival);
+
+    let request = {
+      origin: origin,
+      destination: destination,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+
+    this.directionsService.route(request, (response: any, status: any) => {
+      this.directionsRenderer.setOptions({
+        suppressPolylines: false,
+        map: this.map
+      });
+
+      if (status == google.maps.DirectionsStatus.OK) {
+        this.directionsRenderer.setDirections(response);
+      }
+    })
+  }
+
+  private removeRoutePolyline() {
+    this.directionsRenderer.setMap(null);
+  }
+
+  private centerMap() {
+    var bounds = new google.maps.LatLngBounds();
+
+    console.log("departureMarker", this.departureMarker);
+    console.log("arrivalMarker", this.arrivalMarker);
+    if (this.departureMarker != undefined && this.departureMarker.position) {
+      bounds.extend(this.departureMarker.position);
+      console.log("departure", this.departureMarker.position);
+    }
+
+    if (this.arrivalMarker != undefined && this.arrivalMarker.position) {
+      bounds.extend(this.arrivalMarker.position)
+      console.log("arrival", this.arrivalMarker.position);
+    }
+
+    this.map.fitBounds(bounds);
   }
 
   private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
-    const place = autocomplete.getPlace();
-    if (!place) return;
-
-    this.createTripForm.controls[formControlName].setValue(place.formatted_address);
+    let place = autocomplete.getPlace();
+    let otherPlace = otherAutocomplete.getPlace();
+    this.removeMarker(formControlName);
+    if (place == undefined || place.place_id === undefined) {
+      this.removeRoutePolyline();
+      this.centerMap();
+      return;
+    }
 
     // check if the place is the university address
     const uni = this.addressService.getUniversityAddress();
@@ -164,20 +241,28 @@ export class CreateTripComponent implements OnInit, OnDestroy {
       otherAutocomplete.set('place', uni);
     } else {
       // if it is the university address, check if the other address is the same
-      const otherPlace = otherAutocomplete.getPlace();
-      if (!otherPlace) return;
-      if (place.place_id == otherPlace.place_id) {
+      if (otherPlace && place.place_id == otherPlace.place_id) {
         this.createTripForm.controls[otherFormControlName].setValue('');
         otherAutocomplete.set('place', undefined);
       }
     }
+
+    this.createTripForm.controls[formControlName].setValue(place.formatted_address);
+    this.setMarker(formControlName, place);
+    this.centerMap()
+
+    place = autocomplete.getPlace();
+    otherPlace = otherAutocomplete.getPlace();
+    if (otherPlace != undefined && otherPlace.place_id != undefined)
+      this.setRoutePolyline();
   }
+
   private handleDepartureChange() {
     this.handlePlaceChange(
       this.autocompleteDeparture,
       this.autocompleteArrival,
       'addressDeparture',
-      'addressArrival'
+      'addressArrival',
     );
   }
 
@@ -186,7 +271,47 @@ export class CreateTripComponent implements OnInit, OnDestroy {
       this.autocompleteArrival,
       this.autocompleteDeparture,
       'addressArrival',
-      'addressDeparture'
+      'addressDeparture',
     );
+  }
+
+  private getPosition(place: any) {
+    if (typeof place.geometry.location.lat === 'function') {
+      return {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      };
+    } else {
+      return {
+        lat: place.geometry.location.lat,
+        lng: place.geometry.location.lng
+      };
+    }
+  }
+
+  private setMarker(formControlName: string, place: any) {
+    if (formControlName == "addressDeparture") {
+      this.departureMarker = new google.maps.Marker({
+        map: this.map,
+        position: this.getPosition(place)
+      })
+    } else {
+      this.arrivalMarker = new google.maps.Marker({
+        map: this.map,
+        position: this.getPosition(place)
+      })
+    }
+  }
+
+  private removeMarker(formControlName: string) {
+    if (formControlName == "addressDeparture") {
+      if (this.departureMarker != undefined)
+        this.departureMarker.setMap(null);
+      this.departureMarker = undefined;
+    } else {
+      if (this.arrivalMarker != undefined)
+        this.arrivalMarker.setMap(null);
+      this.arrivalMarker = undefined;
+    }
   }
 }

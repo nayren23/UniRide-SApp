@@ -16,8 +16,6 @@ export class TripSearchComponent implements OnInit, OnDestroy {
   searchResults: any[] = [];
   searchTripForm!: FormGroup;
   map!: any;
-  center!: any;
-  options!: any;
   directionsService!: any;
   directionsRenderer!: any;
   arrivalMarker!: any;
@@ -102,20 +100,14 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     this.autocompleteDeparture.addListener('place_changed', () => this.handleDepartureChange());
     this.autocompleteArrival.addListener('place_changed', () => this.handleArrivalChange());
 
-    this.center = {
-      lat: this.addressService.getUniversityAddress().geometry.location.lat,
-      lng: this.addressService.getUniversityAddress().geometry.location.lng
-    };
-
-    this.options = {
+    this.map = new google.maps.Map(document.getElementById('map'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoom: 16,
       maxZoom: 16,
-    };
-
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      ...this.options,
-      center: this.center
+      center: {
+        lat: this.addressService.getUniversityAddress().geometry.location.lat,
+        lng: this.addressService.getUniversityAddress().geometry.location.lng
+      }
     });
 
     this.directionsService = new google.maps.DirectionsService();
@@ -174,8 +166,8 @@ export class TripSearchComponent implements OnInit, OnDestroy {
   }
 
   private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
-    const place = autocomplete.getPlace();
-    const otherPlace = otherAutocomplete.getPlace();
+    let place = autocomplete.getPlace();
+    let otherPlace = otherAutocomplete.getPlace();
     this.removeMarker(formControlName);
     if (place == undefined || place.place_id === undefined) {
       this.removeRoutePolyline();
@@ -201,7 +193,9 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     this.setMarker(formControlName, place);
     this.centerMap()
 
-    if (otherPlace != undefined && otherPlace.place_id != undefined)
+    place = autocomplete.getPlace();
+    otherPlace = otherAutocomplete.getPlace();
+    if (place != undefined && place.place_id != undefined && otherPlace != undefined && otherPlace.place_id != undefined)
       this.setRoutePolyline();
   }
 
