@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +12,7 @@ section {
     width: 100%;
     background-position: center;
     background-size: cover;
+    flex-basis: 0;
 }
 
 .form-box {
@@ -30,7 +30,7 @@ section {
 
 h2 {
     font-size: 2em;
-    color:  #000000;
+    color: #000000;
     text-align: center;
 }
 
@@ -38,7 +38,7 @@ h2 {
     position: relative;
     margin: 30px 0;
     width: 310px;
-    border-bottom: 2px solid  #000000;
+    border-bottom: 2px solid #000000;
 }
 
 .inputbox label {
@@ -65,13 +65,13 @@ input:valid~label {
     outline: none;
     font-size: 1em;
     padding: 0 35px 0 5px;
-    color:  #000000;
+    color: #000000;
 }
 
 .inputbox ion-icon {
     position: absolute;
     right: 8px;
-    color:  #000000;
+    color: #000000;
     font-size: 1.2em;
     top: 20px;
 }
@@ -79,7 +79,7 @@ input:valid~label {
 .forget {
     margin: -15px 0 15px;
     font-size: .9em;
-    color:  #000000;
+    color: #000000;
     display: flex;
     justify-content: space-between;
 }
@@ -89,7 +89,7 @@ input:valid~label {
 }
 
 .forget label a {
-    color:  #000000;
+    color: #000000;
     text-decoration: none;
 }
 
@@ -107,4 +107,30 @@ button {
     cursor: pointer;
     font-size: 1em;
     font-weight: 600;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#map {
+    width: 90%;
+    height: 75vh;
+}
+
+.form {
+    flex-grow: 0.9;
+    /* 10% smaller */
+}
+
+#map-section {
+    flex-grow: 1;
+    /* 10% larger */
+}
+
+@media (max-width: 600px) {
+    .container>.section {
+        flex-basis: 100%;
+    }
 }

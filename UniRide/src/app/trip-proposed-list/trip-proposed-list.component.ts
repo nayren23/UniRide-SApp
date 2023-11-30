@@ -13,6 +13,7 @@ export class TripProposedListComponent implements OnInit {
   tripsProposed: Trip[] = [];
   page!: number;
   totalPage!: number;
+  subscriptionComplete: boolean = false;
 
   constructor(private tripService: TripService) { }
 
@@ -38,8 +39,10 @@ export class TripProposedListComponent implements OnInit {
           });
         });
       }),
-    ).subscribe();
-    console.log(this.tripsProposed);
+    ).subscribe(() => {
+      this.subscriptionComplete = true;
+      console.log(this.tripsProposed);
+    });
   }
 
 }

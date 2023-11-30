@@ -1,0 +1,3 @@
+<h1>Résultats de la recherche</h1>
+<p *ngIf="(subscriptionComplete && searchResults.length === 0)" class="noTrips">Aucun résultat...</p>
+<app-trip-search-result class="searchResults" *ngFor="let trip of searchResults" [trip]="trip"></app-trip-search-result>

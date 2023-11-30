@@ -8,7 +8,7 @@ import { Trip } from '../models/trip.models';
 })
 export class TripProposedComponent implements OnInit {
 
-  @Input() tripProposed!: Trip;
+  @Input() trip!: Trip;
 
   constructor() { }
 

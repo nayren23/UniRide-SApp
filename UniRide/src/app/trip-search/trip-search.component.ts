@@ -1,30 +1,30 @@
 // trip-search.component.ts
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { TripService } from '../Services/Trip/trip.service';
+import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AddressService } from '../Services/address/address.service';
-
-declare var google: any;
+import { MapService } from '../Services/map/map.service';
 
 @Component({
   selector: 'app-trip-search',
   templateUrl: './trip-search.component.html',
   styleUrls: ['./trip-search.component.css']
 })
-export class TripSearchComponent implements OnInit, OnDestroy {
+export class TripSearchComponent implements OnInit {
   searchResults: any[] = [];
   searchTripForm!: FormGroup;
-  private autocompleteDeparture: any;
-  private autocompleteArrival: any;
-  private autocompleteDepartureSubscription: Subscription | undefined;
-  private autocompleteArrivalSubscription: Subscription | undefined;
 
   @ViewChild('searchInputDeparture', { static: true }) searchInputDeparture!: ElementRef<HTMLInputElement>;
   @ViewChild('searchInputArrival', { static: true }) searchInputArrival!: ElementRef<HTMLInputElement>;
 
-  constructor(private tripService: TripService, private addressService: AddressService, private formBuilder: FormBuilder, private renderer: Renderer2, private router: Router) { }
+  constructor(
+    private mapService: MapService,
+    private addressService: AddressService,
+    private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.searchTripForm = this.formBuilder.group({
@@ -34,116 +34,26 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       time: ['', Validators.required],
       passengerNumber: ['', [Validators.required, Validators.max(4)]]
     });
-    this.addGoogleMapsScript();
     if (!this.addressService.getUniversityAddress()) {
-      this.addressService.callUniversityAddress().subscribe();
+      this.addressService.callUniversityAddress().pipe(
+        tap(() => {
+          this.mapService.addGoogleMapsScript(this.renderer, this.searchTripForm, this.searchInputDeparture, this.searchInputArrival)
+        })
+      ).subscribe();
     }
   }
-
-  ngOnDestroy(): void {
-    // Désabonner les observables pour éviter les fuites de mémoire
-    if (this.autocompleteDepartureSubscription) {
-      this.autocompleteDepartureSubscription.unsubscribe();
-    }
-
-    if (this.autocompleteArrivalSubscription) {
-      this.autocompleteArrivalSubscription.unsubscribe();
-    }
-  }
-  // trip-search.component.ts
 
   search() {
     if (this.searchTripForm.valid) {
-      const searchData = {
-        depart: this.addressService.extractAddressData(this.autocompleteDeparture.getPlace()),
-        arrival: this.addressService.extractAddressData(this.autocompleteArrival.getPlace()),
+      const searchParams = {
+        depart: this.addressService.extractAddressData(this.mapService.getAutocompleteDeparture().getPlace()),
+        arrival: this.addressService.extractAddressData(this.mapService.getAutocompleteArrival().getPlace()),
         trip: {
           passenger_count: this.searchTripForm.value.passengerNumber,
           departure_date: `${this.searchTripForm.value.date} ${this.searchTripForm.value.time}:00`
         }
       };
-
-      this.tripService.searchTrips(searchData).subscribe(
-        (response) => {
-          this.searchResults = response['trips'];
-          console.log('Search results:', this.searchResults);
-
-          if (this.searchResults && this.searchResults.length > 0) {
-            // Naviguez vers le composant de résultat en passant les résultats via queryParams
-            this.router.navigate(['/search-results'], { queryParams: { trips: JSON.stringify(this.searchResults) } });
-          }
-        },
-        (error) => {
-          console.error('Erreur lors de la recherche de trajet', error);
-        }
-      );
+      this.router.navigate(['/search-results'], { queryParams: { params: JSON.stringify(searchParams) } });
     }
-  }
-
-  private addGoogleMapsScript() {
-    const script = this.renderer.createElement('script');
-    script.type = 'text/javascript';
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBMreuA5LC2BJ2f-HFPPhYISSIu0mSS2Gs&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => this.handleGoogleMapsLoad();
-    this.renderer.appendChild(document.head, script);
-  }
-
-  private handleGoogleMapsLoad() {
-    // Initialize autocomplete
-    this.autocompleteDeparture = new google.maps.places.Autocomplete(
-      this.searchInputDeparture.nativeElement,
-      { types: ['geocode'], componentRestrictions: { country: 'fr' } }
-    );
-
-    this.autocompleteArrival = new google.maps.places.Autocomplete(
-      this.searchInputArrival.nativeElement,
-      { types: ['geocode'], componentRestrictions: { country: 'fr' } }
-    );
-
-    // Add listener to handle place changes
-    this.autocompleteDeparture.addListener('place_changed', () => this.handleDepartureChange());
-    this.autocompleteArrival.addListener('place_changed', () => this.handleArrivalChange());
-  }
-
-  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
-    const place = autocomplete.getPlace();
-    if (!place) return;
-
-    this.searchTripForm.controls[formControlName].setValue(place.formatted_address);
-
-    // check if the place is the university address
-    const uni = this.addressService.getUniversityAddress();
-    // if not set the other address to the university address
-    if (place.place_id != uni.place_id) {
-      this.searchTripForm.controls[otherFormControlName].setValue(uni.formatted_address);
-      otherAutocomplete.set('place', uni);
-    } else {
-      // if it is the university address, check if the other address is the same
-      const otherPlace = otherAutocomplete.getPlace();
-      if (!otherPlace) return;
-      if (place.place_id == otherPlace.place_id) {
-        this.searchTripForm.controls[otherFormControlName].setValue('');
-        otherAutocomplete.set('place', undefined);
-      }
-    }
-  }
-  private handleDepartureChange() {
-    this.handlePlaceChange(
-      this.autocompleteDeparture,
-      this.autocompleteArrival,
-      'addressDeparture',
-      'addressArrival'
-    );
-  }
-
-  private handleArrivalChange() {
-    this.handlePlaceChange(
-      this.autocompleteArrival,
-      this.autocompleteDeparture,
-      'addressArrival',
-      'addressDeparture'
-    );
   }
 }
