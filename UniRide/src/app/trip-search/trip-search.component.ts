@@ -109,7 +109,8 @@ export class TripSearchComponent implements OnInit, OnDestroy {
 
     this.options = {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoom: 16
+      zoom: 16,
+      maxZoom: 16,
     };
 
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -117,54 +118,21 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       center: this.center
     });
 
-    this.map.addListener('zoom_changed', () => {
-      let maxZoom = 16; // Set this to your preferred max zoom level
-      if (this.map.getZoom() > maxZoom) {
-        this.map.setZoom(maxZoom);
-      }
-    })
-
     this.directionsService = new google.maps.DirectionsService();
     this.directionsRenderer = new google.maps.DirectionsRenderer({
-      map: this.map,
       suppressMarkers: true
     });
-    this.arrivalMarker = new google.maps.Marker({
-      map: this.map,
-    });
-    this.departureMarker = new google.maps.Marker({
-      map: this.map,
-    });
+    this.arrivalMarker;
+    this.departureMarker;
   }
 
-  setRoutePolyline() {
+  private setRoutePolyline() {
     const departure = this.autocompleteDeparture.getPlace();
     const arrival = this.autocompleteArrival.getPlace();
-    let origin;
-    let destination;
 
-    if (typeof departure.geometry.location.lat === 'function') {
-      origin = {
-        lat: departure.geometry.location.lat(),
-        lng: departure.geometry.location.lng()
-      };
-    } else {
-      origin = {
-        lat: departure.geometry.location.lat,
-        lng: departure.geometry.location.lng
-      };
-    }
-    if (typeof arrival.geometry.location.lat === 'function') {
-      destination = {
-        lat: arrival.geometry.location.lat(),
-        lng: arrival.geometry.location.lng()
-      };
-    } else {
-      destination = {
-        lat: arrival.geometry.location.lat,
-        lng: arrival.geometry.location.lng
-      };
-    }
+    const origin = this.getPosition(departure);
+    const destination = this.getPosition(arrival);
+
     let request = {
       origin: origin,
       destination: destination,
@@ -182,29 +150,38 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       }
     })
   }
-  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string, marker: any) {
-    const place = autocomplete.getPlace();
-    console.log("place", place);
-    if (!place || place.place_id === undefined) return;
 
-    this.searchTripForm.controls[formControlName].setValue(place.formatted_address);
-    if (typeof place.geometry.location.lat === 'function') {
-      marker.setPosition({
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng()
-      });
-    } else {
-      marker.setPosition({
-        lat: place.geometry.location.lat,
-        lng: place.geometry.location.lng
-      });
-    }
+  private removeRoutePolyline() {
+    this.directionsRenderer.setMap(null);
+  }
+
+  private centerMap() {
     var bounds = new google.maps.LatLngBounds();
 
-    if (this.arrivalMarker.position) bounds.extend(this.arrivalMarker.position)
-    if (this.departureMarker.position) bounds.extend(this.departureMarker.position)
+    console.log("departureMarker", this.departureMarker);
+    console.log("arrivalMarker", this.arrivalMarker);
+    if (this.departureMarker != undefined && this.departureMarker.position) {
+      bounds.extend(this.departureMarker.position);
+      console.log("departure", this.departureMarker.position);
+    }
+
+    if (this.arrivalMarker != undefined && this.arrivalMarker.position) {
+      bounds.extend(this.arrivalMarker.position)
+      console.log("arrival", this.arrivalMarker.position);
+    }
 
     this.map.fitBounds(bounds);
+  }
+
+  private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
+    const place = autocomplete.getPlace();
+    const otherPlace = otherAutocomplete.getPlace();
+    this.removeMarker(formControlName);
+    if (place == undefined || place.place_id === undefined) {
+      this.removeRoutePolyline();
+      this.centerMap();
+      return;
+    }
 
     // check if the place is the university address
     const uni = this.addressService.getUniversityAddress();
@@ -214,26 +191,26 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       otherAutocomplete.set('place', uni);
     } else {
       // if it is the university address, check if the other address is the same
-      const otherPlace = otherAutocomplete.getPlace();
-      if (!otherPlace) return;
-      if (place.place_id == otherPlace.place_id) {
+      if (otherPlace && place.place_id == otherPlace.place_id) {
         this.searchTripForm.controls[otherFormControlName].setValue('');
         otherAutocomplete.set('place', undefined);
       }
     }
-    console.log("departure", this.autocompleteDeparture.getPlace());
-    console.log("arrival", this.autocompleteArrival.getPlace());
-    if (this.autocompleteDeparture.getPlace() && this.autocompleteArrival.getPlace()) {
+
+    this.searchTripForm.controls[formControlName].setValue(place.formatted_address);
+    this.setMarker(formControlName, place);
+    this.centerMap()
+
+    if (otherPlace != undefined && otherPlace.place_id != undefined)
       this.setRoutePolyline();
-    }
   }
+
   private handleDepartureChange() {
     this.handlePlaceChange(
       this.autocompleteDeparture,
       this.autocompleteArrival,
       'addressDeparture',
       'addressArrival',
-      this.departureMarker,
     );
   }
 
@@ -243,7 +220,46 @@ export class TripSearchComponent implements OnInit, OnDestroy {
       this.autocompleteDeparture,
       'addressArrival',
       'addressDeparture',
-      this.arrivalMarker,
     );
+  }
+
+  private getPosition(place: any) {
+    if (typeof place.geometry.location.lat === 'function') {
+      return {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      };
+    } else {
+      return {
+        lat: place.geometry.location.lat,
+        lng: place.geometry.location.lng
+      };
+    }
+  }
+
+  private setMarker(formControlName: string, place: any) {
+    if (formControlName == "addressDeparture") {
+      this.departureMarker = new google.maps.Marker({
+        map: this.map,
+        position: this.getPosition(place)
+      })
+    } else {
+      this.arrivalMarker = new google.maps.Marker({
+        map: this.map,
+        position: this.getPosition(place)
+      })
+    }
+  }
+
+  private removeMarker(formControlName: string) {
+    if (formControlName == "addressDeparture") {
+      if (this.departureMarker != undefined)
+        this.departureMarker.setMap(null);
+      this.departureMarker = undefined;
+    } else {
+      if (this.arrivalMarker != undefined)
+        this.arrivalMarker.setMap(null);
+      this.arrivalMarker = undefined;
+    }
   }
 }
