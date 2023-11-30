@@ -12,6 +12,7 @@ section {
     width: 100%;
     background-position: center;
     background-size: cover;
+    flex-basis: 0;
 }
 
 .form-box {
@@ -108,7 +109,28 @@ button {
     font-weight: 600;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 #map {
-    height: 550px;
-    width: 900px;
+    width: 90%;
+    height: 75vh;
+}
+
+.trip-search {
+    flex-grow: 0.9;
+    /* 10% smaller */
+}
+
+#map-section {
+    flex-grow: 1;
+    /* 10% larger */
+}
+
+@media (max-width: 600px) {
+    .container>.section {
+        flex-basis: 100%;
+    }
 }
