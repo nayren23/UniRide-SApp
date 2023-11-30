@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DistancePipe implements PipeTransform {
 
   transform(value: number): string {
-    if (value == null) {
+    if (value == null || undefined) {
       return '';
     }
 
