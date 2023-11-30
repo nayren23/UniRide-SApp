@@ -103,11 +103,11 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     this.map = new google.maps.Map(document.getElementById('map'), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoom: 16,
-      maxZoom: 16,
       center: {
         lat: this.addressService.getUniversityAddress().geometry.location.lat,
         lng: this.addressService.getUniversityAddress().geometry.location.lng
-      }
+      },
+      streetViewControl: false,
     });
 
     this.directionsService = new google.maps.DirectionsService();
@@ -163,6 +163,9 @@ export class TripSearchComponent implements OnInit, OnDestroy {
     }
 
     this.map.fitBounds(bounds);
+    if (this.map.getZoom() > 16) {
+      this.map.setZoom(16);
+    }
   }
 
   private handlePlaceChange(autocomplete: any, otherAutocomplete: any, formControlName: string, otherFormControlName: string) {
