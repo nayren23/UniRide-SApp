@@ -15,11 +15,12 @@ services:
     container_name: uniride_backend
     image: uniride1/uniride_back #automatically latest
     restart: always
+    #This volume is used to store the uploaded files
     volumes:
-      - ./documents/pft:/usr/src/app/documents/pft
-      - ./documents/license:/usr/src/app/documents/license
-      - ./documents/id_card:/usr/src/app/documents/id_card
-      - ./documents/school_certificate:/usr/src/app/documents/school_certificate
+      - ../../UniRide-SME/documents/pft/:/usr/src/app/documents/pft
+      - ../../UniRide-SME/documents/license/:/usr/src/app/documents/license
+      - ../../UniRide-SME/documents/id_card/:/usr/src/app/documents/id_card
+      - ../../UniRide-SME/documents/school_certificate/:/usr/src/app/documents/school_certificate
     depends_on:
       - uniride_redis
     ports:
@@ -32,6 +33,5 @@ services:
     ports:
       - "6379:6379"
 
-      
 x-environment:
   COMPOSE_PROJECT_NAME: uniride
