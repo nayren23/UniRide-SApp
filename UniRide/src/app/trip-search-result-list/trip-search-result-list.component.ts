@@ -44,11 +44,22 @@ export class TripSearchResultListComponent implements OnInit {
                 numberOfPassenger: trip.total_passenger_count,
                 distance: trip.address.distance,
               });
+
             });
+            this.trierParDistance();
             console.log('searchResults:', this.searchResults);
           }),
         ).subscribe(() => this.subscriptionComplete = true);
       }),
     ).subscribe();
+  }
+
+  trierParDistance(): void {
+    this.searchResults.sort((a, b) => {
+      if (a.distance == undefined || b.distance == undefined) {
+        return 0; // or some other logic to handle undefined cases
+      }
+      return a.distance - b.distance;
+    });
   }
 }
