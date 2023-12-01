@@ -2,18 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../app/environements/environement';
+import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripService {
+
   private apiUrl = environment.apiUrl;
 
-  // Utilisation d'un jeton en dur pour les fins de test
-  private authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwMDE3MDg4MywianRpIjoiYzE1YzQwNTMtNTM5Ni00YjdlLTk3YTYtYmNmZjY0NGNiZGI4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NjAsIm5iZiI6MTcwMDE3MDg4MywiZXhwIjoxNzAwMTc0NDgzfQ.NwuVDGJZZDepZBO_PVizIkMpBxkuQ5m9C4SdWhli-N4';
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  constructor(private http: HttpClient) {}
+  private get token(): string {
+    return this.authService.getToken();
+  }
 
   private handleError(error: any): Observable<never> {
     console.error(' error:', error);
@@ -22,41 +26,52 @@ export class TripService {
 
   createTrip(tripData: any): Observable<any> {
     // Ajouter le jeton d'accès à l'en-tête d'autorisation
+    console.log(this.token)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.authToken}`
+      'Authorization': `Bearer ${this.token}`
     });
 
     // Effectuer la requête HTTP avec l'en-tête d'autorisation
     return this.http.post(
-      `${this.apiUrl}trip/propose`,
+      `${this.apiUrl}/trip/propose`,
       JSON.stringify(tripData),
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
     );
   }
-    searchTrips(searchData: any): Observable<any> {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-      });
-      return this.http.post(
-        `${this.apiUrl}trips`,
-        JSON.stringify(searchData),
-        { headers: headers }
-      ).pipe(
-        catchError(this.handleError)
-      );
-    }
-  
+
+  searchTrips(searchParams: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(
+      `${this.apiUrl}/trips`,
+      searchParams,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTripsProposed(page: number = 1): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.http.get(
+      `${this.apiUrl}/trips/driver/current?page=${page}`,
+      { headers: headers }
+    )
+  }
 
   createAddress(addressData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
     return this.http.post(
-      `${this.apiUrl}address/add`,
+      `${this.apiUrl}/trips`,
       JSON.stringify(addressData),
       { headers: headers }
     ).pipe(

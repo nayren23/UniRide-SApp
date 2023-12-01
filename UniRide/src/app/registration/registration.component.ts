@@ -2,6 +2,8 @@ import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { environment } from '../environements/environment.prod';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +20,9 @@ export class RegistrationComponent{
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-  
+    private toastr: ToastrService,
+    private router: Router,
+
   ) {
     this.inscriptionForm = this.formBuilder.group({
       showLicenseSection: [false], // Assure-toi que cette ligne est présente
@@ -29,7 +33,7 @@ export class RegistrationComponent{
       password: ['', [Validators.required, Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/),],],
       password_confirmation: ['',[Validators.required,Validators.minLength(8)]],
       gender: ['', Validators.required],
-      phone_number: ['', [Validators.required,Validators.minLength(9)]],
+      phone_number: ['', [Validators.required,Validators.minLength(10)]],
       description: [''],
       license: [''],
       id_card: [''],
@@ -37,7 +41,7 @@ export class RegistrationComponent{
       pfp: [''],
      });
 
-  
+
   }
 
 
@@ -79,20 +83,28 @@ export class RegistrationComponent{
 
 
       const headers = new HttpHeaders({
-       
+
       });
-      
+
 
       //Envoie des infos personnel
       this.http.post(apiUrlRegister, formData,{ headers: headers }).subscribe(
         (response) => {
           console.log(response);
-          window.location.href = "/logIn";
+          this.toastr.success('Félicitations ! Votre inscription a réussi.', 'Inscription réussie');
+
+
+          setTimeout(() => {
+            this.router.navigate(['/logIn']);
+          }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
+
 
 
         },
         (error) => {
           console.error(error);
+          this.toastr.error('Une erreur est survenue lors de l\'inscription. Veuillez réessayer plus tard.', 'Erreur d\'inscription');
+
         }
       );
     }

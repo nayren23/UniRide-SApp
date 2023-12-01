@@ -1,21 +1,19 @@
-
-
-<div *ngIf="searchResults.length > 0" class="search-results">
-  <h3>Résultats de la recherche :</h3>
-  <ul>
-    <li *ngFor="let result of searchResults" class="result-item">
-      <div class="address">
-        <p><strong>Départ:</strong> {{ result.address.departure.nom_complet }}</p>
-        <p><strong>Arrivée:</strong> {{ result.address.arrival.nom_complet }}</p>
-      </div>
-      <div class="details">
-        <p><strong>Nombre de Passagers:</strong> {{ result.total_passenger_count }}</p>
-        <p><strong>Date de Départ:</strong> {{ result.proposed_date }}</p>
-        <p><strong>Prix:</strong> {{ result.price }} €</p>
-  <!--(click)="reserveCourse(result.trip_id)"-->
-        <button >Réserver la course</button>
-      </div>
-    </li>
-  </ul>
+<div class="result-item">
+    <div class="header-container">
+        <span class="date"><strong>Date:</strong> {{ trip.proposedDate | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+        <span class="price"><strong>Distance :</strong> {{ trip.distance !== null && trip.distance !== undefined ?
+            (trip.distance | distance) : 'No distance
+            available' }} </span>
+        <span class="price"><strong>Prix:</strong> {{ trip.price }} €</span>
+    </div>
+    <div class="content-container">
+        <div class="address">
+            <p><strong>Départ:</strong> {{ trip.departure.name }}</p>
+            <p><strong>Arrivée:</strong> {{ trip.arrival.name }}</p>
+            <p><strong>Nombre de passagers :</strong> {{ trip.numberOfPassenger }}</p>
+        </div>
+        <div class="button-container">
+            <button>Voir Plus</button>
+        </div>
+    </div>
 </div>
-

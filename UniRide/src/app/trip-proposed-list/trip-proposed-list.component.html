@@ -1,0 +1,3 @@
+<h1 class="text-white">Trajets Proposés</h1>
+<p *ngIf="tripsProposed.length === 0 && subscriptionComplete" class="noTrips text-white">Vous n'avez proposés aucun trajets.</p>
+<app-trip-proposed class="tripProposed" *ngFor="let trip of tripsProposed" [trip]="trip"></app-trip-proposed>

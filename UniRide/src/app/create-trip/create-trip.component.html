@@ -1,43 +1,48 @@
+<section class="container">
+  <section class="form">
+    <div class="form-box">
+      <div class="form-value">
+        <form class="form" [formGroup]="createTripForm" (ngSubmit)="onSubmit()">
+          <h2 class="text-white">Proposer un trajet</h2>
 
-<section>
-  <div class="form-box">
-    <div class="form-value">
-      <form class="form" [formGroup]="createTripForm" (ngSubmit)="onSubmit()">
-        <h2>Proposer un trajet</h2>
+          <div class="inputbox">
+            <input type="text" required formControlName="addressDeparture" id="addressDeparture" #searchInputDeparture
+              autocomplete="off">
+            <label class="text-white" for="">Adresse de Départ</label>
+          </div>
 
-        <div class="inputbox">
-          <input type="text" required formControlName="adresseDepart" id="adresseDepart" #searchInputDepart autocomplete="off">
-          <label for="">Adresse de Départ</label>
-        </div>
+          <div class="inputbox">
+            <input type="text" required formControlName="addressArrival" id="addressArrival" #searchInputArrival
+              autocomplete="off">
+            <label class="text-white" for="">Adresse d'Arrivée</label>
+          </div>
 
-        <div class="inputbox">
-          <input type="text" required formControlName="adresseArrivee" id="adresseArrivee" #searchInputArrivee autocomplete="off">
-          <label for="">Adresse d'Arrivée</label>
-        </div>
+          <div class="inputbox">
+            <input type="date" required formControlName="date">
+            <label class="text-white" for="">Date</label>
+          </div>
 
+          <div class="inputbox">
+            <input type="time" required formControlName="time">
+            <label class="text-white" for="">Horaire</label>
+          </div>
 
-        <div class="inputbox">  
-          <input type="date" required formControlName="date">
-          <label for="">Date</label>
-        </div>
+          <div class="inputbox">
+            <input type="number" required formControlName="passengerNumber">
+            <label class="text-white" for="">Nombre de Passagers</label>
+          </div>
 
-        <div class="inputbox">
-          <input type="time" required formControlName="horaire">
-          <label for="">Horaire</label>
-        </div>
+          <!-- Display an error if the number of passengers is over 4 -->
+          <div *ngIf="createTripForm?.get('passengerNumber')?.hasError('max')" class="error-message">
+            Le nombre de passagers ne peut pas dépasser 4.
+          </div>
 
-        <div class="inputbox">
-          <input type="number" required formControlName="nombrePassagers">
-          <label for="">Nombre de Passagers</label>
-        </div>
-
-        <!-- Affiche un message d'erreur si le nombre de passagers dépasse 4 -->
-        <div *ngIf="createTripForm?.get('nombrePassagers')?.hasError('max')" class="error-message">
-          Le nombre de passagers ne peut pas dépasser 4.
-        </div>
-
-        <button type="submit">Soumettre</button>
-      </form>
+          <button class="text-white" type="submit">Soumettre</button>
+        </form>
+      </div>
     </div>
-  </div>
+  </section>
+  <section class="section" id="map-section">
+    <div #map id="map"></div>
+  </section>
 </section>
