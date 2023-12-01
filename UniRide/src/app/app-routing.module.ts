@@ -7,6 +7,9 @@ import { TripSearchComponent } from './trip-search/trip-search.component';
 import {TripSearchResultComponent} from './trip-search-result/trip-search-result.component'
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { ResendMailComponent } from './resend-mail/resend-mail.component';
+import { TripSearchResultListComponent } from './trip-search-result-list/trip-search-result-list.component'
+import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
+import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 
 
 const routes: Routes = [
@@ -14,15 +17,15 @@ const routes: Routes = [
   { path: 'logIn', component: LogInComponent }, // Chemin vers le premier composant
   { path: 'create-trip', component: CreateTripComponent },
   { path: 'create-search', component: TripSearchComponent },
-  {    path: 'search-results',
-    component: TripSearchResultComponent,
-    data: { trips: null } },
   { path: 'email-verification/:token', component: EmailVerificationComponent },
-  { path: 'resend-mail', component: ResendMailComponent }
-
-
-
-
+  { path: 'resend-mail', component: ResendMailComponent },
+  {
+    path: 'search-results',
+    component: TripSearchResultListComponent,
+    // Utilisez la même clé que celle que vous essayez d'accéder dans TripSearchResultListComponent
+    data: { trips: null }
+  },
+  { path: 'trips-proposed', component: TripProposedListComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

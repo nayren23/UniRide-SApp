@@ -1,4 +1,3 @@
-import { LogInComponent } from 'src/app/log-in/log-in.component';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -11,10 +10,10 @@ import { AuthService } from '../auth/auth.service'; // Importez le service d'aut
   providedIn: 'root'
 })
 export class TripService {
+
   private apiUrl = environment.apiUrl;
 
-
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   private get token(): string {
     return this.authService.getToken();
@@ -42,27 +41,37 @@ export class TripService {
       catchError(this.handleError)
     );
   }
-    searchTrips(searchData: any): Observable<any> {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-      });
-      return this.http.post(
-        `${this.apiUrl}trips`,
-        JSON.stringify(searchData),
-        { headers: headers }
-      ).pipe(
-        catchError(this.handleError)
-      );
-    }
 
+  searchTrips(searchParams: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(
+      `${this.apiUrl}trips`,
+      searchParams,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTripsProposed(page: number = 1): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.http.get(
+      `${this.apiUrl}trips/driver/current?page=${page}`,
+      { headers: headers }
+    )
+  }
 
   createAddress(addressData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
     return this.http.post(
-      `${this.apiUrl}address/add`,
+      `${this.apiUrl}trips`,
       JSON.stringify(addressData),
       { headers: headers }
     ).pipe(

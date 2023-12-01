@@ -1,0 +1,42 @@
+#This workflow will build a docker image and push it to Docker Hub if a tag is present
+
+name: ci
+
+on:
+    pull_request:
+      branches:
+        - main
+
+env: #we need to set the tag to the latest tag
+  LATEST_TAG: uniride1/uniride_front:latest
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Set up QEMU #For emulation of arm64 on amd64
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+    
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./UniRide
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.LATEST_TAG }}   
+          build-args: | #we need to pass the secrets to the dockerfile
+            PRODUCTION=${{ secrets.PRODUCTION }}
+            API_URL=${{ secrets.API_URL }}
+            GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}

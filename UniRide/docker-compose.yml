@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+
+  uniride_frontend:
+    container_name: uniride_frontend
+    image: uniride1/uniride_front #automatically latest
+    restart: always
+    ports:
+      - "4200:4200"
+    depends_on:
+      - uniride_backend
+
+  uniride_backend:
+    container_name: uniride_backend
+    image: uniride1/uniride_back #automatically latest
+    restart: always
+    #This volume is used to store the uploaded files
+    volumes:
+      - ../../UniRide-SME/documents/pft/:/usr/src/app/documents/pft
+      - ../../UniRide-SME/documents/license/:/usr/src/app/documents/license
+      - ../../UniRide-SME/documents/id_card/:/usr/src/app/documents/id_card
+      - ../../UniRide-SME/documents/school_certificate/:/usr/src/app/documents/school_certificate
+    depends_on:
+      - uniride_redis
+    ports:
+      - "5050:5050"
+
+  uniride_redis:
+    container_name: uniride_redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+x-environment:
+  COMPOSE_PROJECT_NAME: uniride
