@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../Services/Auth/auth.service'; // Importez le service d'authentification
+import { AuthService } from '../Services/auth/auth.service'; // Importez le service d'authentification
 import { environment } from '../environements/environment.prod';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -34,21 +34,28 @@ export class LogInComponent {
       const formData = this.connexionForm.value;
       this.http.post(apiUrl, formData).subscribe(
         (response: any) => {
+          console.log(response)
+          if(response['informations_verified']['email_verified']){
           this.authService.setToken(response["token"]); // Utilisez le service d'authentification pour stocker le token
 
           this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
           setTimeout(() => {
             this.router.navigate(['/create-search']);
-          }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
-
+          }, 2000);
+        }
+        else{
+          this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
+        }
 
         },
         (error) => {
           console.error(error);
-          this.toastr.error('Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.', 'Erreur de connexion');
+          this.toastr.error('Nom d\'utilisateur ou mot de passe incorrect', 'Erreur de connexion');
 
         }
       );
     }
+
   }
+
 }

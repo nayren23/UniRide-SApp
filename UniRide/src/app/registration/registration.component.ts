@@ -33,7 +33,7 @@ export class RegistrationComponent{
       password: ['', [Validators.required, Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/),],],
       password_confirmation: ['',[Validators.required,Validators.minLength(8)]],
       gender: ['', Validators.required],
-      phone_number: ['', [Validators.required,Validators.minLength(9)]],
+      phone_number: ['', [Validators.required,Validators.minLength(10)]],
       description: [''],
       license: [''],
       id_card: [''],

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { AuthService } from '../app/Services/Auth/auth.service'; // Importez le service d'authentification
+import { AuthService } from './Services/auth/auth.service'; // Importez le service d'authentification
 
 
 @Component({
@@ -24,7 +24,11 @@ export class AppComponent implements OnInit{
 
   logout(): void {
     this.authService.logout();
-    // Vous pouvez également effectuer d'autres actions après la déconnexion, par exemple, rediriger l'utilisateur vers une page de connexion.
+  }
+
+
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   ngOnInit(): void {
