@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
-import { TripService } from '../Services/Trip/trip.service';
+import { TripService } from '../Services/trip/trip.service';
 import { ToastrService } from 'ngx-toastr';
 import { AddressService } from '../Services/address/address.service';
 import { MapService } from '../Services/map/map.service';
