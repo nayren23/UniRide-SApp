@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../app/environements/environement';
 
 
 @Injectable({
@@ -28,7 +28,7 @@ export class AddressService {
     });
 
     return this.http.post(
-      `${this.apiUrl}address/add`,
+      `${this.apiUrl}/address/add`,
       JSON.stringify(addressData),
       { headers: headers }
     ).pipe(
@@ -67,7 +67,7 @@ export class AddressService {
     });
 
     return this.http.get(
-      `${this.apiUrl}address/university`,
+      `${this.apiUrl}/address/university`,
       { headers: headers }
     ).pipe(
       switchMap((response: any) => this.getPlaceDetails(response["address"]).pipe(

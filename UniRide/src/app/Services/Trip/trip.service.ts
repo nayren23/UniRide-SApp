@@ -34,7 +34,7 @@ export class TripService {
 
     // Effectuer la requête HTTP avec l'en-tête d'autorisation
     return this.http.post(
-      `${this.apiUrl}trip/propose`,
+      `${this.apiUrl}/trip/propose`,
       JSON.stringify(tripData),
       { headers: headers }
     ).pipe(
@@ -47,7 +47,7 @@ export class TripService {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}trips`,
+      `${this.apiUrl}/trips`,
       searchParams,
       { headers: headers }
     ).pipe(
@@ -61,7 +61,7 @@ export class TripService {
       'Authorization': `Bearer ${this.token}`
     });
     return this.http.get(
-      `${this.apiUrl}trips/driver/current?page=${page}`,
+      `${this.apiUrl}/trips/driver/current?page=${page}`,
       { headers: headers }
     )
   }
@@ -71,7 +71,7 @@ export class TripService {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}trips`,
+      `${this.apiUrl}/trips`,
       JSON.stringify(addressData),
       { headers: headers }
     ).pipe(
