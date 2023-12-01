@@ -55,7 +55,7 @@
                 <input type="password" id="password" name="password" class="w-full p-2 border rounded"
                     formControlName="password" required>
                 <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched"
-                    class="text-xs text-red-500 bg-white mt-1">
+                    class="text-xs text-red-500 mt-1">
                     Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et
                     un
                     caractère spécial.
@@ -92,11 +92,11 @@
                     téléphone*</label>
                 <span id="taillePlus33">+33</span>
                 <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded tailleTel"
-                    formControlName="phone_number" maxlength="9" pattern="^[1-9][0-9]*$">
+                    formControlName="phone_number" maxlength="10" pattern="^0[0-9]*$">
                 <!-- Ajoutez la ligne suivante pour afficher un message d'erreur personnalisé -->
                 <div *ngIf="inscriptionForm.get('phone_number')?.hasError('pattern') && inscriptionForm.get('phone_number')?.touched"
                     class="text-xs text-red-500 mt-1">
-                    Le numéro de téléphone doit commencer par ne peut pas commencer par 0.
+                    Le numéro de téléphone est invalide
                 </div>
             </div>
 
@@ -113,7 +113,7 @@
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 type="file" id="pfp" name="pfp" (change)="handleFileInput($event, 'pfp')" accept="image/*">
 
-            <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
 
             <p class="italique text-red-500">* : champs obligatoire</p>
 
@@ -126,7 +126,7 @@
             <input
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 type="file" id="id_card" name="id_card" (change)="handleFileInput($event, 'id_card')" accept="image/*">
-            <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
 
 
             <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white"
@@ -135,7 +135,7 @@
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 type="file" id="school_certificate" name="school_certificate"
                 (change)="handleFileInput($event, 'school_certificate')" accept="image/*">
-            <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
             
 
         </section>
@@ -154,7 +154,7 @@
             <input
               class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               type="file" id="license" name="license" (change)="handleFileInput($event, 'license')" accept="image/*">
-            <p class="mt-1 text-xs italique">PNG, JPG, PDF (MAX. 5 MO).</p>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
           </section>
   
 

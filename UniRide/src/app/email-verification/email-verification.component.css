@@ -15,7 +15,7 @@ body {
 
 .stage {
     position: relative;
-    min-height: 80vh;
+    min-height: 66vh;
     width: 800px;
     margin: auto;
 }
