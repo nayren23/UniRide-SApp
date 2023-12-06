@@ -46,7 +46,7 @@ export class TripSearchComponent implements OnInit {
   search() {
     if (this.searchTripForm.valid) {
       const searchParams = {
-        depart: this.addressService.extractAddressData(this.mapService.getAutocompleteDeparture().getPlace()),
+        departure: this.addressService.extractAddressData(this.mapService.getAutocompleteDeparture().getPlace()),
         arrival: this.addressService.extractAddressData(this.mapService.getAutocompleteArrival().getPlace()),
         trip: {
           passenger_count: this.searchTripForm.value.passengerNumber,

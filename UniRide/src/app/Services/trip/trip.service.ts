@@ -47,7 +47,7 @@ export class TripService {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}/trips`,
+      `${this.apiUrl}/trip`,
       searchParams,
       { headers: headers }
     ).pipe(
@@ -61,21 +61,8 @@ export class TripService {
       'Authorization': `Bearer ${this.token}`
     });
     return this.http.get(
-      `${this.apiUrl}/trips/driver/current?page=${page}`,
+      `${this.apiUrl}/trip/driver/current?page=${page}`,
       { headers: headers }
     )
-  }
-
-  createAddress(addressData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post(
-      `${this.apiUrl}/trips`,
-      JSON.stringify(addressData),
-      { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
-    );
   }
 }
