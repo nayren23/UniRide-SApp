@@ -67,7 +67,7 @@ export class CreateTripComponent implements OnInit {
               const addressIdArrival = this.extractIdFromResponse(addressResponseArrival);
 
               const tripData = {
-                address_depart_id: addressIdDeparture,
+                address_departure_id: addressIdDeparture,
                 address_arrival_id: addressIdArrival,
                 timestamp_proposed: this.createTripForm.value.date + " " + this.createTripForm.value.time + ":00",
                 total_passenger_count: this.createTripForm.value.passengerNumber,
