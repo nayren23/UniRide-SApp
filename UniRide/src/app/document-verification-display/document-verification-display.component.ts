@@ -8,11 +8,13 @@ import { SortEvent } from 'primeng/api';
 @Component({
   selector: 'app-document-verification-display',
   templateUrl: './document-verification-display.component.html',
-  styleUrls: ['./document-verification-display.component.css']
+  styleUrls: ['./document-verification-display.component.css'],
 })
 export class DocumentVerificationDisplayComponent implements OnInit {
 
   documentVerification: DocumentVerification[] = [];
+  etudiants: any[] = [];
+
   loading: boolean = true;
 
   subscriptionComplete: boolean = false;
@@ -21,28 +23,53 @@ export class DocumentVerificationDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.loading = false;
+
     this.documentVerification = [
       {
         request_number: 1,
         documents_to_verify: 5,
         person: {
           full_name: "John Doe",
-          profile_picture: "url_vers_l_image_john_doe",
-          last_modified_date: new Date("2023-11-29T12:45:00"),
+          profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+          last_modified_date: new Date("2023-12-17 16:22:00"),
         },
       },
       {
         request_number: 2,
         documents_to_verify: 2,
         person: {
-          full_name: "Chouchane Rayan",
-          profile_picture: "url_vers_l_image_rayan_chouchane",
-          last_modified_date: new Date("2023-12-29T12:45:00"),
+          full_name: "CHOUCHANE Rayan",
+          profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+          last_modified_date: new Date("2023-11-17 16:22:00"),
         },
       },
-      // Ajoutez d'autres données de test au besoin
+      {
+        request_number: 3,
+        documents_to_verify: 4,
+        person: {
+          full_name: "FAURE Grégoire",
+          profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+          last_modified_date: new Date("2023-12-17 16:22:00"),
+        },
+      },
+
     ];
 
+    this.etudiants = [
+      {
+        full_name: "John Doe",
+        profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+      },
+      {
+        full_name: "CHOUCHANE Rayan",
+        profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+      },
+      {
+        full_name: "FAURE Grégoire",
+        profile_picture: "https://lh6.googleusercontent.com/1bWdsdInzJ6L_wnuwXJN0mZGzmlX_vf2CZe8P1thJGNMiGQkTMLOO5kzmzdZ_Uk7mcppYXGdzBtBFaoZ3xPSNes=w16383",
+      },
+
+    ];
 
 
     this.documentVerificationService.getDocumentVerification().pipe(
@@ -59,13 +86,23 @@ export class DocumentVerificationDisplayComponent implements OnInit {
               last_modified_date: new Date(documentVerification.person.last_modified_date),
             },
           });
+          this.etudiants.push({
+            full_name: documentVerification.person.full_name, profile_picture: documentVerification.person.profile_picture
+          });
         }),
           console.log('documentVerification:', this.documentVerification);
 
       }),
     ).subscribe(() => this.subscriptionComplete = true);
   }
-  customSort(event: SortEvent) {
 
+  customSort(event: SortEvent) {
+    // Ajoutez votre logique de tri ici
   }
+
+
+  clear(table: Table) {
+    table.clear();
+  }
+
 }

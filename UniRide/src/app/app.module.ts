@@ -22,6 +22,8 @@ import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-li
 import { DistancePipe } from './pips/distance/distance.pipe';
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
 import { TableModule } from 'primeng/table';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,9 @@ import { TableModule } from 'primeng/table';
     BrowserAnimationsModule, // required for toastr animations
     ToastrModule.forRoot(),
     TableModule,
+    MultiSelectModule,
+    ButtonModule,
+
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent]
