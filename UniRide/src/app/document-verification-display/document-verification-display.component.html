@@ -1,0 +1,21 @@
+
+<p-table [value]="documentVerification" (sortFunction)="customSort($event)" [customSort]="true" [tableStyle]="{'min-width': '60rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="code" style="width:20%">Code <p-sortIcon field="code"></p-sortIcon></th>
+            <th pSortableColumn="name" style="width:20%">Name <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="category" style="width:20%">Category <p-sortIcon field="category"></p-sortIcon></th>
+            <th pSortableColumn="quantity" style="width:20%">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
+            <th pSortableColumn="price" style="width:20%">Price <p-sortIcon field="price"></p-sortIcon></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-documentVerification>
+        <tr>
+            <td>{{documentVerification.request_number}}</td>
+            <td>{{documentVerification.documents_to_verify}}</td>
+            <td>{{documentVerification.person.full_name}}</td>
+            <td>{{documentVerification.person.profile_picture}}</td>
+            <td>{{documentVerification.person.last_modified_date}}</td>
+        </tr>
+    </ng-template>
+</p-table>
