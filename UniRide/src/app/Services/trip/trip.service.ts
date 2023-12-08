@@ -65,20 +65,6 @@ export class TripService {
       { headers: headers }
     )
   }
-
-  createAddress(addressData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post(
-      `${this.apiUrl}/trip`,
-      JSON.stringify(addressData),
-      { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   getTripById(tripId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
