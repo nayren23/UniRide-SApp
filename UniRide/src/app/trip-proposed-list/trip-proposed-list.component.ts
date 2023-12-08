@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TripService } from '../Services/trip/trip.service';
 import { Trip } from '../models/trip.models';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-trip-proposed-list',
@@ -19,7 +19,7 @@ export class TripProposedListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tripService.getTripsProposed().pipe(
-      map((data: any) => {
+      tap((data: any) => {
         this.totalPage = data.totalPages;
         this.page = data.page;
         data.trips.forEach((trip: any) => {

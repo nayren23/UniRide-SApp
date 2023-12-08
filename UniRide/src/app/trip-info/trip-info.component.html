@@ -1,0 +1,32 @@
+<p-card>
+    <ng-template pTemplate="header">
+        Informations du Voyage - ID: {{ trip.id }}
+    </ng-template>
+    
+    <div>
+        <h3>Details du Voyage</h3>
+        <p><b>Conducteur ID:</b> {{ trip.driverId }}</p>
+        <p><b>Prix:</b> {{ trip.price }} €</p>
+        <p><b>Nombre de Passagers:</b> {{ trip.numberOfPassenger }}</p>
+        <p><b>Date Proposée:</b> {{ trip.proposedDate | date:'medium' }}</p>
+        <p><b>Statut:</b> {{ getStatusLabel(trip.status) }}</p>
+    
+        <div>
+        <h4>Adresse de Départ</h4>
+        <p>{{ trip.departure.name }}</p>
+        <p><b>Latitude:</b> {{ trip.departure.latitude }}</p>
+        <p><b>Longitude:</b> {{ trip.departure.longitude }}</p>
+        </div>
+    
+        <div>
+        <h4>Adresse d'Arrivée</h4>
+        <p>{{ trip.arrival.name }}</p>
+        <p><b>Latitude:</b> {{ trip.arrival.latitude }}</p>
+        <p><b>Longitude:</b> {{ trip.arrival.longitude }}</p>
+        </div>
+    </div>
+    
+    <ng-template pTemplate="footer">
+        <p class="footer-text">Informations fournies par TripService</p>
+    </ng-template>
+</p-card>

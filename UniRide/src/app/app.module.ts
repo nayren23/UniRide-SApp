@@ -20,6 +20,10 @@ import { ResendMailComponent } from './resend-mail/resend-mail.component';
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 import { DistancePipe } from './pips/distance/distance.pipe';
+import { TripInfoComponent } from './trip-info/trip-info.component';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { DistancePipe } from './pips/distance/distance.pipe';
     TripSearchResultListComponent,
     TripProposedComponent,
     TripProposedListComponent,
-    DistancePipe
+    DistancePipe,
+    TripInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,9 @@ import { DistancePipe } from './pips/distance/distance.pipe';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule, // required for toastr animations
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CardModule,
+    ButtonModule
 
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
