@@ -40,6 +40,8 @@ export class TripSearchComponent implements OnInit {
           this.mapService.addGoogleMapsScript(this.renderer, this.searchTripForm, this.searchInputDeparture, this.searchInputArrival)
         })
       ).subscribe();
+    } else {
+      this.mapService.addGoogleMapsScript(this.renderer, this.searchTripForm, this.searchInputDeparture, this.searchInputArrival)
     }
   }
 

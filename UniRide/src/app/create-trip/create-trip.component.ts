@@ -43,6 +43,8 @@ export class CreateTripComponent implements OnInit {
           this.mapService.addGoogleMapsScript(this.renderer, this.createTripForm, this.searchInputDeparture, this.searchInputArrival)
         })
       ).subscribe();
+    } else {
+      this.mapService.addGoogleMapsScript(this.renderer, this.createTripForm, this.searchInputDeparture, this.searchInputArrival)
     }
   }
 
