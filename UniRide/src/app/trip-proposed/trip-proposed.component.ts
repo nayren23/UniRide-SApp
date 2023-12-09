@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Trip } from '../models/trip.models';
-import { Router } from '@angular/router';
-
+import { MapService } from '../Services/map/map.service';
 
 @Component({
   selector: 'app-trip-proposed',
@@ -12,13 +11,10 @@ export class TripProposedComponent implements OnInit {
 
   @Input() trip!: Trip;
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void { }
 
-  goToPage(pageName:string){
-    this.router.navigate([`${pageName}`]);
-  }
 
 
 }

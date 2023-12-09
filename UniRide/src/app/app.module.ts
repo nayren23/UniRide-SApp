@@ -23,6 +23,15 @@ import { DistancePipe } from './pips/distance/distance.pipe';
 import { TripInfoComponent } from './trip-info/trip-info.component';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { UserInfoSummaryComponent } from './user-info-summary/user-info-summary.component';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { DividerModule } from 'primeng/divider';
+import { PanelModule } from 'primeng/panel';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { TagModule } from 'primeng/tag';
 
 
 @NgModule({
@@ -40,7 +49,8 @@ import { ButtonModule } from 'primeng/button';
     TripProposedComponent,
     TripProposedListComponent,
     DistancePipe,
-    TripInfoComponent
+    TripInfoComponent,
+    UserInfoSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -51,10 +61,21 @@ import { ButtonModule } from 'primeng/button';
     BrowserAnimationsModule, // required for toastr animations
     ToastrModule.forRoot(),
     CardModule,
-    ButtonModule
+    ButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    PanelModule,
+    ConfirmDialogModule,
+    ToastModule,
+    TagModule
 
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    ConfirmationService,
+    MessageService]
+  ,
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Trip } from '../models/trip.models';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-trip-search-result',
@@ -10,8 +12,11 @@ export class TripSearchResultComponent implements OnInit {
 
   @Input() trip!: Trip;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void { }
-
+  goToTripDetails(  ){
+    console.log("ouioui");
+    this.router.navigate([`/trip-info/${this.trip.id}`]);
+  }
 }
