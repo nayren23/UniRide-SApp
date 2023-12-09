@@ -65,4 +65,14 @@ export class TripService {
       { headers: headers }
     )
   }
+  getTripById(tripId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.http.get(
+      `${this.apiUrl}/trip/${tripId}`,
+      { headers: headers }
+    )
+  }
 }

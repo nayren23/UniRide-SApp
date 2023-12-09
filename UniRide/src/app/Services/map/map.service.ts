@@ -2,6 +2,7 @@ import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { AddressService } from '../address/address.service';
 import { __runInitializers } from 'tslib';
 import { FormGroup } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 declare var google: any;
 
@@ -30,6 +31,19 @@ export class MapService {
     script.onload = () => {
       this.initializeAutoComplete(Form, searchInputDeparture, searchInputArrival);
       this.initializeMap();
+    }
+    renderer.appendChild(document.head, script);
+  }
+
+  addMap(renderer: Renderer2, departureAddress: string, arrivalAddress: string) {
+    const script = renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBMreuA5LC2BJ2f-HFPPhYISSIu0mSS2Gs&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      this.initializeMap();
+      this.setRoutePolylineFromAddresses(departureAddress, arrivalAddress);
     }
     renderer.appendChild(document.head, script);
   }
@@ -138,6 +152,45 @@ export class MapService {
         this.directionsRenderer.setDirections(response);
       }
     })
+  }
+
+  private setRoutePolylineFromAddresses(departureAddress: string, arrivalAddress: string) {
+    forkJoin({
+      departure: this.addressService.getPlaceDetails(departureAddress),
+      arrival: this.addressService.getPlaceDetails(arrivalAddress)
+    }).subscribe(({ departure, arrival }) => {
+      
+  
+      const origin = this.getPosition(departure);
+      const destination = this.getPosition(arrival);
+
+      let request = {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+      
+      new google.maps.Marker({
+        map: this.map,
+        position: origin
+      })
+      new google.maps.Marker({
+        map: this.map,
+        position: destination
+      })
+      
+      this.directionsService.route(request, (response: any, status: any) => {
+        this.directionsRenderer.setOptions({
+          suppressPolylines: false,
+          map: this.map
+        });
+  
+        if (status == google.maps.DirectionsStatus.OK) {
+          this.directionsRenderer.setDirections(response);
+        }
+      });
+    });
+  
   }
 
   private removeRoutePolyline() {

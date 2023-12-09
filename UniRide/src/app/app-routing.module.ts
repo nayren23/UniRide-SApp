@@ -10,6 +10,7 @@ import { ResendMailComponent } from './resend-mail/resend-mail.component';
 import { TripSearchResultListComponent } from './trip-search-result-list/trip-search-result-list.component'
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
+import { TripInfoComponent } from './trip-info/trip-info.component'
 
 
 const routes: Routes = [
@@ -26,6 +27,8 @@ const routes: Routes = [
     data: { trips: null }
   },
   { path: 'trips-proposed', component: TripProposedListComponent },
+  { path: 'trip-info/:id', component: TripInfoComponent },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

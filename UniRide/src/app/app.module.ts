@@ -20,6 +20,19 @@ import { ResendMailComponent } from './resend-mail/resend-mail.component';
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 import { DistancePipe } from './pips/distance/distance.pipe';
+import { TripInfoComponent } from './trip-info/trip-info.component';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { UserInfoSummaryComponent } from './user-info-summary/user-info-summary.component';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { DividerModule } from 'primeng/divider';
+import { PanelModule } from 'primeng/panel';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { TagModule } from 'primeng/tag';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +48,9 @@ import { DistancePipe } from './pips/distance/distance.pipe';
     TripSearchResultListComponent,
     TripProposedComponent,
     TripProposedListComponent,
-    DistancePipe
+    DistancePipe,
+    TripInfoComponent,
+    UserInfoSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +59,23 @@ import { DistancePipe } from './pips/distance/distance.pipe';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule, // required for toastr animations
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CardModule,
+    ButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    PanelModule,
+    ConfirmDialogModule,
+    ToastModule,
+    TagModule
 
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    ConfirmationService,
+    MessageService]
+  ,
   bootstrap: [AppComponent]
 })
 export class AppModule {
