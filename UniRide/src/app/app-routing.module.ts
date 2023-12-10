@@ -11,6 +11,7 @@ import { TripSearchResultListComponent } from './trip-search-result-list/trip-se
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
+import { ManageRequestVerificationDocumentComponent } from './manage-request-verification-document/manage-request-verification-document.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   },
   { path: 'trips-proposed', component: TripProposedListComponent },
   { path: 'document-verification-display', component: DocumentVerificationDisplayComponent },
+  { path: 'manage-request-verification-document', component: ManageRequestVerificationDocumentComponent },
 
 ];
 @NgModule({

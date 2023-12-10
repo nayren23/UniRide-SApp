@@ -24,6 +24,14 @@ import { DocumentVerificationDisplayComponent } from './document-verification-di
 import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
+import { ManageRequestVerificationDocumentComponent } from './manage-request-verification-document/manage-request-verification-document.component';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
+import { ImageModule } from 'primeng/image';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -40,7 +48,8 @@ import { ButtonModule } from 'primeng/button';
     TripProposedComponent,
     TripProposedListComponent,
     DistancePipe,
-    DocumentVerificationDisplayComponent
+    DocumentVerificationDisplayComponent,
+    ManageRequestVerificationDocumentComponent
   ],
   imports: [
     BrowserModule,
@@ -53,9 +62,13 @@ import { ButtonModule } from 'primeng/button';
     TableModule,
     MultiSelectModule,
     ButtonModule,
-
+    DataViewModule,
+    TagModule,
+    ImageModule,
+    ConfirmPopupModule,
+    ToastModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
+  providers: [ConfirmationService, MessageService, { provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
