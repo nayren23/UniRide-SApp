@@ -14,7 +14,7 @@
                                 <span class="font-semibold">{{ document.user_full_name }}</span>
                             </span>
                             <p-tag [value]="convertirStatus(document.status)"
-                                [severity]="getSeverity(document)"></p-tag>
+                                [severity]="getSeverity(document.status)"></p-tag>
                         </div>
                     </div>
 
@@ -23,17 +23,17 @@
                             <p-toast></p-toast>
                             <p-confirmPopup></p-confirmPopup>
                             <p-button
-                                (click)="performAction($event, 'Êtes-vous sûr de vouloir accepter le document ?', 'accepté', document, 1)"
+                                (click)="performAction($event, 'Êtes-vous sûr de vouloir accepter le document ?', 'accepté', document, '1')"
                                 icon="pi pi-check" label="Accepter" class="p-button-danger"
-                                [disabled]="document.status === 1"></p-button>
+                                [disabled]="document.status === '1'"></p-button>
                         </div>
 
                         <div class="card flex justify-content-center gap-2">
                             <p-toast></p-toast>
                             <p-confirmPopup></p-confirmPopup>
                             <p-button
-                                (click)="performAction($event, 'Êtes-vous sûr de vouloir refuser le document ?', 'refusé', document, -1)"
-                                icon="pi pi-check" label="Refuser" [disabled]="document.status === -1"></p-button>
+                                (click)="performAction($event, 'Êtes-vous sûr de vouloir refuser le document ?', 'refusé', document, '-1')"
+                                icon="pi pi-check" label="Refuser" [disabled]="document.status === '-1'"></p-button>
                         </div>
 
                         <div class="card flex justify-content-center gap-2">

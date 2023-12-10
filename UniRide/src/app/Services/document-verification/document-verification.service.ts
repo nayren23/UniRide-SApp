@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../app/environements/environement';
+import { CheckData } from 'src/app/models/checkData';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,12 @@ export class DocumentVerificationService {
 
   constructor(private http: HttpClient) { }
 
-
-  getDocumentVerification(page: number = 1): Observable<any> {
+  getDocumentVerification(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/verify/document`, //?page=${page}
+      `${this.apiUrl}/user/verify/document`,
       { headers: headers }
     )
   }
@@ -27,23 +27,22 @@ export class DocumentVerificationService {
    * Return the document verification for the current user
    * @returns 
    */
-  getDocumentVerificationForUser(): Observable<any> {
+  getDocumentVerificationForUser(id_user: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/document-verification`,
+      `${this.apiUrl}/user/document_user/${id_user}`,
       { headers: headers }
     )
   }
-
 
   /**
    * Update the document verification for the current user
    * @param checkData 
    * @returns 
    */
-  updateDocumentVerificationForUser(checkData: any): Observable<any> {
+  updateDocumentVerificationForUser(checkData: CheckData): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
