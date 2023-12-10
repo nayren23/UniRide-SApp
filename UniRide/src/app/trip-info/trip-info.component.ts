@@ -81,7 +81,7 @@ export class TripInfoComponent implements OnInit {
 
   confirm1() {
     this.confirmationService.confirm({
-        message: 'Êtes-vous sûr de vouloir réserver ce trajet ?',
+        message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {

@@ -1,0 +1,10 @@
+
+<p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="w-16rem">
+    <div class="items-center justify-content-end" >
+        <p-menu [model]="items"></p-menu>
+    </div>
+</p-sidebar>
+<button *ngIf="isLoggedIn()" pButton type="button" icon="pi pi-bars" (click)="sidebarVisible = true" style="background-color: white; color: black;"></button>
+
+<p-button class="mr-3" *ngIf="!isLoggedIn()" label="Connexion" [outlined]="true" (click)="navigate('/logIn')"></p-button>
+<p-button *ngIf="!isLoggedIn()" label="Inscription" [outlined]="true" severity="secondary" (click)="navigate('/registration')" ></p-button>

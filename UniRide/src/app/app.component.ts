@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { AuthService } from './Services/auth/auth.service'; // Importez le service d'authentification
 
 
 @Component({
@@ -18,18 +17,10 @@ export class AppComponent implements OnInit{
   title = 'UniRide';
 
 
-  constructor(private authService: AuthService) {
+  constructor() {
 
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
-
-
-  isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
 
   ngOnInit(): void {
     initFlowbite();

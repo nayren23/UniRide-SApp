@@ -11,7 +11,7 @@
             <div>
                 <div class="flex justify-content-between">
                     <p><b>Passagers:</b> {{ trip.numberOfPassenger }}/{{ trip.totalNumberOfPassenger }}</p>
-                    <p-tag [severity]="chipValue(trip.status)"><i class="pi text-base">{{ getStatusLabel(trip.status) }}</i></p-tag>
+                    <p-tag [severity]="chipValue(trip.status)"><i class="pi text-xl">{{ getStatusLabel(trip.status) }}</i></p-tag>
                 </div>
                     <div>
                         <h4>Départ</h4>
