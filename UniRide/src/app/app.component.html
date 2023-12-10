@@ -13,9 +13,9 @@
 <body>
 
     <nav class=" border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <img id="logo" src="assets/logo.png">
-            <app-navbar></app-navbar>
+        <div class="w-auto mb-3">
+            <app-navbar *ngIf="isLoggedIn()" class="w-full"></app-navbar>
+            <app-navbar *ngIf="!isLoggedIn()" class="w-full"></app-navbar>
         </div>
     </nav>
 

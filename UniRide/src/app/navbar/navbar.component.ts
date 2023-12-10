@@ -12,8 +12,10 @@ import { Router } from "@angular/router"
 export class NavbarComponent implements OnInit {
   sidebarVisible: boolean = false;
   items?: MenuItem[];
+  userItems?: MenuItem[];
   constructor(private authService: AuthService, private router: Router) { }
   ngOnInit() {
+    if (this.isLoggedIn()) {
     this.items = [
       {
         label: 'Accueil',
@@ -43,14 +45,40 @@ export class NavbarComponent implements OnInit {
           this.navigate("/trips-proposed");
         }
       },
+      
+    ];
+    this.userItems = [
+      {
+        label: 'Mon Profil',
+        icon: 'pi pi-fw pi-user',
+      },
       {
         label: 'Déconnexion',
         icon: 'pi pi-fw pi-times',
         command: () => {
           this.logout();
         }
+      }
+    ]
+  }
+  else {
+    this.items = [
+      {
+        label: 'Connexion',
+        icon: 'pi pi-fw pi-check',
+        command: () => {
+          this.navigate("/logIn");
+        }
       },
+      {
+        label: 'Inscription',
+        icon: 'pi pi-fw pi-align-justify',
+        command: () => {
+          this.navigate("/registration");
+        }
+      }
     ];
+  }
   }
 
 

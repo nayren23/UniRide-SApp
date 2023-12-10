@@ -37,6 +37,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { MenuModule } from 'primeng/menu';
     BadgeModule,
     SidebarModule,
     PanelMenuModule,
-    MenuModule
+    MenuModule,
+    MenubarModule
 
   ],
   providers: [
