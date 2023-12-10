@@ -1,0 +1,19 @@
+.logo-container {
+    flex-shrink: 0;
+}
+
+#logo {
+    width: 100px; /* Ou toute autre taille appropriée */
+}
+
+.p-menubar .p-component {
+    width: 100%;
+}
+
+.full-width-menubar {
+    display: flex;
+    justify-content: space-between;
+    width: auto; /* ou une largeur maximale si nécessaire */
+    padding-left: 1rem; /* Ajustez selon les besoins */
+    padding-right: 1rem; /* Ajustez selon les besoins */
+}

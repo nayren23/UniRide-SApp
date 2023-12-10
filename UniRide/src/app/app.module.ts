@@ -32,6 +32,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
+import { BadgeModule } from 'primeng/badge';
+import { SidebarModule } from 'primeng/sidebar';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
 
 
 @NgModule({
@@ -50,7 +56,8 @@ import { TagModule } from 'primeng/tag';
     TripProposedListComponent,
     DistancePipe,
     TripInfoComponent,
-    UserInfoSummaryComponent
+    UserInfoSummaryComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,12 @@ import { TagModule } from 'primeng/tag';
     PanelModule,
     ConfirmDialogModule,
     ToastModule,
-    TagModule
+    TagModule,
+    BadgeModule,
+    SidebarModule,
+    PanelMenuModule,
+    MenuModule,
+    MenubarModule
 
   ],
   providers: [
