@@ -17,3 +17,18 @@
     padding-left: 1rem; /* Ajustez selon les besoins */
     padding-right: 1rem; /* Ajustez selon les besoins */
 }
+
+
+.p-button {
+    background: #F8F9FA;
+    background-color: #F8F9FA;
+    border-color: black;
+    color: black;
+}
+
+.p-button:hover {
+    background: #28212F;
+    background-color: #28212F;
+    border-color: black;
+    color: #F8F9FA;
+}
