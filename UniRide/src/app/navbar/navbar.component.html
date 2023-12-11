@@ -10,9 +10,15 @@
             <button class="ml-50 mr-3" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true" style="background-color: white; color: black;"></button>
         </ng-template>
     </p-menubar>
-    <p-menubar *ngIf="!isLoggedIn()" [model]="items" class="mr-2" >
+    <p-menubar *ngIf="!isLoggedIn()" class="mr-2" >
         <ng-template pTemplate="start">
-            <img id="logo" src="assets/UniRide-logo.png" class="w-2">
+            <div class="logo-container mr-2">
+                <img id="logo" src="assets/UniRide-logo.png">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <button type="button" (click)="navigate('/logIn')" pButton label="Connexion" icon="pi pi-fw pi-check"></button>
+            <button type="button" (click)="navigate('/registration')" pButton label="Inscription" icon="pi pi-fw pi-align-justify"></button>
         </ng-template>
     </p-menubar >
 </div>
