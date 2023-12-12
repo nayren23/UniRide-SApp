@@ -1,0 +1,47 @@
+<p-button class="m-2" severity="secondary" [text]="true" (click)="op.toggle($event)" icon="pi pi-car"></p-button>
+<p-overlayPanel #op [showCloseIcon]="false" [style]="{width:'450px','max-height':'550px', overflow:'scroll', 'padding': 0 ,'border':'none'}" [showCloseIcon]="false">
+    <ng-template pTemplate="content">
+        <p-table [value]="books" selectionMode="single" [(selection)]="selectedBook" responsiveLayout="scroll">
+            <ng-template class="flex justify-content-center" pTemplate="header">
+                <h3>Vos demandes</h3>
+                <tr>
+                    <th pSortableColumn="date_requested">Date<p-sortIcon field="DateRequested"></p-sortIcon></th>
+                    <th pSortableColumn="accepted">Trajet<p-sortIcon field="trip"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-book>
+                <tr [pSelectableRow]="rowData" class="h-full">
+                    <td class="text-xs">Il y a {{getTimeElapsed(book.date_requested)}}</td>
+                    <td>
+                        <p-accordion [activeIndex]="1">
+                            <p>Bob</p>
+                            <p-accordionTab header="28 Dec 2023 16h" class="p-0">
+                                <h4>Départ</h4>
+                                    <p class="m-0 text-xs">
+                                        140 Rue de la Nouvelle France Montreuil 93100
+                                    </p>
+                                    <h4>Arrivée</h4>
+                                    <p class="m-0 text-xs">
+                                        8 Rue d'Amsterdam Paris 75008
+                                    </p>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </td>
+                    <td class="flex-align-center">
+                        <div class="button-group">
+                            <p-blockUI>
+                                <i class="pi pi-lock" style="font-size: 3rem"></i>
+                            </p-blockUI>
+                            <div class="buttons">
+                                <p-button (click)="answerBook(book.trip_id, book.user_id, 1, book)" [disabled]="book.accepted != 0" icon="pi pi-check" [rounded]="true" size="small" severity="success"></p-button>
+                                <p-button (click)="answerBook(book.trip_id, book.user_id, -1, book)" [disabled]="book.accepted != 0" icon="pi pi-times" [rounded]="true" size="small" severity="danger"></p-button>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>

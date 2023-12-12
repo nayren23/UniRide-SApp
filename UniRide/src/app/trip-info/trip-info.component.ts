@@ -7,6 +7,7 @@ import { AddressService } from '../Services/address/address.service';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { Location } from '@angular/common'
 import { tap } from 'rxjs';
+import { BookService } from '../Services/book/book.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class TripInfoComponent implements OnInit {
 
   constructor(
     private tripService: TripService, 
+    private bookService: BookService,
     private route: ActivatedRoute,
     private mapService: MapService,
     private addressService: AddressService,
@@ -85,7 +87,10 @@ export class TripInfoComponent implements OnInit {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.messageService.add({ severity: 'info', summary: 'Confirmation', detail: 'Le trajet a bien été réservé' });
+            this.bookService.bookTrip(this.trip.id, 1).subscribe({
+            next: (data: any) => {this.messageService.add({ severity: 'info', summary: 'Confirmation', detail: 'Le trajet a bien été réservé' })},
+            error: (error: any) =>{ this.messageService.add({ severity: 'danger', summary: 'Erreur', detail: 'Une erreur s\'est produite' })}
+          });
         }
     });
   }

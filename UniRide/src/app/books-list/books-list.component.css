@@ -1,0 +1,8 @@
+.p-fieldset-content div {
+    padding: 0px;
+}
+
+.p-button:enabled:focus {
+    box-shadow: none;
+    border-color: initial;
+}
