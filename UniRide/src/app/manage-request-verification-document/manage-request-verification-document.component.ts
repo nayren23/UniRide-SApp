@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentVerificationService } from '../Services/document-verification/document-verification.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { DocumentVerification } from '../models/document-verification';
 import { CheckData } from '../models/checkData';
 import { DataView } from 'primeng/dataview';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-request-verification-document',
@@ -22,7 +23,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     private route: ActivatedRoute,
     private documentVerificationService: DocumentVerificationService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -36,7 +37,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
      */
     this.documentVerificationService.getDocumentVerificationForUser(this.id_user).subscribe({
       next: (data: any) => {
-        data.request.documents.forEach((documentGroup: any) => {
+        data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const documentVerification = new DocumentVerification(this.full_name, document.url, document.status, document.type);
             this.documents.push(documentVerification);
@@ -44,7 +45,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
         });
       },
       error: (error: any) => {
-        this.messageService.add({ severity: 'error', summary: 'Erreur 📄❌🔄', detail: 'La récupération des documents a échoué. Veuillez réessayer ultérieurement.' });
+        this.toastr.error('La récupération des documents a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
         console.log('error:', error);
       },
       complete: () => {
@@ -63,7 +64,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
         this.updateDocument(document, action, status);
       },
       reject: () => {
-        this.messageService.add({ severity: 'warn', summary: 'Action annulée 📄🚫', detail: `Vous n'avez pas ${action} le document` });
+        this.toastr.warning(`Vous n'avez pas ${action} le document`, 'Action annulée 📄🚫');
       }
     });
   }
@@ -74,10 +75,10 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     const checkData = new CheckData(this.id_user, documentUpdated);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
-        this.messageService.add({ severity: 'success', summary: 'Info ✅📄👍', detail: `Vous avez ${action} le document` });
+        this.toastr.success(`Vous avez ${action} le document`, 'Info ✅📄👍');
       },
       error: (error: any) => {
-        this.messageService.add({ severity: 'error', summary: 'Erreur ❌🔄🚫', detail: 'Échec de l\'action. Veuillez réessayer ultérieurement.' });
+        this.toastr.error(`Échec de l\'action. Veuillez réessayer ultérieurement.`, 'Erreur ❌🔄🚫');
         console.log('error:', error);
       }
     });

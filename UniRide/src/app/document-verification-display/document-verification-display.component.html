@@ -1,4 +1,18 @@
-<div class="card">
+<div class="flex justify-content-center flex-wrap carte  mb-3">
+    <div class=" card flex justify-content-center">
+        <p-card header="Analyse des Trajets ">
+            <p-chart type="doughnut" [data]="dataTrip" [options]="options" height="15vh"></p-chart>
+        </p-card>
+    </div>
+
+    <div class="card flex justify-content-center">
+        <p-card header="Analyse des Utilisateurs">
+            <p-chart type="doughnut" [data]="dateUser" [options]="options" height="15vh"></p-chart>
+        </p-card>
+    </div>
+</div>
+
+<div class="card h-auto ">
     <p-table #dt1 [value]="documentVerification" dataKey="request_number" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
@@ -13,20 +27,20 @@
             <tr>
                 <th style="min-width:15rem">
                     <div class="flex align-items-center">
-                        Numéro de Demande 🙏
+                        Numéro de Demande
                         <p-columnFilter type="numeric" field="request_number" display="menu"></p-columnFilter>
                     </div>
                 </th>
                 <th style="min-width:15rem">
                     <div class="flex align-items-center">
-                        Nombre de Documents à Vérifier 📝
+                        Nombre de Documents à Vérifier
                         <p-columnFilter type="numeric" field="documents_to_verify" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="min-width:15rem">
                     <div class="flex align-items-center">
-                        Étudiant 👨‍🎓
+                        Étudiant
                         <p-columnFilter field="etudiant" matchMode="in" display="menu" [showMatchModes]="false"
                             [showOperator]="false" [showAddButton]="false">
                             <ng-template pTemplate="header">
@@ -35,11 +49,11 @@
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-multiSelect [ngModel]="value" [options]="etudiants" placeholder="Tous"
-                                    (onChange)="filter($event.value)" optionLabel="full_name">
+                                <p-multiSelect #studentMultiSelect [ngModel]="value" [options]="etudiants"
+                                    placeholder="Tous" (onChange)="filter($event.value);" optionLabel="full_name">
                                     <ng-template let-option pTemplate="item">
                                         <div class="inline-block vertical-align-middle">
-                                            <img alt="Photo de profil" src="{{option.profile_picture}}" width="24"
+                                            <img alt="" src="{{option.profile_picture}}" width="24"
                                                 class="vertical-align-middle" />
                                             <span class="ml-1 mt-1">{{ option.full_name }}</span>
                                         </div>
@@ -51,14 +65,14 @@
                 </th>
                 <th style="min-width:10rem">
                     <div class="flex align-items-center">
-                        Date de Dernière Modification 📅
+                        Date de Dernière Modification
                         <p-columnFilter type="date" field="last_modified_date" display="menu"></p-columnFilter>
                     </div>
                 </th>
 
                 <th style="min-width:10rem">
                     <div class="flex align-items-center">
-                        Action ➡️
+                        Action
                     </div>
                 </th>
             </tr>
@@ -71,14 +85,14 @@
                     {{ documentVerification.request_number }}
                 </td>
                 <td>
-                    <span class="ml-1 vertical-align-middle">{{ documentVerification.documents_to_verify }}</span>
+                    <span class="ml-1 vertical-align-middle">{{ documentVerification.documents_to_verify
+                        }}</span>
                 </td>
                 <td>
                     <img alt="Photo de profil" src="{{documentVerification.person.profile_picture}}" width="32"
                         style="vertical-align: middle" />
                     <span class="ml-1 vertical-align-middle">{{ documentVerification.person.full_name }}</span>
                 </td>
-
                 <td>
                     {{ documentVerification.person.last_modified_date | date: 'dd/MM/yyyy' }}
                 </td>

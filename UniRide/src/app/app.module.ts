@@ -32,6 +32,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { ConfirmationService } from 'primeng/api';
     ImageModule,
     ConfirmPopupModule,
     ToastModule,
+    ChartModule,
+    CardModule,
   ],
   providers: [ConfirmationService, MessageService, { provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent]

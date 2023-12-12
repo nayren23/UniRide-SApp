@@ -3,9 +3,11 @@ import { DocumentVerificationService } from '../Services/document-verification/d
 import { Table } from 'primeng/table';
 import { DocumentVerificationDisplay } from '../models/document-verification-display';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { Person } from '../models/person';
 import { Etudiant } from '../models/etudiant';
+import { StatisticService } from '../Services/statistic/statistic.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-document-verification-display',
@@ -14,6 +16,21 @@ import { Etudiant } from '../models/etudiant';
 })
 export class DocumentVerificationDisplayComponent implements OnInit {
 
+  /**
+   * Arguments for the chart
+   */
+  dataTrip: any;
+  dateUser: any;
+  totalTrips: number = 0;
+  totalUsers: number = 0;
+  totalDrivers: number = 0;
+  totalPassengers: number = 0;
+  options: any;
+  textColor: string = 'black';
+
+  /**
+   * Arguments for the table
+   */
   documentVerification: DocumentVerificationDisplay[] = [];
   etudiants: Etudiant[] = []; // a changer avec un modele
   loading: boolean = true;
@@ -22,10 +39,46 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   constructor(
     private documentVerificationService: DocumentVerificationService,
     private router: Router,
-    private messageService: MessageService
+    private statistiqueService: StatisticService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
+    this.statistiqueService.getTripsNumber().subscribe({
+      next: (data: any) => {
+        this.totalTrips = data.trip_count;
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+      },
+      complete: () => {
+        /**
+         * Initialize the chart
+         */
+        const documentStyle = getComputedStyle(document.documentElement);
+        this.dataTrip = this.getDataTrip(this.totalTrips, documentStyle)
+        this.options = this.getOptions(this.textColor);
+      }
+    })
+
+    this.statistiqueService.getNumberOfUsers().subscribe({
+      next: (data: any) => {
+        this.totalUsers = data.user_count;
+        this.totalDrivers = data.drivers_count;
+        this.totalPassengers = data.passengers_count;
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+      },
+      complete: () => {
+        /**
+       * Initialize the chart
+       */
+        const documentStyle = getComputedStyle(document.documentElement);
+        this.dateUser = this.getDateUser(this.totalDrivers, this.totalPassengers, this.totalUsers, documentStyle)
+      }
+    })
+
     /**
      * Call the API to get the document verification for the user
      */
@@ -43,10 +96,10 @@ export class DocumentVerificationDisplayComponent implements OnInit {
       },
       error: (error: any) => {
         this.loading = false;
-        console.log('error:', error);
+        this.toastr.error('La récupération des demandes a échoué ', 'Erreur 📄❌🔄');
       },
       complete: () => {
-        this.clear(this.table);//We need to call this method to refresh the table, cause the table is not refreshed automatically, when we call the API
+        this.table.clear();//We need to call this method to refresh the table, cause the table is not refreshed automatically, when we call the API
       }
     })
   }
@@ -56,7 +109,7 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    * @param table 
    */
   clear(table: Table) {
-    this.messageService.add({ severity: 'success', summary: 'Info ✅📄🔄👍', detail: 'Tous les filtres ont été réinitialisés avec succès.' });
+    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info ✅📄🔄👍');
     table.clear();
   }
 
@@ -68,4 +121,44 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   manageRequestVerificationDocument(id_user: number, full_name: string) {
     this.router.navigate(['/manage-request-verification-document'], { queryParams: { id_user: id_user, full_name: full_name } });
   }
+
+  getDataTrip(totalTrips: number, documentStyle: CSSStyleDeclaration) {
+    return {
+      labels: ['Total des trajets'],
+      datasets: [
+        {
+          data: [totalTrips],
+          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+        }
+      ]
+    };
+  }
+
+  getDateUser(totalDrivers: number, totalPassengers: number, totalUsers: number, documentStyle: CSSStyleDeclaration) {
+    return {
+      labels: ['Total des conducteurs', 'Total des passagers', 'Total des utilisateurs'],
+      datasets: [
+        {
+          data: [totalDrivers, totalPassengers, totalUsers],
+          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
+          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+        }
+      ]
+    };
+  }
+
+  getOptions(textColor: string) {
+    return {
+      cutout: '60%',
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
+        }
+      }
+    };
+  }
+
 }
