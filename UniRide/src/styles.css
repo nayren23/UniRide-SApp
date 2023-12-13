@@ -1,8 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
+
 body {
     /* Masquer la barre de défilement horizontale */
    background-color: #28212f;
 }
+

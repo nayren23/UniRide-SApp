@@ -7,6 +7,7 @@ import { AddressService } from '../Services/address/address.service';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { Location } from '@angular/common'
 import { tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { BookService } from '../Services/book/book.service';
 
 
@@ -29,7 +30,8 @@ export class TripInfoComponent implements OnInit {
     private renderer: Renderer2,
     private confirmationService: ConfirmationService, 
     private messageService: MessageService,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -87,9 +89,9 @@ export class TripInfoComponent implements OnInit {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.bookService.bookTrip(this.trip.id, 1).subscribe({
-            next: (data: any) => {this.messageService.add({ severity: 'info', summary: 'Confirmation', detail: 'Le trajet a bien été réservé' })},
-            error: (error: any) =>{ this.messageService.add({ severity: 'danger', summary: 'Erreur', detail: 'Une erreur s\'est produite' })}
+          this.bookService.bookTrip(this.trip.id, 1).subscribe({
+            next: (data: any) => {this.toastr.success('Trajet créé avec succès', 'Trajet créé');},
+            error: (error: any) =>{this.toastr.error('Une erreur s\'est produite', 'Erreur')}
           });
         }
     });

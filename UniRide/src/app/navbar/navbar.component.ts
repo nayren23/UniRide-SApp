@@ -45,7 +45,12 @@ export class NavbarComponent implements OnInit {
           this.navigate("/trips-proposed");
         }
       },
-      
+      {
+        label: 'Admin',
+        command: () => {
+          this.navigate("/document-verification-display");
+        }
+      }
     ];
     this.userItems = [
       {
