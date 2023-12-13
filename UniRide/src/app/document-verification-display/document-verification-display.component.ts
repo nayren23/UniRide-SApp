@@ -87,10 +87,12 @@ export class DocumentVerificationDisplayComponent implements OnInit {
         this.loading = false;
         data.request.forEach((verification: any) => {
           const person = new Person(verification.person.full_name, verification.person.profile_picture, new Date(verification.person.last_modified_date), verification.person.id_user);
+          this.setImageUser(person);
           const documentVerification = new DocumentVerificationDisplay(verification.request_number, verification.documents_to_verify, person);
           this.documentVerification.push(documentVerification);
 
           const etudiant = new Etudiant(verification.person.full_name, verification.person.profile_picture);
+          this.setImageUser(etudiant);
           this.etudiants.push(etudiant);
         })
       },
@@ -161,4 +163,12 @@ export class DocumentVerificationDisplayComponent implements OnInit {
     };
   }
 
+
+  setImagePerson(person: Person) {
+    person.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
+  }
+
+  setImageUser(etudiant: Etudiant) {
+    etudiant.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
+  }
 }

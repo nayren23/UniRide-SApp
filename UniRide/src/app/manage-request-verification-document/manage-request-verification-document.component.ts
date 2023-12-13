@@ -32,6 +32,8 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       this.full_name = params['full_name'];
     });
 
+
+
     /**
      * Call the API to get the document verification for the user
      */
@@ -40,6 +42,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const documentVerification = new DocumentVerification(this.full_name, document.url, document.status, document.type);
+            this.setImages(documentVerification)
             this.documents.push(documentVerification);
           });
         });
@@ -152,6 +155,18 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
 
       default:
         return 'Document inconnu';
+    }
+  }
+
+  setImages(documentVerification: DocumentVerification) {
+    if (documentVerification.type === 'license') {
+      documentVerification.url = 'https://mobile.interieur.gouv.fr/var/miomcti/storage/images/www.interieur.gouv.fr/version-fre/actualites/l-actu-du-ministere/nouveau-permis-de-conduire-securise-le-16-septembre-2013/466172-1-fre-FR/Nouveau-permis-de-conduire-securise-le-16-septembre-2013_catcher.jpg';
+    }
+    else if (documentVerification.type === 'card') {
+      documentVerification.url = 'https://lecap.consulfrance.org/IMG/arton465.png?1641476764';
+    }
+    else if (documentVerification.type === 'school_certificate') {
+      documentVerification.url = 'https://www.fichier-pdf.fr/2016/09/14/certificat-de-scolarite-3md5z1-2016-2017-launois-emilie-1/preview-certificat-de-scolarite-3md5z1-2016-2017-launois-emilie-1-1.jpg';
     }
   }
 }
