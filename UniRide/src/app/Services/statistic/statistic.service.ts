@@ -29,7 +29,7 @@ export class StatisticService {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/trip_number`,
+      `${this.apiUrl}/trip/trip_number`,
       { headers: headers }
     )
   }
