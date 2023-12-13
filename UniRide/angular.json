@@ -32,7 +32,12 @@
                             "node_modules/primeflex/primeflex.css",
                             "node_modules/primeicons/primeicons.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/chart.js/dist/chart.js"
+                        ],
+                        "allowedCommonJsDependencies": [
+                            "chart.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
