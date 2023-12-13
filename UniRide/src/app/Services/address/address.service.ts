@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap, map } from 'rxjs/operators';
 import { environment } from '../../../app/environements/environement';
 
 
@@ -72,7 +72,7 @@ export class AddressService {
     ).pipe(
       switchMap((response: any) => this.getPlaceDetails(response["address"]).pipe(
         tap((response) => {
-          this.universityAddress = response["results"][0];
+          this.universityAddress = response;
           console.log('University address:', this.universityAddress);
         },))
       ),
@@ -86,6 +86,10 @@ export class AddressService {
 
   getPlaceDetails(address: string): Observable<any> {
     const url = `${this.geocodeUrl}?address=${encodeURIComponent(address)}&key=${this.apiKey}`;
-    return this.http.get(url);
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response["results"][0];
+      },));
   }
+
 }

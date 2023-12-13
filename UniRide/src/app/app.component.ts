@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { AuthService } from './Services/auth/auth.service'; // Importez le service d'authentification
-
+import { AuthService } from './Services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,19 +21,15 @@ export class AppComponent implements OnInit{
 
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
-
-
-  isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
 
   ngOnInit(): void {
     initFlowbite();
 
 
+}
+
+isLoggedIn(): boolean {
+  return this.authService.isAuthenticated();
 }
 
 }

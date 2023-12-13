@@ -10,6 +10,7 @@ import { ResendMailComponent } from './resend-mail/resend-mail.component';
 import { TripSearchResultListComponent } from './trip-search-result-list/trip-search-result-list.component'
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
+import { TripInfoComponent } from './trip-info/trip-info.component'
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
 import { ManageRequestVerificationDocumentComponent } from './manage-request-verification-document/manage-request-verification-document.component';
 
@@ -28,9 +29,9 @@ const routes: Routes = [
     data: { trips: null }
   },
   { path: 'trips-proposed', component: TripProposedListComponent },
+  { path: 'trip-info/:id', component: TripInfoComponent },
   { path: 'document-verification-display', component: DocumentVerificationDisplayComponent },
   { path: 'manage-request-verification-document', component: ManageRequestVerificationDocumentComponent },
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

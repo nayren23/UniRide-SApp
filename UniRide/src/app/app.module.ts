@@ -20,6 +20,24 @@ import { ResendMailComponent } from './resend-mail/resend-mail.component';
 import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 import { DistancePipe } from './pips/distance/distance.pipe';
+import { TripInfoComponent } from './trip-info/trip-info.component';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { UserInfoSummaryComponent } from './user-info-summary/user-info-summary.component';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { DividerModule } from 'primeng/divider';
+import { PanelModule } from 'primeng/panel';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { TagModule } from 'primeng/tag';
+import { BadgeModule } from 'primeng/badge';
+import { SidebarModule } from 'primeng/sidebar';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
 import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -34,6 +52,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +69,9 @@ import { CardModule } from 'primeng/card';
     TripProposedComponent,
     TripProposedListComponent,
     DistancePipe,
+    TripInfoComponent,
+    UserInfoSummaryComponent,
+    NavbarComponent
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent
   ],
@@ -60,6 +82,22 @@ import { CardModule } from 'primeng/card';
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule, // required for toastr animations
+    ToastrModule.forRoot(),
+    CardModule,
+    ButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    PanelModule,
+    ConfirmDialogModule,
+    ToastModule,
+    TagModule,
+    BadgeModule,
+    SidebarModule,
+    PanelMenuModule,
+    MenuModule,
+    MenubarModule
+
     ToastrModule.forRoot(),
     TableModule,
     MultiSelectModule,
@@ -72,7 +110,11 @@ import { CardModule } from 'primeng/card';
     ChartModule,
     CardModule,
   ],
-  providers: [ConfirmationService, MessageService, { provide: LOCALE_ID, useValue: 'fr-FR' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    ConfirmationService,
+    MessageService]
+  ,
   bootstrap: [AppComponent]
 })
 export class AppModule {
