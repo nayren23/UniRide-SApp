@@ -21,17 +21,12 @@ import { TripProposedComponent } from './trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-list.component';
 import { DistancePipe } from './pips/distance/distance.pipe';
 import { TripInfoComponent } from './trip-info/trip-info.component';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
 import { UserInfoSummaryComponent } from './user-info-summary/user-info-summary.component';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
-import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
-import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
 import { SidebarModule } from 'primeng/sidebar';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -71,7 +66,7 @@ import { CardModule } from 'primeng/card';
     DistancePipe,
     TripInfoComponent,
     UserInfoSummaryComponent,
-    NavbarComponent
+    NavbarComponent,
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent
   ],
@@ -90,25 +85,19 @@ import { CardModule } from 'primeng/card';
     DividerModule,
     PanelModule,
     ConfirmDialogModule,
-    ToastModule,
-    TagModule,
     BadgeModule,
     SidebarModule,
     PanelMenuModule,
     MenuModule,
-    MenubarModule
-
-    ToastrModule.forRoot(),
+    MenubarModule,
     TableModule,
     MultiSelectModule,
-    ButtonModule,
     DataViewModule,
     TagModule,
     ImageModule,
     ConfirmPopupModule,
     ToastModule,
     ChartModule,
-    CardModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
