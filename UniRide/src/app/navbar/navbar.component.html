@@ -7,7 +7,8 @@
             </div>
         </ng-template>
         <ng-template *ngIf="isLoggedIn()" pTemplate="end">
-            <button class="ml-50 mr-3" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true" style="background-color: white; color: black;"></button>
+            <app-books-list></app-books-list>
+            <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true" style="background-color: white; color: black;"></button>
         </ng-template>
     </p-menubar>
     <p-menubar *ngIf="!isLoggedIn()" class="mr-2" >
@@ -16,7 +17,7 @@
                 <img id="logo" src="assets/UniRide-logo.png">
             </div>
         </ng-template>
-        <ng-template pTemplate="end">
+        <ng-template pTemplate="end" class="flex flex-row">
             <button type="button" (click)="navigate('/logIn')" pButton label="Connexion" icon="pi pi-fw pi-check"></button>
             <button type="button" (click)="navigate('/registration')" pButton label="Inscription" icon="pi pi-fw pi-align-justify" class="ml-1"></button>
         </ng-template>

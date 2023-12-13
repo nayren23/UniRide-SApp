@@ -33,6 +33,13 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
+import { BookComponent } from './book/book.component';
+import { BooksListComponent } from './books-list/books-list.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { MessagesModule } from 'primeng/messages';
+import { AccordionModule } from 'primeng/accordion';
+import { BlockUIModule } from 'primeng/blockui';
+import { FieldsetModule } from 'primeng/fieldset';
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
 import { TableModule } from 'primeng/table';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -67,6 +74,8 @@ import { CardModule } from 'primeng/card';
     TripInfoComponent,
     UserInfoSummaryComponent,
     NavbarComponent,
+    BookComponent,
+    BooksListComponent,
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent
   ],
@@ -90,7 +99,12 @@ import { CardModule } from 'primeng/card';
     PanelMenuModule,
     MenuModule,
     MenubarModule,
+    OverlayPanelModule,
+    MessagesModule,
     TableModule,
+    AccordionModule,
+    BlockUIModule,
+    FieldsetModule,
     MultiSelectModule,
     DataViewModule,
     TagModule,
