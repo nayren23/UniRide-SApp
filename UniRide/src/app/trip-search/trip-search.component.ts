@@ -40,13 +40,15 @@ export class TripSearchComponent implements OnInit {
           this.mapService.addGoogleMapsScript(this.renderer, this.searchTripForm, this.searchInputDeparture, this.searchInputArrival)
         })
       ).subscribe();
+    } else {
+      this.mapService.addGoogleMapsScript(this.renderer, this.searchTripForm, this.searchInputDeparture, this.searchInputArrival)
     }
   }
 
   search() {
     if (this.searchTripForm.valid) {
       const searchParams = {
-        depart: this.addressService.extractAddressData(this.mapService.getAutocompleteDeparture().getPlace()),
+        departure: this.addressService.extractAddressData(this.mapService.getAutocompleteDeparture().getPlace()),
         arrival: this.addressService.extractAddressData(this.mapService.getAutocompleteArrival().getPlace()),
         trip: {
           passenger_count: this.searchTripForm.value.passengerNumber,

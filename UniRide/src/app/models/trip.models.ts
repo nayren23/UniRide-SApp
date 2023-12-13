@@ -9,4 +9,7 @@ export class Trip {
     proposedDate!: Date;
     numberOfPassenger?: number;
     distance?: number;
+    status?: number;
+    totalNumberOfPassenger?: number;
+    arrivalDate?: Date;
 }
