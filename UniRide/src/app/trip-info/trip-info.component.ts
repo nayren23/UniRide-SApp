@@ -22,13 +22,13 @@ export class TripInfoComponent implements OnInit {
   trip!: Trip;
 
   constructor(
-    private tripService: TripService, 
+    private tripService: TripService,
     private bookService: BookService,
     private route: ActivatedRoute,
     private mapService: MapService,
     private addressService: AddressService,
     private renderer: Renderer2,
-    private confirmationService: ConfirmationService, 
+    private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private location: Location,
     private toastr: ToastrService
@@ -36,21 +36,21 @@ export class TripInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTripDetails();
-   }
+  }
 
-   getTripDetails(): void {
+  getTripDetails(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.tripService.getTripById(id).pipe(
       tap((data: any) => {
         this.trip = {
-          id : data.trip_id,
-          driverId : data.driver_id,
-          price : data.price,
-          departure : { 
+          id: data.trip_id,
+          driverId: data.driver_id,
+          price: data.price,
+          departure: {
             id: data.address.departure.id,
             name: data.address.departure.address_name
           },
-          arrival: { 
+          arrival: {
             id: data.address.arrival.id,
             name: data.address.arrival.address_name
           },
@@ -65,7 +65,7 @@ export class TripInfoComponent implements OnInit {
   }
 
   renderMap(): void {
-    
+
     this.addressService.callUniversityAddress().pipe(
       tap(() => {
         this.mapService.addMap(this.renderer, this.trip.departure.name, this.trip.arrival.name)
@@ -85,15 +85,16 @@ export class TripInfoComponent implements OnInit {
 
   confirm1() {
     this.confirmationService.confirm({
-        message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.bookService.bookTrip(this.trip.id, 1).subscribe({
-            next: (data: any) => {this.toastr.success('Trajet créé avec succès', 'Trajet créé');},
-            error: (error: any) =>{this.toastr.error('Une erreur s\'est produite', 'Erreur')}
-          });
-        }
+      // message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
+      message: `Êtes-vous sûr de vouloir réserver ce trajet ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.bookService.bookTrip(this.trip.id, 1).subscribe({
+          next: (data: any) => { this.toastr.success('Trajet créé avec succès', 'Trajet créé'); },
+          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+        });
+      }
     });
   }
 
@@ -109,6 +110,6 @@ export class TripInfoComponent implements OnInit {
       case 4: return 'warning';
       default: return 'danger';
     }
-}
+  }
 
 }
