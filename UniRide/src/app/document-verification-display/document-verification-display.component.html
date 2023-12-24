@@ -41,7 +41,7 @@
                 <th style="min-width:15rem">
                     <div class="flex align-items-center">
                         Étudiant
-                        <p-columnFilter field="etudiant" matchMode="in" display="menu" [showMatchModes]="false"
+                        <p-columnFilter field="student" matchMode="in" display="menu" [showMatchModes]="false"
                             [showOperator]="false" [showAddButton]="false">
                             <ng-template pTemplate="header">
                                 <div class="px-3 pt-3 pb-0">
@@ -49,7 +49,7 @@
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-multiSelect #studentMultiSelect [ngModel]="value" [options]="etudiants"
+                                <p-multiSelect #studentMultiSelect [ngModel]="value" [options]="students"
                                     placeholder="Tous" (onChange)="filter($event.value);" optionLabel="full_name">
                                     <ng-template let-option pTemplate="item">
                                         <div class="inline-block vertical-align-middle">
@@ -89,17 +89,17 @@
                         }}</span>
                 </td>
                 <td>
-                    <img alt="Photo de profil" src="{{documentVerification.person.profile_picture}}" width="32"
+                    <img alt="Photo de profil" src="{{documentVerification.student.profile_picture}}" width="32"
                         style="vertical-align: middle" />
-                    <span class="ml-1 vertical-align-middle">{{ documentVerification.person.full_name }}</span>
+                    <span class="ml-1 vertical-align-middle">{{ documentVerification.student.full_name }}</span>
                 </td>
                 <td>
-                    {{ documentVerification.person.last_modified_date | date: 'dd/MM/yyyy' }}
+                    {{ documentVerification.student.last_modified_date | date: 'dd/MM/yyyy' }}
                 </td>
 
                 <td>
                     <a
-                        (click)="manageRequestVerificationDocument(documentVerification.person.id_user, documentVerification.person.full_name)">
+                        (click)="manageRequestVerificationDocument(documentVerification.student.id, documentVerification.student.full_name)">
                         <p-button label="Gérer" [rounded]="true" severity="warning"></p-button>
                     </a>
                 </td>

@@ -3,8 +3,7 @@ import { DocumentVerificationService } from '../Services/document-verification/d
 import { Table } from 'primeng/table';
 import { DocumentVerificationDisplay } from '../models/document-verification-display';
 import { Router } from '@angular/router';
-import { Person } from '../models/person';
-import { Etudiant } from '../models/etudiant';
+import { Student } from '../models/student';
 import { StatisticService } from '../Services/statistic/statistic.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -32,7 +31,7 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    * Arguments for the table
    */
   documentVerification: DocumentVerificationDisplay[] = [];
-  etudiants: Etudiant[] = []; // a changer avec un modele
+  students: Student[] = []; // a changer avec un modele
   loading: boolean = true;
   @ViewChild('dt1') table!: Table;
 
@@ -72,8 +71,8 @@ export class DocumentVerificationDisplayComponent implements OnInit {
       },
       complete: () => {
         /**
-       * Initialize the chart
-       */
+         * Initialize the chart
+         */
         const documentStyle = getComputedStyle(document.documentElement);
         this.dateUser = this.getDateUser(this.totalDrivers, this.totalPassengers, this.totalUsers, documentStyle)
       }
@@ -86,14 +85,11 @@ export class DocumentVerificationDisplayComponent implements OnInit {
       next: (data: any) => {
         this.loading = false;
         data.request.forEach((verification: any) => {
-          const person = new Person(verification.person.full_name, verification.person.profile_picture, new Date(verification.person.last_modified_date), verification.person.id_user);
-          this.setImageUser(person);
-          const documentVerification = new DocumentVerificationDisplay(verification.request_number, verification.documents_to_verify, person);
+          const student = new Student(verification.person.full_name, verification.person.profile_picture, verification.person.id_user);
+          this.setImageUser(student);
+          const documentVerification = new DocumentVerificationDisplay(verification.request_number, verification.documents_to_verify, student);
           this.documentVerification.push(documentVerification);
-
-          const etudiant = new Etudiant(verification.person.full_name, verification.person.profile_picture);
-          this.setImageUser(etudiant);
-          this.etudiants.push(etudiant);
+          this.students.push(student);
         })
       },
       error: (error: any) => {
@@ -164,11 +160,7 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   }
 
 
-  setImagePerson(person: Person) {
-    person.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
-  }
-
-  setImageUser(etudiant: Etudiant) {
-    etudiant.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
+  setImageUser(student: Student) {
+    student.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
   }
 }
