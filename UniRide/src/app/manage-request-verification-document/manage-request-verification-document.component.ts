@@ -85,13 +85,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     });
   }
 
-  /**
-   * Open the image in a new tab, in order to download it
-   * @param document 
-   */
-  downloadImage(document: any) {
-    window.open(document.url, '_blank');
-  }
 
   /**
  * Return the severity of the document
@@ -150,6 +143,9 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
 
       case 'school_certificate':
         return 'Certificat de scolarité';
+
+      case 'insurance':
+        return 'Attestation d\'assurance';
 
       default:
         return 'Document inconnu';
