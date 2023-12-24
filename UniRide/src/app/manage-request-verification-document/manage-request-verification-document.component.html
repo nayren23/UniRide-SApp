@@ -25,15 +25,22 @@
                             <p-button *ngIf="document.status !== '1'"
                                 (click)="performAction($event, 'Êtes-vous sûr de vouloir accepter le document ?', 'accepté', document, '1')"
                                 icon="pi pi-check" label="Accepter" class="p-button-danger" [rounded]="true"
-                                severity="success" [disabled]="document.status === '1'"></p-button>
+                                severity="success"></p-button>
                         </div>
 
-                        <div class="card flex justify-content-center gap-2">
+                        <div class="card flex justify-content-center gap-2" *ngIf="document.status !== '-1'">
+                            <div class="card flex justify-content-center">
+                                <textarea rows="3" cols="30" pInputTextarea [autoResize]="true"
+                                    [(ngModel)]="textareaValues[document.type]"
+                                    placeholder="Avant de procéder au refus, veuillez indiquer un motif."
+                                    maxlength="255"></textarea>
+                            </div>
                             <p-toast></p-toast>
                             <p-confirmPopup></p-confirmPopup>
-                            <p-button *ngIf="document.status !== '-1'"
+                            <p-button
                                 (click)="performAction($event, 'Êtes-vous sûr de vouloir refuser le document ?', 'refusé', document, '-1')"
-                                icon="pi pi-check" label="Refuser" severity="danger" [rounded]="true"></p-button>
+                                icon="pi pi-check" label="Refuser" severity="danger" [rounded]="true"
+                                [disabled]="isButtonDisabled(document.type)"></p-button>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import { DocumentVerification } from '../models/document-verification';
 import { CheckData } from '../models/checkData';
 import { DataView } from 'primeng/dataview';
 import { ToastrService } from 'ngx-toastr';
+import { InputTextarea } from 'primeng/inputtextarea';
+
 
 @Component({
   selector: 'app-manage-request-verification-document',
@@ -18,6 +20,8 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
   id_user: number = -1;
   full_name: string = '';
   @ViewChild('dv') dataView!: DataView;
+  length_reason_refusal: number = 5;
+  textareaValues: { [key: string]: string } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +60,14 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
 
   }
 
+  /**
+   * This function is called when the user click on the button to accept or refuse the document
+   * @param event 
+   * @param message 
+   * @param action 
+   * @param document 
+   * @param status 
+   */
   performAction(event: Event, message: string, action: string, document: DocumentVerification, status: string) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -70,9 +82,33 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     });
   }
 
+  /**
+   * Function to set the button disabled, if the textarea is empty, or if the length of the textarea is less than length_reason_refusal
+   * @param documentType 
+   * @returns 
+   */
+  isButtonDisabled(documentType: string): boolean {
+    const value = this.textareaValues[documentType];
+
+    if (!value) {
+      return true;
+    }
+
+    return value.trim() === '' || value.length < this.length_reason_refusal || value.length >= 255;
+  }
+
+
+  /**
+   * This function is called when the user click on the button to accept or refuse the document, this function update thestatus of document
+   * @param document 
+   * @param action 
+   * @param status 
+   */
   private updateDocument(document: DocumentVerification, action: string, status: string) {
     document.status = status;
     const documentUpdated = new DocumentVerification(document.user_full_name, document.url, status, document.type);
+    documentUpdated.description = this.textareaValues[document.type];
+
     const checkData = new CheckData(this.id_user, documentUpdated);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
