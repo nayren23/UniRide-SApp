@@ -15,8 +15,7 @@ export class TripSearchResultComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void { }
-  goToTripDetails(  ){
-    console.log("ouioui");
+  goToTripDetails() {
     this.router.navigate([`/trip-info/${this.trip.id}`]);
   }
 }

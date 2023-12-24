@@ -2,9 +2,8 @@
     <div class="header-container">
         <span class="date"><strong>Date:</strong> {{ trip.proposedDate | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
         <span class="price"><strong>Distance :</strong> {{ trip.distance !== null && trip.distance !== undefined ?
-            (trip.distance | distance) : 'No distance
-            available' }} </span>
-        <span class="price"><strong>Prix:</strong> {{ trip.price }} €</span>
+            (trip.distance | distance) : 'No distance available' }} </span>
+        <!-- <span class="price"><strong>Prix:</strong> {{ trip.price }} €</span> -->
     </div>
     <div class="content-container">
         <div class="address">
