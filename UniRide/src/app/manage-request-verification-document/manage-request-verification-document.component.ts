@@ -32,8 +32,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       this.full_name = params['full_name'];
     });
 
-
-
     /**
      * Call the API to get the document verification for the user
      */
