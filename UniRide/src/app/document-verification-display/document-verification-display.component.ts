@@ -3,7 +3,7 @@ import { DocumentVerificationService } from '../Services/document-verification/d
 import { Table } from 'primeng/table';
 import { DocumentVerificationDisplay } from '../models/document-verification-display';
 import { Router } from '@angular/router';
-import { Student } from '../models/student';
+import { Student } from '../models/student.model';
 import { StatisticService } from '../Services/statistic/statistic.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -85,15 +85,14 @@ export class DocumentVerificationDisplayComponent implements OnInit {
       next: (data: any) => {
         this.loading = false;
         data.request.forEach((verification: any) => {
-          const student = new Student(verification.person.full_name, verification.person.profile_picture, verification.person.id_user);
-          this.setImageUser(student);
+          const student = new Student(verification.person.last_name, verification.person.first_name, verification.person.profile_picture, verification.person.id_user);
           const documentVerification = new DocumentVerificationDisplay(verification.request_number, verification.documents_to_verify, student);
           this.documentVerification.push(documentVerification);
           this.students.push(student);
         })
       },
       error: (error: any) => {
-        this.loading = false;
+        this.loading = true;
         this.toastr.error('La récupération des demandes a échoué ', 'Erreur 📄❌🔄');
       },
       complete: () => {
@@ -116,7 +115,8 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    * @param id_user 
    * @param full_name 
    */
-  manageRequestVerificationDocument(id_user: number, full_name: string) {
+  manageRequestVerificationDocument(id_user: number, student: Student) {
+    const full_name = student.first_name + ' ' + student.last_name
     this.router.navigate(['/manage-request-verification-document'], { queryParams: { id_user: id_user, full_name: full_name } });
   }
 
@@ -157,10 +157,5 @@ export class DocumentVerificationDisplayComponent implements OnInit {
         }
       }
     };
-  }
-
-
-  setImageUser(student: Student) {
-    student.profile_picture = 'https://www.shutterstock.com/image-vector/default-profile-picture-avatar-photo-600nw-1725917284.jpg';
   }
 }

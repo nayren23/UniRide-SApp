@@ -2,7 +2,8 @@
     <ng-template let-document pTemplate="listItem">
         <div class="col-12">
             <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                <p-image src="{{document.url}}" alt="Image" width="250" [preview]="true"></p-image>
+                <p-image src="{{document.url}}" alt="image {{convertType(document.type)}}" width="250"
+                    [preview]="true"></p-image>
                 <div
                     class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                     <div class="flex flex-column align-items-center sm:align-items-start gap-3">

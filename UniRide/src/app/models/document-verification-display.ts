@@ -1,4 +1,4 @@
-import { Student } from "./student";
+import { Student } from "./student.model";
 
 export class DocumentVerificationDisplay {
     request_number!: number;
