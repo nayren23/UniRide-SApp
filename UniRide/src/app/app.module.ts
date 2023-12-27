@@ -55,6 +55,8 @@ import { ConfirmationService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { UserListComponent } from './user-list/user-list.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     BookComponent,
     BooksListComponent,
     DocumentVerificationDisplayComponent,
-    ManageRequestVerificationDocumentComponent
+    ManageRequestVerificationDocumentComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +116,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ToastModule,
     ChartModule,
     InputTextareaModule,
+    DropdownModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },

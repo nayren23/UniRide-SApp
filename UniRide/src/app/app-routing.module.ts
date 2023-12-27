@@ -13,7 +13,7 @@ import { TripProposedListComponent } from './trip-proposed-list/trip-proposed-li
 import { TripInfoComponent } from './trip-info/trip-info.component'
 import { DocumentVerificationDisplayComponent } from './document-verification-display/document-verification-display.component';
 import { ManageRequestVerificationDocumentComponent } from './manage-request-verification-document/manage-request-verification-document.component';
-
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   { path: 'registration', component: RegistrationComponent }, // Chemin vers le premier composant
@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'trip-info/:id', component: TripInfoComponent },
   { path: 'document-verification-display', component: DocumentVerificationDisplayComponent },
   { path: 'manage-request-verification-document', component: ManageRequestVerificationDocumentComponent },
+  { path: 'user-list', component: UserListComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
