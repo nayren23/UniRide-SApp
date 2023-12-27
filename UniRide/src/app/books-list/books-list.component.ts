@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Book } from '../models/book.models';
-import { BookService } from '../Services/book/book.service';
+import { BookService } from '../services/book/book.service';
 import { tap } from 'rxjs';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
@@ -24,16 +24,16 @@ export class BooksListComponent implements OnInit, AfterViewInit {
   books: Book[] = [];
   subscriptionComplete: boolean = false;
   selectedBook?: Book;
-  onhold:boolean = false;
+  onhold: boolean = false;
 
-  constructor(private bookService: BookService, private messageService: MessageService) {}
+  constructor(private bookService: BookService, private messageService: MessageService) { }
 
   ngAfterViewInit(): void {
     this.onhold = true;
   }
 
   ngOnInit() {
-      this.getBooks()
+    this.getBooks()
   }
 
   getBooks() {
@@ -47,7 +47,7 @@ export class BooksListComponent implements OnInit, AfterViewInit {
               passenger_count: book.passenger_count,
               trip_id: book.trip.trip_id,
               user_id: book.user.id
-          }
+            }
           );
         });
         this.sortDescByDateRequested();
@@ -57,17 +57,17 @@ export class BooksListComponent implements OnInit, AfterViewInit {
     });
   }
 
-sortDescByDateRequested(): void {
-  this.books.sort((a, b) => {
-    if (a.date_requested == undefined || b.date_requested == undefined) {
-      return 0; // or some other logic to handle undefined cases
-    }
-    
-    const dateA = new Date(a.date_requested);
-    const dateB = new Date(b.date_requested);
+  sortDescByDateRequested(): void {
+    this.books.sort((a, b) => {
+      if (a.date_requested == undefined || b.date_requested == undefined) {
+        return 0; // or some other logic to handle undefined cases
+      }
 
-    return dateB.getTime() - dateA.getTime();
-  });
+      const dateA = new Date(a.date_requested);
+      const dateB = new Date(b.date_requested);
+
+      return dateB.getTime() - dateA.getTime();
+    });
 
   }
   getTimeElapsed(dateInput: Date | string): string {
@@ -78,7 +78,7 @@ sortDescByDateRequested(): void {
     const minutes = Math.floor(elapsed / 60000);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    
+
     if (minutes < 60) {
       return `${minutes} minutes`;
     } else if (hours < 24) {
@@ -94,8 +94,8 @@ sortDescByDateRequested(): void {
 
   answerBook(trip_id: number, user_id: number, response: number, book: Book) {
     this.bookService.answerBook(trip_id, user_id, response).subscribe({
-      next: (data:any) => {book.accepted = response},
-      error: (error: any) =>{ this.messageService.add({ severity: 'danger', summary: 'Erreur', detail: 'Une erreur s\'est produite' })}
+      next: (data: any) => { book.accepted = response },
+      error: (error: any) => { this.messageService.add({ severity: 'danger', summary: 'Erreur', detail: 'Une erreur s\'est produite' }) }
     });
   }
 }

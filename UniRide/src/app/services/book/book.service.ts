@@ -10,11 +10,11 @@ import { AuthService } from '../auth/auth.service'; // Importez le service d'aut
   providedIn: 'root'
 })
 export class BookService {
-  
+
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
-  
+
   private get token(): string {
     return this.authService.getToken();
   }
@@ -26,8 +26,7 @@ export class BookService {
 
   getBookOfCurrentUser(): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
     return this.http.get(
       `${this.apiUrl}/book/requests`,
@@ -37,27 +36,25 @@ export class BookService {
 
   bookTrip(trip_id: number, passenger_count: number): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
     return this.http.post(
       `${this.apiUrl}/book`,
-      {"trip_id": trip_id,"passenger_count": passenger_count},
+      { "trip_id": trip_id, "passenger_count": passenger_count },
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
     );
   }
-  
+
   answerBook(trip_id: number, booker_id: number, response: number): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
-    console.log({"trip_id": trip_id,"booker_id": booker_id, "response": response})
+    console.log({ "trip_id": trip_id, "booker_id": booker_id, "response": response })
     return this.http.post(
       `${this.apiUrl}/book/respond`,
-      {"trip_id": trip_id,"booker_id": booker_id, "response": response},
+      { "trip_id": trip_id, "booker_id": booker_id, "response": response },
       { headers: headers }
     ).pipe(
       catchError(this.handleError)

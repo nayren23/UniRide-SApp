@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../Services/user/user.service';
+import { UserService } from '../services/user/user.service';
 import { User } from '../models/user.model';
 
 @Component({
@@ -8,15 +8,15 @@ import { User } from '../models/user.model';
   templateUrl: './user-info-summary.component.html',
   styleUrls: ['./user-info-summary.component.css']
 })
-export class UserInfoSummaryComponent implements OnInit{
-  
+export class UserInfoSummaryComponent implements OnInit {
+
   user!: User;
   @Input() userid!: number;
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getUserInfos();

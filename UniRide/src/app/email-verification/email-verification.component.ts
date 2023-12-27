@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../environements/environment.prod';
-import { AuthService } from '../Services/auth/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class EmailVerificationComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const tokenEmail = this.route.snapshot.params['token'];
@@ -32,12 +32,12 @@ export class EmailVerificationComponent implements OnInit {
           console.log('Réponse de la requête GET :', response);
 
           if (response.message === 'EMAIL_VERIFIED_SUCCESSFULLY') {
-            this.toastr.success("Félicitations ! La vérification s'est bien effectuée.",'Connexion réussie');
+            this.toastr.success("Félicitations ! La vérification s'est bien effectuée.", 'Connexion réussie');
             setTimeout(() => {
               this.router.navigate(['/logIn']);
             }, 2000);
           } else {
-            this.toastr.error('Erreur de vérification','Réponse inattendue du serveur');
+            this.toastr.error('Erreur de vérification', 'Réponse inattendue du serveur');
           }
         },
         (error) => {

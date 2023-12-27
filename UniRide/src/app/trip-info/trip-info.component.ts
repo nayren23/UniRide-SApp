@@ -1,14 +1,14 @@
 import { Component, Renderer2, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TripService } from '../Services/trip/trip.service';
+import { TripService } from '../services/trip/trip.service';
 import { Trip } from '../models/trip.models';
-import { MapService } from '../Services/map/map.service';
-import { AddressService } from '../Services/address/address.service';
+import { MapService } from '../services/map/map.service';
+import { AddressService } from '../services/address/address.service';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { Location } from '@angular/common'
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { BookService } from '../Services/book/book.service';
+import { BookService } from '../services/book/book.service';
 
 
 @Component({

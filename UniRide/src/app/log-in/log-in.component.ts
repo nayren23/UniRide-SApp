@@ -1,9 +1,7 @@
 // log-in.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../Services/auth/auth.service'; // Importez le service d'authentification
-import { environment } from '../environements/environment.prod';
+import { AuthService } from '../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -17,7 +15,6 @@ export class LogInComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
@@ -25,33 +22,26 @@ export class LogInComponent {
     this.connexionForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],
+      keepLoggedIn: [],
     });
   }
 
   onSubmit() {
-    const apiUrl = environment.apiUrl + "/user/auth";
     if (this.connexionForm.valid) {
       const formData = this.connexionForm.value;
-      this.http.post(apiUrl, formData).subscribe(
+      this.authService.logIn(formData).subscribe(
         (response: any) => {
           console.log(response)
-          if(response['informations_verified']['email_verified']){
-          this.authService.setToken(response["token"]); // Utilisez le service d'authentification pour stocker le token
-
-          this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
-          setTimeout(() => {
+          if (response['informations_verified']['email_verified']) {
+            this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
             this.router.navigate(['/create-search']);
-          }, 2000);
-        }
-        else{
-          this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
-        }
-
+          } else {
+            this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
+          }
         },
         (error) => {
           console.error(error);
           this.toastr.error('Nom d\'utilisateur ou mot de passe incorrect', 'Erreur de connexion');
-
         }
       );
     }
