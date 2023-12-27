@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TripService } from '../Services/trip/trip.service';
+import { TripService } from '../services/trip/trip.service';
 import { Trip } from '../models/trip.models';
 import { tap } from 'rxjs';
 

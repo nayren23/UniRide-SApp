@@ -6,14 +6,20 @@
                 <!-- Nom utilisateur -->
                 <div class="mb-4">
                     <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur</label>
-                    <input type="text" id="username" name="username" class="w-full p-2 border rounded" formControlName="login" required>
+                    <input type="text" id="username" name="username" class="w-full p-2 border rounded"
+                        formControlName="login" required>
                 </div>
                 <!-- Mot De Passe -->
                 <div class="mb-4">
                     <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe</label>
-                    <input type="password" id="password" name="password" class="w-full p-2 border rounded" formControlName="password" required>
+                    <input type="password" id="password" name="password" class="w-full p-2 border rounded"
+                        formControlName="password" required>
                 </div>
-
+                <!-- Rester connecté -->
+                <div class="mb-4">
+                    <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn" formControlName="keepLoggedIn">
+                    <label for="keepLoggedIn" class="text-white text-sm font-semibold">Rester connecté</label>
+                </div>
                 <button type="button" type="submit" pButton label="Connexion"></button>
                 <div class="register">
                     <p>Vous n'avez pas de compte ? <a href="/registration">Inscription</a></p>

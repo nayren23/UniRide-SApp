@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../app/environements/environement';
 import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
 
@@ -28,8 +28,7 @@ export class TripService {
     // Ajouter le jeton d'accès à l'en-tête d'autorisation
     console.log(this.token)
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
 
     // Effectuer la requête HTTP avec l'en-tête d'autorisation
@@ -57,8 +56,7 @@ export class TripService {
 
   getTripsProposed(page: number = 1): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
     return this.http.get(
       `${this.apiUrl}/trip/driver/current?page=${page}`,
@@ -67,8 +65,7 @@ export class TripService {
   }
   getTripById(tripId: number): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
     return this.http.get(
       `${this.apiUrl}/trip/${tripId}`,

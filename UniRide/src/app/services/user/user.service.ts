@@ -24,8 +24,7 @@ export class UserService {
 
   getUserInfoSummaryById(userId: number): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.token}`
+      'Content-Type': 'application/json'
     });
     return this.http.get(
       `${this.apiUrl}/user/driver/infos/${userId}`,

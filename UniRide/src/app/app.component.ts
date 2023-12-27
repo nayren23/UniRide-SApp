@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
-import { AuthService } from './Services/auth/auth.service';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { AuthService } from './Services/auth/auth.service';
   </li>
 `,
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'UniRide';
 
 
@@ -26,10 +26,10 @@ export class AppComponent implements OnInit{
     initFlowbite();
 
 
-}
+  }
 
-isLoggedIn(): boolean {
-  return this.authService.isAuthenticated();
-}
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
 
 }

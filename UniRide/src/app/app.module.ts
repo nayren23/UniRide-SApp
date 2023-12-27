@@ -54,7 +54,8 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
-
+import { HttpInterceptorProviders } from './interceptors';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -116,8 +117,10 @@ import { CardModule } from 'primeng/card';
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     ConfirmationService,
-    MessageService]
-  ,
+    MessageService,
+    CookieService,
+    HttpInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
