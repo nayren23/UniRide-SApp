@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DocumentVerificationService } from '../services/document-verification/document-verification.service';
 import { ConfirmationService } from 'primeng/api';
 import { DocumentVerification } from '../models/document-verification';
-import { CheckData } from '../models/checkData';
+import { CheckData } from '../models/check-data.model';
 import { DataView } from 'primeng/dataview';
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,6 +18,8 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
   id_user: number = -1;
   full_name: string = '';
   @ViewChild('dv') dataView!: DataView;
+  length_reason_refusal: number = 5;
+  textareaValues: { [key: string]: string } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -32,8 +34,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       this.full_name = params['full_name'];
     });
 
-
-
     /**
      * Call the API to get the document verification for the user
      */
@@ -42,7 +42,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const documentVerification = new DocumentVerification(this.full_name, document.url, document.status, document.type);
-            this.setImages(documentVerification)
             this.documents.push(documentVerification);
           });
         });
@@ -58,6 +57,14 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
 
   }
 
+  /**
+   * This function is called when the user click on the button to accept or refuse the document
+   * @param event 
+   * @param message 
+   * @param action 
+   * @param document 
+   * @param status 
+   */
   performAction(event: Event, message: string, action: string, document: DocumentVerification, status: string) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -72,9 +79,32 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     });
   }
 
+  /**
+   * Function to set the button disabled, if the textarea is empty, or if the length of the textarea is less than length_reason_refusal
+   * @param documentType 
+   * @returns 
+   */
+  isButtonDisabled(documentType: string): boolean {
+    const value = this.textareaValues[documentType];
+
+    if (!value) {
+      return true;
+    }
+    return value.trim() === '' || value.length < this.length_reason_refusal || value.length >= 255;
+  }
+
+
+  /**
+   * This function is called when the user click on the button to accept or refuse the document, this function update thestatus of document
+   * @param document 
+   * @param action 
+   * @param status 
+   */
   private updateDocument(document: DocumentVerification, action: string, status: string) {
     document.status = status;
     const documentUpdated = new DocumentVerification(document.user_full_name, document.url, status, document.type);
+    documentUpdated.description = this.textareaValues[document.type];
+
     const checkData = new CheckData(this.id_user, documentUpdated);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
@@ -87,13 +117,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     });
   }
 
-  /**
-   * Open the image in a new tab, in order to download it
-   * @param document 
-   */
-  downloadImage(document: any) {
-    window.open(document.url, '_blank');
-  }
 
   /**
  * Return the severity of the document
@@ -153,20 +176,11 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       case 'school_certificate':
         return 'Certificat de scolarité';
 
+      case 'insurance':
+        return 'Attestation d\'assurance';
+
       default:
         return 'Document inconnu';
-    }
-  }
-
-  setImages(documentVerification: DocumentVerification) {
-    if (documentVerification.type === 'license') {
-      documentVerification.url = 'https://mobile.interieur.gouv.fr/var/miomcti/storage/images/www.interieur.gouv.fr/version-fre/actualites/l-actu-du-ministere/nouveau-permis-de-conduire-securise-le-16-septembre-2013/466172-1-fre-FR/Nouveau-permis-de-conduire-securise-le-16-septembre-2013_catcher.jpg';
-    }
-    else if (documentVerification.type === 'card') {
-      documentVerification.url = 'https://lecap.consulfrance.org/IMG/arton465.png?1641476764';
-    }
-    else if (documentVerification.type === 'school_certificate') {
-      documentVerification.url = 'https://www.fichier-pdf.fr/2016/09/14/certificat-de-scolarite-3md5z1-2016-2017-launois-emilie-1/preview-certificat-de-scolarite-3md5z1-2016-2017-launois-emilie-1-1.jpg';
     }
   }
 }

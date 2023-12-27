@@ -54,6 +54,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HttpInterceptorProviders } from './interceptors';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -113,6 +114,7 @@ import { CookieService } from 'ngx-cookie-service';
     ConfirmPopupModule,
     ToastModule,
     ChartModule,
+    InputTextareaModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
