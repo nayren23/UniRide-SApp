@@ -2,7 +2,8 @@
     <ng-template let-document pTemplate="listItem">
         <div class="col-12">
             <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                <p-image src="{{document.url}}" alt="Image" width="250" [preview]="true"></p-image>
+                <p-image src="{{document.url}}" alt="image {{convertType(document.type)}}" width="250"
+                    [preview]="true"></p-image>
                 <div
                     class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                     <div class="flex flex-column align-items-center sm:align-items-start gap-3">
@@ -22,24 +23,25 @@
                         <div class="card flex justify-content-center gap-2">
                             <p-toast></p-toast>
                             <p-confirmPopup></p-confirmPopup>
-                            <p-button
+                            <p-button *ngIf="document.status !== '1'"
                                 (click)="performAction($event, 'Êtes-vous sûr de vouloir accepter le document ?', 'accepté', document, '1')"
                                 icon="pi pi-check" label="Accepter" class="p-button-danger" [rounded]="true"
-                                severity="success" [disabled]="document.status === '1'"></p-button>
+                                severity="success"></p-button>
                         </div>
 
-                        <div class="card flex justify-content-center gap-2">
+                        <div class="card flex justify-content-center gap-2" *ngIf="document.status !== '-1'">
+                            <div class="card flex justify-content-center">
+                                <textarea rows="3" cols="30" pInputTextarea [autoResize]="true"
+                                    [(ngModel)]="textareaValues[document.type]"
+                                    placeholder="Avant de procéder au refus, veuillez indiquer un motif."
+                                    maxlength="255"></textarea>
+                            </div>
                             <p-toast></p-toast>
                             <p-confirmPopup></p-confirmPopup>
                             <p-button
                                 (click)="performAction($event, 'Êtes-vous sûr de vouloir refuser le document ?', 'refusé', document, '-1')"
-                                icon="pi pi-check" label="Refuser" severity="danger"
-                                [disabled]="document.status === '-1'" [rounded]="true"></p-button>
-                        </div>
-
-                        <div class="card flex justify-content-center gap-2">
-                            <p-button (click)="downloadImage(document)" [rounded]="true" icon="pi pi-check"
-                                label="Télécharger" severity="warning"></p-button>
+                                icon="pi pi-check" label="Refuser" severity="danger" [rounded]="true"
+                                [disabled]="isButtonDisabled(document.type)"></p-button>
                         </div>
                     </div>
                 </div>

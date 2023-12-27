@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../app/environements/environement';
-import { CheckData } from 'src/app/models/checkData';
+import { CheckData } from 'src/app/models/check-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,10 @@ export class DocumentVerificationService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Return the document verification for the current user
+   * @returns 
+   */
   getDocumentVerification(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

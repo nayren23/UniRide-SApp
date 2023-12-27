@@ -16,7 +16,7 @@
     <p-table #dt1 [value]="documentVerification" dataKey="request_number" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
-        [globalFilterFields]="['request_number', 'documents_to_verify', 'person.full_name', 'last_modified_date']">
+        [globalFilterFields]="['request_number', 'documents_to_verify', 'person.first_name'+ 'person.last_name', 'last_modified_date']">
         <ng-template pTemplate="caption">
             <div class="flex">
                 <button pButton label="Réinitialiser les filtres" class="p-button-outlined" icon="pi pi-filter-slash"
@@ -50,12 +50,13 @@
                             </ng-template>
                             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                 <p-multiSelect #studentMultiSelect [ngModel]="value" [options]="students"
-                                    placeholder="Tous" (onChange)="filter($event.value);" optionLabel="full_name">
+                                    placeholder="Tous" (onChange)="filter($event.value);" optionLabel="first_name">
                                     <ng-template let-option pTemplate="item">
                                         <div class="inline-block vertical-align-middle">
                                             <img alt="" src="{{option.profile_picture}}" width="24"
                                                 class="vertical-align-middle" />
-                                            <span class="ml-1 mt-1">{{ option.full_name }}</span>
+                                            <span class="ml-1 mt-1">{{ option.first_name + " " +
+                                                option.last_name}}</span>
                                         </div>
                                     </ng-template>
                                 </p-multiSelect>
@@ -91,7 +92,8 @@
                 <td>
                     <img alt="Photo de profil" src="{{documentVerification.student.profile_picture}}" width="32"
                         style="vertical-align: middle" />
-                    <span class="ml-1 vertical-align-middle">{{ documentVerification.student.full_name }}</span>
+                    <span class="ml-1 vertical-align-middle">{{ documentVerification.student.first_name + " " +
+                        documentVerification.student.last_name }}</span>
                 </td>
                 <td>
                     {{ documentVerification.student.last_modified_date | date: 'dd/MM/yyyy' }}
@@ -99,7 +101,7 @@
 
                 <td>
                     <a
-                        (click)="manageRequestVerificationDocument(documentVerification.student.id, documentVerification.student.full_name)">
+                        (click)="manageRequestVerificationDocument(documentVerification.student.id, documentVerification.student)">
                         <p-button label="Gérer" [rounded]="true" severity="warning"></p-button>
                     </a>
                 </td>
