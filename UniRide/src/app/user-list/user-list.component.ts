@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../Services/user/user.service';
+import { UserService } from '../services/user/user.service';
 import { User } from '../models/user.model';
 import { Table } from 'primeng/table';
-import { UserServiceMock } from '../Services/user/user.service.mock';
+import { UserServiceMock } from '../services/user/user.service.mock';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../models/user.model';
-import { UserServiceMock } from '../Services/user/user.service.mock';
-import { UserService } from '../Services/user/user.service';
-import { StatisticService } from '../Services/statistic/statistic.service';
-import { StatisticServiceMock } from '../Services/statistic/statistic.service.mock';
+import { UserServiceMock } from '../services/user/user.service.mock';
+import { UserService } from '../services/user/user.service';
+import { StatisticService } from '../services/statistic/statistic.service';
+import { StatisticServiceMock } from '../services/statistic/statistic.service.mock';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 
