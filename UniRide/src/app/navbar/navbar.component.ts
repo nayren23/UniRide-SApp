@@ -56,6 +56,9 @@ export class NavbarComponent implements OnInit {
         {
           label: 'Mon Profil',
           icon: 'pi pi-fw pi-user',
+          command: () => {
+            this.navigate("/profil-information");
+          }
         },
         {
           label: 'Déconnexion',

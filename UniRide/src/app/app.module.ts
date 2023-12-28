@@ -57,6 +57,8 @@ import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HttpInterceptorProviders } from './interceptors';
 import { CookieService } from 'ngx-cookie-service';
+import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import { CookieService } from 'ngx-cookie-service';
     BookComponent,
     BooksListComponent,
     DocumentVerificationDisplayComponent,
-    ManageRequestVerificationDocumentComponent
+    ManageRequestVerificationDocumentComponent,
+    ProfilInformationComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +97,7 @@ import { CookieService } from 'ngx-cookie-service';
     AvatarModule,
     AvatarGroupModule,
     DividerModule,
+    TabViewModule,
     PanelModule,
     ConfirmDialogModule,
     BadgeModule,
