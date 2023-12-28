@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import {ProfilService} from'../../../app/services/profil/profil.service';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ProfilService } from '../../../app/services/profil/profil.service';
 import { User } from '../../../app/models/user.model';
+
 @Component({
   selector: 'app-profil-information',
   templateUrl: './profil-information.component.html',
@@ -10,7 +10,7 @@ import { User } from '../../../app/models/user.model';
 export class ProfilInformationComponent implements OnInit {
   user!: User;
   editedUser: Partial<User> = {};
-  editing = false;
+  editingField: keyof User | null = null;
 
   constructor(private profilService: ProfilService) { }
 
@@ -32,28 +32,32 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   toggleEdit(field: keyof User): void {
-    if (this.editing) {
-      // Vérifiez si le champ a été modifié
-      if (this.editedUser[field] !== this.user[field]) {
-        const updatedUser: { [key: string]: string } = {};
-        updatedUser[field] = this.editedUser[field] as string;
-  
-        this.profilService.editUserInfo(field, updatedUser).subscribe(
-          () => {
-            console.log(`Modification du champ ${field} enregistrée avec succès`);
-            this.editing = false;
-            this.getuserInfo();
-          },
-          (error) => {
-            console.error(`Erreur lors de l'enregistrement de la modification du champ ${field}`, error);
-          }
-        );
-      } else {
-        // Aucune modification, sortez du mode d'édition
-        this.editing = false;
-      }
+    if (this.editingField === null) {
+      // Commencez l'édition du champ spécifique
+      this.editingField = field;
+    } else if (this.editingField === field) {
+      // Enregistrez les modifications si le même champ est cliqué à nouveau
+      this.saveChanges();
     } else {
-      this.editing = true;
+      // Annulez l'édition si un autre champ est cliqué
+      this.editingField = null;
+    }
+  }
+
+  saveChanges(): void {
+    if (this.editingField !== null) {
+      const updatedValue = this.editedUser[this.editingField] as string;
+
+      this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
+        (response) => {
+          console.log(`Modification du champ ${this.editingField} enregistrée avec succès`, response);
+          this.editingField = null;
+          this.getuserInfo();
+        },
+        (error) => {
+          console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
+        }
+      );
     }
   }
 }

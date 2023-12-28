@@ -25,13 +25,15 @@ getUserInfo(): Observable<User> {
   return this.http.get<User>(`${this.apiUrl}/user/infos`, { headers });
 }
 
-editUserInfo(field: string, updatedUser: { [key: string]: string }): Observable<any> {
+editUserInfo(field: keyof User, updatedValue: string): Observable<any> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${this.token}`
   });
 
-  const endpoint = `${this.apiUrl}/user/change/${field.toLowerCase()}`; 
+  const endpoint = `${this.apiUrl}/user/change/${field.toLowerCase()}`;
+  const updatedUser = { [field]: updatedValue };
+  
   return this.http.post(endpoint, updatedUser, { headers });
 }
 

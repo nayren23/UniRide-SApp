@@ -1,52 +1,59 @@
 <p-tabView>
-    <p-tabPanel header="Header I">
-        <strong>Login:</strong> 
-        <span *ngIf="!editing">{{ user.login }}</span>
-        <input *ngIf="editing" [(ngModel)]="editedUser.login" placeholder="Login" [ngModelOptions]="{standalone: true}">
-        <button (click)="toggleEdit('login')">Modifier</button>
-        <p><strong>Prénom:</strong> 
-          <span *ngIf="!editing">{{ user.firstname }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.firstname" placeholder="Prénom" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('firstname')">Modifier</button>
-        </p>
-        <p><strong>Nom:</strong> 
-          <span *ngIf="!editing">{{ user.lastname }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.lastname" placeholder="Nom" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('lastname')">Modifier</button>
-        </p>
-        <p><strong>Email:</strong> 
-          <span *ngIf="!editing">{{ user.student_email }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.student_email" placeholder="Email" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('student_email')">Modifier</button>
-        </p>
-        <p><strong>Genre:</strong> 
-          <span *ngIf="!editing">{{ user.gender }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.gender" placeholder="Genre" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('gender')">Modifier</button>
-        </p>
-        <p><strong>Numéro de téléphone:</strong> 
-          <span *ngIf="!editing">{{ user.phone_number }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.phone_number" placeholder="Numéro de téléphone" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('phone_number')">Modifier</button>
-        </p>
-        <p><strong>Description:</strong> 
-          <span *ngIf="!editing">{{ user.description }}</span>
-          <input *ngIf="editing" [(ngModel)]="editedUser.description" placeholder="Description" [ngModelOptions]="{standalone: true}">
-          <button (click)="toggleEdit('description')">Modifier</button>
-        </p>
+    <p-tabPanel header="Profil">
+      <div class="result-item">
+        <div class="header-container">
+          <strong>Login:</strong>
+          <span *ngIf="!editingField || editingField !== 'login'">{{ user.login }}</span>
+          <input *ngIf="editingField === 'login'" [(ngModel)]="editedUser.login" placeholder="Login" [ngModelOptions]="{standalone: true}">
+          <button (click)="toggleEdit('login')">Modifier</button>
+        </div>
+        <div class="content-container">
+          <p><strong>Prénom:</strong>
+            <span *ngIf="!editingField || editingField !== 'firstname'">{{ user.firstname }}</span>
+            <input *ngIf="editingField === 'firstname'" [(ngModel)]="editedUser.firstname" placeholder="Prénom" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('firstname')">Modifier</button>
+          </p>
+          <p><strong>Nom:</strong>
+            <span *ngIf="!editingField || editingField !== 'lastname'">{{ user.lastname }}</span>
+            <input *ngIf="editingField === 'lastname'" [(ngModel)]="editedUser.lastname" placeholder="Nom" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('lastname')">Modifier</button>
+          </p>
+          <p><strong>Email:</strong>
+            <span *ngIf="!editingField || editingField !== 'student_email'">{{ user.student_email }}</span>
+            <input *ngIf="editingField === 'student_email'" [(ngModel)]="editedUser.student_email" placeholder="Email" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('student_email')">Modifier</button>
+          </p>
+          <p><strong>Genre:</strong>
+            <span *ngIf="!editingField || editingField !== 'gender'">{{ user.gender }}</span>
+            <input *ngIf="editingField === 'gender'" [(ngModel)]="editedUser.gender" placeholder="Genre" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('gender')">Modifier</button>
+          </p>
+          <p><strong>Numéro de téléphone:</strong>
+            <span *ngIf="!editingField || editingField !== 'phone_number'">{{ user.phone_number }}</span>
+            <input *ngIf="editingField === 'phone_number'" [(ngModel)]="editedUser.phone_number" placeholder="Numéro de téléphone" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('phone_number')">Modifier</button>
+          </p>
+          <p><strong>Description:</strong>
+            <span *ngIf="!editingField || editingField !== 'description'">{{ user.description }}</span>
+            <input *ngIf="editingField === 'description'" [(ngModel)]="editedUser.description" placeholder="Description" [ngModelOptions]="{standalone: true}">
+            <button (click)="toggleEdit('description')">Modifier</button>
+          </p>
+          <!-- Ajoutez d'autres champs avec des boutons de modification selon vos besoins -->
+        </div>
+      </div>
     </p-tabPanel>
     <p-tabPanel header="Header II">
-        <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-            ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-        </p>
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+      </p>
     </p-tabPanel>
     <p-tabPanel header="Header III">
-        <p>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
-            qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
-        </p>
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+        qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+      </p>
     </p-tabPanel>
     <p-tabPanel [disabled]="true" header="Header IV"> </p-tabPanel>
-</p-tabView>
-
+  </p-tabView>
+  
