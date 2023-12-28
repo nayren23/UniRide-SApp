@@ -59,6 +59,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { UserInfoAdminComponent } from './user-info-admin/user-info-admin.component';
 import { RatingModule } from 'primeng/rating';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpInterceptorProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -125,8 +127,10 @@ import { RatingModule } from 'primeng/rating';
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     ConfirmationService,
-    MessageService]
-  ,
+    MessageService,
+    CookieService,
+    HttpInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DocumentVerificationService } from '../Services/document-verification/document-verification.service';
+import { DocumentVerificationService } from '../services/document-verification/document-verification.service';
 import { Table } from 'primeng/table';
 import { DocumentVerificationDisplay } from '../models/document-verification-display';
 import { Router } from '@angular/router';
 import { Student } from '../models/student.model';
-import { StatisticService } from '../Services/statistic/statistic.service';
+import { StatisticService } from '../services/statistic/statistic.service';
 import { ToastrService } from 'ngx-toastr';
 
 

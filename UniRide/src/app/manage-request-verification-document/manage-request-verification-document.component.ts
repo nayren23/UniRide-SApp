@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DocumentVerificationService } from '../Services/document-verification/document-verification.service';
+import { DocumentVerificationService } from '../services/document-verification/document-verification.service';
 import { ConfirmationService } from 'primeng/api';
 import { DocumentVerification } from '../models/document-verification';
 import { CheckData } from '../models/check-data.model';
