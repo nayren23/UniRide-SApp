@@ -96,6 +96,6 @@ export class UserListComponent implements OnInit {
   }
 
   manageRequestVerificationDocument(id_user: number) {
-    this.router.navigate(['/manage-request-verification-document'], { queryParams: { id_user: id_user } });
+    this.router.navigate(['/user-info-admin'], { queryParams: { id_user: id_user } });
   }
 }

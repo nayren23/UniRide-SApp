@@ -47,4 +47,33 @@ export class UserService implements UserInterface {
     )
   }
 
+  /**
+   * Get the user information by its id
+   * @param userId 
+   * @returns 
+   */
+  getInfosUserById(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.get(
+      `${this.apiUrl}/user/infos/${userId}`,
+      { headers: headers }
+    )
+  }
+
+  /**
+   * This method is used to delete a user by its id
+   * @param userId 
+   * @returns 
+   */
+  deleteUserById(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.delete(
+      `${this.apiUrl}/user_management/${userId}`,
+      { headers: headers }
+    )
+  }
 }

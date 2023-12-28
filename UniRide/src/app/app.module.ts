@@ -57,6 +57,8 @@ import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { UserListComponent } from './user-list/user-list.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { UserInfoAdminComponent } from './user-info-admin/user-info-admin.component';
+import { RatingModule } from 'primeng/rating';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { DropdownModule } from 'primeng/dropdown';
     BooksListComponent,
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent,
-    UserListComponent
+    UserListComponent,
+    UserInfoAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -117,6 +120,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ChartModule,
     InputTextareaModule,
     DropdownModule,
+    RatingModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },

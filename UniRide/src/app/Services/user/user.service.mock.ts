@@ -101,6 +101,19 @@ export class UserServiceMock implements UserInterface {
 
     ]
 
+    private listUsersById: any =
+        {
+            login: "jdoe",
+            student_email: "john@doe.com",
+            firstname: "John",
+            lastname: "Doe",
+            gender: "H", //F
+            phone_number: "0123456789",
+            description: "I love programming",
+            role: 1, // int
+            profile_picture: "https://www.w3schools.com/howto/img_avatar.png"
+        }
+
     getUserInfoSummaryById(userId: number): Observable<any> {
         return of({}); //return of is used to return an observable
     }
@@ -111,6 +124,14 @@ export class UserServiceMock implements UserInterface {
      */
     getInfosUser(): Observable<any> {
         return of(this.listUsers); //return of is used to return an observable
+    }
+
+    getInfosUserById(userId: number): Observable<any> {
+        return of(this.listUsersById); //return of is used to return an observable
+    }
+
+    deleteUserById(userId: number): Observable<any> {
+        return of({}); //return of is used to return an observable
     }
 
     constructor() { }

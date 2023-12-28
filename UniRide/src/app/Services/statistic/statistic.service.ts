@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../app/environements/environement';
-
+import { StatisticInterface } from '../../interface/statistic.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StatisticService {
+export class StatisticService implements StatisticInterface {
 
   private apiUrl = environment.apiUrl;
 
@@ -23,7 +23,6 @@ export class StatisticService {
     )
   }
 
-
   getTripsNumber(): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -34,4 +33,13 @@ export class StatisticService {
     )
   }
 
+  getStatisticByUserId(userId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.get(
+      `${this.apiUrl}/user/statistics/${userId}`,
+      { headers: headers }
+    )
+  }
 }
