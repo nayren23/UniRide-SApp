@@ -11,6 +11,7 @@ export class ProfilInformationComponent implements OnInit {
   user!: User;
   editedUser: Partial<User> = {};
   editingField: keyof User | null = null;
+  isNotDriver: boolean = true;
 
   constructor(private profilService: ProfilService) { }
 
@@ -20,10 +21,29 @@ export class ProfilInformationComponent implements OnInit {
 
   getuserInfo(): void {
     this.profilService.getUserInfo().subscribe(
-      (user_profil: User) => {
-        this.user = user_profil;
-        // Copie profonde de l'objet user_profil dans editeduser
-        this.editedUser = JSON.parse(JSON.stringify(user_profil));
+      (user: User) => {
+        this.user = user;
+        this.editedUser = JSON.parse(JSON.stringify(user));
+       console.log(user.r_id);
+        switch (user.r_id) {
+          case 0:
+              user.nomRole = "Administrateur";
+              this.isNotDriver = false;
+              break;
+          case 1:
+              user.nomRole = "Conducteur";
+              this.isNotDriver = false;
+              break;
+          case 2:
+              user.nomRole = "Passager";
+              break;
+          case 3:
+              user.nomRole = "En attente";
+              break;
+          default:
+              user.nomRole = "Inconnu";
+      }
+      
       },
       (error) => {
         console.error('Erreur lors de la récupération des informations utilisateur', error);

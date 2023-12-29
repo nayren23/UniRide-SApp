@@ -59,6 +59,8 @@ import { HttpInterceptorProviders } from './interceptors';
 import { CookieService } from 'ngx-cookie-service';
 import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
 import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
+
 
 @NgModule({
   declarations: [
@@ -98,6 +100,7 @@ import { TabViewModule } from 'primeng/tabview';
     AvatarGroupModule,
     DividerModule,
     TabViewModule,
+    InputTextModule,
     PanelModule,
     ConfirmDialogModule,
     BadgeModule,
