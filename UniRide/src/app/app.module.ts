@@ -23,6 +23,9 @@ import { DocumentVerificationDisplayComponent } from './document-verification-di
 import { ManageRequestVerificationDocumentComponent } from './manage-request-verification-document/manage-request-verification-document.component';
 import { CookieService } from 'ngx-cookie-service';
 import { CoreModule } from './core/core.module';
+import { UserListComponent } from './user-list/user-list.component';
+import { UserInfoAdminComponent } from './user-info-admin/user-info-admin.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,9 @@ import { CoreModule } from './core/core.module';
     TripInfoComponent,
     UserInfoSummaryComponent,
     DocumentVerificationDisplayComponent,
-    ManageRequestVerificationDocumentComponent
+    ManageRequestVerificationDocumentComponent,
+    UserListComponent,
+    UserInfoAdminComponent
   ],
   imports: [
     CoreModule,

@@ -1,0 +1,62 @@
+<div>
+    <p-card>
+        <section class="flex justify-content-start">
+            <p-card>
+                <div class="card flex justify-content-center">
+                    <p-image src="{{user.profile_picture}}" alt="Image" width="165"></p-image>
+                </div>
+                <p-tag severity="info" value="{{convertRole(user.role)}}"></p-tag>
+                <p-card header="Note Moyenne">
+                    <div class="card flex justify-content-center">
+                        <p-rating [(ngModel)]="average_rating" [readonly]="true" [cancel]="false"></p-rating>
+                    </div>
+                </p-card>
+            </p-card>
+
+            <div class="card flex justify-content">
+                <div class=" card flex justify-content-center">
+                    <p-card header="Trajets en tant que Conducteur">
+                        <div class="card flex justify-content-center">
+                            <p-chart type="doughnut" [data]="data_driver" [options]="options"></p-chart>
+                        </div>
+                    </p-card>
+                </div>
+
+                <div class="card flex justify-content-center">
+                    <p-card header="Trajets en tant que Passager">
+                        <div class="card flex justify-content-center">
+                            <p-chart type="doughnut" [data]="data_passenger" [options]="options"></p-chart>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </section>
+
+        <p-card header="Utilisateur">
+            <p class="m-0">
+                Nom: {{ user.lastname }}
+            </p>
+            <p class="m-0">
+                Prénom: {{ user.firstname }}
+            </p>
+            <p class="m-0">
+                Adresse mail: {{ user.student_email }}
+            </p>
+            <p class="m-0">
+                Pseudo: {{ user.login }}
+            </p>
+            <p class="m-0">
+                Genre: {{ user.gender }}
+            <p class="m-0">
+                Numéro de téléphone: {{ user.phone_number }}
+            </p>
+            <p class="m-0">
+                Description: {{ user.description }}
+            </p>
+            <p-toast></p-toast>
+            <p-confirmPopup></p-confirmPopup>
+            <p-button (click)="performAction($event,'Êtes-vous sûr de vouloir supprimer l\'utilisateur ?')"
+                icon="pi pi-check" label="Supprimer" severity="danger" [rounded]="true"></p-button>
+        </p-card>
+    </p-card>
+</div>

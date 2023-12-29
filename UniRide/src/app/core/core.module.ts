@@ -7,19 +7,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BookComponent } from './components/book/book.component';
 import { BooksListComponent } from './components/books-list/books-list.component';
 import { DistancePipe } from './pips/distance/distance.pipe';
-import { DataViewModule } from 'primeng/dataview';
-import { TagModule } from 'primeng/tag';
-import { ImageModule } from 'primeng/image';
-import { ToastModule } from 'primeng/toast';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { MessageService } from 'primeng/api';
-import { ConfirmationService } from 'primeng/api';
-import { ChartModule } from 'primeng/chart';
-import { CardModule } from 'primeng/card';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TableModule } from 'primeng/table';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { DividerModule } from 'primeng/divider';
@@ -35,6 +22,21 @@ import { MessagesModule } from 'primeng/messages';
 import { AccordionModule } from 'primeng/accordion';
 import { BlockUIModule } from 'primeng/blockui';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TableModule } from 'primeng/table';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
+import { ImageModule } from 'primeng/image';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { ChartModule } from 'primeng/chart';
+import { CardModule } from 'primeng/card';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { RatingModule } from 'primeng/rating';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { FieldsetModule } from 'primeng/fieldset';
     ToastModule,
     ChartModule,
     InputTextareaModule,
+    DropdownModule,
+    RatingModule,
   ],
   exports: [
     CardModule,
@@ -99,6 +103,8 @@ import { FieldsetModule } from 'primeng/fieldset';
     ToastModule,
     ChartModule,
     InputTextareaModule,
+    DropdownModule,
+    RatingModule,
     DistancePipe,
     NavbarComponent,
   ],
