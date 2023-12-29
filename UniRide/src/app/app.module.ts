@@ -55,8 +55,12 @@ import { ConfirmationService } from 'primeng/api';
 import { ChartModule } from 'primeng/chart';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { HttpInterceptorProviders } from './interceptors';
+import { UserListComponent } from './user-list/user-list.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { UserInfoAdminComponent } from './user-info-admin/user-info-admin.component';
+import { RatingModule } from 'primeng/rating';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpInterceptorProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -79,7 +83,9 @@ import { CookieService } from 'ngx-cookie-service';
     BookComponent,
     BooksListComponent,
     DocumentVerificationDisplayComponent,
-    ManageRequestVerificationDocumentComponent
+    ManageRequestVerificationDocumentComponent,
+    UserListComponent,
+    UserInfoAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -115,6 +121,8 @@ import { CookieService } from 'ngx-cookie-service';
     ToastModule,
     ChartModule,
     InputTextareaModule,
+    DropdownModule,
+    RatingModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
