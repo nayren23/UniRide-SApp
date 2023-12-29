@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../../app/environements/environement';
+import { environment } from '../../../../app/environements/environement';
 import { CookieService } from 'ngx-cookie-service';
 import { registry } from 'chart.js';
 

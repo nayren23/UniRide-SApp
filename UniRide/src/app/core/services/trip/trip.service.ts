@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../../app/environements/environement';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../../../app/environements/environement';
 import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookService {
+export class TripService {
 
   private apiUrl = environment.apiUrl;
 
@@ -24,40 +24,52 @@ export class BookService {
     return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
   }
 
-  getBookOfCurrentUser(): Observable<any> {
+  createTrip(tripData: any): Observable<any> {
+    // Ajouter le jeton d'accès à l'en-tête d'autorisation
+    console.log(this.token)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    // Effectuer la requête HTTP avec l'en-tête d'autorisation
+    return this.http.post(
+      `${this.apiUrl}/trip/propose`,
+      JSON.stringify(tripData),
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  searchTrips(searchParams: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.post(
+      `${this.apiUrl}/trip`,
+      searchParams,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getTripsProposed(page: number = 1): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/book/requests`,
+      `${this.apiUrl}/trip/driver/current?page=${page}`,
       { headers: headers }
     )
   }
-
-  bookTrip(trip_id: number, passenger_count: number): Observable<any> {
+  getTripById(tripId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(
-      `${this.apiUrl}/book`,
-      { "trip_id": trip_id, "passenger_count": passenger_count },
+    return this.http.get(
+      `${this.apiUrl}/trip/${tripId}`,
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  answerBook(trip_id: number, booker_id: number, response: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    console.log({ "trip_id": trip_id, "booker_id": booker_id, "response": response })
-    return this.http.post(
-      `${this.apiUrl}/book/respond`,
-      { "trip_id": trip_id, "booker_id": booker_id, "response": response },
-      { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
-    );
+    )
   }
 }

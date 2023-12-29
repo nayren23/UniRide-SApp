@@ -1,9 +1,9 @@
 // trip-search-result-list.component.ts
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TripService } from '../services/trip/trip.service';
+import { TripService } from '../core/services/trip/trip.service';
 import { tap } from 'rxjs';
-import { Trip } from '../models/trip.models';
+import { Trip } from '../core/models/trip.models';
 
 @Component({
   selector: 'app-trip-search-result-list',

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Trip } from '../models/trip.models';
+import { Trip } from '../core/models/trip.models';
 import { Router } from '@angular/router';
 
 

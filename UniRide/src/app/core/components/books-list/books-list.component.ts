@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Book } from '../models/book.models';
-import { BookService } from '../services/book/book.service';
+import { Book } from '../../models/book.models';
+import { BookService } from '../../services/book/book.service';
 import { tap } from 'rxjs';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';

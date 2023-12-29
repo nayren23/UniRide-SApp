@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Trip } from '../models/trip.models';
-import { MapService } from '../services/map/map.service';
+import { Trip } from '../core/models/trip.models';
+import { MapService } from '../core/services/map/map.service';
 
 @Component({
   selector: 'app-trip-proposed',

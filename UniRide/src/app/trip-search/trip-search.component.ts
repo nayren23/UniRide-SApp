@@ -3,8 +3,8 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { AddressService } from '../services/address/address.service';
-import { MapService } from '../services/map/map.service';
+import { AddressService } from '../core/services/address/address.service';
+import { MapService } from '../core/services/map/map.service';
 
 @Component({
   selector: 'app-trip-search',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../environements/environment.prod';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../core/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';

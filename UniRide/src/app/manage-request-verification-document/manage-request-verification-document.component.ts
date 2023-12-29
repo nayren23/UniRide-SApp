@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DocumentVerificationService } from '../services/document-verification/document-verification.service';
+import { DocumentVerificationService } from '../core/services/document-verification/document-verification.service';
 import { ConfirmationService } from 'primeng/api';
-import { DocumentVerification } from '../models/document-verification';
-import { CheckData } from '../models/check-data.model';
+import { DocumentVerification } from '../core/models/document-verification';
+import { CheckData } from '../core/models/check-data.model';
 import { DataView } from 'primeng/dataview';
 import { ToastrService } from 'ngx-toastr';
 

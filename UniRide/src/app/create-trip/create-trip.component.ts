@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
-import { TripService } from '../services/trip/trip.service';
+import { TripService } from '../core/services/trip/trip.service';
 import { ToastrService } from 'ngx-toastr';
-import { AddressService } from '../services/address/address.service';
-import { MapService } from '../services/map/map.service';
+import { AddressService } from '../core/services/address/address.service';
+import { MapService } from '../core/services/map/map.service';
 
 @Component({
   selector: 'app-create-trip',

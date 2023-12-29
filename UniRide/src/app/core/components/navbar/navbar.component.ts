@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { MenuItem } from 'primeng/api';
 import { Router } from "@angular/router"
 
@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
           label: 'Accueil',
           icon: 'pi pi-fw pi-home',
           command: () => {
-            this.navigate("#");
+            this.navigate("");
           }
         },
         {
