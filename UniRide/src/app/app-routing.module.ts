@@ -4,10 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: 'registration', loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule) },
   { path: 'logIn', loadChildren: () => import('./log-in/log-in.module').then(m => m.LogInModule) },
-  { path: 'trips/create', loadChildren: () => import('./create-trip/create-trip.module').then(m => m.CreateTripModule) },
-  { path: 'trips/search', loadChildren: () => import('./trip-search/trip-search.module').then(m => m.TripSearchModule) },
-  { path: 'trips/proposed', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule) },
-  { path: 'trips/:id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule) },
+  {
+    path: 'trips',
+    children: [
+      { path: 'create', loadChildren: () => import('./create-trip/create-trip.module').then(m => m.CreateTripModule) },
+      { path: 'search', loadChildren: () => import('./trip-search/trip-search.module').then(m => m.TripSearchModule) },
+      { path: 'proposed', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule) },
+      { path: ':id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule) },
+    ]
+  },
   { path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule) },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 ];
