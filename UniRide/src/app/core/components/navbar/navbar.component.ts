@@ -28,27 +28,27 @@ export class NavbarComponent implements OnInit {
           label: 'Rechercher un trajet',
           icon: 'pi pi-fw pi-search',
           command: () => {
-            this.navigate("/create-search");
+            this.navigate("/trips/search");
           }
         },
         {
           label: 'Proposer un trajet',
           icon: 'pi pi-fw pi-plus-circle',
           command: () => {
-            this.navigate("/create-trip");
+            this.navigate("/trips/create");
           }
         },
         {
           label: 'Trajets Proposés',
           icon: 'pi pi-fw pi-list',
           command: () => {
-            this.navigate("/trips-proposed");
+            this.navigate("/trips/proposed");
           }
         },
         {
           label: 'Admin',
           command: () => {
-            this.navigate("/document-verification-display");
+            this.navigate("admin/documents");
           }
         }
       ];

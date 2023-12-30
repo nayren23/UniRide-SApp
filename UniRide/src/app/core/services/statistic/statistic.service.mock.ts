@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { StatisticInterface } from 'src/app/interface/statistic.interface';
+import { StatisticInterface } from 'src/app/core/interface/statistic.interface';
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../app/environements/environement';
+import { environment } from '../../../../environements/environement';
 import { CheckData } from 'src/app/core/models/check-data.model';
 
 @Injectable({
