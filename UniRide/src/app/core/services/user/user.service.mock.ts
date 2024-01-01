@@ -122,7 +122,7 @@ export class UserServiceMock implements UserInterface {
      * This method is used to get the list of users for the admin
      * @returns list of users
      */
-    getInfosUser(): Observable<any> {
+    getListUsers(): Observable<any> {
         return of(this.listUsers); //return of is used to return an observable
     }
 

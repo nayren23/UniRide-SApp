@@ -44,7 +44,8 @@ export class UserInfoAdminComponent implements OnInit {
 
     this.userServiceMock.getInfosUserById(this.id_user).subscribe({
       next: (data: any) => {
-        this.user = data;
+        console.log("data", data);
+        this.user = data //data.user_information;
         this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info ✅📄🔄👍');
       },
       error: (error: any) => {
@@ -55,9 +56,8 @@ export class UserInfoAdminComponent implements OnInit {
 
     this.statisticsServiceMock.getStatisticByUserId(this.id_user).subscribe({
       next: (data: any) => {
-        this.list_statistics = data.statistics;
+        this.list_statistics = data //data.statistics;
 
-        console.log("list_statistics", this.list_statistics);
 
         this.setDriverData();
         this.setOptions();
@@ -135,7 +135,7 @@ export class UserInfoAdminComponent implements OnInit {
   }
 
   deleteUser() {
-    this.userServiceMock.deleteUserById(this.id_user).subscribe({
+    this.userService.deleteUserById(this.id_user).subscribe({
       next: (data: any) => {
         this.toastr.success('L\'utilisateur a été supprimé avec succès.', 'Info ✅📄🔄👍');
         console.log("data", data);
