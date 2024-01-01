@@ -20,10 +20,6 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    */
   dataTrip: any;
   dateUser: any;
-  totalTrips: number = 0;
-  totalUsers: number = 0;
-  totalDrivers: number = 0;
-  totalPassengers: number = 0;
   options: any;
   textColor: string = 'black';
 
@@ -43,39 +39,31 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getOptionsDoughnut();
+
+    /**
+     * Call the API to get sstatistics of the trip
+     */
     this.statistiqueService.getTripsNumber().subscribe({
       next: (data: any) => {
-        this.totalTrips = data.trip_count;
+        console.log(data.trip_infos);
+        this.getDataTrip(data.trip_infos)
       },
       error: (error: any) => {
         this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
       },
-      complete: () => {
-        /**
-         * Initialize the chart
-         */
-        const documentStyle = getComputedStyle(document.documentElement);
-        this.dataTrip = this.getDataTrip(this.totalTrips, documentStyle)
-        this.options = this.getOptions(this.textColor);
-      }
     })
 
+    /**
+     * Call the API to get statistics of the user
+     */
     this.statistiqueService.getNumberOfUsers().subscribe({
       next: (data: any) => {
-        this.totalUsers = data.user_count;
-        this.totalDrivers = data.drivers_count;
-        this.totalPassengers = data.passengers_count;
+        this.getDateUser(data.user_infos)
       },
       error: (error: any) => {
         this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
       },
-      complete: () => {
-        /**
-         * Initialize the chart
-         */
-        const documentStyle = getComputedStyle(document.documentElement);
-        this.dateUser = this.getDateUser(this.totalDrivers, this.totalPassengers, this.totalUsers, documentStyle)
-      }
     })
 
     /**
@@ -120,39 +108,39 @@ export class DocumentVerificationDisplayComponent implements OnInit {
     this.router.navigate(['admin/documents/verify'], { queryParams: { id_user: id_user, full_name: full_name } });
   }
 
-  getDataTrip(totalTrips: number, documentStyle: CSSStyleDeclaration) {
-    return {
-      labels: ['Total des trajets'],
+  getDataTrip(trip_infos: any) {
+    this.dataTrip = {
+      labels: ['Total des trajets', 'Total des trajets en cours', 'Total des trajets terminés', 'Total des trajets annulés', 'Total des trajets en attente'],
       datasets: [
         {
-          data: [totalTrips],
-          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+          data: [trip_infos.trip_count, trip_infos.trip_oncourse, trip_infos.trip_completed, trip_infos.trip_canceled, trip_infos.trip_pending],
+          backgroundColor: ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"],
+          hoverBackgroundColor: ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"]
         }
       ]
     };
   }
 
-  getDateUser(totalDrivers: number, totalPassengers: number, totalUsers: number, documentStyle: CSSStyleDeclaration) {
-    return {
-      labels: ['Total des conducteurs', 'Total des passagers', 'Total des utilisateurs'],
+  getDateUser(user_infos: any) {
+    this.dateUser = {
+      labels: ['Total compte en attente', 'Total des utilisateurs', 'Total des conducteurs', 'Total des passagers'],
       datasets: [
         {
-          data: [totalDrivers, totalPassengers, totalUsers],
-          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+          data: [user_infos.pending_count_value, user_infos.user_count_value, user_infos.drivers_count_value, user_infos.passenger_count_value],
+          backgroundColor: ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"],
+          hoverBackgroundColor: ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"]
         }
       ]
     };
   }
 
-  getOptions(textColor: string) {
-    return {
+  getOptionsDoughnut() {
+    this.options = {
       cutout: '60%',
       plugins: {
         legend: {
           labels: {
-            color: textColor
+            color: this.textColor
           }
         }
       }
