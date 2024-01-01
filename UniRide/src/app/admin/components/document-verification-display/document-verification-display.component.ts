@@ -19,7 +19,8 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    * Arguments for the chart
    */
   dataTrip: any;
-  dateUser: any;
+  dataUser: any;
+  dataDocument: any;
   options: any;
   textColor: string = 'black';
 
@@ -39,14 +40,13 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getOptionsDoughnut();
+    this.setOptionsDoughnut();
 
     /**
      * Call the API to get sstatistics of the trip
      */
     this.statistiqueService.getTripsNumber().subscribe({
       next: (data: any) => {
-        console.log(data.trip_infos);
         this.getDataTrip(data.trip_infos)
       },
       error: (error: any) => {
@@ -59,10 +59,22 @@ export class DocumentVerificationDisplayComponent implements OnInit {
      */
     this.statistiqueService.getNumberOfUsers().subscribe({
       next: (data: any) => {
-        this.getDateUser(data.user_infos)
+        this.getDataUser(data.user_infos)
       },
       error: (error: any) => {
         this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+      },
+    })
+
+    /**
+     * Call the API to get statistics of the document
+     */
+    this.statistiqueService.getNumberOfDocuments().subscribe({
+      next: (data: any) => {
+        this.getDataDocument(data.document_infos)
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération des statistiques des documents a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
       },
     })
 
@@ -109,32 +121,48 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   }
 
   getDataTrip(trip_infos: any) {
+    const color = ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"];
     this.dataTrip = {
-      labels: ['Total des trajets', 'Total des trajets en cours', 'Total des trajets terminés', 'Total des trajets annulés', 'Total des trajets en attente'],
+      labels: ['Total des trajets en attente', 'Total des trajets en cours', 'Total des trajets terminés', 'Total des trajets annulés'],
       datasets: [
         {
-          data: [trip_infos.trip_count, trip_infos.trip_oncourse, trip_infos.trip_completed, trip_infos.trip_canceled, trip_infos.trip_pending],
-          backgroundColor: ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"],
-          hoverBackgroundColor: ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"]
+          data: [trip_infos.trip_pending, trip_infos.trip_oncourse, trip_infos.trip_completed, trip_infos.trip_canceled],
+          backgroundColor: color,
+          hoverBackgroundColor: color
         }
       ]
     };
   }
 
-  getDateUser(user_infos: any) {
-    this.dateUser = {
-      labels: ['Total compte en attente', 'Total des utilisateurs', 'Total des conducteurs', 'Total des passagers'],
+  getDataUser(user_infos: any) {
+    const color = ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"];
+    this.dataUser = {
+      labels: ['Total des administrateurs', 'Total compte en attente', 'Total des conducteurs', 'Total des passagers'],
       datasets: [
         {
-          data: [user_infos.pending_count_value, user_infos.user_count_value, user_infos.drivers_count_value, user_infos.passenger_count_value],
-          backgroundColor: ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"],
-          hoverBackgroundColor: ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"]
+          data: [user_infos.admin_count_value, user_infos.pending_count_value, user_infos.drivers_count_value, user_infos.passenger_count_value],
+          backgroundColor: color,
+          hoverBackgroundColor: color
         }
       ]
     };
   }
 
-  getOptionsDoughnut() {
+  getDataDocument(document_infos: any) {
+    const color = ['#b74f6f', "#adbdff", "#3185fc"];
+    this.dataDocument = {
+      labels: ['Total des documents en attente', 'Total des documents validés', 'Total des documents refusés'],
+      datasets: [
+        {
+          data: [document_infos.document_pending, document_infos.document_validated, document_infos.document_refused],
+          backgroundColor: color,
+          hoverBackgroundColor: color
+        }
+      ]
+    };
+  }
+
+  setOptionsDoughnut() {
     this.options = {
       cutout: '60%',
       plugins: {

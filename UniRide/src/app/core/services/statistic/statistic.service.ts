@@ -34,4 +34,14 @@ export class StatisticService {
     )
   }
 
+  getNumberOfDocuments(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http.get(
+      `${this.apiUrl}/document/document_number`,
+      { headers: headers }
+    )
+  }
+
 }
