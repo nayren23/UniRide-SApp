@@ -37,15 +37,17 @@ export class UserInfoAdminComponent implements OnInit {
     private statisticsService: StatisticService,
     private statisticsServiceMock: StatisticServiceMock,
   ) { }
+
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.id_user = params['id_user'];
     });
 
-    this.userServiceMock.getInfosUserById(this.id_user).subscribe({
+    this.userService.getInfosUserById(this.id_user).subscribe({
       next: (data: any) => {
-        console.log("data", data);
-        this.user = data //data.user_information;
+        console.log("data", data.user_information);
+        this.user = data.user_information;
         this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info ✅📄🔄👍');
       },
       error: (error: any) => {
@@ -56,12 +58,11 @@ export class UserInfoAdminComponent implements OnInit {
 
     this.statisticsServiceMock.getStatisticByUserId(this.id_user).subscribe({
       next: (data: any) => {
-        this.list_statistics = data //data.statistics;
-
+        this.list_statistics = data.statistics;
 
         this.setDriverData();
-        this.setOptions();
         this.setPassengerData();
+        this.setOptions();
         this.average_rating = this.list_statistics[2].average_rating;
       },
       error: (error: any) => {

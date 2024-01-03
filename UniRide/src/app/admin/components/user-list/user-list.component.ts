@@ -67,7 +67,6 @@ export class UserListComponent implements OnInit {
       next: (data: any) => {
         this.lisUsers = data.users;
         this.toastr.success('La liste des utilisateurs a été récupérée avec succès.', 'Info ✅📄🔄👍');
-        console.log("data", data);
       },
       error: (error: any) => {
         console.log(error);

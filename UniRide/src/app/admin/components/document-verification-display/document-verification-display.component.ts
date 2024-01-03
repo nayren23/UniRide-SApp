@@ -96,7 +96,7 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   }
 
   getDataDocument(document_infos: any) {
-    const color = ['#b74f6f', "#adbdff", "#3185fc"];
+    const color = ["#c4a381", '#bbd686', "#b2675e"];
     this.dataDocument = {
       labels: ['Total des documents en attente', 'Total des documents validés', 'Total des documents refusés'],
       datasets: [

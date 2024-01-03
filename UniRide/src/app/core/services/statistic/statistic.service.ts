@@ -39,7 +39,7 @@ export class StatisticService implements StatisticInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/document/document_number`,
+      `${this.apiUrl}/user/document_number`,
       { headers: headers }
     )
   }
