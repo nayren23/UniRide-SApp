@@ -9,6 +9,5 @@ export class User {
     gender?:String;
     phone_number?:String;
     status?:String;
-    r_id?:number;
-    nomRole?:String;
+    role?:number;
 }
