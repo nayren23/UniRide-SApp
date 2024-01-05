@@ -1,45 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { environment } from '../../../../environements/environement';
 import { CookieService } from 'ngx-cookie-service';
-import { registry } from 'chart.js';
+import { Router } from '@angular/router';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
-  setToken(token: string): void {
-    this.cookieService.set('authToken', token);
-  }
-
-  getToken(): string {
-    return this.cookieService.get('authToken');
-  }
+  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    return this.cookieService.get('IsAuthentified') == 'true';
   }
 
-  logout(): void {
-    this.cookieService.delete('authToken');
-    this.cookieService.delete('login');
-    this.cookieService.delete('password');
-    this.cookieService.delete('keepLoggedIn');
+  logout(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/user/logout`).pipe(
+      tap(() => {
+        this.cookieService.delete('keepLoggedIn');
+        this.cookieService.delete('IsAuthentified');
+        this.router.navigate(['/logIn']);
+      }
+      ));
   }
 
   setKeepLoggedIn(params: any): void {
     this.cookieService.set('keepLoggedIn', params.keepLoggedIn.toString());
-    this.cookieService.set('login', params.login);
-    this.cookieService.set('password', params.password);
   }
 
   getKeepLoggedIn(): boolean {
     return this.cookieService.get('keepLoggedIn') == 'true';
+  }
+
+  setIsAuthentified(isAuthentified: boolean): void {
+    this.cookieService.set('IsAuthentified', isAuthentified.toString());
   }
 
   logIn(params: any): Observable<any> {
@@ -50,21 +48,22 @@ export class AuthService {
       `${environment.apiUrl}/user/auth`,
       {
         login: params.login,
-        password: params.password
+        password: params.password,
+        keepLoggedIn: params.keepLoggedIn
       },
-      { headers: headers }
+      {
+        headers: headers
+      }
     ).pipe(
       tap((response: any) => {
-        this.setToken(response.token);
-        if (params.keepLoggedIn)
-          this.setKeepLoggedIn(params);
+        this.setKeepLoggedIn(params);
       }));
   }
 
   refreshToken(): Observable<any> {
-    return this.logIn({
-      login: this.cookieService.get('login'),
-      password: this.cookieService.get('password'),
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
     });
+    return this.http.get(`${environment.apiUrl}/user/refresh`)
   }
 }

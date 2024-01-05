@@ -15,18 +15,12 @@ export class TripService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  private get token(): string {
-    return this.authService.getToken();
-  }
-
   private handleError(error: any): Observable<never> {
     console.error(' error:', error);
     return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
   }
 
   createTrip(tripData: any): Observable<any> {
-    // Ajouter le jeton d'accès à l'en-tête d'autorisation
-    console.log(this.token)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
