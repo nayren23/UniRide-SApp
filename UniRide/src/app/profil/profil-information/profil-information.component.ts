@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfilService } from '../../../app/services/profil/profil.service';
-import { User } from '../../../app/models/user.model';
-import { Car } from '../../../app/models/car.model';
+import { ProfilService } from '../../core/services/profil/profil.service';
+import { User } from '../../../app/core/models/user.model'
+import { Car } from '../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
