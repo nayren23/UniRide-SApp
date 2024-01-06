@@ -4,26 +4,31 @@ import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../../environements/environment.prod';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     private isRefreshing = false;
     private refreshTokenCompleted: Subject<void> = new Subject<void>();
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (!req.url.includes(environment.apiUrl)) {
             return next.handle(req);
         }
-        const modifiedReq = this.addToken(req);
-        return next.handle(modifiedReq).pipe(catchError(error => {
+        req = req.clone({
+            withCredentials: true
+        });
+        return next.handle(req).pipe(catchError(error => {
             if (error instanceof HttpErrorResponse && error.status === 401 && error.error.message === "TOKEN_HAS_EXPIRED") {
+                if (req.url.includes('refresh')) {
+                    this.authService.logout().subscribe()
+                    return throwError(() => error);
+                }
                 if (this.authService.getKeepLoggedIn()) {
                     return this.handle401Error(req, next);
                 } else {
-                    this.router.navigate(['/logIn']);
+                    this.authService.logout().subscribe()
                     return throwError(() => error);
                 }
             } else {
@@ -32,16 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }));
     }
 
-    private addToken(request: HttpRequest<any>) {
-        return request.clone({
-            setHeaders: {
-                'Authorization': `Bearer ${this.authService.getToken()}`
-            },
-            withCredentials: false
-        });
-    }
-
-    private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshing) {
             this.isRefreshing = true;
 
@@ -49,7 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 switchMap(() => {
                     this.isRefreshing = false;
                     this.refreshTokenCompleted.next();
-                    return next.handle(this.addToken(request));
+                    return next.handle(request);
                 }),
                 catchError((error) => {
                     this.isRefreshing = false;
@@ -59,7 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
         } else {
             return this.refreshTokenCompleted.pipe(
                 take(1),
-                switchMap(() => next.handle(this.addToken(request)))
+                switchMap(() => next.handle(request))
             );
 
         }
