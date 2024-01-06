@@ -54,4 +54,5 @@ export class StatisticService implements StatisticInterface {
     )
   }
 
+
 }

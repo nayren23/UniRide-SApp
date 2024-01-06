@@ -46,7 +46,6 @@ export class UserInfoAdminComponent implements OnInit {
 
     this.userService.getInfosUserById(this.id_user).subscribe({
       next: (data: any) => {
-        console.log("data", data.user_information);
         this.user = data.user_information;
         this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info ✅📄🔄👍');
       },
@@ -56,10 +55,9 @@ export class UserInfoAdminComponent implements OnInit {
       },
     })
 
-    this.statisticsServiceMock.getStatisticByUserId(this.id_user).subscribe({
+    this.statisticsService.getStatisticByUserId(this.id_user).subscribe({
       next: (data: any) => {
         this.list_statistics = data.statistics;
-
         this.setDriverData();
         this.setPassengerData();
         this.setOptions();
@@ -86,37 +84,29 @@ export class UserInfoAdminComponent implements OnInit {
   }
 
   setDriverData() {
+    const colors = ["#10ffcb", "#fbd87f", "#FF6384", "#36A2EB"];
     this.data_driver = {
-      labels: ['Trajets effectués', 'Trajets en attente'],
+      labels: ['Trajets effectués', 'Trajets en attente', 'Trajets annulés', 'Trajets en cours'],
       datasets: [
         {
-          data: [this.list_statistics[0].driver_trip.completed_count, this.list_statistics[0].driver_trip.pending_count],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-          ]
+          data: [this.list_statistics[0].driver_trip.completed_count, this.list_statistics[0].driver_trip.pending_count,
+          this.list_statistics[0].driver_trip.canceled_count, this.list_statistics[0].driver_trip.oncourse_count],
+          backgroundColor: colors,
+          hoverBackgroundColor: colors
         }]
     };
   }
 
   setPassengerData() {
+    const colors = ["#4CAF50", "#FFA500"];
+
     this.data_passenger = {
       labels: ['Trajets effectués', 'Trajets en attente'],
       datasets: [
         {
           data: [this.list_statistics[1].passenger_trip.completed_count, this.list_statistics[1].passenger_trip.pending_count],
-          backgroundColor: [
-            "#4CAF50",
-            "#FFA500",
-          ],
-          hoverBackgroundColor: [
-            "#4CAF50",
-            "#FFA500",
-          ]
+          backgroundColor: colors,
+          hoverBackgroundColor: colors
         }]
     };
   }

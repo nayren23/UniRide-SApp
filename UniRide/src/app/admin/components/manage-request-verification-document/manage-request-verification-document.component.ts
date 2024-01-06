@@ -111,7 +111,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     }
 
     const checkData = new CheckData(this.id_user, documentUpdated);
-    console.log('checkData:', checkData);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
         this.toastr.success(`Vous avez ${action} le document`, 'Info ✅📄👍');
