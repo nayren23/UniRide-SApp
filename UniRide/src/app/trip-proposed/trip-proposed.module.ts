@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TripProposedComponent } from './components/trip-proposed/trip-proposed.component';
 import { TripProposedListComponent } from './components/trip-proposed-list/trip-proposed-list.component';
 import { TripProposedRoutingModule } from './trip-proposed.rooting.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -12,6 +13,7 @@ import { TripProposedRoutingModule } from './trip-proposed.rooting.module';
     TripProposedListComponent
   ],
   imports: [
+    SharedModule,
     CommonModule,
     TripProposedRoutingModule,
   ],

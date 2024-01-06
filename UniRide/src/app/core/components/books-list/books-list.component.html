@@ -15,15 +15,15 @@
                     <td class="text-xs">Il y a {{getTimeElapsed(book.date_requested)}}</td>
                     <td>
                         <p-accordion [activeIndex]="1">
-                            <p>Bob</p>
-                            <p-accordionTab header="28 Dec 2023 16h" class="p-0">
+                            <p>{{book.user.firstname}} {{book.user.lastname}}</p>
+                            <p-accordionTab [header]="convertToFrenchDate(book.trip.departure_date)" class="p-0">
                                 <h4>Départ</h4>
                                     <p class="m-0 text-xs">
-                                        140 Rue de la Nouvelle France Montreuil 93100
+                                        {{book.trip.departure_address}}
                                     </p>
                                     <h4>Arrivée</h4>
                                     <p class="m-0 text-xs">
-                                        8 Rue d'Amsterdam Paris 75008
+                                        {{book.trip.arrival_address}}
                                     </p>
                             </p-accordionTab>
                         </p-accordion>
@@ -33,9 +33,15 @@
                             <p-blockUI>
                                 <i class="pi pi-lock" style="font-size: 3rem"></i>
                             </p-blockUI>
-                            <div class="buttons">
-                                <p-button (click)="answerBook(book.trip_id, book.user_id, 1, book)" [disabled]="book.accepted != 0" icon="pi pi-check" [rounded]="true" size="small" severity="success"></p-button>
-                                <p-button (click)="answerBook(book.trip_id, book.user_id, -1, book)" [disabled]="book.accepted != 0" icon="pi pi-times" [rounded]="true" size="small" severity="danger"></p-button>
+                            <div class="buttons" *ngIf="book.accepted == 0">
+                                <p-button (click)="answerBook(book.trip.id, book.user.id, 1, book)" [disabled]="book.accepted != 0" icon="pi pi-check" [rounded]="true" size="small" severity="success"></p-button>
+                                <p-button (click)="answerBook(book.trip.id, book.user.id, -1, book)" [disabled]="book.accepted != 0" icon="pi pi-times" [rounded]="true" size="small" severity="danger"></p-button>
+                            </div>
+                            <div *ngIf="book.accepted == 1">
+                                <p-tag severity="success" value="Accepté"></p-tag>
+                            </div>
+                            <div *ngIf="book.accepted == -1">
+                                <p-tag severity="danger" value="Refusé"></p-tag>
                             </div>
                         </div>
                     </td>

@@ -16,6 +16,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ConfirmationService } from 'primeng/api';
     TableModule,
     AccordionModule,
     BlockUIModule,
+    TagModule
   ],
   exports: [
     NavbarComponent,

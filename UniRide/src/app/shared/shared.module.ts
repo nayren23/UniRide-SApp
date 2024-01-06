@@ -30,6 +30,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { RatingModule } from 'primeng/rating';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { RatingModule } from 'primeng/rating';
     RatingModule,
     ReactiveFormsModule,
     FormsModule,
+    SkeletonModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -105,6 +107,7 @@ import { RatingModule } from 'primeng/rating';
     ReactiveFormsModule,
     FormsModule,
     DistancePipe,
+    SkeletonModule
   ]
 })
 export class SharedModule { }
