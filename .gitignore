@@ -9,6 +9,7 @@ tmp/
 app/**/*.js
 app/**/*.js.map
 .env
+uniride-backend-dev.env
 docker-compose.debug.yml
 Dockerfile.dev
 
