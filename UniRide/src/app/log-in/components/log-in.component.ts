@@ -22,7 +22,7 @@ export class LogInComponent {
     this.connexionForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],
-      keepLoggedIn: [],
+      keepLoggedIn: [false],
     });
   }
 
@@ -33,6 +33,7 @@ export class LogInComponent {
         (response: any) => {
           console.log(response)
           if (response['informations_verified']['email_verified']) {
+            this.authService.setIsAuthentified(true);
             this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
             this.router.navigate(['/trips/search']);
           } else {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { MenuItem } from 'primeng/api';
 import { Router } from "@angular/router"
+import { tap } from 'rxjs';
 
 
 @Component({
@@ -88,9 +89,11 @@ export class NavbarComponent implements OnInit {
 
 
   logout(): void {
-    this.authService.logout();
-    this.sidebarVisible = false;
-    this.navigate("/logIn");
+    this.authService.logout().pipe(
+      tap(() => {
+        this.sidebarVisible = false;
+        this.navigate("/logIn");
+      })).subscribe();
   }
 
 
