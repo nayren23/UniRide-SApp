@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProfilService } from '../../../app/services/profil/profil.service';
 import { User } from '../../../app/models/user.model';
 import { Car } from '../../../app/models/car.model';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-profil-information',
   templateUrl: './profil-information.component.html',
@@ -12,25 +14,37 @@ export class ProfilInformationComponent implements OnInit {
   editedUser: Partial<User> = {};
   editingField: keyof User | null = null;
   isNotDriver: boolean = true;
-  carInfoLoaded: boolean = false;
-  car!: Car
-  constructor(private profilService: ProfilService) { }
+  hasCar!: boolean;
+  car: Car = {
+    model: '',
+    license_plate: '',
+    country_license_plate: '',
+    color: '',
+    brand: '',
+    total_places: 0
+  };
+  constructor(
+    private profilService: ProfilService,
+    private toastr: ToastrService,
+    ) { }
 
   ngOnInit(): void {
     this.getuserInfo();
     this.getcarinfo();
-    console.log(this.car);
   }
   getcarinfo(): void {
-    this.profilService.getCarInformation().subscribe(
-      (car: Car) => {
+    this.profilService.getCarInformation().subscribe({
+      next:(car: Car) => {
         this.car = car;
-        this.carInfoLoaded = true;
+        this.hasCar = true;
       },
-      (error) => {
-        console.error('Erreur lors de la récupération des informations voiture', error);
+      error:(error) => {
+        console.log('Il n\'existe pas de voiture pour cette utilisateur', error.status);
+        if (error.status === 422) {
+          this.hasCar = false;
+        }
       }
-    );
+  });
   }
 
   getuserInfo(): void {
@@ -62,9 +76,7 @@ export class ProfilInformationComponent implements OnInit {
         return "Inconnu";
   }
   }
-  hasCar(): boolean {
-    return this.car && this.car.user_id !== null;
-  }
+
 
   toggleEdit(field: keyof User): void {
     if (this.editingField === null) {
@@ -97,26 +109,26 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   addCar(): void {
-    this.profilService.addCar(this.car).subscribe(
-      (response) => {
-        console.log('Car added successfully', response);
-        // Ajoutez une logique ici pour traiter la réussite de l'ajout
+    this.profilService.addCar(this.car).subscribe({
+      next:(response) => {
+        this.hasCar = true;
+        this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info ✅📄🚗👍');
       },
-      (error) => {
+      error:(error) => {
         console.error('Error adding car', error);
-        // Ajoutez une logique ici pour traiter les erreurs
+        this.toastr.error('Les informations du véhicule n\'ont pas été ajouté.', 'Erreur 📄❌🚗');
       }
-    );
+  });
   }
   updateCar(): void {
     this.profilService.updateCar(this.car).subscribe(
       (response) => {
         console.log('Car updated successfully', response);
-        // Ajoutez une logique ici pour traiter la réussite de la mise à jour
-      },
+        this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info ✅📄🔄👍');
+            },
       (error) => {
         console.error('Error updating car', error);
-        // Ajoutez une logique ici pour traiter les erreurs
+        this.toastr.error('Les informations du véhicule n\'ont pas été modifié.', 'Erreur 📄❌🔄');
       }
     );
   }

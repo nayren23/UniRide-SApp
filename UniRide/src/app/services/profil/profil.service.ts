@@ -56,13 +56,13 @@ updateCar(car: Car): Observable<any> {
   return this.http.put(`${this.apiUrl}/car/update`, car, { headers });
 }
 
-getCarInformation(): Observable<any> {
+getCarInformation(): Observable<Car> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${this.token}` 
   });
 
-  return this.http.get<any>(`${this.apiUrl}/car/info`, { headers });
+  return this.http.get<Car>(`${this.apiUrl}/car/info`, { headers });
 }
 }
 

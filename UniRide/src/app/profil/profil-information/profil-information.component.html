@@ -55,12 +55,12 @@
         <i class="pi pi-car"></i>
         <span>Voiture</span>
     </ng-template>
-    <p-card header="Information Véhicule" *ngIf="carInfoLoaded">
+    <p-card header="Information Véhicule" >
       <form>
         <div class="p-fluid p-formgrid p-grid">
           <div class="p-field p-col">
             <label for="model">Modèle :</label>
-            <input type="text" id="model" [(ngModel)]="car.model" [placeholder]="car.model" name="model" pInputText required>
+            <input type="text" id="model" [(ngModel)]="car.model" name="model" pInputText required>
           </div>
           <div class="p-field p-col">
             <label for="licensePlate">Plaque d'immatriculation :</label>
@@ -100,11 +100,20 @@
           </div>
           <div class="p-field p-col">
             <label for="totalPlaces">Nombre de places :</label>
-            <input type="number" id="totalPlaces" [(ngModel)]="car.total_places" name="totalPlaces" pInputText required>
+            <input
+              type="number"
+              id="totalPlaces"
+              [(ngModel)]="car.total_places"
+              name="totalPlaces"
+              pInputText
+              required
+              min="0"
+              max="4"
+            >
           </div>
         </div>
-        <p-button *ngIf="!hasCar()" label="Ajouter Véhicule" (onClick)="addCar()"></p-button>
-        <p-button *ngIf="hasCar()" label="Mettre à Jour Véhicule" (onClick)="updateCar()"></p-button>  
+        <p-button *ngIf="!hasCar" label="Ajouter Véhicule" (onClick)="addCar()"></p-button>
+        <p-button *ngIf="hasCar" label="Mettre à Jour Véhicule" (onClick)="updateCar()"></p-button>  
       </form>
     </p-card>
     </p-tabPanel>
