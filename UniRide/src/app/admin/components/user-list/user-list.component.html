@@ -1,3 +1,15 @@
+<div class="flex justify-content-center flex-wrap carte  mb-3">
+    <div class="card flex justify-content-center">
+        <p-card header="Analyse des Utilisateurs">
+            <p-chart type="doughnut" [data]="dataUser" [options]="options" height="20vh"></p-chart>
+        </p-card>
+    </div>
+    <div class=" card flex justify-content-center">
+        <p-card header="Analyse des Trajets ">
+            <p-chart type="doughnut" [data]="dataTrip" [options]="options" height="20vh"></p-chart>
+        </p-card>
+    </div>
+</div>
 <div class="card">
     <p-table #displayUsers [value]="lisUsers" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
@@ -73,7 +85,7 @@
         <ng-template pTemplate="body" let-lisUsers>
             <tr>
                 <td>
-                    {{ lisUsers.user_id}}
+                    {{ lisUsers.id_user}}
                 </td>
                 <td>
                     <img [alt]="lisUsers.lastname" src="{{ lisUsers.profile_picture }}" width="32"
@@ -88,7 +100,7 @@
                 </td>
 
                 <td>
-                    <a (click)="manageRequestVerificationDocument(lisUsers.user_id)">
+                    <a (click)="manageRequestVerificationDocument(lisUsers.id_user)">
                         <p-button label="Gérer" [rounded]="true" severity="warning"></p-button>
                     </a>
                 </td>

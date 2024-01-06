@@ -18,12 +18,8 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   /**
    * Arguments for the chart
    */
-  dataTrip: any;
-  dateUser: any;
-  totalTrips: number = 0;
-  totalUsers: number = 0;
-  totalDrivers: number = 0;
-  totalPassengers: number = 0;
+
+  dataDocument: any;
   options: any;
   textColor: string = 'black';
 
@@ -43,39 +39,18 @@ export class DocumentVerificationDisplayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.statistiqueService.getTripsNumber().subscribe({
-      next: (data: any) => {
-        this.totalTrips = data.trip_count;
-      },
-      error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
-      },
-      complete: () => {
-        /**
-         * Initialize the chart
-         */
-        const documentStyle = getComputedStyle(document.documentElement);
-        this.dataTrip = this.getDataTrip(this.totalTrips, documentStyle)
-        this.options = this.getOptions(this.textColor);
-      }
-    })
+    this.setOptionsDoughnut();
 
-    this.statistiqueService.getNumberOfUsers().subscribe({
+    /**
+     * Call the API to get statistics of the document
+     */
+    this.statistiqueService.getNumberOfDocuments().subscribe({
       next: (data: any) => {
-        this.totalUsers = data.user_count;
-        this.totalDrivers = data.drivers_count;
-        this.totalPassengers = data.passengers_count;
+        this.getDataDocument(data.document_infos)
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des statistiques des documents a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
       },
-      complete: () => {
-        /**
-         * Initialize the chart
-         */
-        const documentStyle = getComputedStyle(document.documentElement);
-        this.dateUser = this.getDateUser(this.totalDrivers, this.totalPassengers, this.totalUsers, documentStyle)
-      }
     })
 
     /**
@@ -120,39 +95,27 @@ export class DocumentVerificationDisplayComponent implements OnInit {
     this.router.navigate(['admin/documents/verify'], { queryParams: { id_user: id_user, full_name: full_name } });
   }
 
-  getDataTrip(totalTrips: number, documentStyle: CSSStyleDeclaration) {
-    return {
-      labels: ['Total des trajets'],
+  getDataDocument(document_infos: any) {
+    const color = ["#c4a381", '#bbd686', "#b2675e"];
+    this.dataDocument = {
+      labels: ['Total des documents en attente', 'Total des documents validés', 'Total des documents refusés'],
       datasets: [
         {
-          data: [totalTrips],
-          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
+          data: [document_infos.document_pending, document_infos.document_validated, document_infos.document_refused],
+          backgroundColor: color,
+          hoverBackgroundColor: color
         }
       ]
     };
   }
 
-  getDateUser(totalDrivers: number, totalPassengers: number, totalUsers: number, documentStyle: CSSStyleDeclaration) {
-    return {
-      labels: ['Total des conducteurs', 'Total des passagers', 'Total des utilisateurs'],
-      datasets: [
-        {
-          data: [totalDrivers, totalPassengers, totalUsers],
-          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
-        }
-      ]
-    };
-  }
-
-  getOptions(textColor: string) {
-    return {
+  setOptionsDoughnut() {
+    this.options = {
       cutout: '60%',
       plugins: {
         legend: {
           labels: {
-            color: textColor
+            color: this.textColor
           }
         }
       }
