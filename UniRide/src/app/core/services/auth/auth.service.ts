@@ -21,6 +21,10 @@ export class AuthService {
     return this.cookieService.get('authToken');
   }
 
+  getUserID(): string {
+    return this.cookieService.get('userID')
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
@@ -56,6 +60,7 @@ export class AuthService {
     ).pipe(
       tap((response: any) => {
         this.setToken(response.token);
+        this.cookieService.set('userID', response.u_id);
         if (params.keepLoggedIn)
           this.setKeepLoggedIn(params);
       }));

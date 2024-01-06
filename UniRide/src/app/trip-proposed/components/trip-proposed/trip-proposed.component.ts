@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Trip } from '../../../core/models/trip.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trip-proposed',
@@ -10,10 +11,12 @@ export class TripProposedComponent implements OnInit {
 
   @Input() trip!: Trip;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void { }
 
-
+  goToTripDetails() {
+    this.router.navigate([`/trips/${this.trip.id}`]);
+  }
 
 }
