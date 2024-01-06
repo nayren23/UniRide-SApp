@@ -8,5 +8,8 @@
             <p><strong>Départ:</strong> {{ trip.departure.name }}</p>
             <p><strong>Arrivée:</strong> {{ trip.arrival.name }}</p>
         </div>
+        <div class="button-container">
+            <p-button label="Voir Plus" (click)="goToTripDetails()" class="p-button-success"></p-button>
+        </div>
     </div>
 </div>

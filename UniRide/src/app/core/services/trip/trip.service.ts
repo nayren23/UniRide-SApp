@@ -66,4 +66,13 @@ export class TripService {
       { headers: headers }
     )
   }
+  getTripPassengers(tripId: number): any {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/trip/${tripId}/passengers`,
+      { headers: headers }
+    )
+  }
 }

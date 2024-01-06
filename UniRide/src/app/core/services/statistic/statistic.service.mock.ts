@@ -15,14 +15,16 @@ export class StatisticServiceMock implements StatisticInterface {
             "statistics": [
                 {
                     "driver_trip": {
-                        "completed_count": "10",
-                        "pending_count": "4"
+                        "completed_count": "0",
+                        "pending_count": "0",
+                        "canceled_count": "0",
+                        "oncourse_count": "0"
                     }
                 },
                 {
                     "passenger_trip": {
-                        "completed_count": "55",
-                        "pending_count": "2"
+                        "completed_count": "0",
+                        "pending_count": "0"
                     }
                 },
                 {

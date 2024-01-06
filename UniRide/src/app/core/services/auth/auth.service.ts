@@ -14,6 +14,10 @@ export class AuthService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
 
+  getUserID(): string {
+    return this.cookieService.get('userID')
+  }
+
   isAuthenticated(): boolean {
     return this.cookieService.get('IsAuthentified') == 'true';
   }

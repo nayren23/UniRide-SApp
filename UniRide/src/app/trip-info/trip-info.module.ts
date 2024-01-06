@@ -3,12 +3,14 @@ import { TripInfoComponent } from './components/trip-info/trip-info.component';
 import { UserInfoSummaryComponent } from './components/user-info-summary/user-info-summary.component';
 import { SharedModule } from '../shared/shared.module';
 import { TripInfoRoutingModule } from './trip-info.rooting.module';
+import { PassengersListComponent } from './components/passengers-list/passengers-list.component';
 
 
 @NgModule({
   declarations: [
     TripInfoComponent,
-    UserInfoSummaryComponent
+    UserInfoSummaryComponent,
+    PassengersListComponent
   ],
   imports: [
     SharedModule,
@@ -16,7 +18,8 @@ import { TripInfoRoutingModule } from './trip-info.rooting.module';
   ],
   exports: [
     TripInfoComponent,
-    UserInfoSummaryComponent
+    UserInfoSummaryComponent,
+    PassengersListComponent
   ]
 })
 export class TripInfoModule { }

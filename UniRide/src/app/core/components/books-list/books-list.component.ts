@@ -5,6 +5,7 @@ import { BookService } from '../../services/book/book.service';
 import { tap } from 'rxjs';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 interface TableRowSelectEvent {
   originalEvent?: Event;
@@ -43,10 +44,21 @@ export class BooksListComponent implements OnInit, AfterViewInit {
           this.books.push(
             {
               accepted: book.accepted,
-              date_requested: book.date_requested,
+              date_requested: new Date(book.date_requested),
               passenger_count: book.passenger_count,
-              trip_id: book.trip.trip_id,
-              user_id: book.user.id
+              trip: {
+                id: book.trip.trip_id,
+                arrival_address: book.trip.arrival_address,
+                departure_address: book.trip.departure_address,
+                departure_date: new Date(book.trip.departure_date)
+              },
+              user: {
+                id: book.user.id,
+                firstname: book.user.firstname,
+                lastname: book.user.lastname,
+                profile_picture: book.user.profile_picture,
+
+              }
             }
           );
         });
@@ -71,9 +83,12 @@ export class BooksListComponent implements OnInit, AfterViewInit {
 
   }
   getTimeElapsed(dateInput: Date | string): string {
-    const date = new Date(dateInput);
+    const inputDate = new Date(dateInput);
     const now = new Date();
-    const elapsed = now.getTime() - date.getTime();
+    const dateUTC = inputDate.getTime() - (inputDate.getTimezoneOffset() * 60000);
+    const nowUTC = now.getTime() - (now.getTimezoneOffset() * 60000);
+
+    const elapsed = nowUTC - dateUTC;
 
     const minutes = Math.floor(elapsed / 60000);
     const hours = Math.floor(minutes / 60);
@@ -86,6 +101,10 @@ export class BooksListComponent implements OnInit, AfterViewInit {
     } else {
       return `${days} jours`;
     }
+  }
+
+  convertToFrenchDate(date: Date) {
+    return date.toLocaleString('fr-FR', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'});
   }
 
   bookOnHold(status: number) {
