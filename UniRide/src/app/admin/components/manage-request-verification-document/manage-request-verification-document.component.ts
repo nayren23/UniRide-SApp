@@ -61,7 +61,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
    * This function is called when the user click on the button to accept or refuse the document
    * @param event 
    * @param message 
-   * @param action 
+   * @param action the action is the string 'accepté' or 'refusé'
    * @param document 
    * @param status 
    */
@@ -97,15 +97,21 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
   /**
    * This function is called when the user click on the button to accept or refuse the document, this function update thestatus of document
    * @param document 
-   * @param action 
+   * @param action  the action is the string 'accepté' or 'refusé'
    * @param status 
    */
   private updateDocument(document: DocumentVerification, action: string, status: string) {
     document.status = status;
     const documentUpdated = new DocumentVerification(document.user_full_name, document.url, status, document.type);
-    documentUpdated.description = this.textareaValues[document.type];
+    if (action === 'refusé') {
+      documentUpdated.description = this.textareaValues[document.type];
+    }
+    else {
+      documentUpdated.description = '';
+    }
 
     const checkData = new CheckData(this.id_user, documentUpdated);
+    console.log('checkData:', checkData);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
         this.toastr.success(`Vous avez ${action} le document`, 'Info ✅📄👍');
