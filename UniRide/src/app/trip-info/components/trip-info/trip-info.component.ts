@@ -9,7 +9,7 @@ import { Location } from '@angular/common'
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { BookService } from '../../../core/services/book/book.service';
-
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-trip-info',
@@ -31,11 +31,11 @@ export class TripInfoComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private location: Location,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    console.log("test");
     this.getTripDetails();
   }
 
@@ -92,7 +92,7 @@ export class TripInfoComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.bookService.bookTrip(this.trip.id, 1).subscribe({
-          next: (data: any) => { this.toastr.success('Trajet créé avec succès', 'Trajet créé'); },
+          next: (data: any) => { this.toastr.success('Demande de réservation envoyée', 'Réservation envoyée'); },
           error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
         });
       }
@@ -111,6 +111,14 @@ export class TripInfoComponent implements OnInit {
       case 4: return 'warning';
       default: return 'danger';
     }
+  }
+
+  getUserID(): number {
+    return Number(this.authService.getUserID());
+  }
+
+  currentUserInTrip(): boolean {
+    return "message" in this.tripService.getTripPassengers(this.trip.id);
   }
 
 }

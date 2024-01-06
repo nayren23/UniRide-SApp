@@ -29,17 +29,19 @@
                     </div>
                 </div>
                 <div>
-                    <div class="flex justify-content-between">
-                        <app-user-info-summary [userid]="trip.driverId"></app-user-info-summary>
+                    <p-card>
+                        <div class="flex flex-wrap">
+                        <app-user-info-summary [userid]="trip.driverId" class="m-1 flex-grow-1"></app-user-info-summary>
+                        <app-passengers-list class="flex-grow-1 m-1" [tripid]="trip.id" [totalNumberOfPassenger]="trip.totalNumberOfPassenger ?? 0" [numberOfPassenger]="trip.numberOfPassenger ?? 0"></app-passengers-list>
                         <!-- <p class="text-2xl sm:text-3xl   align-self-end">{{ trip.price }} €</p> -->
-
-                    </div>
+                        </div>
+                    </p-card>
                     <p-toast></p-toast>
                     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
                     <div class="flex justify-content-between mt-3">
                         <p-button (click)="back()" icon="pi pi-times" label="Retour" class="p-button-danger"></p-button>
-                        <p-button (click)="confirm1()"
-                            [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0)"
+                        <p-button *ngIf="getUserID() != trip.driverId" (click)="confirm1()"
+                            [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0) || currentUserInTrip()"
                             icon="pi pi-check" label="Réserver"></p-button>
                     </div>
                 </div>
