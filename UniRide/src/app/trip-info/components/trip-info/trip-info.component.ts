@@ -114,11 +114,13 @@ export class TripInfoComponent implements OnInit {
   }
 
   getUserID(): number {
+    console.log(this.authService.getUserID())
+    console.log(this.trip.driverId)
     return Number(this.authService.getUserID());
   }
 
   currentUserInTrip(): boolean {
-    return "message" in this.tripService.getTripPassengers(this.trip.id);
+    return !("message" in this.tripService.getTripPassengers(this.trip.id));
   }
 
 }
