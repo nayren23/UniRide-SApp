@@ -1,7 +1,9 @@
+#Developpement docker-compose file by Uniride
 version: '3.8'
 
 services:
 
+#This container is used to get the frontend
   uniride_frontend:
     container_name: uniride_frontend
     image: uniride1/uniride_front #automatically latest
@@ -11,6 +13,7 @@ services:
     depends_on:
       - uniride_backend
 
+#This container is used to get the backend
   uniride_backend:
     container_name: uniride_backend
     image: uniride1/uniride_back #automatically latest
@@ -21,17 +24,38 @@ services:
       - ../../UniRide-SME/documents/license/:/usr/src/app/documents/license
       - ../../UniRide-SME/documents/id_card/:/usr/src/app/documents/id_card
       - ../../UniRide-SME/documents/school_certificate/:/usr/src/app/documents/school_certificate
+      - ../../UniRide-SME/documents/insurance/:/usr/src/app/documents/insurance
+      - ../../certs/:/usr/src/app/uniride_sme/certs
     depends_on:
       - uniride_redis
+    # - uniride_db
     ports:
       - "5050:5050"
+    #This file contains the environment variables, cause the image is not built with them
+    env_file:
+      #- uniride-backend-template.env
+      - uniride-backend-dev.env
 
+#This container is used to add cache to the backend
   uniride_redis:
     container_name: uniride_redis
     image: redis
     restart: always
     ports:
       - "6379:6379"
+
+
+#This container is used to store the data
+  # uniride_db:
+  #   container_name: uniride_db
+  #   image: postgres
+  #   restart: always
+  #   env_file:
+  #     - uniride-db.env
+    # volumes:
+    #   - "./script-bdd.sql:/docker-entrypoint-initdb.d/script.sql" #init script
+    #   - "./postgres-data:/var/lib/postgresql/data" #keep data
+
 
 x-environment:
   COMPOSE_PROJECT_NAME: uniride
