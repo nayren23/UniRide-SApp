@@ -89,11 +89,11 @@ saveInsurance(file: File): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/documents/save/insurance`, formData);
 }
 
-saveDocument(file: File, type: string): Observable<any> {
+saveDocument(file: File,typeData:string, typeRoute: string): Observable<any> {
   const formData: FormData = new FormData();
-  formData.append(type, file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
+  formData.append(typeData, file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
   console.log(formData);
-  return this.http.post<any>(`${this.apiUrl}/user/save/${type}`, formData);
+  return this.http.post<any>(`${this.apiUrl}/user/save/${typeRoute}`, formData);
 }
 
 

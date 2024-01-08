@@ -63,6 +63,7 @@ export class ProfilInformationComponent implements OnInit {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const userDocument = document as userDocuments;
+            console.log('userDocument', userDocument.type);
 
             this.userDocuments.push(userDocument);
           });
@@ -115,10 +116,10 @@ export class ProfilInformationComponent implements OnInit {
       case 'license':
         return 'Permis de conduire';
 
-      case 'card':
+      case 'id-card':
         return 'Carte d\'identité';
 
-      case 'school_certificate':
+      case 'school-certificate':
         return 'Certificat de scolarité';
 
       case 'insurance':
@@ -235,7 +236,7 @@ export class ProfilInformationComponent implements OnInit {
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 
-      this.profilService.saveDocument(file, documentType).subscribe({
+      this.profilService.saveDocument(file, this.convertDocumentType(documentType),documentType).subscribe({
         next: (data: any) => {
           this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
           document.url = URL.createObjectURL(file);
@@ -248,6 +249,24 @@ export class ProfilInformationComponent implements OnInit {
     } else {
       // Gérer le cas où aucun fichier n'a été sélectionné
       console.log('Aucun fichier sélectionné.');
+    }
+  }
+  convertDocumentType(type: string) {
+    switch (type) {
+      case 'license':
+       return 'license'
+
+      case 'id-card':
+        return 'id_card';
+
+      case 'school-certificate':
+        return 'school_certificate';
+
+      case 'insurance':
+        return 'insurance';
+
+      default:
+        return 'Document inconnu';
     }
   }
 }
