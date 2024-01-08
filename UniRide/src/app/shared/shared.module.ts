@@ -31,6 +31,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { RatingModule } from 'primeng/rating';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +74,10 @@ import { SkeletonModule } from 'primeng/skeleton';
     RatingModule,
     ReactiveFormsModule,
     FormsModule,
-    SkeletonModule
+    SkeletonModule,
+    TabViewModule,
+    InputTextModule,
+    FileUploadModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -107,7 +114,10 @@ import { SkeletonModule } from 'primeng/skeleton';
     ReactiveFormsModule,
     FormsModule,
     DistancePipe,
-    SkeletonModule
+    SkeletonModule,
+    TabViewModule,
+    InputTextModule,
+    FileUploadModule
   ]
 })
 export class SharedModule { }
