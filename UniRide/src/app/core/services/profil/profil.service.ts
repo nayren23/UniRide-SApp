@@ -5,6 +5,7 @@ import { User } from '../../../core/models/user.model'
 import { Car } from '../../../core/models/car.model'
 import { environment } from '../../../../environements/environement';
 import { AuthService } from '../auth/auth.service';
+import { userDocuments } from '../../../core/models/user-documents.model'
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,41 @@ getCarInformation(): Observable<Car> {
 
   return this.http.get<Car>(`${this.apiUrl}/car/info`, { headers });
 }
+getUserDocumentsInfo(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/user/documents/infos`);
+}
+
+saveLicense(file: File): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('license', file, file.name);
+  return this.http.post<any>(`${this.apiUrl}/documents/save/license`, formData);
+}
+
+saveIdCard(file: File): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('id_card', file, file.name);
+  return this.http.post<any>(`${this.apiUrl}/documents/save/id-card`, formData);
+}
+
+saveSchoolCertificate(file: File): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('school_certificate', file, file.name);
+  return this.http.post<any>(`${this.apiUrl}/documents/save/school-certificate`, formData);
+}
+
+saveInsurance(file: File): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('insurance', file, file.name);
+  return this.http.post<any>(`${this.apiUrl}/documents/save/insurance`, formData);
+}
+
+saveDocument(file: File, type: string): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append(type, file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
+  console.log(formData);
+  return this.http.post<any>(`${this.apiUrl}/user/save/${type}`, formData);
+}
+
+
 }
 

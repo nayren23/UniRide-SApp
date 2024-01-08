@@ -3,7 +3,13 @@ import { ProfilService } from '../../core/services/profil/profil.service';
 import { User } from '../../../app/core/models/user.model'
 import { Car } from '../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
+import { userDocuments } from '../../core/models/user-documents.model';
 
+
+interface FileUploadEvent {
+  originalEvent: any;
+  files: File[];
+}
 @Component({
   selector: 'app-profil-information',
   templateUrl: './profil-information.component.html',
@@ -15,6 +21,9 @@ export class ProfilInformationComponent implements OnInit {
   editingField: keyof User | null = null;
   isNotDriver: boolean = true;
   hasCar!: boolean;
+  userDocuments: userDocuments[] = [];
+  uploadedFiles: { [key: string]: File[] } = {};
+  maxSize: number = 1000000;
   car: Car = {
     model: '',
     license_plate: '',
@@ -26,25 +35,43 @@ export class ProfilInformationComponent implements OnInit {
   constructor(
     private profilService: ProfilService,
     private toastr: ToastrService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getuserInfo();
     this.getcarinfo();
+    this.getDocumentsInfos();
   }
   getcarinfo(): void {
     this.profilService.getCarInformation().subscribe({
-      next:(car: Car) => {
+      next: (car: Car) => {
         this.car = car;
         this.hasCar = true;
       },
-      error:(error) => {
+      error: (error) => {
         console.log('Il n\'existe pas de voiture pour cette utilisateur', error.status);
         if (error.status === 422) {
           this.hasCar = false;
         }
       }
-  });
+    });
+  }
+
+  getDocumentsInfos(): void {
+    this.profilService.getUserDocumentsInfo().subscribe({
+      next: (data: any) => {
+        data.documents.forEach((documentGroup: any) => {
+          documentGroup.document.forEach((document: any) => {
+            const userDocument = document as userDocuments;
+
+            this.userDocuments.push(userDocument);
+          });
+        });
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des informations sur les documents', error);
+      }
+    });
   }
 
   getuserInfo(): void {
@@ -52,7 +79,7 @@ export class ProfilInformationComponent implements OnInit {
       (user: User) => {
         this.user = user;
         this.editedUser = JSON.parse(JSON.stringify(user));
-      
+
       },
       (error) => {
         console.error('Erreur lors de la récupération des informations utilisateur', error);
@@ -60,22 +87,89 @@ export class ProfilInformationComponent implements OnInit {
     );
   }
 
+
   convertRole(role: any): string {
     switch (role) {
       case 0:
         this.isNotDriver = false;
-          return  "Administrateur";
+        return "Administrateur";
       case 1:
         this.isNotDriver = false;
-        return   "Conducteur";
+        return "Conducteur";
       case 2:
-        return  "Passager";
+        return "Passager";
       case 3:
-        return  "En attente";
+        return "En attente";
       default:
         return "Inconnu";
+    }
   }
+
+  /**
+   * Function to convert the type of the document
+   * @param type 
+   * @returns 
+   */
+  convertType(type: string) {
+    switch (type) {
+      case 'license':
+        return 'Permis de conduire';
+
+      case 'card':
+        return 'Carte d\'identité';
+
+      case 'school_certificate':
+        return 'Certificat de scolarité';
+
+      case 'insurance':
+        return 'Attestation d\'assurance';
+
+      default:
+        return 'Document inconnu';
+    }
   }
+
+  /**
+ * Function to convert the status of the document
+ * @param status 
+ * @returns 
+ */
+  convertirStatus(status: string) {
+    switch (status) {
+      case "1":
+        return 'Validé';
+
+      case "0":
+        return 'En attente';
+
+      case "-1":
+        return 'Refusé';
+
+      default:
+        return 'Erreur';
+    }
+  }
+
+  /**
+* Return the severity of the document
+* @param document 
+* @returns 
+*/
+  getSeverity(status: string) {
+    switch (status) {
+      case "1":
+        return 'success';
+
+      case "0":
+        return 'warning';
+
+      case "-1":
+        return 'danger';
+
+      default:
+        return 'danger';
+    }
+  };
 
 
   toggleEdit(field: keyof User): void {
@@ -100,9 +194,11 @@ export class ProfilInformationComponent implements OnInit {
           console.log(`Modification du champ ${this.editingField} enregistrée avec succès`, response);
           this.editingField = null;
           this.getuserInfo();
+          this.toastr.success(`Modification du champ ${this.editingField} enregistrée avec succès.`, 'Info ✅📄🔄👍');
         },
         (error) => {
           console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
+          this.toastr.success(`Erreur lors de la Modification du champ ${this.editingField}.`, 'Erreur 📄❌🚗');
         }
       );
     }
@@ -110,27 +206,50 @@ export class ProfilInformationComponent implements OnInit {
 
   addCar(): void {
     this.profilService.addCar(this.car).subscribe({
-      next:(response) => {
+      next: (response) => {
         this.hasCar = true;
         this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info ✅📄🚗👍');
       },
-      error:(error) => {
+      error: (error) => {
         console.error('Error adding car', error);
         this.toastr.error('Les informations du véhicule n\'ont pas été ajouté.', 'Erreur 📄❌🚗');
       }
-  });
+    });
   }
   updateCar(): void {
     this.profilService.updateCar(this.car).subscribe(
       (response) => {
         console.log('Car updated successfully', response);
         this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info ✅📄🔄👍');
-            },
+      },
       (error) => {
         console.error('Error updating car', error);
         this.toastr.error('Les informations du véhicule n\'ont pas été modifié.', 'Erreur 📄❌🔄');
       }
     );
   }
-  
+
+  onUpload(event: FileUploadEvent, document: userDocuments) {
+    const documentType = document.type;
+
+    if (event.files && event.files.length > 0) {
+      const file = event.files[0];
+
+      this.profilService.saveDocument(file, documentType).subscribe({
+        next: (data: any) => {
+          this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
+          document.url = URL.createObjectURL(file);
+        },
+        error: (error: any) => {
+          this.toastr.error(`Erreur lors de l'enregistrement du document ${documentType}.`, 'Erreur 📄❌🚫');
+          console.log('error:', error);
+        }
+      });
+    } else {
+      // Gérer le cas où aucun fichier n'a été sélectionné
+      console.log('Aucun fichier sélectionné.');
+    }
+  }
 }
+
+
