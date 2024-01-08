@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environements/environement';
 import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
@@ -72,7 +72,7 @@ export class TripService {
       { headers: headers }
     )
   }
-  getTripPassengers(tripId: number): any {
+  getTripPassengers(tripId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -80,5 +80,29 @@ export class TripService {
       `${this.apiUrl}/trip/${tripId}/passengers`,
       { headers: headers }
     )
+  }
+
+  getTripsPassenger(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return of([
+      {
+        "arrival_address": "140 Rue de la Nouvelle France Montreuil 93100",
+        "departure_address": "8 Rue d'Amsterdam Paris 75008",
+        "id": 1,
+        "book_status": 1,
+        "status": 1,
+        "proposed_date": "2023-12-06 16:20:00"
+      },
+      {
+        "arrival_address": "8 Rue d'Amsterdam Paris 75008",
+        "departure_address": "140 Rue de la Nouvelle France Montreuil 93100",
+        "id": 16,
+        "book_status": 1,
+        "status": 4,
+        "proposed_date": "2023-12-03 09:20:00"
+      }
+    ]);
   }
 }

@@ -10,7 +10,8 @@ const routes: Routes = [
       { path: 'create', loadChildren: () => import('./create-trip/create-trip.module').then(m => m.CreateTripModule) },
       { path: 'search', loadChildren: () => import('./trip-search/trip-search.module').then(m => m.TripSearchModule) },
       { path: 'proposed', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule) },
-      { path: ':id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule) },
+      { path: 'passenger', loadChildren: () => import('./trip-passenger/trip-passenger.module').then(m => m.TripPassengerModule) },
+      { path: ':id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule) }
     ]
   },
   { path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule) },
