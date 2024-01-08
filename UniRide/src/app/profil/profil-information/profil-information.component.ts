@@ -116,10 +116,10 @@ export class ProfilInformationComponent implements OnInit {
       case 'license':
         return 'Permis de conduire';
 
-      case 'id-card':
+      case 'card':
         return 'Carte d\'identité';
 
-      case 'school-certificate':
+      case 'school_certificate':
         return 'Certificat de scolarité';
 
       case 'insurance':
@@ -236,7 +236,7 @@ export class ProfilInformationComponent implements OnInit {
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 
-      this.profilService.saveDocument(file, this.convertDocumentType(documentType),documentType).subscribe({
+      this.profilService.saveDocument(file, this.convertDataType(documentType),this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
           this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
           document.url = URL.createObjectURL(file);
@@ -251,15 +251,15 @@ export class ProfilInformationComponent implements OnInit {
       console.log('Aucun fichier sélectionné.');
     }
   }
-  convertDocumentType(type: string) {
+  convertDataType(type: string) {
     switch (type) {
       case 'license':
        return 'license'
 
-      case 'id-card':
+      case 'card':
         return 'id_card';
 
-      case 'school-certificate':
+      case 'school_certificate':
         return 'school_certificate';
 
       case 'insurance':
@@ -269,6 +269,25 @@ export class ProfilInformationComponent implements OnInit {
         return 'Document inconnu';
     }
   }
+  convertRouteType(type: string) {
+    switch (type) {
+      case 'license':
+       return 'license'
+
+      case 'card':
+        return 'id-card';
+
+      case 'school_certificate':
+        return 'school-certificate';
+
+      case 'insurance':
+        return 'insurance';
+
+      default:
+        return 'Document inconnu';
+    }
+  }
 }
+
 
 

@@ -175,10 +175,10 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       case 'license':
         return 'Permis de conduire';
 
-      case 'id-card':
+      case 'card':
         return 'Carte d\'identité';
 
-      case 'school-certificate':
+      case 'school_certificate':
         return 'Certificat de scolarité';
 
       case 'insurance':
