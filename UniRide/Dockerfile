@@ -26,7 +26,14 @@ EXPOSE 4200
 #Build the app Angular
 RUN npm install -g @angular/cli
 
+
+# Set CMD as an environment variable
+ENV CMD_ARGS serve --ssl true --ssl-cert "$CERTIFICATE_CRT_FOLDER" --ssl-key "$CERTIFICATE_KEY_FOLDER"
+
+# Echo the CMD content
+RUN echo "CMD $CMD_ARGS"
+
 ENTRYPOINT [ "ng" ]
 
 # Start the app Angular with SSL
-CMD ["serve", "--ssl", "true", "--ssl-cert", "\"$CERTIFICATE_CRT_FOLDER\"", "--ssl-key", "\"$CERTIFICATE_KEY_FOLDER\""]
+CMD ["serve", "--ssl", "true", "--ssl-cert", "$CERTIFICATE_CRT_FOLDER", "--ssl-key", "$CERTIFICATE_KEY_FOLDER"]
