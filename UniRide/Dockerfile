@@ -5,6 +5,8 @@ WORKDIR /app
 ARG PRODUCTION
 ARG API_URL
 ARG GOOGLE_MAPS_API_KEY
+ARG CERTIFICATE_CRT_FOLDER
+ARG CERTIFICATE_KEY_FOLDER
 
 ENV PRODUCTION=$PRODUCTION \
     API_URL=$API_URL \
@@ -26,5 +28,5 @@ RUN npm install -g @angular/cli
 
 ENTRYPOINT [ "ng" ]
 
-# Start the app
-CMD ["serve", "--host", "0.0.0.0"]
+# Start the app Angular with SSL
+CMD ["serve", "--ssl", "true", "--ssl-cert", "$CERTIFICATE_CRT_FOLDER", "--ssl-key", "$CERTIFICATE_KEY_FOLDER"]
