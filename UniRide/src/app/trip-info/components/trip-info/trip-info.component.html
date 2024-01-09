@@ -40,7 +40,7 @@
                     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
                     <div class="flex justify-content-between mt-3">
                         <p-button (click)="back()" icon="pi pi-times" label="Retour" class="p-button-danger"></p-button>
-                        <p-button *ngIf="getUserID() != trip.driverId" (click)="confirm1()"
+                        <p-button *ngIf="userId != trip.driverId" (click)="confirm1()"
                             [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0) || currentUserInTrip()"
                             icon="pi pi-check" label="Réserver"></p-button>
                     </div>

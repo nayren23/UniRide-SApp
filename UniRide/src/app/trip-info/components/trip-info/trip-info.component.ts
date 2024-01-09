@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class TripInfoComponent implements OnInit {
 
   trip!: Trip;
+  userId!: Number;
 
   constructor(
     private tripService: TripService,
@@ -36,6 +37,7 @@ export class TripInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getUserID()
     this.getTripDetails();
   }
 
@@ -113,10 +115,10 @@ export class TripInfoComponent implements OnInit {
     }
   }
 
-  getUserID(): number {
-    console.log(this.authService.getUserID())
-    console.log(this.trip.driverId)
-    return Number(this.authService.getUserID());
+  getUserID(): void {
+    this.authService.getUserIDAndRole().subscribe(data =>
+      this.userId = data.id
+    )
   }
 
   currentUserInTrip(): boolean {
