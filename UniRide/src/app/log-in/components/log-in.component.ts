@@ -35,6 +35,7 @@ export class LogInComponent {
           if (response['informations_verified']['email_verified']) {
             this.authService.setIsAuthentified(true);
             this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
+            this.authService.setLoggedIn(true);
             this.router.navigate(['/trips/search']);
           } else {
             this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');

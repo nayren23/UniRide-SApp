@@ -47,7 +47,6 @@ export class BookService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    console.log({ "trip_id": trip_id, "booker_id": booker_id, "response": response })
     return this.http.post(
       `${this.apiUrl}/book/respond`,
       { "trip_id": trip_id, "booker_id": booker_id, "response": response },

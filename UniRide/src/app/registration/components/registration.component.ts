@@ -95,7 +95,7 @@ export class RegistrationComponent {
 
 
           setTimeout(() => {
-            this.router.navigate(['/logIn']);
+            this.router.navigate(['/login']);
           }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
 
 
