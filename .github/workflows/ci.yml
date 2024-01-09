@@ -41,3 +41,5 @@ jobs:
             PRODUCTION=${{ secrets.PRODUCTION }}
             API_URL=${{ secrets.API_URL }}
             GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+            CERTIFICATE_CRT_FOLDER =${{ secrets.CERTIFICATE_CRT_FOLDER }}
+            CERTIFICATE_KEY_FOLDER =${{ secrets.CERTIFICATE_KEY_FOLDER }}
