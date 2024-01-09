@@ -65,28 +65,12 @@ getUserDocumentsInfo(): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/user/documents/infos`);
 }
 
-saveLicense(file: File): Observable<any> {
+saveProfilePicture(file: File): Observable<any> {
   const formData: FormData = new FormData();
-  formData.append('license', file, file.name);
-  return this.http.post<any>(`${this.apiUrl}/documents/save/license`, formData);
-}
+  formData.append("pfp", file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
+  console.log(formData);
+  return this.http.post<any>(`${this.apiUrl}/user/save/pfp`, formData);
 
-saveIdCard(file: File): Observable<any> {
-  const formData: FormData = new FormData();
-  formData.append('id_card', file, file.name);
-  return this.http.post<any>(`${this.apiUrl}/documents/save/id-card`, formData);
-}
-
-saveSchoolCertificate(file: File): Observable<any> {
-  const formData: FormData = new FormData();
-  formData.append('school_certificate', file, file.name);
-  return this.http.post<any>(`${this.apiUrl}/documents/save/school-certificate`, formData);
-}
-
-saveInsurance(file: File): Observable<any> {
-  const formData: FormData = new FormData();
-  formData.append('insurance', file, file.name);
-  return this.http.post<any>(`${this.apiUrl}/documents/save/insurance`, formData);
 }
 
 saveDocument(file: File,typeData:string, typeRoute: string): Observable<any> {
