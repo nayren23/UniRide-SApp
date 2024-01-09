@@ -47,6 +47,13 @@ export class NavbarComponent implements OnInit {
           }
         },
         {
+          label: 'Trajets Passager',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/passenger");
+          }
+        },
+        {
           label: 'Admin',
           command: () => {
             this.navigate("admin/documents");
