@@ -21,9 +21,10 @@ export class ProfilInformationComponent implements OnInit {
   editingField: keyof User | null = null;
   isNotDriver: boolean = true;
   hasCar!: boolean;
+  hasProfilePicture: boolean = false;
   userDocuments: userDocuments[] = [];
   uploadedFiles: { [key: string]: File[] } = {};
-  maxSize: number = 1000000;
+  showUploadPhoto: boolean = false;
   car: Car = {
     model: '',
     license_plate: '',
@@ -80,6 +81,10 @@ export class ProfilInformationComponent implements OnInit {
       (user: User) => {
         this.user = user;
         this.editedUser = JSON.parse(JSON.stringify(user));
+        if (user.profile_picture != null) {
+          this.hasProfilePicture = true;
+        }
+
 
       },
       (error) => {
@@ -150,6 +155,42 @@ export class ProfilInformationComponent implements OnInit {
         return 'Erreur';
     }
   }
+  convertDataType(type: string) {
+    switch (type) {
+      case 'license':
+       return 'license'
+
+      case 'card':
+        return 'id_card';
+
+      case 'school_certificate':
+        return 'school_certificate';
+
+      case 'insurance':
+        return 'insurance';
+
+      default:
+        return 'Document inconnu';
+    }
+  }
+  convertRouteType(type: string) {
+    switch (type) {
+      case 'license':
+       return 'license'
+
+      case 'card':
+        return 'id-card';
+
+      case 'school_certificate':
+        return 'school-certificate';
+
+      case 'insurance':
+        return 'insurance';
+
+      default:
+        return 'Document inconnu';
+    }
+  }
 
   /**
 * Return the severity of the document
@@ -172,6 +213,9 @@ export class ProfilInformationComponent implements OnInit {
     }
   };
 
+  toggleUploadPhoto(): void {
+    this.showUploadPhoto = !this.showUploadPhoto;
+  }
 
   toggleEdit(field: keyof User): void {
     if (this.editingField === null) {
@@ -251,42 +295,28 @@ export class ProfilInformationComponent implements OnInit {
       console.log('Aucun fichier sélectionné.');
     }
   }
-  convertDataType(type: string) {
-    switch (type) {
-      case 'license':
-       return 'license'
+  updateProfilePicture(event: FileUploadEvent) {
+    if (event.files && event.files.length > 0) {
+      const file = event.files[0];
 
-      case 'card':
-        return 'id_card';
-
-      case 'school_certificate':
-        return 'school_certificate';
-
-      case 'insurance':
-        return 'insurance';
-
-      default:
-        return 'Document inconnu';
+      this.profilService.saveProfilePicture(file).subscribe({
+        next: (data: any) => {
+          this.toastr.success('La photo de profil a été enregistré avec succès.', 'Info ✅📄👍')
+          this.user.profile_picture = URL.createObjectURL(file);
+          this.showUploadPhoto = false;
+        },
+        error: (error: any) => {
+          this.toastr.error('Erreur lors de l\'enregistrement de la photo de profil.', 'Erreur 📄❌🚫');
+          console.log('error:', error);
+        }
+      });
+    } else {
+   
+      console.log('Aucun fichier sélectionné.');
     }
   }
-  convertRouteType(type: string) {
-    switch (type) {
-      case 'license':
-       return 'license'
 
-      case 'card':
-        return 'id-card';
 
-      case 'school_certificate':
-        return 'school-certificate';
-
-      case 'insurance':
-        return 'insurance';
-
-      default:
-        return 'Document inconnu';
-    }
-  }
 }
 
 

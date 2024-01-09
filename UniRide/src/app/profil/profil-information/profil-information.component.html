@@ -5,6 +5,22 @@
       <span>Profil</span>
     </ng-template>
     <p-card>
+      <div>
+      <div>
+      <p-image *ngIf="user.profile_picture" src="{{user.profile_picture}}" alt="image" width="250"
+        [preview]="true"></p-image>
+      </div>
+      <div class="col-fixed" style="width:100px">
+        <p-button *ngIf="!user.profile_picture && !showUploadPhoto" label="Ajouter Photo"
+        (click)="toggleUploadPhoto()" [link]="true"></p-button>
+      <p-button *ngIf="user.profile_picture && !showUploadPhoto" label="Modifier Photo"
+        (click)="toggleUploadPhoto()" ></p-button>
+      <p-fileUpload *ngIf="showUploadPhoto" mode="basic" chooseLabel="Choose" name="demo[]"
+        url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"
+        (onUpload)="updateProfilePicture($event)" ></p-fileUpload>
+      </div>
+      </div>
+
       <strong>Rôle:</strong>
       <span class="p-float-label">
         <p-tag value="{{convertRole(user.role)}}" />
@@ -117,7 +133,7 @@
             class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div class="flex flex-column align-items-center sm:align-items-start gap-3">
               <div class="text-2xl font-bold text-900">{{ convertType(document.type)}}</div>
-              
+
               <div class="flex align-items-center gap-3">
                 <p-tag [value]="convertirStatus(document.status)" [severity]="getSeverity(document.status)"></p-tag>
               </div>
@@ -127,13 +143,13 @@
         </div>
         <div>
           <p-fileUpload name="{{ document.type }}" url="https://www.primefaces.org/cdn/api/upload.php"
-          (onUpload)="onUpload($event, document)" [multiple]="false" accept="image/*" >
-          <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles[document.type]?.length">
-              <li *ngFor="let file of uploadedFiles[document.type]">{{ file.name }} - {{ file.size }} bytes</li>
-            </ul>
-          </ng-template>
-        </p-fileUpload>
+            (onUpload)="onUpload($event, document)" [multiple]="false" accept="image/*">
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles[document.type]?.length">
+                <li *ngFor="let file of uploadedFiles[document.type]">{{ file.name }} - {{ file.size }} bytes</li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
         </div>
       </div>
     </ng-container>
