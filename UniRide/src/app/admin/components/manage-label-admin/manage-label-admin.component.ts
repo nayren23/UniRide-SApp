@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Label } from 'src/app/core/models/label.model';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { LabelServiceMock } from 'src/app/core/services/label/label-management.service.mock';
+import { LabelService } from 'src/app/core/services/label/label-management.service';
 
 @Component({
   selector: 'app-manage-label-admin',
@@ -13,7 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class ManageLabelAdminComponent implements OnInit {
   labelDialog: boolean = false;
 
-  labels!: Label[];
+  labels: Label[] = [];
 
   label!: Label;
 
@@ -27,15 +28,41 @@ export class ManageLabelAdminComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private labelServiceMock: LabelServiceMock,
+    private labelService: LabelService,
   ) { }
 
   ngOnInit() {
+    this.getLabels();
+  }
 
+  getLabels() {
+    this.labels = [];
+    this.labelService.getLabels().subscribe({
+      next: (data: any) => {
+        data.labels.forEach((test: any) => {
+          const label: Label = {
+            id_criteria: test.label.id_criteria,
+            name: test.label.name,
+            description: test.label.description
+          }
+          this.labels.push(label);
+        });
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération des labels a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        console.log('error:', error);
+      },
+      complete: () => {
+        this.labels = [...this.labels];
+      }
+    });
+    console.log('this.labels:', this.labels);
   }
 
   openNew() {
-    this.label = {};
+    this.label = { id_criteria: 0, name: '', description: '' }
     this.submitted = false;
     this.labelDialog = true;
   }
@@ -59,22 +86,41 @@ export class ManageLabelAdminComponent implements OnInit {
     this.submitted = false;
   }
 
-  saveLabel() {
+  /**
+   * Save the label in the database
+   * @param label 
+   */
+  saveLabel(label: Label) {
     this.submitted = true;
-
     if (this.label.name?.trim()) {
-      if (this.label.id) {
-        // this.labels[this.findIndexById(this.label.id)] = this.label;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Label Mise à jour', life: 3000 });
-      } else {
-        // this.label.id = this.createId();
-        this.labels.push(this.label);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Label Créer', life: 3000 });
+      if (this.label.id_criteria) {
+        console.log('this.label:', this.label);
+        this.labelService.updateLabel(label).subscribe({
+          next: (data: any) => {
+            this.getLabels();
+            this.toastr.success('Le label ' + label.name + ' a bien été modifié', 'Info ✅📄👍');
+          },
+          error: (error: any) => {
+            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            console.log('error:', error);
+          }
+        });
+      }
+      else {
+        this.labelService.insertLabel(label).subscribe({
+          next: (data: any) => {
+            this.getLabels();
+            this.toastr.success('Le label ' + label.name + ' a bien été crée', 'Info ✅📄👍');
+          },
+          error: (error: any) => {
+            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            console.log('error:', error);
+          }
+        });
       }
 
       this.labels = [...this.labels];
       this.labelDialog = false;
-      this.label = {};
     }
   }
 
@@ -87,10 +133,10 @@ export class ManageLabelAdminComponent implements OnInit {
         break;
       }
     }
-
+  
     return index;
   }
-*/
+  */
 
   editLabel(label: Label) {
     this.label = { ...label };
@@ -99,13 +145,20 @@ export class ManageLabelAdminComponent implements OnInit {
 
   deleteLabel(label: Label) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + label.name + '?',
-      header: 'Confirm',
+      message: 'Êtes-vous sûr de vouloir supprimer ' + label.name + '?',
+      header: 'Confirmer',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.labels = this.labels.filter((val) => val.id !== label.id);
-        this.label = {};
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Label Supprimer', life: 3000 });
+        this.labelService.deleteLabel(label.id_criteria).subscribe({
+          next: (data: any) => {
+            this.getLabels();
+            this.toastr.success('Le label ' + label.name + ' a bien été supprimé', 'Info ✅📄👍');
+          },
+          error: (error: any) => {
+            this.toastr.error('La suppression du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            console.log('error:', error);
+          }
+        });
       }
     });
   }

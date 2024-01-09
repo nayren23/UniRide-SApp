@@ -2,37 +2,21 @@
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+            <button pButton pRipple label="Nouveau Label" icon="pi pi-plus" class="p-button-success mr-2"
                 (click)="openNew()"></button>
-            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
-                (click)="deleteSelectedLabels()" [disabled]=""></button>
         </ng-template>
     </p-toolbar>
     <p-table #dt [value]="labels" [rows]="10" [paginator]="true" [globalFilterFields]="['name', 'description']"
         [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLabels" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <!-- Ceci est un commentaire d'une seule ligne 
+        currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
+        [showCurrentPageReport]="true">
 
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <h5 class="m-0">Manage Labels</h5>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target[value], 'contains')"
-                        placeholder="Search..." />
-                </span>
-            </div>
-        </ng-template>
-        -->
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 4rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
                 <th pSortableColumn="name" style="min-width: 15rem">
                     Nom <p-sortIcon field="name"></p-sortIcon>
                 </th>
-                <th pSortableColumn="price">
+                <th pSortableColumn="description">
                     Description <p-sortIcon field="description"></p-sortIcon>
                 </th>
                 <th></th>
@@ -40,28 +24,24 @@
         </ng-template>
         <ng-template pTemplate="body" let-label>
             <tr>
-                <td>
-                    <p-tableCheckbox [value]="label"></p-tableCheckbox>
-                </td>
                 <td>{{ label.name }}</td>
                 <td>{{ label.description }}</td>
-
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2"
                         (click)="editLabel(label)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
                         (click)="deleteLabel(label)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{ labels ? labels.length : 0 }} labels.
+                Au total, il y a {{ labels ? labels.length : 0 }} labels.
             </div>
         </ng-template>
     </p-table>
 </div>
-<p-dialog [(visible)]="labelDialog" [style]="{ width: '450px' }" header="Label Details" [modal]="true"
+<p-dialog [(visible)]="labelDialog" [style]="{ width: '450px' }" header="Détails du label" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
         <div class="field">
@@ -80,7 +60,7 @@
         <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
             (click)="hideDialog()"></button>
         <button pButton pRipple label="Sauvegarder" icon="pi pi-check" class="p-button-text"
-            (click)="saveLabel()"></button>
+            (click)="saveLabel(label)"></button>
     </ng-template>
 </p-dialog>
 

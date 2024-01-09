@@ -1,5 +1,5 @@
-export interface Label {
-    id?: number;
-    name?: string;
-    description?: string;
+export class Label {
+    id_criteria!: number;
+    name!: string;
+    description!: string;
 }
