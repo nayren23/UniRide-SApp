@@ -13,10 +13,6 @@ export class UserService implements UserInterface {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  private get token(): string {
-    return this.authService.getToken();
-  }
-
   private handleError(error: any): Observable<never> {
     console.error(' error:', error);
     return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');

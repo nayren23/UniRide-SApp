@@ -1,0 +1,141 @@
+<p-tabView styleClass="tabview-custom">
+  <p-tabPanel header="Profil">
+    <ng-template pTemplate="header">
+      <i class="pi pi-user"></i>
+      <span>Profil</span>
+    </ng-template>
+    <p-card>
+      <strong>Rôle:</strong>
+      <span class="p-float-label">
+        <p-tag value="{{convertRole(user.role)}}" />
+      </span>
+
+    </p-card>
+    <p-card header="Utilisateur">
+      Login:
+      <span *ngIf="!editingField || editingField !== 'login'">{{ user.login }}</span>
+      <input *ngIf="editingField === 'login'" [(ngModel)]="editedUser.login" placeholder="Login"
+        [ngModelOptions]="{standalone: true}">
+      <p-button class=" pi pi-pencil " (click)="toggleEdit('login')" [rounded]="true" [text]="true"
+        severity="warning "></p-button>
+
+      <p class="m-0">Prénom:
+        <span *ngIf="!editingField || editingField !== 'firstname'">{{ user.firstname }}</span>
+        <input *ngIf="editingField === 'firstname'" [(ngModel)]="editedUser.firstname" placeholder="Prénom"
+          [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('firstname')">Modifier</button>
+      </p>
+      <p class="m-0">Nom:
+        <span *ngIf="!editingField || editingField !== 'lastname'">{{ user.lastname }}</span>
+        <input *ngIf="editingField === 'lastname'" [(ngModel)]="editedUser.lastname" placeholder="Nom"
+          [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('lastname')">Modifier</button>
+      </p>
+      <p class="m-0">Email:
+        <span *ngIf="!editingField || editingField !== 'student_email'">{{ user.student_email }}</span>
+        <input *ngIf="editingField === 'student_email'" [(ngModel)]="editedUser.student_email" placeholder="Email"
+          [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('student_email')">Modifier</button>
+      </p>
+      <p class="m-0">Genre:
+        <span *ngIf="!editingField || editingField !== 'gender'">{{ user.gender }}</span>
+        <input *ngIf="editingField === 'gender'" [(ngModel)]="editedUser.gender" placeholder="Genre"
+          [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('gender')">Modifier</button>
+      </p>
+      <p class="m-0">Numéro de téléphone:
+        <span *ngIf="!editingField || editingField !== 'phone_number'">{{ user.phone_number }}</span>
+        <input *ngIf="editingField === 'phone_number'" [(ngModel)]="editedUser.phone_number"
+          placeholder="Numéro de téléphone" [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('phone_number')">Modifier</button>
+      </p>
+      <p class="m-0">Description:
+        <span *ngIf="!editingField || editingField !== 'description'">{{ user.description }}</span>
+        <input *ngIf="editingField === 'description'" [(ngModel)]="editedUser.description" placeholder="Description"
+          [ngModelOptions]="{standalone: true}">
+        <button (click)="toggleEdit('description')">Modifier</button>
+      </p>
+
+    </p-card>
+  </p-tabPanel>
+  <p-tabPanel header="Header II" [disabled]="isNotDriver">
+    <ng-template pTemplate="header">
+      <i class="pi pi-car"></i>
+      <span>Voiture</span>
+    </ng-template>
+    <p-card header="Information Véhicule">
+      <form>
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col">
+            <label for="model">Modèle :</label>
+            <input type="text" id="model" [(ngModel)]="car.model" name="model" pInputText required>
+          </div>
+          <div class="p-field p-col">
+            <label for="licensePlate">Plaque d'immatriculation :</label>
+            <input type="text" id="licensePlate" [(ngModel)]="car.license_plate" name="licensePlate" pInputText
+              pattern="[A-Z]{2}-\d{3}-[A-Z]{2}" required
+              title="Veuillez saisir une plaque d'immatriculation valide selon le format AA-123-BB" />
+            <small>Saisissez en suivant ce modèle : AA-123-BB</small>
+          </div>
+          <div class="p-field p-col">
+            <label for="countryLicensePlate">Pays de la plaque d'immatriculation :</label>
+            <input type="text" id="countryLicensePlate" [(ngModel)]="car.country_license_plate"
+              name="countryLicensePlate" pInputText pattern="[A-Z]{2}" required
+              title="Veuillez saisir un code de pays à deux lettres" />
+            <small>Saisissez en suivant ce modèle : AA</small>
+          </div>
+          <div class="p-field p-col">
+            <label for="color">Couleur :</label>
+            <input type="text" id="color" [(ngModel)]="car.color" name="color" pInputText required>
+          </div>
+          <div class="p-field p-col">
+            <label for="brand">Marque :</label>
+            <input type="text" id="brand" [(ngModel)]="car.brand" name="brand" pInputText required>
+          </div>
+          <div class="p-field p-col">
+            <label for="totalPlaces">Nombre de places :</label>
+            <input type="number" id="totalPlaces" [(ngModel)]="car.total_places" name="totalPlaces" pInputText required
+              min="0" max="4">
+          </div>
+        </div>
+        <p-button *ngIf="!hasCar" label="Ajouter Véhicule" (onClick)="addCar()"></p-button>
+        <p-button *ngIf="hasCar" label="Mettre à Jour Véhicule" (onClick)="updateCar()"></p-button>
+      </form>
+    </p-card>
+  </p-tabPanel>
+  <p-tabPanel header="Header III">
+    <ng-template pTemplate="header">
+      <i class="pi pi-file"></i>
+      <span>Documents</span>
+    </ng-template>
+    <ng-container *ngFor="let document of userDocuments">
+      <div class="col-12">
+        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+          <p-image src="{{document.url}}" alt="image {{convertType(document.type)}}" width="250"
+            [preview]="true"></p-image>
+          <div
+            class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+              <div class="text-2xl font-bold text-900">{{ convertType(document.type)}}</div>
+              
+              <div class="flex align-items-center gap-3">
+                <p-tag [value]="convertirStatus(document.status)" [severity]="getSeverity(document.status)"></p-tag>
+              </div>
+              <div *ngIf="document.status === '-1'" class="text-danger">{{ document.description }}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p-fileUpload name="{{ document.type }}" url="https://www.primefaces.org/cdn/api/upload.php"
+          (onUpload)="onUpload($event, document)" [multiple]="false" accept="image/*" >
+          <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles[document.type]?.length">
+              <li *ngFor="let file of uploadedFiles[document.type]">{{ file.name }} - {{ file.size }} bytes</li>
+            </ul>
+          </ng-template>
+        </p-fileUpload>
+        </div>
+      </div>
+    </ng-container>
+  </p-tabPanel>
+</p-tabView>
