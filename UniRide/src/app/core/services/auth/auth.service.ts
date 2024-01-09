@@ -14,8 +14,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) { }
 
-  getUserID(): string {
-    return this.cookieService.get('userID')
+  getUserIDAndRole(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${environment.apiUrl}/user/role`,
+      { headers: headers }
+    );
   }
 
   isAuthenticated(): boolean {
