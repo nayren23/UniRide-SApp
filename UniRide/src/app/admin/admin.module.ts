@@ -6,6 +6,7 @@ import { UserInfoAdminComponent } from './components/user-info-admin/user-info-a
 import { UserListComponent } from './components/user-list/user-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminRoutingModule } from './admin.rooting.module';
+import { ManageLabelAdminComponent } from './components/manage-label-admin/manage-label-admin.component';
 
 
 
@@ -14,7 +15,8 @@ import { AdminRoutingModule } from './admin.rooting.module';
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent,
     UserInfoAdminComponent,
-    UserListComponent
+    UserListComponent,
+    ManageLabelAdminComponent
   ],
   imports: [
     SharedModule,
@@ -24,7 +26,8 @@ import { AdminRoutingModule } from './admin.rooting.module';
     DocumentVerificationDisplayComponent,
     ManageRequestVerificationDocumentComponent,
     UserInfoAdminComponent,
-    UserListComponent
+    UserListComponent,
+    ManageLabelAdminComponent
   ]
 })
 export class AdminModule { }
