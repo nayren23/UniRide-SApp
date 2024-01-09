@@ -29,5 +29,4 @@ RUN npm install -g @angular/cli
 ENTRYPOINT [ "ng" ]
 
 # Start the app Angular with SSL
-#CMD ["serve", "--ssl", "true", "--ssl-cert", "$CERTIFICATE_CRT_FOLDER", "--ssl-key", "$CERTIFICATE_KEY_FOLDER"]
-CMD serve --ssl true --ssl-cert $CERTIFICATE_CRT_FOLDER --ssl-key $CERTIFICATE_KEY_FOLDER
+CMD ["serve", "--ssl", "true", "--ssl-cert", "$CERTIFICATE_CRT_FOLDER", "--ssl-key", "$CERTIFICATE_KEY_FOLDER"]
