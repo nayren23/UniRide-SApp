@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
 
 const routes: Routes = [
   { path: 'registration', loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule) },
@@ -17,7 +16,8 @@ const routes: Routes = [
   },
   { path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule) },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
-  { path: 'profil-information', component: ProfilInformationComponent },
+  { path: 'validate-passenger', loadChildren: () => import('./validate-passenger/validate-passenger.module').then(m => m.ValidatePassengerModule) },
+  { path: 'profil-information', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

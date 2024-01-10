@@ -143,7 +143,7 @@ export class TripInfoComponent implements OnInit {
     this.bookService.getCode(this.trip.id).pipe(
       tap((data: any) => {
         console.log(data);
-        this.qrCodeValue = `${environment.frontUrl}/validate/passenger?trip-id=${this.trip.id}&user-id=${this.userId}&code=${data.verification_code}`;
+        this.qrCodeValue = `${environment.frontUrl}/validate-passenger?trip-id=${this.trip.id}&user-id=${this.userId}&code=${data.verification_code}`;
       })).subscribe();
   }
 

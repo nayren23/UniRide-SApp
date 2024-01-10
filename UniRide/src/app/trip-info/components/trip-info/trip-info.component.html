@@ -33,7 +33,7 @@
                     </p-card>
                     <p-card *ngIf="isPassenger && trip.status == 4" class="m-1 flex-grow-1"
                         header="A montrer au conducteur">
-                        <div class="flex align-items-center justify-content-center">
+                        <div class="flex align-items-center justify-content-center" *ngIf="qrCodeValue">
                             <qrcode [qrdata]="qrCodeValue" [errorCorrectionLevel]="'M'">
                             </qrcode>
                         </div>
