@@ -42,4 +42,4 @@ RUN echo "CERTIFICATE_KEY_FOLDER $CERTIFICATE_KEY_FOLDER"
 ENTRYPOINT [ "ng" ]
 
 # Start the app Angular with SSL
-CMD ["serve", "--ssl", "true", "--ssl-cert", ""$CERTIFICATE_CRT_FOLDER"", "--ssl-key", ""$CERTIFICATE_KEY_FOLDER""]
+CMD ["serve", "--ssl", "true", "--ssl-cert", "certs/flask-selfsigned.crt", "--ssl-key", "certs/flask-selfsigned.key"]
