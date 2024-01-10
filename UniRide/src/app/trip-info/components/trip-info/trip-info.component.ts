@@ -23,6 +23,7 @@ export class TripInfoComponent implements OnInit {
   trip!: Trip;
   userId!: Number;
   isPassenger: boolean = false;
+  joined: boolean = false;
   qrCodeValue!: string;
 
   constructor(
@@ -129,11 +130,10 @@ export class TripInfoComponent implements OnInit {
     if (this.trip.driverId != this.userId) {
       this.bookService.get_booking(this.trip.id).pipe(
         tap((data: any) => {
-          if (data.accepted == 1) {
-            this.isPassenger = true;
-            if (this.trip.status == 4)
-              this.getCode();
-          }
+          this.isPassenger = data.accepted == 1;
+          this.joined = data.joined;
+          if (!this.joined && this.trip.status == 4)
+            this.getCode();
         }
         )).subscribe();
     }

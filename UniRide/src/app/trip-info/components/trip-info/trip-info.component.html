@@ -31,8 +31,8 @@
                             </div>
                         </div>
                     </p-card>
-                    <p-card *ngIf="isPassenger && trip.status == 4" class="m-1 flex-grow-1"
-                        header="A montrer au conducteur">
+                    <p-card *ngIf="isPassenger && !joined && trip.status == 4" class="m-1 flex-grow-1"
+                        header="À montrer au conducteur">
                         <div class="flex align-items-center justify-content-center" *ngIf="qrCodeValue">
                             <qrcode [qrdata]="qrCodeValue" [errorCorrectionLevel]="'M'">
                             </qrcode>
@@ -52,8 +52,8 @@
                     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
                     <div class="flex justify-content-between mt-3">
                         <p-button (click)="back()" icon="pi pi-times" label="Retour" class="p-button-danger"></p-button>
-                        <p-button *ngIf="userId != trip.driverId" (click)="confirm1()"
-                            [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0) || isPassenger"
+                        <p-button *ngIf="!isPassenger && userId != trip.driverId" (click)="confirm1()"
+                            [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0)"
                             icon="pi pi-check" label="Réserver"></p-button>
                     </div>
                 </div>
