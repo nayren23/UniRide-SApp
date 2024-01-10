@@ -56,4 +56,28 @@ export class BookService {
       catchError(this.handleError)
     );
   }
+
+  getCode(trip_id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/book/${trip_id}/code`,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  get_booking(trip_id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/book/${trip_id}`,
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
 }

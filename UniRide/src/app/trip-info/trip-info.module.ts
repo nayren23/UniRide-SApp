@@ -4,6 +4,7 @@ import { UserInfoSummaryComponent } from './components/user-info-summary/user-in
 import { SharedModule } from '../shared/shared.module';
 import { TripInfoRoutingModule } from './trip-info.rooting.module';
 import { PassengersListComponent } from './components/passengers-list/passengers-list.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { PassengersListComponent } from './components/passengers-list/passengers
   ],
   imports: [
     SharedModule,
-    TripInfoRoutingModule
+    TripInfoRoutingModule,
+    QRCodeModule
   ],
   exports: [
     TripInfoComponent,

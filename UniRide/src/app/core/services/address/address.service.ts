@@ -73,7 +73,6 @@ export class AddressService {
       switchMap((response: any) => this.getPlaceDetails(response["address"]).pipe(
         tap((response) => {
           this.universityAddress = response;
-          console.log('University address:', this.universityAddress);
         },))
       ),
       catchError(this.handleError)
