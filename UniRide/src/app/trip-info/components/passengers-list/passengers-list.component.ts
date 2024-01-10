@@ -13,11 +13,11 @@ export class PassengersListComponent implements OnInit {
   @Input() totalNumberOfPassenger!: number;
   @Input() numberOfPassenger!: number;
   passengers: User[] = [];
-  
+
   constructor(
     private tripService: TripService,
     private route: ActivatedRoute
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getPassengers();
@@ -31,7 +31,7 @@ export class PassengersListComponent implements OnInit {
           lastname: "",
           id: -2,
           profile_picture: ""
-      }
+        }
       )
     }
     for (let i = 0; i < this.numberOfPassenger; i++) {
@@ -39,18 +39,37 @@ export class PassengersListComponent implements OnInit {
     }
     let i = 0;
     this.tripService.getTripPassengers(this.tripid).subscribe(
-      {next: (data: any) => {
-        data.forEach((passenger: any) => {
-          this.passengers[i] = {
+      {
+        next: (data: any) => {
+          data.forEach((passenger: any) => {
+            this.passengers[i] = {
               firstname: passenger.firstname,
               lastname: passenger.lastname,
               id: passenger.id,
-              profile_picture: passenger.pfp
-          };
-          i++;
-        })
-      },
-      error: (err: any) => console.error(err)
-    })
+              profile_picture: passenger.pfp,
+              joined: passenger.joined
+            };
+            i++;
+          })
+        },
+        error: (err: any) => console.error(err)
+      })
   }
+
+  getStatusLabel(status?: boolean): string {
+    switch (status) {
+      case true: return 'À Board';
+      case false: return 'À Récupérer';
+      default: return 'Inconnu';
+    }
+  }
+
+  chipValue(status?: boolean): any {
+    switch (status) {
+      case true: return 'success';
+      case false: return 'danger';
+      default: return 'primary';
+    }
+  }
+
 }

@@ -10,4 +10,5 @@ export class User {
     login?: string;
     gender?: string;
     phone_number?: string;
+    joined?: boolean;
 }

@@ -3,7 +3,11 @@
         <ng-template pTemplate="body" let-passenger>
             <tr [ngClass]="{'row-accessories': passenger.id < 0}">
                 <td><p-avatar *ngIf="passenger.id >= -1" icon="pi pi-user" styleClass="mr-2"></p-avatar>{{
-                    passenger.firstname }} {{ passenger.lastname }}</td>
+                    passenger.firstname }} {{ passenger.lastname }}
+                    <p-tag *ngIf="passenger.id >= -1" [severity]="chipValue(passenger.joined)"><i class="text-l">{{
+                            getStatusLabel(passenger.joined)
+                            }}</i></p-tag>
+                </td>
             </tr>
         </ng-template>
     </p-table>
