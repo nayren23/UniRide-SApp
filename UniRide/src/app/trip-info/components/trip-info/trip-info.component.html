@@ -43,7 +43,8 @@
                     <div class="flex flex-wrap">
                         <app-user-info-summary [userid]="trip.driverId" class="m-1 flex-grow-1"></app-user-info-summary>
                         <app-passengers-list *ngIf="userId == trip.driverId || isPassenger" class="flex-grow-1 m-1"
-                            [tripid]="trip.id" [totalNumberOfPassenger]="trip.totalNumberOfPassenger ?? 0"
+                            [tripId]="trip.id" [tripStatus]="trip.status"
+                            [totalNumberOfPassenger]="trip.totalNumberOfPassenger ?? 0"
                             [numberOfPassenger]="trip.numberOfPassenger ?? 0"></app-passengers-list>
                         <!-- <p class="text-2xl sm:text-3xl   align-self-end">{{ trip.price }} €</p> -->
                     </div>

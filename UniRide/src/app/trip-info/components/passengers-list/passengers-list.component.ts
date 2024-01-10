@@ -9,7 +9,8 @@ import { TripService } from 'src/app/core/services/trip/trip.service';
   styleUrls: ['./passengers-list.component.css']
 })
 export class PassengersListComponent implements OnInit {
-  @Input() tripid!: number;
+  @Input() tripId!: number;
+  @Input() tripStatus?: number;
   @Input() totalNumberOfPassenger!: number;
   @Input() numberOfPassenger!: number;
   passengers: User[] = [];
@@ -38,7 +39,7 @@ export class PassengersListComponent implements OnInit {
       this.passengers[i].id++
     }
     let i = 0;
-    this.tripService.getTripPassengers(this.tripid).subscribe(
+    this.tripService.getTripPassengers(this.tripId).subscribe(
       {
         next: (data: any) => {
           data.forEach((passenger: any) => {
