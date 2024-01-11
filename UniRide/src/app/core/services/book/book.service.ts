@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environements/environement';
-import { AuthService } from '../auth/auth.service'; // Importez le service d'authentification
-
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,7 @@ export class BookService {
 
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
   private handleError(error: any): Observable<never> {
     console.error(' error:', error);
@@ -38,8 +36,6 @@ export class BookService {
       `${this.apiUrl}/book`,
       { "trip_id": tripId, "passenger_count": passengerCount },
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
@@ -88,6 +84,16 @@ export class BookService {
     return this.http.put(
       `${this.apiUrl}/book/join`,
       { "trip_id": tripId, "booker_id": userId, "verification_code": code },
+      { headers: headers }
+    );
+  }
+
+  cancelBooking(tripId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(
+      `${this.apiUrl}/book/${tripId}/cancel`,
       { headers: headers }
     );
   }
