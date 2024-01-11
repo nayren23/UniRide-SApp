@@ -25,6 +25,7 @@ export class TripInfoComponent implements OnInit {
   isPassenger: boolean = false;
   joined: boolean = false;
   qrCodeValue!: string;
+  canStartTrip: boolean = false;
 
   constructor(
     private tripService: TripService,
@@ -69,9 +70,17 @@ export class TripInfoComponent implements OnInit {
         console.log(this.trip);
         this.renderMap();
         this.currentUserInTrip();
+        this.checkCanStartTrip()
       })).subscribe()
   }
 
+  checkCanStartTrip(): void {
+    if (this.userId == this.trip.driverId && this.trip.status == 1) {
+      const fifteenMinutes = 15 * 60 * 1000;
+      const difference = Math.abs(new Date().getTime() - new Date(this.trip.proposedDate).getTime());
+      this.canStartTrip = difference <= fifteenMinutes;
+    }
+  }
   renderMap(): void {
 
     this.addressService.callUniversityAddress().pipe(
@@ -91,7 +100,7 @@ export class TripInfoComponent implements OnInit {
     }
   }
 
-  confirm1() {
+  book_trip() {
     this.confirmationService.confirm({
       // message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
       message: `Êtes-vous sûr de vouloir réserver ce trajet ?`,
@@ -106,6 +115,49 @@ export class TripInfoComponent implements OnInit {
     });
   }
 
+  start_trip() {
+    this.confirmationService.confirm({
+      // message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
+      message: `Êtes-vous sûr de vouloir commencer ce trajet ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.tripService.startTrip(this.trip.id).subscribe({
+          next: (data: any) => { this.toastr.success('Le trajet a commencé', 'Trajet commencé'); },
+          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+        });
+      }
+    });
+  }
+
+  end_trip() {
+    this.confirmationService.confirm({
+      message: `Êtes-vous sûr de vouloir terminer ce trajet ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.tripService.endTrip(this.trip.id).subscribe({
+          next: (data: any) => { this.toastr.success('Le trajet est terminé', 'Trajet terminé'); },
+          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+        });
+      }
+    });
+  }
+
+
+  cancel_trip() {
+    this.confirmationService.confirm({
+      message: `Êtes-vous sûr de vouloir annuler ce trajet ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.tripService.cancelTrip(this.trip.id).subscribe({
+          next: (data: any) => { this.toastr.success('Le trajet a été annulé', 'Trajet annulé'); },
+          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+        });
+      }
+    });
+  }
   back(): void {
     this.location.back();
   }
