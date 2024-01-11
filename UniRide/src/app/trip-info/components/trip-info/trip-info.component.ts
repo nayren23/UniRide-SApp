@@ -4,9 +4,9 @@ import { TripService } from '../../../core/services/trip/trip.service';
 import { Trip } from '../../../core/models/trip.models';
 import { MapService } from '../../../core/services/map/map.service';
 import { AddressService } from '../../../core/services/address/address.service';
-import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Location } from '@angular/common'
-import { switchMap, tap, catchError } from 'rxjs';
+import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { BookService } from '../../../core/services/book/book.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -26,6 +26,7 @@ export class TripInfoComponent implements OnInit {
   joined: boolean = false;
   qrCodeValue!: string;
   canStartTrip: boolean = false;
+  alreadyBooked: boolean = false;
 
   constructor(
     private tripService: TripService,
@@ -100,7 +101,7 @@ export class TripInfoComponent implements OnInit {
     }
   }
 
-  book_trip() {
+  bookTrip() {
     this.confirmationService.confirm({
       // message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
       message: `Êtes-vous sûr de vouloir réserver ce trajet ?`,
@@ -115,7 +116,7 @@ export class TripInfoComponent implements OnInit {
     });
   }
 
-  start_trip() {
+  startTrip() {
     this.confirmationService.confirm({
       // message: `Êtes-vous sûr de vouloir réserver ce trajet pour ${this.trip.price}€ ?`,
       message: `Êtes-vous sûr de vouloir commencer ce trajet ?`,
@@ -130,7 +131,7 @@ export class TripInfoComponent implements OnInit {
     });
   }
 
-  end_trip() {
+  endTrip() {
     this.confirmationService.confirm({
       message: `Êtes-vous sûr de vouloir terminer ce trajet ?`,
       header: 'Confirmation',
@@ -145,7 +146,7 @@ export class TripInfoComponent implements OnInit {
   }
 
 
-  cancel_trip() {
+  cancelTrip() {
     this.confirmationService.confirm({
       message: `Êtes-vous sûr de vouloir annuler ce trajet ?`,
       header: 'Confirmation',
@@ -158,6 +159,23 @@ export class TripInfoComponent implements OnInit {
       }
     });
   }
+
+
+  cancelBooking() {
+    this.confirmationService.confirm({
+      message: `Êtes-vous sûr de vouloir annuler votre réservation ?`,
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.bookService.cancelBooking(this.trip.id).subscribe({
+          next: (data: any) => { this.toastr.success('La réservation a été annulée', 'Réservation annulée'); },
+          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+        });
+      }
+    });
+  }
+
+
   back(): void {
     this.location.back();
   }
@@ -182,6 +200,7 @@ export class TripInfoComponent implements OnInit {
     if (this.trip.driverId != this.userId) {
       this.bookService.get_booking(this.trip.id).pipe(
         tap((data: any) => {
+          this.alreadyBooked = true;
           this.isPassenger = data.accepted == 1;
           this.joined = data.joined;
           if (!this.joined && this.trip.status == 4)
@@ -198,5 +217,4 @@ export class TripInfoComponent implements OnInit {
         this.qrCodeValue = `${environment.frontUrl}/validate-passenger?trip-id=${this.trip.id}&user-id=${this.userId}&code=${data.verification_code}`;
       })).subscribe();
   }
-
 }
