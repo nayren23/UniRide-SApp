@@ -28,4 +28,4 @@ RUN npm install -g @angular/cli
 ENTRYPOINT [ "ng" ]
 
 # Start the app Angular with SSL
-CMD ["serve", "--ssl", "true", "--ssl-cert", "certs/flask-selfsigned.crt", "--ssl-key", "certs/flask-selfsigned.key"]
+CMD ["serve", "--ssl", "true", "--ssl-cert", "certs/flask-selfsigned.crt", "--ssl-key", "certs/flask-selfsigned.key", "--host", "0.0.0.0"]

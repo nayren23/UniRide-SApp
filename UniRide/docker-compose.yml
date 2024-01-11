@@ -12,8 +12,8 @@ services:
       - "4200:4200"
     depends_on:
       - uniride_backend
-    volumes:
-      - ../../certs/:/app/certs
+    #volumes:
+     # - ../../certs/:/app/certs
 
 #This container is used to get the backend
   uniride_backend:
