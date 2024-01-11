@@ -7,9 +7,10 @@
         </ng-template>
         <div>
             <p-panel [showHeader]="false">
+                <p-messages [closable]="false"></p-messages>
                 <div class="flex justify-content-between">
                     <p-button (click)="back()" label="<" [raised]="true" [text]="true" severity="secondary"></p-button>
-                    <p-tag [severity]="chipValue(trip.status)"><i class="text-xl">{{ getStatusLabel(trip.status)
+                    <p-tag [severity]="severity"><i class="text-xl">{{ label
                             }}</i></p-tag>
                 </div>
                 <div class=" test flex flex-wrap">
@@ -32,7 +33,7 @@
                             </div>
                         </div>
                     </p-card>
-                    <p-card *ngIf="isPassenger && !joined && trip.status == 4" class="m-1 flex-grow-1"
+                    <p-card *ngIf="book.accepted == 1 && !book.joined && trip.status == 4" class="m-1 flex-grow-1"
                         header="À montrer au conducteur">
                         <div class="flex align-items-center justify-content-center" *ngIf="qrCodeValue">
                             <qrcode [qrdata]="qrCodeValue" [errorCorrectionLevel]="'M'">
@@ -43,16 +44,15 @@
                 <div>
                     <div class="flex flex-wrap">
                         <app-user-info-summary [userid]="trip.driverId" class="m-1 flex-grow-1"></app-user-info-summary>
-                        <app-passengers-list *ngIf="userId == trip.driverId || isPassenger" class="flex-grow-1 m-1"
-                            [tripId]="trip.id" [tripStatus]="trip.status"
+                        <app-passengers-list *ngIf="userId == trip.driverId || book.accepted == 1"
+                            class="flex-grow-1 m-1" [tripId]="trip.id" [tripStatus]="trip.status"
                             [totalNumberOfPassenger]="trip.totalNumberOfPassenger ?? 0"
                             [numberOfPassenger]="trip.numberOfPassenger ?? 0"></app-passengers-list>
                         <!-- <p class="text-2xl sm:text-3xl   align-self-end">{{ trip.price }} €</p> -->
                     </div>
-                    <p-toast></p-toast>
                     <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
                     <div class="flex justify-content-end mt-3">
-                        <p-button *ngIf="!alreadyBooked && !isPassenger && userId != trip.driverId && trip.status == 1"
+                        <p-button *ngIf="!alreadyBooked && userId != trip.driverId && trip.status == 1"
                             (click)="bookTrip()"
                             [disabled]="(trip.numberOfPassenger ?? 0) >= (trip.totalNumberOfPassenger ?? 0)"
                             icon="pi pi-check" label="Réserver"></p-button>
@@ -64,8 +64,8 @@
                         </div>
                         <p-button severity="danger" *ngIf="userId == trip.driverId && trip.status == 4"
                             (click)="endTrip()" icon="pi pi-times" label="Terminer"></p-button>
-                        <p-button severity="danger" *ngIf="isPassenger" (click)="cancelBooking()" icon="pi pi-times"
-                            label="Annuler"></p-button>
+                        <p-button severity="danger" *ngIf="alreadyBooked && book.accepted != -2 && !book.joined"
+                            (click)="cancelBooking()" icon="pi pi-times" label="Annuler"></p-button>
                     </div>
                 </div>
             </p-panel>
