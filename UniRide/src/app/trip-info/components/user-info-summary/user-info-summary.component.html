@@ -1,9 +1,9 @@
 <p-card header="Conducteur">
-<div *ngIf="user" class="flex align-items-start">
-    <p-avatar icon="pi pi-user" styleClass="mr-2" size="xlarge"></p-avatar>
-    <div class="flex-grow-1 align-self-start">
-        <p class="md:text-2xl sm:xl">{{ user.firstname }} {{ user.lastname }}</p>
+    <div *ngIf="user" class="flex align-items-start">
+        <p-avatar icon="pi pi-user" styleClass="mr-2" size="xlarge"></p-avatar>
+        <div class="flex-grow-1 align-self-start">
+            <p class="md:text-2xl sm:xl">{{ user.firstname }} {{ user.lastname }}</p>
+        </div>
     </div>
-</div>
-<p *ngIf="user">{{ user.description }}</p>
+    <p *ngIf="user">{{ user.description }}</p>
 </p-card>

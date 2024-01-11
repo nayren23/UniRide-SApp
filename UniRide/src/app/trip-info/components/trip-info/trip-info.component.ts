@@ -6,10 +6,11 @@ import { MapService } from '../../../core/services/map/map.service';
 import { AddressService } from '../../../core/services/address/address.service';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { Location } from '@angular/common'
-import { tap } from 'rxjs';
+import { switchMap, tap, catchError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { BookService } from '../../../core/services/book/book.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { environment } from 'src/environements/environement';
 
 @Component({
   selector: 'app-trip-info',
@@ -21,6 +22,9 @@ export class TripInfoComponent implements OnInit {
 
   trip!: Trip;
   userId!: Number;
+  isPassenger: boolean = false;
+  joined: boolean = false;
+  qrCodeValue!: string;
 
   constructor(
     private tripService: TripService,
@@ -37,8 +41,7 @@ export class TripInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getUserID()
-    this.getTripDetails();
+    this.getUserID();
   }
 
   getTripDetails(): void {
@@ -63,7 +66,9 @@ export class TripInfoComponent implements OnInit {
           totalNumberOfPassenger: data.total_passenger_count,
           arrivalDate: data.arrival_date
         };
+        console.log(this.trip);
         this.renderMap();
+        this.currentUserInTrip();
       })).subscribe()
   }
 
@@ -106,23 +111,40 @@ export class TripInfoComponent implements OnInit {
   }
 
   chipValue(status?: number): any {
-    status = 1;
     switch (status) {
       case 1: return 'primary';
-      case 3: return 'success';
-      case 4: return 'warning';
+      case 3: return 'warning';
+      case 4: return 'success';
       default: return 'danger';
     }
   }
 
   getUserID(): void {
-    this.authService.getUserIDAndRole().subscribe(data =>
-      this.userId = data.id
-    )
+    this.authService.getUserIDAndRole().subscribe(data => {
+      this.userId = data.id;
+      this.getTripDetails();
+    })
   }
 
-  currentUserInTrip(): boolean {
-    return !("message" in this.tripService.getTripPassengers(this.trip.id));
+  currentUserInTrip(): void {
+    if (this.trip.driverId != this.userId) {
+      this.bookService.get_booking(this.trip.id).pipe(
+        tap((data: any) => {
+          this.isPassenger = data.accepted == 1;
+          this.joined = data.joined;
+          if (!this.joined && this.trip.status == 4)
+            this.getCode();
+        }
+        )).subscribe();
+    }
+  }
+
+  getCode(): void {
+    this.bookService.getCode(this.trip.id).pipe(
+      tap((data: any) => {
+        console.log(data);
+        this.qrCodeValue = `${environment.frontUrl}/validate-passenger?trip-id=${this.trip.id}&user-id=${this.userId}&code=${data.verification_code}`;
+      })).subscribe();
   }
 
 }
