@@ -134,7 +134,12 @@ export class TripInfoComponent implements OnInit {
             this.displayBookingStatus();
             this.alreadyBooked = true;
           },
-          error: (error: any) => { this.toastr.error('Une erreur s\'est produite', 'Erreur') }
+          error: (error: any) => {
+            if (error.error.message == "BOOKED_TOO_MANY_TIMES")
+              this.toastr.error('Vous avez réservé ce trajet trop de fois !', 'Réservation impossible')
+            else
+              this.toastr.error('Une erreur s\'est produite', 'Erreur')
+          }
         });
       }
     });

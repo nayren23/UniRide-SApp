@@ -36,8 +36,6 @@ export class BookService {
       `${this.apiUrl}/book`,
       { "trip_id": tripId, "passenger_count": passengerCount },
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
