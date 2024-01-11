@@ -64,7 +64,8 @@
                         </div>
                         <p-button severity="danger" *ngIf="userId == trip.driverId && trip.status == 4"
                             (click)="endTrip()" icon="pi pi-times" label="Terminer"></p-button>
-                        <p-button severity="danger" *ngIf="alreadyBooked && book.accepted != -2 && !book.joined"
+                        <p-button severity="danger"
+                            *ngIf="alreadyBooked && book.accepted != -2 && !book.joined && trip.status != 2 && trip.status != 3"
                             (click)="cancelBooking()" icon="pi pi-times" label="Annuler"></p-button>
                     </div>
                 </div>
