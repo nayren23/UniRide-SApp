@@ -14,6 +14,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { AccordionModule } from 'primeng/accordion';
 import { BlockUIModule } from 'primeng/blockui';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -37,6 +38,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PasswordModule } from 'primeng/password';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -86,7 +89,10 @@ import { PasswordModule } from 'primeng/password';
     FileUploadModule,
     DialogModule,
     ToolbarModule,
-    PasswordModule
+    MessageModule,
+    PasswordModule,
+    InputNumberModule,
+    CheckboxModule,
   ]
 })
 export class SharedModule { }

@@ -15,7 +15,11 @@ export class RegistrationComponent {
   inscriptionForm: FormGroup;
   afficherChampsFichier = false;
   showLicenseSection: boolean = false;
-
+  genderOptions = [
+    { label: 'Homme', value: 'H' },
+    { label: 'Femme', value: 'F' },
+    { label: 'Autre', value: 'N' }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,9 +48,6 @@ export class RegistrationComponent {
 
   }
 
-
-
-
   isFormValid(): boolean {
     return this.inscriptionForm.valid;
   }
@@ -68,8 +69,8 @@ export class RegistrationComponent {
       formData.append('student_email', this.inscriptionForm.get('student_email')?.value || '');
       formData.append('password', this.inscriptionForm.get('password')?.value || '');
       formData.append('password_confirmation', this.inscriptionForm.get('password_confirmation')?.value || '');
-      formData.append('gender', this.inscriptionForm.get('gender')?.value || '');
-      formData.append('phone_number', this.inscriptionForm.get('phone_number')?.value || '');
+      formData.append('gender', this.inscriptionForm.get('gender')?.value.value || '');
+      formData.append('phone_number', "0" + this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
       formData.append('pfp', this.inscriptionForm.get('pfp')?.value || '');
       formData.append('license', this.inscriptionForm.get('license')?.value || '');
@@ -109,6 +110,7 @@ export class RegistrationComponent {
       );
     }
   }
+
   handleFileInput(event: Event, fileType: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file = (inputElement.files as FileList)[0];
@@ -122,6 +124,8 @@ export class RegistrationComponent {
       fileNameLabel.innerText = file.name;
     }
   }
+
+
   toggleLicenseSection(): void {
     this.showLicenseSection = !this.showLicenseSection;
   }
@@ -132,5 +136,4 @@ export class RegistrationComponent {
 
     return password === confirmPassword;
   }
-
 }
