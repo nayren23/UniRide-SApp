@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfilService } from '../../../core/services/profil/profil.service';
+import { CarService } from '../../../core/services/car/car.service';
 import { User } from '../../../../app/core/models/user.model'
 import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
@@ -19,12 +20,18 @@ export class ProfilInformationComponent implements OnInit {
   user!: User;
   editedUser: Partial<User> = {};
   editingField: keyof User | null = null;
+  editepassword: boolean = false;
   isNotDriver: boolean = true;
   hasCar!: boolean;
   hasProfilePicture: boolean = false;
   userDocuments: userDocuments[] = [];
   uploadedFiles: { [key: string]: File[] } = {};
   showUploadPhoto: boolean = false;
+  changePasswordFormData = {
+    old_password: '',
+    new_password: '',
+    new_password_confirmation: ''
+  };
   car: Car = {
     model: '',
     license_plate: '',
@@ -35,6 +42,7 @@ export class ProfilInformationComponent implements OnInit {
   };
   constructor(
     private profilService: ProfilService,
+    private carService: CarService,
     private toastr: ToastrService,
   ) { }
 
@@ -44,7 +52,7 @@ export class ProfilInformationComponent implements OnInit {
     this.getDocumentsInfos();
   }
   getcarinfo(): void {
-    this.profilService.getCarInformation().subscribe({
+    this.carService.getCarInformation().subscribe({
       next: (car: Car) => {
         this.car = car;
         this.hasCar = true;
@@ -250,7 +258,7 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   addCar(): void {
-    this.profilService.addCar(this.car).subscribe({
+    this.carService.addCar(this.car).subscribe({
       next: (response) => {
         this.hasCar = true;
         this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info ✅📄🚗👍');
@@ -262,7 +270,7 @@ export class ProfilInformationComponent implements OnInit {
     });
   }
   updateCar(): void {
-    this.profilService.updateCar(this.car).subscribe(
+    this.carService.updateCar(this.car).subscribe(
       (response) => {
         console.log('Car updated successfully', response);
         this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info ✅📄🔄👍');
@@ -316,7 +324,58 @@ export class ProfilInformationComponent implements OnInit {
     }
   }
 
+  openNew() {
+    this.editepassword = true;
+  }
 
+  passwordsMatch(): boolean {
+    const password = this.changePasswordFormData.new_password;
+    const confirmPassword = this.changePasswordFormData.new_password_confirmation
+
+    return password === confirmPassword;
+  }
+
+  changePassword(): void {
+    // Assurez-vous que les champs requis sont remplis
+    if (
+      !this.changePasswordFormData.old_password ||
+      !this.changePasswordFormData.new_password ||
+      !this.changePasswordFormData.new_password_confirmation
+    ) {
+      this.toastr.warning('Veuillez remplir tous les champs.', 'Avertissement');
+      return;
+    }
+    if(this.isSamePassword()){
+      this.toastr.warning('Le nouveau mot de passe doit être différent de l\'ancien.', 'Avertissement');
+      return;
+    }
+
+    // Envoyez la requête de changement de mot de passe
+    this.profilService.changePassword(this.changePasswordFormData).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Le mot de passe a été changé avec succès.', 'Succès');
+        // Réinitialisez les champs du formulaire après un changement réussi
+        this.changePasswordFormData = {
+          old_password: '',
+          new_password: '',
+          new_password_confirmation: ''
+        };
+      },
+      error: (error: any) => {
+        this.toastr.error('Erreur lors du changement de mot de passe.', 'Erreur');
+        console.error('Error changing password', error);
+      }
+    });
+  }
+
+  isSamePassword(): boolean {
+    const oldPassword = this.changePasswordFormData.new_password;
+    const newPassword = this.changePasswordFormData.new_password_confirmation;
+
+    return oldPassword === newPassword;
+
+
+  }
 }
 
 

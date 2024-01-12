@@ -35,7 +35,7 @@ import { TagModule } from 'primeng/tag';
     AccordionModule,
     BlockUIModule,
     TagModule
-  ],
+],
   exports: [
     NavbarComponent,
   ],
