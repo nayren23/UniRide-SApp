@@ -228,13 +228,6 @@ export class TripInfoComponent implements OnInit {
     this.location.back();
   }
 
-  getUserID(): void {
-    this.authService.getUserIDAndRole().subscribe(data => {
-      this.userId = data.id;
-      this.getTripDetails();
-    })
-  }
-
   currentUserInTrip(): void {
     if (this.trip.driverId != this.userId) {
       this.bookService.get_booking(this.trip.id).pipe(
@@ -250,6 +243,11 @@ export class TripInfoComponent implements OnInit {
     }
   }
 
+  getUserID(): void {
+    this.userId = Number(sessionStorage.getItem("user_id"))
+    this.getTripDetails()
+  }
+  
   displayBookingStatus(): void {
     this.messageService.clear();
     if (this.trip.status != 1 && this.book.accepted == 0) {

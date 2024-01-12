@@ -33,9 +33,18 @@ export class LogInComponent {
         (response: any) => {
           console.log(response)
           if (response['informations_verified']['email_verified']) {
-            this.authService.setIsAuthentified(true);
             this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
-            this.router.navigate(['/trips/search']);
+            this.authService.getUserIDAndRole().subscribe({
+              next: (data:any) => {
+                sessionStorage.setItem('user_id', data.id);
+                sessionStorage.setItem('user_r', data.role);
+                this.authService.setIsAuthentified(true);
+                this.router.navigate(['/trips/search']);
+              },
+              error: (error: any) => {
+                console.log('error:', error);
+              }
+            });
           } else {
             this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
           }

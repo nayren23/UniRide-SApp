@@ -18,7 +18,6 @@ export class TripPassengerListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("test")
     this.getTrips()
   }
 

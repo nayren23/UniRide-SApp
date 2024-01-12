@@ -34,7 +34,7 @@ export class EmailVerificationComponent implements OnInit {
           if (response.message === 'EMAIL_VERIFIED_SUCCESSFULLY') {
             this.toastr.success("Félicitations ! La vérification s'est bien effectuée.", 'Email vérifié');
             setTimeout(() => {
-              this.router.navigate(['/logIn']);
+              this.router.navigate(['/login']);
             }, 2000);
           } else {
             this.toastr.error('Erreur de vérification', 'Réponse inattendue du serveur');
@@ -54,7 +54,7 @@ export class EmailVerificationComponent implements OnInit {
           } else if (error.error.message === 'EMAIL_ALREADY_VERIFIED') {
             this.toastr.error('Erreur de vérification', 'Email déjà vérifié');
             setTimeout(() => {
-              this.router.navigate(['/logIn']);
+              this.router.navigate(['/login']);
             }, 2000);
           } else {
             this.toastr.error(
