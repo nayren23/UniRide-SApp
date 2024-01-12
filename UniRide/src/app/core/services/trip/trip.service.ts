@@ -80,6 +80,10 @@ export class TripService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
+    return this.http.get(
+      `${this.apiUrl}/trip/passenger/current`,
+      { headers: headers }
+    )
     return of([
       {
         "arrival_address": "140 Rue de la Nouvelle France Montreuil 93100",
