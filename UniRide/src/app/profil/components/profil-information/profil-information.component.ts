@@ -19,12 +19,18 @@ export class ProfilInformationComponent implements OnInit {
   user!: User;
   editedUser: Partial<User> = {};
   editingField: keyof User | null = null;
+  editepassword: boolean = false;
   isNotDriver: boolean = true;
   hasCar!: boolean;
   hasProfilePicture: boolean = false;
   userDocuments: userDocuments[] = [];
   uploadedFiles: { [key: string]: File[] } = {};
   showUploadPhoto: boolean = false;
+  changePasswordFormData = {
+    old_password: '',
+    new_password: '',
+    new_password_confirmation: ''
+  };
   car: Car = {
     model: '',
     license_plate: '',
@@ -316,7 +322,58 @@ export class ProfilInformationComponent implements OnInit {
     }
   }
 
+  openNew() {
+    this.editepassword = true;
+  }
 
+  passwordsMatch(): boolean {
+    const password = this.changePasswordFormData.new_password;
+    const confirmPassword = this.changePasswordFormData.new_password_confirmation
+
+    return password === confirmPassword;
+  }
+
+  changePassword(): void {
+    // Assurez-vous que les champs requis sont remplis
+    if (
+      !this.changePasswordFormData.old_password ||
+      !this.changePasswordFormData.new_password ||
+      !this.changePasswordFormData.new_password_confirmation
+    ) {
+      this.toastr.warning('Veuillez remplir tous les champs.', 'Avertissement');
+      return;
+    }
+    if(this.isSamePassword()){
+      this.toastr.warning('Le nouveau mot de passe doit être différent de l\'ancien.', 'Avertissement');
+      return;
+    }
+
+    // Envoyez la requête de changement de mot de passe
+    this.profilService.changePassword(this.changePasswordFormData).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Le mot de passe a été changé avec succès.', 'Succès');
+        // Réinitialisez les champs du formulaire après un changement réussi
+        this.changePasswordFormData = {
+          old_password: '',
+          new_password: '',
+          new_password_confirmation: ''
+        };
+      },
+      error: (error: any) => {
+        this.toastr.error('Erreur lors du changement de mot de passe.', 'Erreur');
+        console.error('Error changing password', error);
+      }
+    });
+  }
+
+  isSamePassword(): boolean {
+    const oldPassword = this.changePasswordFormData.new_password;
+    const newPassword = this.changePasswordFormData.new_password_confirmation;
+
+    return oldPassword === newPassword;
+
+
+  }
 }
 
 
