@@ -9,14 +9,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfilInformationComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +24,6 @@ import { ProfilInformationComponent } from './profil/profil-information/profil-i
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     CoreModule,
-    SharedModule
   ],
   providers: [
     CookieService,
