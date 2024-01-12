@@ -1,0 +1,79 @@
+<div class="card">
+    <p-table #dt [value]="listRanking" [(selection)]="selectedRanking" dataKey="id" [rowHover]="true" [rows]="10"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
+        currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}" [filterDelay]="0">
+        <ng-template pTemplate="caption">
+            <div class="table-header">
+                Classement Conducteurs
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="user.lastname" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Conducteur
+                        <p-sortIcon field="user.lastname"></p-sortIcon>
+                        <p-columnFilter field="user" matchMode="in" display="menu" [showMatchModes]="false"
+                            [showOperator]="false" [showAddButton]="false" class="ml-auto">
+                            <ng-template pTemplate="header">
+                                <div class="px-3 pt-3 pb-0">
+                                    <span class="font-bold">Conducteur</span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-multiSelect [ngModel]="value" [options]="lisUsers" placeholder="Any"
+                                    (onChange)="filter($event.value)" optionLabel="name">
+                                    <ng-template let-option pTemplate="item">
+                                        <div class="inline-block vertical-align-middle">
+                                            <img [alt]="option.label"
+                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                width="24" class="vertical-align-middle" />
+                                            <span class="ml-1 mt-1">{{ option.name }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="user.average"> Moyenne Globale <p-sortIcon field="user.average"></p-sortIcon> </th>
+
+                <th *ngFor="let column of ratingsColumns" pSortableColumn="column.id_criteria">
+                    {{ column.name }} <p-sortIcon field="column.id_criteria"></p-sortIcon>
+                </th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rank>
+            <tr class="p-selectable-row">
+                <td>
+                    <p-tableCheckbox [value]="rank"></p-tableCheckbox>
+                </td>
+
+                <td>
+                    <span class="p-column-title">Conducteur</span>
+                    <img alt="photo de profil"
+                        src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ rank.user.profile_picture }}"
+                        width="32" style="vertical-align: middle" />
+                    <span class="ml-1 vertical-align-middle">{{ rank.user.firstname +" " + rank.user.lastname }}</span>
+                </td>
+
+                <td>{{rank.user.average}}</td>
+
+                <td *ngFor="let note of rank.user.scoreCriteria">
+                    <span class="p-column-title">{{ note.notes }}</span>
+                    <p-rating [(ngModel)]="note.notes" [readonly]="true" [cancel]="false"></p-rating>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">Aucun classement de disponible</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

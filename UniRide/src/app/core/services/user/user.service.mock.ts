@@ -101,6 +101,80 @@ export class UserServiceMock implements UserInterface {
 
     ]
 
+    private listRanking = {
+        "message": "DRIVERS_RATING_CRITERIA_DISPLAYED_SUCCESSFULLY",
+        "ranking": [
+            {
+                "user": {
+                    "average": "3.00",
+                    "firstname": "Gabrielle",
+                    "id": 10,
+                    "lastname": "Moreau",
+                    "profile_picture": "",
+                    "role": 1,
+                    "scoreCriteria": [
+
+                        {
+                            "id": 83,
+                            "name": "Conduite sûre",
+                            "notes": 1
+                        },
+                        {
+                            "id": 84,
+                            "name": "Courtoisie au volant",
+                            "notes": 1
+                        },
+                        {
+                            "id": 87,
+                            "name": "Amabilité ",
+                            "notes": 0
+                        },
+                        {
+                            "id": 117,
+                            "name": "ambiance",
+                            "notes": 5
+                        }
+
+                    ]
+                }
+            },
+            {
+                "user": {
+                    "average": "1.00",
+                    "firstname": "fraise",
+                    "id": 47,
+                    "lastname": "FRAISE",
+                    "profile_picture": "",
+                    "role": 1,
+                    "scoreCriteria": [
+
+                        {
+                            "id": 83,
+                            "name": "Conduite sûre",
+                            "notes": 3
+                        },
+                        {
+                            "id": 84,
+                            "name": "Courtoisie au volant",
+                            "notes": 5
+                        },
+                        {
+                            "id": 87,
+                            "name": "Amabilité ",
+                            "notes": 4
+                        },
+                        {
+                            "id": 117,
+                            "name": "ambiance",
+                            "notes": 4
+                        }
+
+                    ]
+                }
+            }
+        ]
+    };
+
     private listUsersById: any =
         {
             login: "jdoe",
@@ -113,6 +187,33 @@ export class UserServiceMock implements UserInterface {
             role: 1, // int
             profile_picture: "https://www.w3schools.com/howto/img_avatar.png"
         }
+
+
+    private listActifCriterias: any = {
+        "criterian": [
+            {
+                "id": 83,
+                "name": "Conduite sûre"
+            },
+            {
+                "id": 84,
+                "name": "Courtoisie au volant"
+            },
+            {
+                "id": 117,
+                "name": "ambiance"
+            },
+            {
+                "id": 87,
+                "name": "Amabilité "
+            }
+        ],
+        "message": "ACTIF_CRITERIA_DISPLAYED_SUCCESSFULLY"
+    };
+
+    getActiveCriterias(): Observable<any> {
+        return of(this.listActifCriterias); //return of is used to return an observable
+    }
 
     getUserInfoSummaryById(userId: number): Observable<any> {
         return of({}); //return of is used to return an observable
@@ -132,6 +233,14 @@ export class UserServiceMock implements UserInterface {
 
     deleteUserById(userId: number): Observable<any> {
         return of({}); //return of is used to return an observable
+    }
+
+    getDriverRanking(): Observable<any> {
+        return of(this.listRanking); //return of is used to return an observable
+    }
+
+    getActifCriterias(): Observable<any> {
+        return of(this.listActifCriterias); //return of is used to return an observable
     }
 
     constructor() { }

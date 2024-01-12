@@ -68,4 +68,23 @@ export class UserService implements UserInterface {
     )
   }
 
+  getDriverRanking(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/user/drivers-ranking`,
+      { headers: headers }
+    )
+  }
+
+  getActifCriterias(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/user/actif_criterian`,
+      { headers: headers }
+    )
+  }
 }
