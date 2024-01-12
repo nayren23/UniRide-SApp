@@ -83,7 +83,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/actif_criterian`,
+      `${this.apiUrl}/user/actif-criterion`,
       { headers: headers }
     )
   }

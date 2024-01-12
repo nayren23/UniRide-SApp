@@ -117,22 +117,22 @@ export class UserServiceMock implements UserInterface {
                         {
                             "id": 83,
                             "name": "Conduite sûre",
-                            "notes": 1
+                            "value": 1
                         },
                         {
                             "id": 84,
                             "name": "Courtoisie au volant",
-                            "notes": 1
+                            "value": 1
                         },
                         {
                             "id": 87,
                             "name": "Amabilité ",
-                            "notes": 0
+                            "value": 0
                         },
                         {
                             "id": 117,
                             "name": "ambiance",
-                            "notes": 5
+                            "value": 5
                         }
 
                     ]

@@ -28,9 +28,9 @@ export class RankingComponent implements OnInit {
 
   ngOnInit() {
 
-    this.userServiceMock.getDriverRanking().subscribe({
+    this.userService.getDriverRanking().subscribe({
       next: (data: any) => {
-
+        console.log('data:', data)
         data.ranking.forEach((ranking: any) => {
 
           this.listRanking.push(ranking);
@@ -45,6 +45,7 @@ export class RankingComponent implements OnInit {
         console.log('listUsers:', this.lisUsers)
         this.loading = false
         this.toastr.success('Le classement a été récupéré avec succès.', 'Succès ✅📄');
+        this.listRanking = [...this.listRanking]; // refresh the table
       },
       error: (error: any) => {
         this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
@@ -52,9 +53,9 @@ export class RankingComponent implements OnInit {
     })
 
 
-    this.userServiceMock.getActifCriterias().subscribe({
+    this.userService.getActifCriterias().subscribe({
       next: (data: any) => {
-        data.criterian.forEach((criteria: any) => {
+        data.criterion.forEach((criteria: any) => {
           const label: Label = {
             id_criteria: criteria.id,
             name: criteria.name,
@@ -76,6 +77,5 @@ export class RankingComponent implements OnInit {
     const criterion = scoreCriteria.find(criteria => criteria.name === criterionName);
     return criterion ? criterion.notes : 0; // Ou une valeur par défaut si nécessaire
   }
-
 
 }
