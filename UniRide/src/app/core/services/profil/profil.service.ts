@@ -35,32 +35,6 @@ editUserInfo(field: keyof User, updatedValue: string): Observable<any> {
   return this.http.post(endpoint, updatedUser, { headers });
 }
 
-addCar(car: Car): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.post(`${this.apiUrl}/car/add`, car, { headers });
-}
-
-updateCar(car: Car): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.put(`${this.apiUrl}/car/update`, car, { headers });
-}
-
-getCarInformation(): Observable<Car> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.get<Car>(`${this.apiUrl}/car/info`, { headers });
-}
 getUserDocumentsInfo(): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/user/documents/infos`);
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfilService } from '../../../core/services/profil/profil.service';
+import { CarService } from '../../../core/services/car/car.service';
 import { User } from '../../../../app/core/models/user.model'
 import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
@@ -41,6 +42,7 @@ export class ProfilInformationComponent implements OnInit {
   };
   constructor(
     private profilService: ProfilService,
+    private carService: CarService,
     private toastr: ToastrService,
   ) { }
 
@@ -50,7 +52,7 @@ export class ProfilInformationComponent implements OnInit {
     this.getDocumentsInfos();
   }
   getcarinfo(): void {
-    this.profilService.getCarInformation().subscribe({
+    this.carService.getCarInformation().subscribe({
       next: (car: Car) => {
         this.car = car;
         this.hasCar = true;
@@ -256,7 +258,7 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   addCar(): void {
-    this.profilService.addCar(this.car).subscribe({
+    this.carService.addCar(this.car).subscribe({
       next: (response) => {
         this.hasCar = true;
         this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info ✅📄🚗👍');
@@ -268,7 +270,7 @@ export class ProfilInformationComponent implements OnInit {
     });
   }
   updateCar(): void {
-    this.profilService.updateCar(this.car).subscribe(
+    this.carService.updateCar(this.car).subscribe(
       (response) => {
         console.log('Car updated successfully', response);
         this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info ✅📄🔄👍');
