@@ -15,7 +15,11 @@ export class RegistrationComponent {
   inscriptionForm: FormGroup;
   afficherChampsFichier = false;
   showLicenseSection: boolean = false;
-
+  genderOptions = [
+    { label: 'Homme', value: 'H' },
+    { label: 'Femme', value: 'F' },
+    { label: 'Autre', value: 'N' }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,9 +47,6 @@ export class RegistrationComponent {
 
 
   }
-
-
-
 
   isFormValid(): boolean {
     return this.inscriptionForm.valid;
@@ -109,6 +110,7 @@ export class RegistrationComponent {
       );
     }
   }
+
   handleFileInput(event: Event, fileType: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file = (inputElement.files as FileList)[0];
@@ -122,6 +124,8 @@ export class RegistrationComponent {
       fileNameLabel.innerText = file.name;
     }
   }
+
+
   toggleLicenseSection(): void {
     this.showLicenseSection = !this.showLicenseSection;
   }

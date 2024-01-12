@@ -1,176 +1,150 @@
-<div class="max-w-md mx-auto p-2  rounded">
-    
+<form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+    <p-card class="flex justify-content-center flex-wrap" [style]="{'min-width':'30%'}">
+        <div class="w-full flex justify-content-center">
+            <h2 class="text-2xl font-semibold mb-2">Inscription</h2>
+        </div>
 
-    <form id="monFormulaire" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
-        <section class="max-w-md mx-auto px-6 py-4 rounded shadow-md blur-backgroud">
-            <div class="w-full flex justify-content-center">
-        <h2 class="text-2xl font-semibold mb-2 text-white">Inscription</h2>
-    </div>
-            <!-- Nom utilisateur -->
-            <div class="mb-4">
-                <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur*</label>
-                <input type="text" id="username" name="username" class="w-full p-2 border rounded"
-                    formControlName="login" required>
-                <div *ngIf="inscriptionForm.get('login')?.hasError('pattern') && inscriptionForm.get('login')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Le nom utilisateur doit contenir uniquement des lettres.
-                </div>
+        <!-- Nom utilisateur -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="username" class="block text-sm font-semibold mb-2">Nom utilisateur*</label>
+            <input type="text" pInputText formControlName="login" />
+            <p-message
+                *ngIf="inscriptionForm.get('login')?.errors?.['required'] && (inscriptionForm.get('login')?.dirty || inscriptionForm.get('login')?.touched)"
+                severity="error" text="Nom utilisateur est requis." [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Nom -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="lastName" class="block text-sm font-semibold mb-2">Nom*</label>
+            <input pInputText id="lastName" type="text" formControlName="lastname" inputId="lastName" required>
+            <p-message
+                *ngIf="inscriptionForm.get('lastname')?.errors?.['required'] && (inscriptionForm.get('lastname')?.dirty || inscriptionForm.get('lastname')?.touched)"
+                severity="error" text="Le nom est requis." [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Prénom -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="firstName" class="block text-sm font-semibold mb-2">Prénom*</label>
+            <input pInputText id="firstName" type="text" formControlName="firstname" inputId="firstName" required>
+            <p-message
+                *ngIf="inscriptionForm.get('firstname')?.errors?.['required'] && (inscriptionForm.get('firstname')?.dirty || inscriptionForm.get('firstname')?.touched)"
+                severity="error" text="Le prénom est requis." [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Adresse e-mail étudiante -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="email" class="block text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
+            <input pInputText id="email" type="email" formControlName="student_email" inputId="email" required>
+            <p-message
+                *ngIf="inscriptionForm.get('student_email')?.errors?.['required'] && (inscriptionForm.get('student_email')?.dirty || inscriptionForm.get('student_email')?.touched)"
+                severity="error" text="L'adresse e-mail est requise." [style]="{'width':'100%'}"></p-message>
+            <p-message
+                *ngIf="inscriptionForm.get('student_email')?.errors?.['email'] && (inscriptionForm.get('student_email')?.dirty || inscriptionForm.get('student_email')?.touched)"
+                severity="error" text="Adresse e-mail non valide." [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Mot De Passe -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="password" class="block text-sm font-semibold mb-2">Mot De Passe*</label>
+            <p-password id="password" formControlName="password" inputId="password" required [toggleMask]="true"
+                [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-password>
+            <p-message
+                *ngIf="inscriptionForm.get('password')?.errors?.['required'] && (inscriptionForm.get('password')?.dirty || inscriptionForm.get('password')?.touched)"
+                severity="error" text="Le mot de passe est requis." [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Confirmer Mot De Passe -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="confirmPassword" class="block text-sm font-semibold mb-2">Confirmer le Mot De Passe*</label>
+            <p-password id="confirmPassword" formControlName="password_confirmation" inputId="confirmPassword" required
+                [toggleMask]="true" [feedback]="false" [style]="{'width':'100%'}"
+                [inputStyle]="{'width':'100%'}"></p-password>
+            <p-message *ngIf=" !passwordsMatch()" severity="error" text="Les mots de passe ne correspondent pas."
+                [style]="{'width':'100%'}"></p-message>
+        </div>
+
+        <!-- Dropdown list pour le genre -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="gender" class="block text-sm font-semibold mb-2">Genre*</label>
+            <p-dropdown [options]="genderOptions" optionLabel="label" formControlName="gender"
+                [required]="true"></p-dropdown>
+        </div>
+
+        <!-- Numéro de téléphone -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="phoneNumber" class="block text-sm font-semibold mb-2">Numéro de téléphone*</label>
+            <div>
+                <label for="phoneNumber" class="mr-1">+33</label>
+                <p-inputNumber id="phoneNumber" formControlName="phone_number" inputId="phoneNumber" [maxlength]="9"
+                    [useGrouping]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-inputNumber>
             </div>
+            <p-message
+                *ngIf="inscriptionForm.get('phone_number')?.errors?.['required'] && (inscriptionForm.get('phone_number')?.dirty || inscriptionForm.get('phone_number')?.touched)"
+                severity="error" text="Le numéro de téléphone est requis." [style]="{'width':'100%'}"></p-message>
+        </div>
 
-            <!-- Nom -->
-            <div class="mb-4">
-                <label for="lastName" class="block text-white text-sm font-semibold mb-2">Nom*</label>
-                <input type="text" id="lastName" name="lastName" class="w-full p-2 border rounded"
-                    formControlName="lastname" required>
-                <div *ngIf="inscriptionForm.get('lastname')?.hasError('pattern') && inscriptionForm.get('lastname')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Le nom doit contenir uniquement des lettres.
-                </div>
+        <!-- Description -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="description" class="block text-sm font-semibold mb-2">Description</label>
+            <textarea pInputTextarea id="description" formControlName="description" rows="5"
+                [autoResize]="true"></textarea>
+        </div>
+
+        <!-- Photo de profil -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="pfp" class="block text-sm font-semibold mb-2">Photo de profil</label>
+            <div class="file-input-container">
+                <label for="pfp">Parcourir...</label>
+                <span id="pfp_file_label">Aucun fichier sélectionné</span>
+                <input type="file" id="pfp" name="pfp" (change)="handleFileInput($event, 'pfp')"
+                    accept=".jpg,.jpeg,.png">
             </div>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG (MAX. 5 MO).</p>
+        </div>
 
-            <!-- Prénom -->
-            <div class="mb-4">
-                <label for="firstName" class="block text-white text-sm font-semibold mb-2">Prénom*</label>
-                <input type="text" id="firstName" name="firstName" class="w-full p-2 border rounded"
-                    formControlName="firstname" required>
-                <div *ngIf="inscriptionForm.get('firstname')?.hasError('pattern') && inscriptionForm.get('firstname')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Le prénom doit contenir uniquement des lettres.
-                </div>
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="id_card" class="block text-sm font-semibold mb-2">Carte d'identité</label>
+            <div class="file-input-container">
+                <label for="id_card">Parcourir...</label>
+                <span id="id_card_file_label">Aucun fichier sélectionné</span>
+                <input type="file" id="id_card" name="id_card" (change)="handleFileInput($event, 'id_card')"
+                    accept=".jpg,.jpeg,.png,.pdf">
             </div>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+        </div>
 
-
-            <!-- Adresse e-mail étudiante -->
-            <div class="mb-4" *ngIf="inscriptionForm?.get('student_email')">
-                <label for="email" class="block text-white text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
-                <input type="email" id="email" name="email" class="w-full p-2 border rounded"
-                    formControlName="student_email" required>
-                <div *ngIf="inscriptionForm.get('student_email')?.hasError('email') && inscriptionForm.get('student_email')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Adresse e-mail non valide
-                </div>
+        <div class="mb-4 flex flex-column justify-content-center">
+            <label for="school_certificate" class="block text-sm font-semibold mb-2">Certificat de scolarité</label>
+            <div class="file-input-container">
+                <label for="school_certificate">Parcourir...</label>
+                <span id="school_certificate_file_label">Aucun fichier sélectionné</span>
+                <input type="file" id="school_certificate" name="school_certificate"
+                    (change)="handleFileInput($event, 'school_certificate')" accept=".jpg,.jpeg,.png,.pdf">
             </div>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+        </div>
 
+        <!-- Checkbox pour afficher la section du permis -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <p-checkbox label="Avez-vous un permis ?" formControlName="showLicenseSection" [binary]="true"></p-checkbox>
+        </div>
 
-            <!-- Mot De Passe -->
-            <div class="mb-4">
-                <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe*</label>
-                <input type="password" id="password" name="password" class="w-full p-2 border rounded"
-                    formControlName="password" required>
-                <div *ngIf="inscriptionForm.get('password')?.hasError('pattern') && inscriptionForm.get('password')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Le mot de passe doit être de longueur minimum 8, contenir au moins une majuscule, une minuscule et
-                    un
-                    caractère spécial.
-                </div>
-
+        <!-- Section du permis conditionnellement affichée -->
+        <div class="mb-4 flex flex-column justify-content-center"
+            *ngIf="inscriptionForm.get('showLicenseSection')?.value">
+            <label for="license" class="block text-sm font-semibold mb-2">Permis</label>
+            <div class="file-input-container">
+                <label for="license">Parcourir...</label>
+                <span id="license_file_label">Aucun fichier sélectionné</span>
+                <input type="file" id="license" name="license" (change)="handleFileInput($event, 'license')"
+                    accept=".jpg,.jpeg,.png,.pdf">
             </div>
-
-
-            <!-- Confirmer Mot De Passe -->
-            <div class="mb-4">
-                <label for="confirmPassword" class="block text-white text-sm font-semibold mb-2">Confirmer Mot De
-                    Passe*</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" class="w-full p-2 border rounded"
-                    formControlName="password_confirmation" required>
-                <div *ngIf="!passwordsMatch()" class="text-xs text-red-500 mt-1 ">
-                    Les mots de passe ne correspondent pas.
-                </div>
-            </div>
-
-
-            <!-- Dropdown list pour le genre -->
-            <div class="mb-4">
-                <label for="gender" class="block text-white text-sm font-semibold mb-2">Genre*</label>
-                <select id="gender" name="gender" class="w-full p-2 border rounded" formControlName="gender" required>
-                    <option value="H">Homme</option>
-                    <option value="F">Femme</option>
-                    <option value="N">Autre</option>
-                </select>
-            </div>
-
-            <!-- Numéro de téléphone -->
-            <div class="mb-4">
-                <label for="phoneNumber" class="block text-white text-sm font-semibold mb-2">Numéro de
-                    téléphone*</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" class="w-full p-2 border rounded tailleTel"
-                    formControlName="phone_number" maxlength="10" pattern="^0[0-9]*$">
-                <!-- Ajoutez la ligne suivante pour afficher un message d'erreur personnalisé -->
-                <div *ngIf="inscriptionForm.get('phone_number')?.hasError('pattern') && inscriptionForm.get('phone_number')?.touched"
-                    class="text-xs text-red-500 mt-1">
-                    Le numéro de téléphone est invalide
-                </div>
-            </div>
-
-            <!-- Description -->
-            <div class="mb-4">
-                <label for="description" class="block text-white text-sm font-semibold mb-2">Description</label>
-                <input class="w-full p-2 border rounded" type="text" formControlName="description">
-            </div>
-
-
-            <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white" for="pfp">Photo de
-                profil</label>
-            <input
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                type="file" id="pfp" name="pfp" (change)="handleFileInput($event, 'pfp')" accept="image/*">
-
-            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
-
-            <p class="italique text-red-500">* : champs obligatoire</p>
-
-
-        </section>
-
-        <section class="max-w-md mx-auto px-6 py-4 border rounded shadow-md blur-backgroud mt-10">
-            <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white" for="id_card">Carte
-                d'identité</label>
-            <input
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                type="file" id="id_card" name="id_card" (change)="handleFileInput($event, 'id_card')" accept="image/*">
-            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
-
-
-            <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white"
-                for="school_certificate">Certificat de scolarité</label>
-            <input
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                type="file" id="school_certificate" name="school_certificate"
-                (change)="handleFileInput($event, 'school_certificate')" accept="image/*">
-            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
-            
-
-        </section>
-
- 
-
-<!-- Checkbox pour afficher la section du permis -->
-<div class="mb-4">
-    <input type="checkbox" id="showLicense" name="showLicense" formControlName="showLicenseSection">
-    <label for="showLicense" class="text-white text-sm ml-2">Avez-vous un permis ?</label>
-  </div>
-  
-         <!-- Section du permis conditionnellement affichée -->
-         <section *ngIf="inscriptionForm.get('showLicenseSection')?.value" class="border max-w-md mx-auto px-6 py-4 mt-10 shadow-md blur-backgroud">
-            <label class="block font-bold mb-2 text-sm font-medium text-white dark:text-white" for="license">Permis</label>
-            <input
-              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              type="file" id="license" name="license" (change)="handleFileInput($event, 'license')" accept="image/*">
-            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, PDF (MAX. 5 MO).</p>
-          </section>
-  
-
-
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+        </div>
 
         <!-- Bouton Suivant -->
         <div>
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded alignCenter buttonInscription"
-                [disabled]="!inscriptionForm.valid || !passwordsMatch()"
-                [ngClass]="{'button-disabled': !inscriptionForm.valid || !passwordsMatch()}">
-                S'inscrire
-            </button>
+            <p-button type="submit" label="S'inscrire" [disabled]="!inscriptionForm.valid"></p-button>
         </div>
-
-
-    </form>
-</div>
+    </p-card>
+</form>
