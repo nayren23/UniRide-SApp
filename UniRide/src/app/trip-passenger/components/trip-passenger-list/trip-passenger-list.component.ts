@@ -8,14 +8,14 @@ import { TripService } from 'src/app/core/services/trip/trip.service';
   templateUrl: './trip-passenger-list.component.html',
   styleUrls: ['./trip-passenger-list.component.css']
 })
-export class TripPassengerListComponent implements OnInit{
+export class TripPassengerListComponent implements OnInit {
   trips: TripSummary[] = [];
   loading: boolean = true;
 
   constructor(
     private tripService: TripService,
     private router: Router
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.getTrips()
@@ -52,7 +52,7 @@ export class TripPassengerListComponent implements OnInit{
       return "trajet annulé"
     if (book_status == 0)
       return "sans réponse"
-    switch(status) {
+    switch (status) {
       case 3:
         return "trajet passé";
       case 4:
@@ -65,11 +65,11 @@ export class TripPassengerListComponent implements OnInit{
   }
 
   convertToFrenchDate(date: Date) {
-    return date.toLocaleString('fr-FR', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'});
+    return date.toLocaleString('fr-FR', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
   }
 
   getSeverity(status: string): string {
-    switch(status) {
+    switch (status) {
       case "refusé": return "danger";
       case "en cours": return "info";
       case "accepté": return "success";
@@ -79,7 +79,7 @@ export class TripPassengerListComponent implements OnInit{
 
   gray(status: string): any {
     if (!["refusé", "en cours", "accepté"].includes(status))
-      return { 'background': 'gray'}
+      return { 'background': 'gray' }
     return {}
   }
 

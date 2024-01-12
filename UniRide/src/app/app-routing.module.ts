@@ -1,6 +1,5 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { roleGuardFactory } from './core/guards/role-guard';
 import { ROLES } from './core/const/roles';
@@ -44,9 +43,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, roleGuardFactory],
     data: { roles: [ROLES.ADMIN] }
   },
-  { path: 'profil-information', component: ProfilInformationComponent, 
-    canActivate: [AuthGuard]
+  { 
+    path: 'profil-information', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule),
+    canActivate: [AuthGuard],
   },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

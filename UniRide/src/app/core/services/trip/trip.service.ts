@@ -103,4 +103,37 @@ export class TripService {
       }
     ]);
   }
+
+  startTrip(tripId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(
+      `${this.apiUrl}/trip/${tripId}/start`,
+      {},
+      { headers: headers }
+    )
+  }
+
+  endTrip(tripId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(
+      `${this.apiUrl}/trip/${tripId}/end`,
+      {},
+      { headers: headers }
+    )
+  }
+
+  cancelTrip(tripId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(
+      `${this.apiUrl}/trip/${tripId}/cancel`,
+      {},
+      { headers: headers }
+    )
+  }
 }

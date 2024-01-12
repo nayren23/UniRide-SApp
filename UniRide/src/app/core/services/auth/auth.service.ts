@@ -55,10 +55,11 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/user/logout`).pipe(
       tap(() => {
+        console.log('logout');
+        sessionStorage.clear();
         this.cookieService.delete('keepLoggedIn');
         this.cookieService.delete('IsAuthentified');
         this.setLoggedIn(false);
-        sessionStorage.clear();
         this.router.navigate(['/login']);
       }
       ));
