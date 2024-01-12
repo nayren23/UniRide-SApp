@@ -29,13 +29,12 @@ export class NavbarComponent implements OnInit {
   }
 
   updateMenuItems(): void {
-    this.authService.getUserIDAndRole().subscribe({
-      next: (data: any) => {
-        
-        if ("role" in data)
-          this.userRole = data.role
-        else
-          this.userRole = -1
+    console.log(Number(sessionStorage.getItem("user_r")))
+    
+    if (sessionStorage.getItem("user_r"))
+      this.userRole = Number(sessionStorage.getItem("user_r"))
+    else
+      this.userRole = -1
       
     if (this.isLoggedIn) {
       this.items = [
@@ -123,8 +122,7 @@ export class NavbarComponent implements OnInit {
           }
         }
       ];
-    }}
-  })
+    }
   }
 
 

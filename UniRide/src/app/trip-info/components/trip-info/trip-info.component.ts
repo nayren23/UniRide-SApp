@@ -116,9 +116,7 @@ export class TripInfoComponent implements OnInit {
   }
 
   getUserID(): void {
-    this.authService.getUserIDAndRole().subscribe(data =>
-      this.userId = data.id
-    )
+    this.userId = Number(sessionStorage.getItem("user_id"))
   }
 
   currentUserInTrip(): boolean {

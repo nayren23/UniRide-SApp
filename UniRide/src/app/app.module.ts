@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +11,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ProfilInformationComponent } from './profil/profil-information/profil-information.component';
-
 
 @NgModule({
   declarations: [

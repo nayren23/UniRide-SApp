@@ -25,19 +25,12 @@ export class AuthService {
     );
   }
 
-  hasRole(requiredRoles: number[]): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.getUserIDAndRole().subscribe({
-        next: (data: any) => {
-          const role = data.role;
-          const hasRole = requiredRoles.some(r => r === role);
-          resolve(hasRole);
-        },
-        error: (error: any) => {
-          reject(false);
-        }
-      });
-    });
+  hasRole(requiredRoles: number[]): boolean {
+    if (sessionStorage.getItem("user_r")) {
+      let role = Number(sessionStorage.getItem("user_r"));
+      return requiredRoles.some(r => r === role);
+    }
+    return false
   }
 
 
@@ -65,6 +58,7 @@ export class AuthService {
         this.cookieService.delete('keepLoggedIn');
         this.cookieService.delete('IsAuthentified');
         this.setLoggedIn(false);
+        sessionStorage.clear();
         this.router.navigate(['/login']);
       }
       ));
@@ -79,6 +73,7 @@ export class AuthService {
   }
 
   setIsAuthentified(isAuthentified: boolean): void {
+    this.setLoggedIn(isAuthentified);
     this.cookieService.set('IsAuthentified', isAuthentified.toString());
   }
 

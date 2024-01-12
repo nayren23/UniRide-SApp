@@ -6,19 +6,12 @@ export function roleGuardFactory(route: ActivatedRouteSnapshot, state: RouterSta
   const authService = inject(AuthService);
   const router = inject(Router);
   const requiredRoles = route.data['roles'] as number[];
-
-  return authService.hasRole(requiredRoles).then((hasRole: boolean) => {
-    if (hasRole) {
+    if (authService.hasRole(requiredRoles)) {
       return true;
     } else {
       router.navigate(['/login']);
       return false;
     }
-  }).catch(() => {
-    router.navigate(['/login']);
-    return false;
-  });
-
 }
 
 
