@@ -29,7 +29,6 @@ export class NavbarComponent implements OnInit {
   }
 
   updateMenuItems(): void {
-    console.log(Number(sessionStorage.getItem("user_r")))
     
     if (sessionStorage.getItem("user_r"))
       this.userRole = Number(sessionStorage.getItem("user_r"))
