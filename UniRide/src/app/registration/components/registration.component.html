@@ -1,5 +1,5 @@
-<form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
-    <p-card class="flex justify-content-center flex-wrap" [style]="{'min-width':'30%'}">
+<form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()" class="flex justify-content-center flex-wrap">
+    <p-card id="card" class="flex justify-content-center flex-wrap">
         <div class="w-full flex justify-content-center">
             <h2 class="text-2xl font-semibold mb-2">Inscription</h2>
         </div>
@@ -143,8 +143,15 @@
         </div>
 
         <!-- Bouton Suivant -->
-        <div>
+        <div class="flex justify-content-center flex-wrap">
             <p-button type="submit" label="S'inscrire" [disabled]="!inscriptionForm.valid"></p-button>
+        </div>
+        <div>
+            <p class="text-justify">
+                En vous inscrivant vous acceptez les <a href="about/conditions">Conditions générales d'utilisation</a>
+                de
+                l'application.
+            </p>
         </div>
     </p-card>
 </form>

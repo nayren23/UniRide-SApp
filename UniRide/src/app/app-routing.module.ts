@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   { path: 'validate-passenger', loadChildren: () => import('./validate-passenger/validate-passenger.module').then(m => m.ValidatePassengerModule) },
   { path: 'profil-information', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
+  { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
