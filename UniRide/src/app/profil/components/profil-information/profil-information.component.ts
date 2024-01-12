@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfilService } from '../../core/services/profil/profil.service';
-import { User } from '../../../app/core/models/user.model'
-import { Car } from '../../../app/core/models/car.model'
+import { ProfilService } from '../../../core/services/profil/profil.service';
+import { User } from '../../../../app/core/models/user.model'
+import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
-import { userDocuments } from '../../core/models/user-documents.model';
+import { userDocuments } from '../../../core/models/user-documents.model';
 
 
 interface FileUploadEvent {
@@ -158,7 +158,7 @@ export class ProfilInformationComponent implements OnInit {
   convertDataType(type: string) {
     switch (type) {
       case 'license':
-       return 'license'
+        return 'license'
 
       case 'card':
         return 'id_card';
@@ -176,7 +176,7 @@ export class ProfilInformationComponent implements OnInit {
   convertRouteType(type: string) {
     switch (type) {
       case 'license':
-       return 'license'
+        return 'license'
 
       case 'card':
         return 'id-card';
@@ -280,7 +280,7 @@ export class ProfilInformationComponent implements OnInit {
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 
-      this.profilService.saveDocument(file, this.convertDataType(documentType),this.convertRouteType(documentType)).subscribe({
+      this.profilService.saveDocument(file, this.convertDataType(documentType), this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
           this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
           document.url = URL.createObjectURL(file);
@@ -311,7 +311,7 @@ export class ProfilInformationComponent implements OnInit {
         }
       });
     } else {
-   
+
       console.log('Aucun fichier sélectionné.');
     }
   }

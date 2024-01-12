@@ -31,6 +31,7 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/user/logout`).pipe(
       tap(() => {
+        console.log('logout');
         this.cookieService.delete('keepLoggedIn');
         this.cookieService.delete('IsAuthentified');
         this.router.navigate(['/logIn']);

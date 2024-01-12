@@ -2,7 +2,13 @@
     <p-table [value]="passengers">
         <ng-template pTemplate="body" let-passenger>
             <tr [ngClass]="{'row-accessories': passenger.id < 0}">
-                <td><p-avatar *ngIf="passenger.id >= -1" icon="pi pi-user" styleClass="mr-2"></p-avatar>{{ passenger.firstname }} {{ passenger.lastname }}</td>
+                <td><p-avatar *ngIf="passenger.id >= -1" icon="pi pi-user" styleClass="mr-2"></p-avatar>{{
+                    passenger.firstname }} {{ passenger.lastname }}
+                    <p-tag *ngIf="passenger.id >= -1 && (tripStatus == 3 || tripStatus == 4)"
+                        [severity]="chipValue(passenger.joined)"><i class="text-l">{{
+                            getStatusLabel(passenger.joined)
+                            }}</i></p-tag>
+                </td>
             </tr>
         </ng-template>
     </p-table>
