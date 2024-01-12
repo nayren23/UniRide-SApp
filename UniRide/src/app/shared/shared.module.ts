@@ -36,6 +36,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { ToolbarModule } from 'primeng/toolbar';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { ToolbarModule } from 'primeng/toolbar';
     InputTextModule,
     FileUploadModule,
     DialogModule,
-    ToolbarModule
+    ToolbarModule,
+    PasswordModule
   ]
 })
 export class SharedModule { }

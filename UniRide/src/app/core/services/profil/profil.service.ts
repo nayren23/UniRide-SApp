@@ -35,32 +35,6 @@ editUserInfo(field: keyof User, updatedValue: string): Observable<any> {
   return this.http.post(endpoint, updatedUser, { headers });
 }
 
-addCar(car: Car): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.post(`${this.apiUrl}/car/add`, car, { headers });
-}
-
-updateCar(car: Car): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.put(`${this.apiUrl}/car/update`, car, { headers });
-}
-
-getCarInformation(): Observable<Car> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-
-  });
-
-  return this.http.get<Car>(`${this.apiUrl}/car/info`, { headers });
-}
 getUserDocumentsInfo(): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/user/documents/infos`);
 }
@@ -68,7 +42,6 @@ getUserDocumentsInfo(): Observable<any> {
 saveProfilePicture(file: File): Observable<any> {
   const formData: FormData = new FormData();
   formData.append("pfp", file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
-  console.log(formData);
   return this.http.post<any>(`${this.apiUrl}/user/save/pfp`, formData);
 
 }
@@ -76,10 +49,16 @@ saveProfilePicture(file: File): Observable<any> {
 saveDocument(file: File,typeData:string, typeRoute: string): Observable<any> {
   const formData: FormData = new FormData();
   formData.append(typeData, file, file.name);  // Utilisez le nom du fichier comme valeur de la clé
-  console.log(formData);
   return this.http.post<any>(`${this.apiUrl}/user/save/${typeRoute}`, formData);
 }
 
+changePassword(changePasswordFormData: any): Observable<any> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  return this.http.post<any>(`${this.apiUrl}/user/change/password`, changePasswordFormData, { headers });
+}
 
 }
 
