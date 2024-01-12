@@ -43,7 +43,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/users_informations`,
+      `${this.apiUrl}/user/users-informations`,
       { headers: headers }
     )
   }
@@ -63,7 +63,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.delete(
-      `${this.apiUrl}/user/user_management/${userId}`,
+      `${this.apiUrl}/user/user-management/${userId}`,
       { headers: headers }
     )
   }

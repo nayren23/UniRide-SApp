@@ -36,7 +36,7 @@ export class DocumentVerificationService {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/document_user/${id_user}`,
+      `${this.apiUrl}/user/document-user/${id_user}`,
       { headers: headers }
     )
   }
