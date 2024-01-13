@@ -9,7 +9,7 @@ import { UserInterface } from '../../interface/user.interface';
   providedIn: 'root'
 })
 export class UserService implements UserInterface {
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -23,7 +23,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/driver/infos/${userId}`,
+      `${this.backUrl}/user/driver/infos/${userId}`,
       { headers: headers }
     )
   }
@@ -33,7 +33,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/infos/${userId}`,
+      `${this.backUrl}/user/infos/${userId}`,
       { headers: headers }
     )
   }
@@ -43,7 +43,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/users_informations`,
+      `${this.backUrl}/user/users_informations`,
       { headers: headers }
     )
   }
@@ -53,7 +53,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/infos/${userId}`,
+      `${this.backUrl}/user/infos/${userId}`,
       { headers: headers }
     )
   }
@@ -63,7 +63,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.delete(
-      `${this.apiUrl}/user/user_management/${userId}`,
+      `${this.backUrl}/user/user_management/${userId}`,
       { headers: headers }
     )
   }

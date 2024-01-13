@@ -11,7 +11,7 @@ import { AuthService } from '../auth/auth.service'; // Importez le service d'aut
 })
 export class TripService {
 
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -27,7 +27,7 @@ export class TripService {
 
     // Effectuer la requête HTTP avec l'en-tête d'autorisation
     return this.http.post(
-      `${this.apiUrl}/trip/propose`,
+      `${this.backUrl}/trip/propose`,
       JSON.stringify(tripData),
       { headers: headers }
     ).pipe(
@@ -40,7 +40,7 @@ export class TripService {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}/trip`,
+      `${this.backUrl}/trip`,
       searchParams,
       { headers: headers }
     ).pipe(
@@ -53,7 +53,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/trip/driver/current?page=${page}`,
+      `${this.backUrl}/trip/driver/current?page=${page}`,
       { headers: headers }
     )
   }
@@ -62,7 +62,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/trip/${tripId}`,
+      `${this.backUrl}/trip/${tripId}`,
       { headers: headers }
     )
   }
@@ -71,7 +71,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/trip/${tripId}/passengers`,
+      `${this.backUrl}/trip/${tripId}/passengers`,
       { headers: headers }
     )
   }
@@ -81,7 +81,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/trip/passenger/current`,
+      `${this.backUrl}/trip/passenger/current`,
       { headers: headers }
     )
     return of([
@@ -109,7 +109,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.put(
-      `${this.apiUrl}/trip/${tripId}/start`,
+      `${this.backUrl}/trip/${tripId}/start`,
       {},
       { headers: headers }
     )
@@ -120,7 +120,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.put(
-      `${this.apiUrl}/trip/${tripId}/end`,
+      `${this.backUrl}/trip/${tripId}/end`,
       {},
       { headers: headers }
     )
@@ -131,7 +131,7 @@ export class TripService {
       'Content-Type': 'application/json'
     });
     return this.http.put(
-      `${this.apiUrl}/trip/${tripId}/cancel`,
+      `${this.backUrl}/trip/${tripId}/cancel`,
       {},
       { headers: headers }
     )

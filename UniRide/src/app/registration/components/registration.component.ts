@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environements/environment.prod';
+import { environment } from '../../../environements/environement';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -53,7 +53,7 @@ export class RegistrationComponent {
   }
   onSubmit() {
     //Route pour insertion data
-    const apiUrlRegister = environment.apiUrl + "/user/register";
+    const backUrlRegister = environment.backUrl + "/user/register";
     console.log(this.inscriptionForm.value)
 
 
@@ -89,7 +89,7 @@ export class RegistrationComponent {
 
 
       //Envoie des infos personnel
-      this.http.post(apiUrlRegister, formData, { headers: headers }).subscribe(
+      this.http.post(backUrlRegister, formData, { headers: headers }).subscribe(
         (response) => {
           console.log(response);
           this.toastr.success('Félicitations ! Votre inscription a réussi.', 'Inscription réussie');
