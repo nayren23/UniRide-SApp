@@ -1,3 +1,12 @@
+<p-card header="Information !" class="m-3">
+    <p class="m-0">
+        Vous avez la possibilité de cliquer sur la photo pour l'afficher en taille réelle et d'effectuer un zoom si
+        nécessaire. Veuillez n'accepter le document qu'après sa vérification, car il sera ensuite supprimé afin de
+        préserver l'intégrité des données. <br> Pour refuser un document, veuillez fournir un motif comprenant au moins
+        5 caractères avant de procéder au rejet.
+    </p>
+</p-card>
+
 <p-dataView #dv [value]="documents">
     <ng-template let-document pTemplate="listItem">
         <div class="col-12">
@@ -32,8 +41,7 @@
                         <div class="card flex justify-content-center gap-2" *ngIf="document.status !== '-1'">
                             <div class="card flex justify-content-center">
                                 <textarea rows="3" cols="30" pInputTextarea [autoResize]="true"
-                                    [(ngModel)]="textareaValues[document.type]"
-                                    placeholder="Avant de procéder au refus, veuillez indiquer un motif."
+                                    [(ngModel)]="textareaValues[document.type]" placeholder="Motif de refus"
                                     maxlength="255"></textarea>
                             </div>
                             <p-toast></p-toast>
