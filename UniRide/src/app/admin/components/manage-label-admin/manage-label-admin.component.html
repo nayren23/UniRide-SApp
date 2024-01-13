@@ -1,4 +1,12 @@
 <div class="card">
+
+    <p-card header="Information !">
+        <p class="m-0">
+            Vous êtes limité à un maximum de 5 labels par rôle, sur ce site afin d'améliorer au maximum, l'expérience
+            utilisateur
+            pour les conducteurs et les passagers d'Uniride.
+        </p>
+    </p-card>
     <p-toast></p-toast>
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
@@ -6,26 +14,38 @@
                 (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
-    <p-table #dt [value]="labels" [rows]="10" [paginator]="true" [globalFilterFields]="['name', 'description']"
-        [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLabels" [rowHover]="true" dataKey="id"
+    <p-table #dt [value]="labels" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name', 'description', 'labelRole']" [tableStyle]="{ 'min-width': '75rem' }"
+        [(selection)]="selectedLabels" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
         [showCurrentPageReport]="true">
 
         <ng-template pTemplate="header">
             <tr>
+                <th pSortableColumn="id_criteria" style="min-width: 15rem">
+                    ID <p-sortIcon field="id_criteria"></p-sortIcon>
+                </th>
+
                 <th pSortableColumn="name" style="min-width: 15rem">
                     Nom <p-sortIcon field="name"></p-sortIcon>
                 </th>
                 <th pSortableColumn="description">
                     Description <p-sortIcon field="description"></p-sortIcon>
                 </th>
-                <th></th>
+                <th pSortableColumn="role" style="min-width:10rem">Role <p-sortIcon field="labelRole"></p-sortIcon>
+                </th>
+                <th>Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-label>
             <tr>
+                <td>{{ label.id_criteria }}</td>
                 <td>{{ label.name }}</td>
                 <td>{{ label.description }}</td>
+                <td>
+                    <p-tag [value]="convertRoleIntoString(label.role).toUpperCase()"
+                        [severity]="getSeverity(convertRoleIntoString(label.role))"></p-tag>
+                </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2"
                         (click)="editLabel(label)"></button>
@@ -45,6 +65,19 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content">
         <div class="field">
+            <label for="labelRole">Rôle</label>
+            <p-dropdown [(ngModel)]="label.role" inputId="labelRole" [options]="statuses">
+                <ng-template pTemplate="selectedItem">
+                    <p-tag [value]="convertRoleIntoString(label.role).toUpperCase()"
+                        [severity]="getSeverity(convertRoleIntoString(label.role)).toUpperCase()"></p-tag>
+                </ng-template>
+                <ng-template let-option pTemplate="item">
+                    <p-tag [value]="option.label" [severity]="getSeverity(option.label)"></p-tag>
+                </ng-template>
+            </p-dropdown>
+        </div>
+
+        <div class="field">
             <label for="name">Nom</label>
             <input type="text" pInputText id="name" [(ngModel)]="label.name" required autofocus />
             <small class="p-error" *ngIf="submitted && !label.name">Le nom est obligatoire.</small>
@@ -54,6 +87,8 @@
             <textarea id="description" pInputTextarea [(ngModel)]="label.description" required rows="3"
                 cols="20"></textarea>
         </div>
+
+
     </ng-template>
 
     <ng-template pTemplate="footer">

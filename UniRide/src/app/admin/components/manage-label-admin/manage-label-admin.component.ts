@@ -35,6 +35,12 @@ export class ManageLabelAdminComponent implements OnInit {
 
   ngOnInit() {
     this.getLabels();
+
+    this.statuses = [
+      { label: 'PASSAGER', value: 2 },
+      { label: 'CONDUCTEUR', value: 1 },
+      { label: 'NON_ATTRIBUE', value: null }
+    ];
   }
 
   getLabels() {
@@ -45,7 +51,9 @@ export class ManageLabelAdminComponent implements OnInit {
           const label: Label = {
             id_criteria: test.label.id_criteria,
             name: test.label.name,
-            description: test.label.description
+            description: test.label.description,
+            role: test.label.role
+
           }
           this.labels.push(label);
         });
@@ -62,7 +70,7 @@ export class ManageLabelAdminComponent implements OnInit {
   }
 
   openNew() {
-    this.label = { id_criteria: 0, name: '', description: '' }
+    this.label = { id_criteria: 0, name: '', description: '', role: 1 }
     this.submitted = false;
     this.labelDialog = true;
   }
@@ -94,7 +102,6 @@ export class ManageLabelAdminComponent implements OnInit {
     this.submitted = true;
     if (this.label.name?.trim()) {
       if (this.label.id_criteria) {
-        console.log('this.label:', this.label);
         this.labelService.updateLabel(label).subscribe({
           next: (data: any) => {
             this.getLabels();
@@ -124,20 +131,6 @@ export class ManageLabelAdminComponent implements OnInit {
     }
   }
 
-  /*
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.labels.length; i++) {
-      if (this.labels[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-  
-    return index;
-  }
-  */
-
   editLabel(label: Label) {
     this.label = { ...label };
     this.labelDialog = true;
@@ -161,6 +154,48 @@ export class ManageLabelAdminComponent implements OnInit {
         });
       }
     });
+  }
+
+  /**
+   * Return the severity of the status
+   * @param status 
+   * @returns 
+   */
+  getSeverity(status: any) {
+    switch (status) {
+      case 'PASSAGER':
+        return 'success';
+
+      case 'CONDUCTEUR':
+        return 'warning';
+
+      case "NON_ATTRIBUE":
+        return 'danger';
+
+      default:
+        return 'erreur';
+    }
+  }
+
+  /**
+   * Convert the role into a string
+   * @param role 
+   * @returns 
+   */
+  convertRoleIntoString(role: any) {
+    switch (role) {
+      case 1:
+        return "CONDUCTEUR";
+
+      case 2:
+        return "PASSAGER";
+
+      case null:
+        return "NON_ATTRIBUE";
+
+      default:
+        return "ERREUR";
+    }
   }
 }
 
