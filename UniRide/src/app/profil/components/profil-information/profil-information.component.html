@@ -174,20 +174,7 @@
     <ng-container *ngFor="let document of userDocuments">
       <div class="col-12">
         <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-          <p-button *ngIf="document.url.includes('pdf')" (click)="displayPDF(document.type)" icon="pi pi-external-link"
-            label="Afficher"></p-button>
-          <p-dialog *ngIf="document.url.includes('pdf')" [(visible)]="display[document.type]" #dialog
-            (onShow)="dialog.maximize()">
-            <div class="flex justify-content-center align-items-center">
-              <p-button class="mt-2 mb-2 mr-1" severity="secondary" [text]="true" size="small" [rounded]="true"
-                (click)="zoomIn()">+</p-button>
-              <p-button class="mt-2 mb-2 ml-1" severity="secondary" [text]="true" size="small" [rounded]="true"
-                (click)="zoomOut()">-</p-button>
-            </div>
-            <pdf-viewer [src]="document.url" [render-text]="true" [fit-to-page]="true" [zoom]="zoom"
-              style="display: block; width:100%; height:90%" class="pdf-viewer">
-            </pdf-viewer>
-          </p-dialog>
+          <app-display-pdf *ngIf="document.url.includes('pdf')" [document]="document"></app-display-pdf>
           <p-image *ngIf="!document.url.includes('pdf')" src="{{document.url}}"
             alt="image {{convertType(document.type)}}" width="250" [preview]="true"></p-image>
           <div

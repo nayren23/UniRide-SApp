@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DistancePipe } from './distance/distance.pipe';
+import { DistancePipe } from './pipes/distance/distance.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -40,13 +40,19 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { PasswordModule } from 'primeng/password';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DisplayPdfComponent } from './components/display-pdf/display-pdf.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
     DistancePipe,
+    DisplayPdfComponent
   ],
   imports: [
     CommonModule,
+    ButtonModule,
+    DialogModule,
+    PdfViewerModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -93,6 +99,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     PasswordModule,
     InputNumberModule,
     CheckboxModule,
+    DisplayPdfComponent,
   ]
 })
 export class SharedModule { }

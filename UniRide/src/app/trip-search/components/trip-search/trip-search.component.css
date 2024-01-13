@@ -45,7 +45,7 @@ h2 {
     position: relative;
     margin: 30px 0;
     width: 310px;
-    border-bottom: 2px solid  white;
+    border-bottom: 2px solid white;
 }
 
 .inputbox label {
@@ -123,6 +123,7 @@ button {
 #map {
     width: 90%;
     height: 75vh;
+    border-radius: 25px;
 }
 
 .trip-search {

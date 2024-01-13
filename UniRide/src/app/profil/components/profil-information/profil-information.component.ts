@@ -4,8 +4,7 @@ import { CarService } from '../../../core/services/car/car.service';
 import { User } from '../../../../app/core/models/user.model'
 import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
-import { userDocuments } from '../../../core/models/user-documents.model';
-import { Dialog } from 'primeng/dialog';
+import { UserDocuments } from '../../../core/models/user-documents.model';
 
 interface FileUploadEvent {
   originalEvent: any;
@@ -24,7 +23,7 @@ export class ProfilInformationComponent implements OnInit {
   isNotDriver: boolean = true;
   hasCar!: boolean;
   hasProfilePicture: boolean = false;
-  userDocuments: userDocuments[] = [];
+  userDocuments: UserDocuments[] = [];
   uploadedFiles: { [key: string]: File[] } = {};
   showUploadPhoto: boolean = false;
   changePasswordFormData = {
@@ -40,9 +39,6 @@ export class ProfilInformationComponent implements OnInit {
     brand: '',
     total_places: 0
   };
-  display: { [key: string]: boolean } = {};
-  zoom: number = 1;
-
 
   constructor(
     private profilService: ProfilService,
@@ -75,12 +71,9 @@ export class ProfilInformationComponent implements OnInit {
       next: (data: any) => {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
-            const userDocument = document as userDocuments;
+            const userDocument = document as UserDocuments;
             console.log('userDocument', userDocument.type);
             this.userDocuments.push(userDocument);
-            if (userDocument.url.includes('pdf')) {
-              this.display[userDocument.type] = false;
-            }
           });
         });
       },
@@ -88,10 +81,6 @@ export class ProfilInformationComponent implements OnInit {
         console.error('Erreur lors de la récupération des informations sur les documents', error);
       }
     });
-  }
-
-  displayPDF(type: string) {
-    this.display[type] = !this.display[type];
   }
 
   getuserInfo(): void {
@@ -292,7 +281,7 @@ export class ProfilInformationComponent implements OnInit {
     );
   }
 
-  onUpload(event: FileUploadEvent, document: userDocuments) {
+  onUpload(event: FileUploadEvent, document: UserDocuments) {
     const documentType = document.type;
 
     if (event.files && event.files.length > 0) {
@@ -383,17 +372,6 @@ export class ProfilInformationComponent implements OnInit {
     const newPassword = this.changePasswordFormData.new_password_confirmation;
 
     return oldPassword === newPassword;
-
-
-  }
-
-
-  zoomIn(): void {
-    this.zoom += 0.1;
-  }
-
-  zoomOut(): void {
-    if (this.zoom > 0.1) this.zoom -= 0.1;
   }
 }
 

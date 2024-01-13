@@ -5,7 +5,7 @@ import { User } from '../../../core/models/user.model'
 import { Car } from '../../../core/models/car.model'
 import { environment } from '../../../../environements/environement';
 import { AuthService } from '../auth/auth.service';
-import { userDocuments } from '../../../core/models/user-documents.model'
+import { UserDocuments } from '../../../core/models/user-documents.model'
 
 @Injectable({
   providedIn: 'root'
