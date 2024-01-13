@@ -9,10 +9,10 @@ import { environment } from '../../../../environements/environement';
   providedIn: 'root'
 })
 export class AddressService {
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
   private universityAddress!: any;
 
-  private apiKey = 'AIzaSyBMreuA5LC2BJ2f-HFPPhYISSIu0mSS2Gs';
+  private apiKey = environment.googleKey;
   private geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
 
   constructor(private http: HttpClient) { }
@@ -28,7 +28,7 @@ export class AddressService {
     });
 
     return this.http.post(
-      `${this.apiUrl}/address/add`,
+      `${this.backUrl}/address/add`,
       JSON.stringify(addressData),
       { headers: headers }
     ).pipe(
@@ -67,7 +67,7 @@ export class AddressService {
     });
 
     return this.http.get(
-      `${this.apiUrl}/address/university`,
+      `${this.backUrl}/address/university`,
       { headers: headers }
     ).pipe(
       switchMap((response: any) => this.getPlaceDetails(response["address"]).pipe(

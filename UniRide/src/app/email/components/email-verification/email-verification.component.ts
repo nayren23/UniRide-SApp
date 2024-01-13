@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../environements/environment.prod';
+import { environment } from '../../../../environements/environement';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -24,10 +24,10 @@ export class EmailVerificationComponent implements OnInit {
     const tokenEmail = this.route.snapshot.params['token'];
 
     if (tokenEmail) {
-      const apiUrl = environment.apiUrl + '/user/verify/email/' + tokenEmail;
+      const backUrl = environment.backUrl + '/user/verify/email/' + tokenEmail;
 
       // Utilisez subscribe pour déclencher la requête GET
-      this.http.get(apiUrl).subscribe(
+      this.http.get(backUrl).subscribe(
         (response: any) => {
           console.log('Réponse de la requête GET :', response);
 

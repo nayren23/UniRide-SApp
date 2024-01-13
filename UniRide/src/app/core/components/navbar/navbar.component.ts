@@ -22,19 +22,19 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.authService.isLoggedIn.subscribe((loggedInStatus: any) => {
       this.isLoggedIn = loggedInStatus;
-      this.updateMenuItems(); 
+      this.updateMenuItems();
     });
 
-    this.updateMenuItems(); 
+    this.updateMenuItems();
   }
 
   updateMenuItems(): void {
-    
+
     if (sessionStorage.getItem("user_r"))
       this.userRole = Number(sessionStorage.getItem("user_r"))
     else
       this.userRole = -1
-      
+
     if (this.isLoggedIn) {
       this.items = [
         {
@@ -45,14 +45,14 @@ export class NavbarComponent implements OnInit {
           }
         }]
 
-        if (this.userRole == 1 || this.userRole==2) {
-          this.items.push({
-            label: 'Rechercher un trajet',
-            icon: 'pi pi-fw pi-search',
-            command: () => {
-              this.navigate("/trips/search");
-            }
-          },
+      if (this.userRole == 1 || this.userRole == 2) {
+        this.items.push({
+          label: 'Rechercher un trajet',
+          icon: 'pi pi-fw pi-search',
+          command: () => {
+            this.navigate("/trips/search");
+          }
+        },
           {
             label: 'Trajets Passager',
             icon: 'pi pi-fw pi-list',
@@ -60,33 +60,33 @@ export class NavbarComponent implements OnInit {
               this.navigate("/trips/passenger");
             }
           })
-        }
-
-        if (this.userRole==1){
-          this.items.push({
-            label: 'Proposer un trajet',
-            icon: 'pi pi-fw pi-plus-circle',
-            command: () => {
-              this.navigate("/trips/create");
-            }
-          },{
-            label: 'Trajets Proposés',
-            icon: 'pi pi-fw pi-list',
-            command: () => {
-              this.navigate("/trips/proposed");
-            }
-          })
-        }
-        
-        if (this.userRole==0) {
-          this.items.push({
-            label: 'Admin',
-            command: () => {
-              this.navigate("admin/documents");
-            }
-          })
       }
-        
+
+      if (this.userRole == 1) {
+        this.items.push({
+          label: 'Proposer un trajet',
+          icon: 'pi pi-fw pi-plus-circle',
+          command: () => {
+            this.navigate("/trips/create");
+          }
+        }, {
+          label: 'Trajets Proposés',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/proposed");
+          }
+        })
+      }
+
+      if (this.userRole == 0) {
+        this.items.push({
+          label: 'Admin',
+          command: () => {
+            this.navigate("admin/documents");
+          }
+        })
+      }
+
       this.userItems = [
         {
           label: 'Mon Profil',
@@ -131,7 +131,7 @@ export class NavbarComponent implements OnInit {
       tap(() => {
         this.sidebarVisible = false;
         this.navigate("/login");
-        this.updateMenuItems(); 
+        this.updateMenuItems();
       })).subscribe();
   }
 

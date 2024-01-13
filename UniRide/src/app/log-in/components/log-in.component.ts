@@ -35,7 +35,7 @@ export class LogInComponent {
           if (response['informations_verified']['email_verified']) {
             this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
             this.authService.getUserIDAndRole().subscribe({
-              next: (data:any) => {
+              next: (data: any) => {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);

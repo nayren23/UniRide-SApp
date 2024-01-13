@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
-import { environment } from '../../../environements/environment.prod';
+import { environment } from '../../../environements/environement';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!req.url.includes(environment.apiUrl)) {
+        if (!req.url.includes(environment.backUrl)) {
             return next.handle(req);
         }
         req = req.clone({

@@ -20,7 +20,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${environment.apiUrl}/user/role`,
+      `${environment.backUrl}/user/role`,
       { headers: headers }
     );
   }
@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/user/logout`).pipe(
+    return this.http.delete(`${environment.backUrl}/user/logout`).pipe(
       tap(() => {
         console.log('logout');
         sessionStorage.clear();
@@ -83,7 +83,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     return this.http.post(
-      `${environment.apiUrl}/user/auth`,
+      `${environment.backUrl}/user/auth`,
       {
         login: params.login,
         password: params.password,
@@ -102,6 +102,6 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.get(`${environment.apiUrl}/user/refresh`)
+    return this.http.get(`${environment.backUrl}/user/refresh`)
   }
 }

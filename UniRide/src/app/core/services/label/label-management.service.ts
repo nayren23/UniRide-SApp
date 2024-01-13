@@ -10,7 +10,7 @@ import { Label } from '../../models/label.model';
 })
 export class LabelService implements LabelInterface {
 
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/label`,
+      `${this.backUrl}/user/label`,
       { headers: headers }
     )
   }
@@ -29,7 +29,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.delete(
-      `${this.apiUrl}/user/label/${id}`,
+      `${this.backUrl}/user/label/${id}`,
       { headers: headers }
     )
   }
@@ -39,7 +39,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.put(
-      `${this.apiUrl}/user/label`,
+      `${this.backUrl}/user/label`,
       { name: label.name, description: label.description, id_criteria: label.id_criteria },
       { headers: headers }
     )
@@ -50,7 +50,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}/user/label`,
+      `${this.backUrl}/user/label`,
       { name: label.name, description: label.description },
       { headers: headers }
     )

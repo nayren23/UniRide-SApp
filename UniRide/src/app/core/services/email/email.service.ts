@@ -15,7 +15,7 @@ export class EmailService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${environment.apiUrl}/user/email-confirmation`,
+      `${environment.backUrl}/user/email-confirmation`,
       { headers: headers }
     )
   }

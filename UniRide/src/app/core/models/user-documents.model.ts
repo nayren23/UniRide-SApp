@@ -1,4 +1,4 @@
-export class userDocuments {
+export class UserDocuments {
     url!: string
     status!: string
     type!: string
