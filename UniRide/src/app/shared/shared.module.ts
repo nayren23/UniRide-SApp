@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DistancePipe } from './distance/distance.pipe';
+import { DistancePipe } from './pipes/distance/distance.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -14,6 +14,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { AccordionModule } from 'primeng/accordion';
 import { BlockUIModule } from 'primeng/blockui';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -37,13 +38,21 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PasswordModule } from 'primeng/password';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DisplayPdfComponent } from './components/display-pdf/display-pdf.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
     DistancePipe,
+    DisplayPdfComponent
   ],
   imports: [
     CommonModule,
+    ButtonModule,
+    DialogModule,
+    PdfViewerModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -86,7 +95,11 @@ import { PasswordModule } from 'primeng/password';
     FileUploadModule,
     DialogModule,
     ToolbarModule,
-    PasswordModule
+    MessageModule,
+    PasswordModule,
+    InputNumberModule,
+    CheckboxModule,
+    DisplayPdfComponent,
   ]
 })
 export class SharedModule { }

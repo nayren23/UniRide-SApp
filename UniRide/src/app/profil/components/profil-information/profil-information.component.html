@@ -33,7 +33,8 @@
         *ngIf="!editingField || editingField !== 'login'">
       <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'login'"
         [(ngModel)]="editedUser.login" placeholder="Login" [ngModelOptions]="{standalone: true}">
-      <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('login')"></p-button>
+      <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+        (click)="toggleEdit('login')"></p-button>
 
       <p class="m-0">Mot de passe:
         <input pInputText type="text" class="p-inputtext-sm" placeholder="*********" [disabled]="true" />
@@ -64,7 +65,8 @@
           </ng-template>
 
           <ng-template pTemplate="footer">
-            <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="changePassword()"></button>
+            <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text"
+              (click)="changePassword()"></button>
           </ng-template>
         </p-dialog>
       </p>
@@ -73,42 +75,48 @@
           *ngIf="!editingField || editingField !== 'firstname'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'firstname'"
           [(ngModel)]="editedUser.firstname" placeholder="Prénom" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('firstname')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('firstname')"></p-button>
       </p>
       <p class="m-0">Nom:
         <input pInputText type="text" class="p-inputtext-sm" [disabled]="true" placeholder="{{ user.lastname }}"
           *ngIf="!editingField || editingField !== 'lastname'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'lastname'"
           [(ngModel)]="editedUser.lastname" placeholder="Nom" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('lastname')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('lastname')"></p-button>
       </p>
       <p class="m-0">Email:
         <input pInputText type="text" class="p-inputtext-sm" [disabled]="true" placeholder="{{ user.student_email }}"
           *ngIf="!editingField || editingField !== 'student_email'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'student_email'"
           [(ngModel)]="editedUser.student_email" placeholder="Email" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('student_email')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('student_email')"></p-button>
       </p>
       <p class="m-0">Genre:
         <input pInputText type="text" class="p-inputtext-sm" [disabled]="true" placeholder="{{ user.gender }}"
           *ngIf="!editingField || editingField !== 'gender'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'gender'"
           [(ngModel)]="editedUser.gender" placeholder="Genre" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('gender')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('gender')"></p-button>
       </p>
       <p class="m-0">Numéro de téléphone:
         <input pInputText type="text" class="p-inputtext-sm" [disabled]="true" placeholder="{{ user.phone_number }}"
           *ngIf="!editingField || editingField !== 'phone_number'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'phone_number'"
           [(ngModel)]="editedUser.phone_number" placeholder="Numéro de téléphone" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('phone_number')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('phone_number')"></p-button>
       </p>
       <p class="m-0">Description:
         <input pInputText type="text" class="p-inputtext-sm" [disabled]="true" placeholder="{{ user.description }}"
           *ngIf="!editingField || editingField !== 'description'">
         <input pInputText type="text" class="p-inputtext-sm" *ngIf="editingField === 'description'"
           [(ngModel)]="editedUser.description" placeholder="Description" [ngModelOptions]="{standalone: true}">
-          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="toggleEdit('description')"></p-button>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" "
+          (click)="toggleEdit('description')"></p-button>
       </p>
 
     </p-card>
@@ -166,8 +174,9 @@
     <ng-container *ngFor="let document of userDocuments">
       <div class="col-12">
         <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-          <p-image src="{{document.url}}" alt="image {{convertType(document.type)}}" width="250"
-            [preview]="true"></p-image>
+          <app-display-pdf *ngIf="document.url.includes('pdf')" [document]="document"></app-display-pdf>
+          <p-image *ngIf="!document.url.includes('pdf')" src="{{document.url}}"
+            alt="image {{convertType(document.type)}}" width="250" [preview]="true"></p-image>
           <div
             class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div class="flex flex-column align-items-center sm:align-items-start gap-3">

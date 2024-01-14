@@ -9,7 +9,7 @@ import { environment } from '../../../../environements/environement';
 })
 export class BookService {
 
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/book/requests`,
+      `${this.backUrl}/book/requests`,
       { headers: headers }
     )
   }
@@ -33,7 +33,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.post(
-      `${this.apiUrl}/book`,
+      `${this.backUrl}/book`,
       { "trip_id": tripId, "passenger_count": passengerCount },
       { headers: headers }
     );
@@ -45,7 +45,7 @@ export class BookService {
     });
     console.log({ "trip_id": tripId, "booker_id": bookerId, "response": response })
     return this.http.put(
-      `${this.apiUrl}/book/respond`,
+      `${this.backUrl}/book/respond`,
       { "trip_id": tripId, "booker_id": bookerId, "response": response },
       { headers: headers }
     ).pipe(
@@ -58,7 +58,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/book/${tripId}/code`,
+      `${this.backUrl}/book/${tripId}/code`,
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
@@ -70,7 +70,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/book/${tripId}`,
+      `${this.backUrl}/book/${tripId}`,
       { headers: headers }
     ).pipe(
       catchError(this.handleError)
@@ -82,7 +82,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.put(
-      `${this.apiUrl}/book/join`,
+      `${this.backUrl}/book/join`,
       { "trip_id": tripId, "booker_id": userId, "verification_code": code },
       { headers: headers }
     );
@@ -93,7 +93,7 @@ export class BookService {
       'Content-Type': 'application/json'
     });
     return this.http.delete(
-      `${this.apiUrl}/book/${tripId}/cancel`,
+      `${this.backUrl}/book/${tripId}/cancel`,
       { headers: headers }
     );
   }
