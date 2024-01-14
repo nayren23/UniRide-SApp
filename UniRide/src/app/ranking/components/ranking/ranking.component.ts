@@ -5,6 +5,8 @@ import { UserService } from '../../../core/services/user/user.service';
 import { User } from '../../../core/models/user.model';
 import { Label } from 'src/app/core/models/label.model';
 import { Ranking } from 'src/app/core/models/ranking.model';
+import { ScoreCriteria } from 'src/app/core/models/score-criteria.models';
+import { ColumnLabel } from 'src/app/core/models/column-labels.models';
 
 @Component({
   selector: 'app-ranking',
@@ -13,12 +15,16 @@ import { Ranking } from 'src/app/core/models/ranking.model';
 })
 export class RankingComponent implements OnInit {
 
-  listRanking: Ranking[] = []
   selectedRanking: any //change any to Ranking
   loading: boolean = true
   lisUsers: User[] = []
   // value: number = 0
   ratingsColumns: Label[] = []
+  rankingList: Ranking[] = []
+
+  columnLabels: ColumnLabel[] = []
+  scoreCriteriaColums: ScoreCriteria[] = []
+  rankingInterface: Ranking[] = []
 
   constructor(
     private userService: UserService,
@@ -28,24 +34,43 @@ export class RankingComponent implements OnInit {
 
   ngOnInit() {
 
-    this.userService.getDriverRanking().subscribe({
+    this.userServiceMock.getDriverRanking().subscribe({
       next: (data: any) => {
-        console.log('data:', data)
         data.ranking.forEach((ranking: any) => {
-
-          this.listRanking.push(ranking);
           const user: User = {
             id: ranking.user.id,
             firstname: ranking.user.firstname,
             lastname: ranking.user.lastname,
           }
-          this.lisUsers.push(user);
-        });
 
-        console.log('listUsers:', this.lisUsers)
-        this.loading = false
-        this.toastr.success('Le classement a été récupéré avec succès.', 'Succès ✅📄');
-        this.listRanking = [...this.listRanking]; // refresh the table
+          this.lisUsers.push(user);
+          const scoreCriteriaList: ScoreCriteria[] = ranking.scoreCriteria.map((criteria: any) =>
+            new ScoreCriteria(criteria.id, criteria.name, criteria.value)
+          )
+
+          this.scoreCriteriaColums = scoreCriteriaList
+
+          console.log('scoreCriteriaColums:', this.scoreCriteriaColums)
+
+          const rankingModel: Ranking = { 
+            user: user, 
+            average: ranking.average 
+          }
+
+          scoreCriteriaList.forEach((columnLabel: ScoreCriteria) => {
+            rankingModel[columnLabel.name] = columnLabel.value
+          });
+
+          this.rankingList.push(rankingModel);
+
+          console.log('this.rankingList:', this.rankingList)
+
+          this.loading = false
+          this.toastr.success('Le classement a été récupéré avec succès.', 'Succès ✅📄');
+          this.rankingList = [...this.rankingList]; // refresh the table
+
+
+        })
       },
       error: (error: any) => {
         this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
@@ -64,7 +89,7 @@ export class RankingComponent implements OnInit {
           }
           this.ratingsColumns.push(label);
         });
-        console.log('ratingsColumns:', this.ratingsColumns)
+        //console.log('ratingsColumns:', this.ratingsColumns)
 
       },
       error: (error: any) => {

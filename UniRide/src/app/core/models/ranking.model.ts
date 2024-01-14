@@ -1,8 +1,11 @@
-import { Label } from './label.model';
 import { User } from './user.model';
 
-export class Ranking {
-    user!: User;
-    average!: number;
-    criteria!: Label[];
+/**
+ * Dynamic ranking model
+ */
+export interface Ranking {
+    user: User
+    average: number
+    [key: string]: number | User| null
 }
+

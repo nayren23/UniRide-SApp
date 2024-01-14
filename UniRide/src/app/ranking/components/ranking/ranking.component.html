@@ -1,13 +1,13 @@
 <div class="card">
-    <p-table #dt [value]="listRanking" [(selection)]="selectedRanking" dataKey="id" [rowHover]="true" [rows]="10"
-        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
+    <p-table sortMode="multiple" #dt [value]="rankingList" dataKey="id" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}" [filterDelay]="0">
         <ng-template pTemplate="caption">
             <div class="table-header">
                 Classement Conducteurs
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-rowIndex="rowIndex">
             <tr>
                 <th style="width: 4rem">
                     <span>Position</span>
@@ -39,14 +39,19 @@
                         </p-columnFilter>
                     </div>
                 </th>
-                <th pSortableColumn="user.average"> Moyenne Globale <p-sortIcon field="user.average"></p-sortIcon> </th>
+                <th pSortableColumn="average"> Moyenne Globale <p-sortIcon field="average"></p-sortIcon>
+                </th>
 
-                <th *ngFor="let column of ratingsColumns" pSortableColumn="column.id_criteria">
-                    {{ column.name }} <p-sortIcon field="column.id_criteria"></p-sortIcon>
+                <!--pSortableColumn="{{column.name}}.value"-->
+                <th *ngFor="let column of scoreCriteriaColums" pSortableColumn="{{column.name}}">
+                    {{column.name}} <p-sortIcon field="{{column.name}}"></p-sortIcon>
                 </th>
 
             </tr>
         </ng-template>
+
+
+
         <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
             <tr class="p-selectable-row">
                 <td>{{rowIndex +1}}</td>
@@ -59,11 +64,11 @@
                     <span class="ml-1 vertical-align-middle">{{ rank.user.firstname +" " + rank.user.lastname }}</span>
                 </td>
 
-                <td>{{rank.user.average}}</td>
+                <td>{{rank.average}}</td>
 
-                <td *ngFor="let note of rank.user.scoreCriteria">
-                    <span class="p-column-title">{{ note.value }}</span>
-                    <p-rating [(ngModel)]="note.value" [readonly]="true" [cancel]="false"></p-rating>
+                <td *ngFor="let note of scoreCriteriaColums">
+                    <span class="p-column-title">{{ rank[note.name] }}</span>
+                    <p-rating [(ngModel)]="rank[note.name]" [readonly]="true" [cancel]="false"></p-rating>
                 </td>
 
             </tr>
@@ -73,5 +78,6 @@
                 <td colspan="8">Aucun classement de disponible</td>
             </tr>
         </ng-template>
+
     </p-table>
 </div>

@@ -106,71 +106,102 @@ export class UserServiceMock implements UserInterface {
         "ranking": [
             {
                 "user": {
-                    "average": "3.00",
                     "firstname": "Gabrielle",
                     "id": 10,
                     "lastname": "Moreau",
                     "profile_picture": "",
                     "role": 1,
-                    "scoreCriteria": [
+                },
+                "average": 3.00,
 
-                        {
-                            "id": 83,
-                            "name": "Conduite sûre",
-                            "value": 1
-                        },
-                        {
-                            "id": 84,
-                            "name": "Courtoisie au volant",
-                            "value": 1
-                        },
-                        {
-                            "id": 87,
-                            "name": "Amabilité ",
-                            "value": 0
-                        },
-                        {
-                            "id": 117,
-                            "name": "ambiance",
-                            "value": 5
-                        }
-
-                    ]
-                }
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 1
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 1
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 0
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 5
+                    }
+                ]
             },
             {
                 "user": {
-                    "average": "1.00",
                     "firstname": "fraise",
                     "id": 47,
                     "lastname": "FRAISE",
                     "profile_picture": "",
                     "role": 1,
-                    "scoreCriteria": [
+                },
+                "average": 4.00,
 
-                        {
-                            "id": 83,
-                            "name": "Conduite sûre",
-                            "notes": 3
-                        },
-                        {
-                            "id": 84,
-                            "name": "Courtoisie au volant",
-                            "notes": 5
-                        },
-                        {
-                            "id": 87,
-                            "name": "Amabilité ",
-                            "notes": 4
-                        },
-                        {
-                            "id": 117,
-                            "name": "ambiance",
-                            "notes": 4
-                        }
+                "scoreCriteria": [
 
-                    ]
-                }
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 3
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 5
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 4
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 4
+                    }
+                ]
+            },
+            {
+                "user": {
+                    "firstname": "John",
+                    "id": 1,
+                    "lastname": "Doe",
+                    "profile_picture": "",
+                    "role": 1,
+                },
+                "average": 4.00,
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 5
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 5
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 3
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 3
+                    }
+                ]
             }
         ]
     };
