@@ -15,7 +15,7 @@
             (click)="toggleUploadPhoto()" [link]="true"></p-button>
           <p-button *ngIf="user.profile_picture && !showUploadPhoto" label="Modifier Photo"
             (click)="toggleUploadPhoto()"></p-button>
-          <p-fileUpload *ngIf="showUploadPhoto" mode="basic" chooseLabel="Choose" name="demo[]"
+          <p-fileUpload *ngIf="showUploadPhoto" mode="basic" chooseLabel="Choisir une photo" name="demo[]"
             url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"
             (onUpload)="updateProfilePicture($event)"></p-fileUpload>
         </div>
