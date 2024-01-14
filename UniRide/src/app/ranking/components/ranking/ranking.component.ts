@@ -53,7 +53,7 @@ export class RankingComponent implements OnInit {
     })
 
 
-    this.userService.getActifCriterias().subscribe({
+    this.userService.getActifCriterias(2).subscribe({
       next: (data: any) => {
         data.criterion.forEach((criteria: any) => {
           const label: Label = {

@@ -1,6 +1,6 @@
 <div class="card">
 
-    <p-card header="Information !">
+    <p-card header="Information !" class="m-1">
         <p class="m-0">
             Vous êtes limité à un maximum de 5 labels par rôle, sur ce site afin d'améliorer au maximum, l'expérience
             utilisateur
@@ -8,7 +8,7 @@
         </p>
     </p-card>
     <p-toast></p-toast>
-    <p-toolbar styleClass="mb-4 gap-2">
+    <p-toolbar styleClass="gap-2">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nouveau Label" icon="pi pi-plus" class="p-button-success mr-2"
                 (click)="openNew()"></button>
@@ -79,12 +79,12 @@
 
         <div class="field">
             <label for="name">Nom</label>
-            <input type="text" pInputText id="name" [(ngModel)]="label.name" required autofocus />
+            <input type="text" maxlength="50" pInputText id="name" [(ngModel)]="label.name" required autofocus />
             <small class="p-error" *ngIf="submitted && !label.name">Le nom est obligatoire.</small>
         </div>
         <div class="field">
             <label for="description">Description</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="label.description" required rows="3"
+            <textarea id="description" maxlength="50" pInputTextarea [(ngModel)]="label.description" required rows="3"
                 cols="20"></textarea>
         </div>
 

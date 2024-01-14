@@ -44,6 +44,7 @@ export class UserListComponent implements OnInit {
      */
     this.statistiqueService.getTripsNumber().subscribe({
       next: (data: any) => {
+        console.log("data", data);
         this.getDataTrip(data.trip_infos)
       },
       error: (error: any) => {

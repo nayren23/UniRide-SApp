@@ -11,5 +11,5 @@ export interface UserInterface {
      */
     getDriverRanking(): Observable<any>;
 
-    getActifCriterias(): Observable<any>;
+    getActifCriterias(idRole: number): Observable<any>;
 }

@@ -78,12 +78,12 @@ export class UserService implements UserInterface {
     )
   }
 
-  getActifCriterias(): Observable<any> {
+  getActifCriterias(idRole: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.apiUrl}/user/actif-criterion`,
+      `${this.apiUrl}/user/actif-criterion/${idRole}`,
       { headers: headers }
     )
   }
