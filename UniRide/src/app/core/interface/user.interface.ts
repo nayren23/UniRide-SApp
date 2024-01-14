@@ -10,6 +10,7 @@ export interface UserInterface {
      * This method is used to get the ranking of the users
      */
     getDriverRanking(): Observable<any>;
+    getPassengerRanking(): Observable<any>;
 
     getActifCriterias(idRole: number): Observable<any>;
 }

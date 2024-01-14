@@ -78,6 +78,16 @@ export class UserService implements UserInterface {
     )
   }
 
+  getPassengerRanking(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.apiUrl}/user/passengers-ranking`,
+      { headers: headers }
+    )
+  }
+
   getActifCriterias(idRole: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

@@ -16,9 +16,19 @@ import { ColumnLabel } from 'src/app/core/models/column-labels.models';
 export class RankingComponent implements OnInit {
 
   loading: boolean = true
-  lisUsers: User[] = []
-  rankingList: Ranking[] = []
-  scoreCriteriaColums: ScoreCriteria[] = []
+  /**
+   * Attributes for driver ranking table
+   */
+  listDriver: User[] = []
+  driverRankingList: Ranking[] = []
+  scoreCriteriaColumsDriver: ScoreCriteria[] = []
+
+  /**
+   * Attributes for passenger ranking table
+   */
+  listPassenger: User[] = []
+  passengerRankingList: Ranking[] = []
+  scoreCriteriaColumsPassenger: ScoreCriteria[] = []
 
   constructor(
     private userService: UserService,
@@ -27,14 +37,15 @@ export class RankingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getRankingList()
+    this.getRankingListDriver()
+    this.getRankingListPassenger()
   }
 
   /**
    * Get the ranking list from the API
    */
-  getRankingList() {
-    this.userServiceMock.getDriverRanking().subscribe({
+  getRankingListDriver() {
+    this.userService.getDriverRanking().subscribe({
       next: (data: any) => {
         data.ranking.forEach((ranking: any) => {
           const user: User = {
@@ -43,12 +54,13 @@ export class RankingComponent implements OnInit {
             lastname: ranking.user.lastname,
             profile_picture: ranking.user.profile_picture,
           }
-          this.lisUsers.push(user);
+
+          this.listDriver.push(user);
 
           const scoreCriteriaList: ScoreCriteria[] = ranking.scoreCriteria.map((criteria: any) =>
             new ScoreCriteria(criteria.id, criteria.name, criteria.value)
           )
-          this.scoreCriteriaColums = scoreCriteriaList
+          this.scoreCriteriaColumsDriver = scoreCriteriaList
 
           const rankingModel: Ranking = {
             user: user,
@@ -59,12 +71,58 @@ export class RankingComponent implements OnInit {
             rankingModel[columnLabel.name] = columnLabel.value
           });
 
-          this.rankingList.push(rankingModel);
+          this.driverRankingList.push(rankingModel);
 
-          this.toastr.success('Le classement a été récupéré avec succès.', 'Succès ✅📄')
-          this.rankingList = [...this.rankingList] // refresh the table
+          this.driverRankingList = [...this.driverRankingList] // refresh the table
           this.loading = false
         })
+        this.toastr.success('Le classement des conducteurs a été récupéré avec succès.', 'Succès ✅📄')
+
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+      },
+    })
+  }
+
+  /**
+   * Get the ranking list from the API
+   */
+  getRankingListPassenger() {
+    this.userService.getPassengerRanking().subscribe({
+      next: (data: any) => {
+        console.log("data", data)
+        data.ranking.forEach((ranking: any) => {
+          const user: User = {
+            id: ranking.user.id,
+            firstname: ranking.user.firstname,
+            lastname: ranking.user.lastname,
+            profile_picture: ranking.user.profile_picture,
+          }
+
+          this.listPassenger.push(user);
+
+          const scoreCriteriaList: ScoreCriteria[] = ranking.scoreCriteria.map((criteria: any) =>
+            new ScoreCriteria(criteria.id, criteria.name, criteria.value)
+          )
+          this.scoreCriteriaColumsPassenger = scoreCriteriaList
+
+          const rankingModel: Ranking = {
+            user: user,
+            average: ranking.average
+          }
+
+          scoreCriteriaList.forEach((columnLabel: ScoreCriteria) => {
+            rankingModel[columnLabel.name] = columnLabel.value
+          });
+
+          this.passengerRankingList.push(rankingModel);
+
+          this.passengerRankingList = [...this.passengerRankingList] // refresh the table
+          this.loading = false
+        })
+        this.toastr.success('Le classement des passagers a été récupéré avec succès.', 'Succès ✅📄')
+
       },
       error: (error: any) => {
         this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
