@@ -243,14 +243,14 @@ export class ProfilInformationComponent implements OnInit {
 
       this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
         (response) => {
-          console.log(`Modification du champ ${this.editingField} enregistrée avec succès`, response);
+          console.log(`Modification du champ enregistrée avec succès`, response);
           this.editingField = null;
           this.getuserInfo();
-          this.toastr.success(`Modification du champ ${this.editingField} enregistrée avec succès.`, 'Info ✅📄🔄👍');
+          this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info ✅📄🔄👍');
         },
         (error) => {
           console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
-          this.toastr.success(`Erreur lors de la Modification du champ ${this.editingField}.`, 'Erreur 📄❌🚗');
+          this.toastr.error(`Erreur lors de la Modification du champ.`, 'Erreur 📄❌🚗');
         }
       );
     }
@@ -283,17 +283,18 @@ export class ProfilInformationComponent implements OnInit {
 
   onUpload(event: FileUploadEvent, document: UserDocuments) {
     const documentType = document.type;
+    const nomDocument = this.convertType(documentType);
 
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 
       this.profilService.saveDocument(file, this.convertDataType(documentType), this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
-          this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
+          this.toastr.success(`Le document ${nomDocument} a été enregistré avec succès.`, 'Info ✅📄👍')
           document.url = URL.createObjectURL(file);
         },
         error: (error: any) => {
-          this.toastr.error(`Erreur lors de l'enregistrement du document ${documentType}.`, 'Erreur 📄❌🚫');
+          this.toastr.error(`Erreur lors de l'enregistrement du document ${nomDocument}.`, 'Erreur 📄❌🚫');
           console.log('error:', error);
         }
       });
