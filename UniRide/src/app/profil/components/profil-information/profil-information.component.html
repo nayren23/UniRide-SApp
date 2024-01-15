@@ -129,33 +129,33 @@
     <p-card header="Information Véhicule">
       <form>
         <div class="p-fluid p-formgrid p-grid">
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="model">Modèle :</label>
             <input type="text" id="model" [(ngModel)]="car.model" name="model" pInputText required>
           </div>
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="licensePlate">Plaque d'immatriculation :</label>
             <input type="text" id="licensePlate" [(ngModel)]="car.license_plate" name="licensePlate" pInputText
               pattern="[A-Z]{2}-\d{3}-[A-Z]{2}" required
               title="Veuillez saisir une plaque d'immatriculation valide selon le format AA-123-BB" />
             <small>Saisissez en suivant ce modèle : AA-123-BB</small>
           </div>
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="countryLicensePlate">Pays de la plaque d'immatriculation :</label>
             <input type="text" id="countryLicensePlate" [(ngModel)]="car.country_license_plate"
               name="countryLicensePlate" pInputText pattern="[A-Z]{2}" required
               title="Veuillez saisir un code de pays à deux lettres" />
             <small>Saisissez en suivant ce modèle : AA</small>
           </div>
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="color">Couleur :</label>
             <input type="text" id="color" [(ngModel)]="car.color" name="color" pInputText required>
           </div>
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="brand">Marque :</label>
             <input type="text" id="brand" [(ngModel)]="car.brand" name="brand" pInputText required>
           </div>
-          <div class="p-field p-col">
+          <div class="p-field p-col mb-4">
             <label for="totalPlaces">Nombre de places :</label>
             <input type="number" id="totalPlaces" [(ngModel)]="car.total_places" name="totalPlaces" pInputText required
               min="0" max="4">

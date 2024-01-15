@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class RegistrationComponent implements OnInit {
   inscriptionForm!: FormGroup;
   afficherChampsFichier = false;
-  showLicenseSection: boolean = false;
+  showDriverSection: boolean = false;
   maxFileSize = 5000000; // 5 Mo
   genderOptions = [
     { label: 'Homme', value: 'H' },
@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.inscriptionForm = this.formBuilder.group({
-      showLicenseSection: [false], // Assure-toi que cette ligne est présente
+      showDriverSection: [false], // Assure-toi que cette ligne est présente
       login: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9._-]{1,50}$/)]],
       firstname: ['', [Validators.required, Validators.pattern(/^[A-Za-z-]{1,50}$/)]],
       lastname: ['', [Validators.required, Validators.pattern(/^[A-Za-z-]{1,50}$/)]],
@@ -41,10 +41,11 @@ export class RegistrationComponent implements OnInit {
       gender: ['', Validators.required],
       phone_number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       description: ['', Validators.maxLength(500)],
-      license: [''],
+      pfp: [''],
       id_card: [''],
       school_certificate: [''],
-      pfp: [''],
+      license: [''],
+      insurance: [''],
     });
     this.messages = {
       login: {
@@ -83,10 +84,6 @@ export class RegistrationComponent implements OnInit {
         severity: '',
         summary: '',
       },
-      license: {
-        severity: '',
-        summary: '',
-      },
       id_card: {
         severity: '',
         summary: '',
@@ -99,6 +96,14 @@ export class RegistrationComponent implements OnInit {
         severity: '',
         summary: '',
       },
+      license: {
+        severity: '',
+        summary: '',
+      },
+      insurance: {
+        severity: '',
+        summary: '',
+      }
     };
   }
 
@@ -124,9 +129,10 @@ export class RegistrationComponent implements OnInit {
       formData.append('phone_number', 0 + this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
       formData.append('pfp', this.inscriptionForm.get('pfp')?.value || '');
-      formData.append('license', this.inscriptionForm.get('license')?.value || '');
       formData.append('id_card', this.inscriptionForm.get('id_card')?.value || '');
       formData.append('school_certificate', this.inscriptionForm.get('school_certificate')?.value || '');
+      formData.append('license', this.inscriptionForm.get('license')?.value || '');
+      formData.append('insurance', this.inscriptionForm.get('insurance')?.value || '');
 
 
       formData.forEach((value, key) => {
@@ -183,6 +189,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   handleFileInput(event: Event, fileType: string): void {
+    console.log(fileType);
     const inputElement = event.target as HTMLInputElement;
     const file = (inputElement.files as FileList)[0];
 
@@ -204,7 +211,7 @@ export class RegistrationComponent implements OnInit {
 
 
   toggleLicenseSection(): void {
-    this.showLicenseSection = !this.showLicenseSection;
+    this.showDriverSection = !this.showDriverSection;
   }
 
   passwordsMatch(): boolean {
