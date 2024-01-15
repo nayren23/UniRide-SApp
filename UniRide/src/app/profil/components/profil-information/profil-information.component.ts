@@ -246,11 +246,11 @@ export class ProfilInformationComponent implements OnInit {
           console.log(`Modification du champ enregistrée avec succès`, response);
           this.editingField = null;
           this.getuserInfo();
-          this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info ✅📄🔄👍');
+          this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info');
         },
         (error) => {
           console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
-          this.toastr.error(`Erreur lors de la Modification du champ.`, 'Erreur 📄❌🚗');
+          this.toastr.error(`Erreur lors de la Modification du champ.`, 'Erreur');
         }
       );
     }
@@ -260,11 +260,11 @@ export class ProfilInformationComponent implements OnInit {
     this.carService.addCar(this.car).subscribe({
       next: (response) => {
         this.hasCar = true;
-        this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info ✅📄🚗👍');
+        this.toastr.success('Les informations du véhicule ont été ajoutés avec succès.', 'Info');
       },
       error: (error) => {
         console.error('Error adding car', error);
-        this.toastr.error('Les informations du véhicule n\'ont pas été ajouté.', 'Erreur 📄❌🚗');
+        this.toastr.error('Les informations du véhicule n\'ont pas été ajouté.', 'Erreur');
       }
     });
   }
@@ -272,11 +272,11 @@ export class ProfilInformationComponent implements OnInit {
     this.carService.updateCar(this.car).subscribe(
       (response) => {
         console.log('Car updated successfully', response);
-        this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info ✅📄🔄👍');
+        this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info');
       },
       (error) => {
         console.error('Error updating car', error);
-        this.toastr.error('Les informations du véhicule n\'ont pas été modifié.', 'Erreur 📄❌🔄');
+        this.toastr.error('Les informations du véhicule n\'ont pas été modifié.', 'Erreur');
       }
     );
   }
@@ -290,11 +290,11 @@ export class ProfilInformationComponent implements OnInit {
 
       this.profilService.saveDocument(file, this.convertDataType(documentType), this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
-          this.toastr.success(`Le document ${nomDocument} a été enregistré avec succès.`, 'Info ✅📄👍')
+          this.toastr.success(`Le document ${nomDocument} a été enregistré avec succès.`, 'Info')
           document.url = URL.createObjectURL(file);
         },
         error: (error: any) => {
-          this.toastr.error(`Erreur lors de l'enregistrement du document ${nomDocument}.`, 'Erreur 📄❌🚫');
+          this.toastr.error(`Erreur lors de l'enregistrement du document ${nomDocument}.`, 'Erreur');
           console.log('error:', error);
         }
       });
@@ -309,12 +309,12 @@ export class ProfilInformationComponent implements OnInit {
 
       this.profilService.saveProfilePicture(file).subscribe({
         next: (data: any) => {
-          this.toastr.success('La photo de profil a été enregistré avec succès.', 'Info ✅📄👍')
+          this.toastr.success('La photo de profil a été enregistré avec succès.', 'Info')
           this.user.profile_picture = URL.createObjectURL(file);
           this.showUploadPhoto = false;
         },
         error: (error: any) => {
-          this.toastr.error('Erreur lors de l\'enregistrement de la photo de profil.', 'Erreur 📄❌🚫');
+          this.toastr.error('Erreur lors de l\'enregistrement de la photo de profil.', 'Erreur');
           console.log('error:', error);
         }
       });

@@ -11,4 +11,5 @@ export class User {
     gender?: string;
     phone_number?: string;
     joined?: boolean;
+    timestamp_creation?: string;
 }

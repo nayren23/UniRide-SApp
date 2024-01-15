@@ -34,27 +34,29 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
       this.full_name = params['full_name'];
     });
 
-    /**
-     * Call the API to get the document verification for the user
-     */
+    this.getDocumentsVerification();
+
+  }
+
+  /**
+   * Call the API to get the document verification for the user
+   */
+  getDocumentsVerification() {
     this.documentVerificationService.getDocumentVerificationForUser(this.id_user).subscribe({
       next: (data: any) => {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const documentVerification = new DocumentVerification(this.full_name, document.url, document.status, document.type);
             this.documents.push(documentVerification);
+            this.documents = [...this.documents];
           });
         });
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des documents a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des documents a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
         console.log('error:', error);
       },
-      complete: () => {
-        this.dataView.changeLayout('list'); //We need to call this method to refresh the table, cause the table is not refreshed automatically, when we call the API
-      }
     });
-
   }
 
   /**
@@ -74,7 +76,7 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
         this.updateDocument(document, action, status);
       },
       reject: () => {
-        this.toastr.warning(`Vous n'avez pas ${action} le document`, 'Action annulée 📄🚫');
+        this.toastr.warning(`Vous n'avez pas ${action} le document`, 'Action annulée');
       }
     });
   }
@@ -92,7 +94,6 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     }
     return value.trim() === '' || value.length < this.length_reason_refusal || value.length >= 255;
   }
-
 
   /**
    * This function is called when the user click on the button to accept or refuse the document, this function update thestatus of document
@@ -113,10 +114,10 @@ export class ManageRequestVerificationDocumentComponent implements OnInit {
     const checkData = new CheckData(this.id_user, documentUpdated);
     this.documentVerificationService.updateDocumentVerificationForUser(checkData).subscribe({
       next: (data: any) => {
-        this.toastr.success(`Vous avez ${action} le document`, 'Info ✅📄👍');
+        this.toastr.success(`Vous avez ${action} le document`, 'Info');
       },
       error: (error: any) => {
-        this.toastr.error(`Échec de l\'action. Veuillez réessayer ultérieurement.`, 'Erreur ❌🔄🚫');
+        this.toastr.error(`Échec de l\'action. Veuillez réessayer ultérieurement.`, 'Erreur');
         console.log('error:', error);
       }
     });

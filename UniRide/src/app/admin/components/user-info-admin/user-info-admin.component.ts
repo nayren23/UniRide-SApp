@@ -47,11 +47,11 @@ export class UserInfoAdminComponent implements OnInit {
     this.userService.getInfosUserById(this.id_user).subscribe({
       next: (data: any) => {
         this.user = data.user_information;
-        this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info ✅📄🔄👍');
+        this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info');
       },
       error: (error: any) => {
         console.log(error);
-        this.toastr.error('La récupération des informations de l\'utilisateur a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des informations de l\'utilisateur a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
 
@@ -120,7 +120,7 @@ export class UserInfoAdminComponent implements OnInit {
         this.deleteUser();
       },
       reject: () => {
-        this.toastr.warning(`Vous n'avez pas effectué la suppression de l'utilisateur.`, 'Action annulée 📄🚫');
+        this.toastr.warning(`Vous n'avez pas effectué la suppression de l'utilisateur.`, 'Action annulée');
       }
     });
   }
@@ -128,8 +128,7 @@ export class UserInfoAdminComponent implements OnInit {
   deleteUser() {
     this.userService.deleteUserById(this.id_user).subscribe({
       next: (data: any) => {
-        this.toastr.success('L\'utilisateur a été supprimé avec succès.', 'Info ✅📄🔄👍');
-        console.log("data", data);
+        this.toastr.success('L\'utilisateur a été supprimé avec succès.', 'Info');
         setTimeout(() => {
           this.router.navigate(['/admin/users']);
         }, 3000
@@ -137,7 +136,7 @@ export class UserInfoAdminComponent implements OnInit {
       },
       error: (error: any) => {
         console.log(error);
-        this.toastr.error('La suppression de l\'utilisateur a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La suppression de l\'utilisateur a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
   }
