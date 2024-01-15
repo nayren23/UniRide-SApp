@@ -39,7 +39,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.put(
-      `${this.apiUrl}/user/label`,
+      `${this.backUrl}/user/label`,
       { name: label.name, description: label.description, id_criteria: label.id_criteria, role: label.role },
       { headers: headers }
     )
@@ -50,7 +50,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.apiUrl}/user/label`,
+      `${this.backUrl}/user/label`,
       { name: label.name, description: label.description, role: label.role },
       { headers: headers }
     )

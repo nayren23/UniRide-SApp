@@ -31,11 +31,11 @@ const routes: Routes = [
         path: ':id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule),
         data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
       },
-      
-        { path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule) 
-                data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
 
-        },
+      {
+        path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule),
+        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
+      },
 
     ],
     canActivate: [AuthGuard]

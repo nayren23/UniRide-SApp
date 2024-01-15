@@ -18,7 +18,7 @@ export class StatisticService implements StatisticInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/user-number`,
+      `${this.backUrl}/user/user-number`,
       { headers: headers }
     )
   }
@@ -29,7 +29,7 @@ export class StatisticService implements StatisticInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/trip/trip-number`,
+      `${this.backUrl}/trip/trip-number`,
       { headers: headers }
     )
   }
@@ -39,7 +39,7 @@ export class StatisticService implements StatisticInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/document-number`,
+      `${this.backUrl}/user/document-number`,
       { headers: headers }
     )
   }
