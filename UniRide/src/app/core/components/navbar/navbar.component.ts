@@ -39,18 +39,10 @@ export class NavbarComponent implements OnInit {
       this.userRole = -1
 
     if (this.isLoggedIn) {
-      this.items = [
-        {
-          label: 'Accueil',
-          icon: 'pi pi-fw pi-home',
-          tooltip: "l'accueil",
-          command: () => {
-            this.navigate("/trips/search");
-          }
-        }]
+      this.items = []
       let admin = (this.userRole == 0)
-      let driver = (this.userRole == 1)
-      let passengerOrDriver = (driver || this.userRole == 2 || admin)
+      let driver = (this.userRole == 1 || admin)
+      let passengerOrDriver = (driver || this.userRole == 2)
         this.items.push({
           label: 'Rechercher un trajet',
           icon: 'pi pi-fw pi-search',
@@ -95,14 +87,6 @@ export class NavbarComponent implements OnInit {
           }
         )
 
-        this.items.push({
-          label: 'Admin',
-          command: () => {
-            this.navigate("admin/documents");
-          },
-          visible: admin
-        })
-
       this.userItems = [
         {
           label: 'Mon Profil',
@@ -110,6 +94,37 @@ export class NavbarComponent implements OnInit {
           command: () => {
             this.navigate("/profil-information");
           }
+        },
+        {
+          label: 'Classement',
+          icon: 'pi pi-fw pi-star',
+          command: () => {
+            this.navigate("/ranking");
+          }
+        },
+        {
+          label: 'Admin',
+          icon: 'pi pi-fw pi-file',
+          command: () => {
+            this.navigate("admin/documents");
+          },
+          visible: admin
+        },
+        {
+          label: 'Liste des utilisateurs',
+          icon: 'pi pi-fw pi-users',
+          command: () => {
+            this.navigate("admin/users");
+          },
+          visible: admin
+        },
+        {
+          label: 'Critères de notations',
+          icon: 'pi pi-fw pi-star-fill',
+          command: () => {
+            this.navigate("admin/labels");
+          },
+          visible: admin
         },
         {
           label: 'Déconnexion',
@@ -156,6 +171,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigate(path: string): void {
+    this.sidebarVisible = false;
     this.router.navigate([path])
   }
 }

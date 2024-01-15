@@ -39,7 +39,7 @@ export class LogInComponent {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);
-                this.router.navigate(['/trips/search']);
+                this.router.navigate(['']);
               },
               error: (error: any) => {
                 console.log('error:', error);
