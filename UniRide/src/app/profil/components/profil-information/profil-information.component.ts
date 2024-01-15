@@ -241,6 +241,11 @@ export class ProfilInformationComponent implements OnInit {
     if (this.editingField !== null) {
       const updatedValue = this.editedUser[this.editingField] as string;
 
+      if (updatedValue === this.user[this.editingField]) {
+        this.editingField = null;
+        return;
+      }
+
       this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
         (response) => {
           console.log(`Modification du champ enregistrée avec succès`, response);
