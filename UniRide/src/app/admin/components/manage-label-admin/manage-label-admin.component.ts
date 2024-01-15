@@ -59,7 +59,6 @@ export class ManageLabelAdminComponent implements OnInit {
         });
 
         this.labels = [...this.labels];
-        this.toastr.success('Les labels ont bien été récupérés', 'Info');
       },
       error: (error: any) => {
         this.toastr.error('La récupération des labels a échoué. Veuillez réessayer ultérieurement.', 'Erreur');

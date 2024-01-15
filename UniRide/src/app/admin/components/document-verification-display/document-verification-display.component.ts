@@ -69,8 +69,8 @@ export class DocumentVerificationDisplayComponent implements OnInit {
           this.students.push(student);
         })
         this.students = [...this.students];
+        this.documentVerification = [...this.documentVerification];
         this.loading = false;
-        this.toastr.success('La récupération des demandes a réussi', 'Succès');
       },
       error: (error: any) => {
         this.loading = true;

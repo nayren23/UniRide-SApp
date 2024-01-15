@@ -63,6 +63,11 @@ const routes: Routes = [
     path: '', loadChildren: () => import('./homepage/homepage.module').then(m => m.HomepageModule),
     data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.DRIVER, ROLES.PENDING] }
   },
+
+  { path: 'unauthorized', loadChildren: () => import('./unauthorized/unauthorized.module').then(m => m.UnauthorizedModule) },
+
+  { path: '**', loadChildren: () => import('./page-not-found/page-not-found.module').then(m => m.PageNotFoundModule) },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
