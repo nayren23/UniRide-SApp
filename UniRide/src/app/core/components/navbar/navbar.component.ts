@@ -3,7 +3,6 @@ import { AuthService } from '../../services/auth/auth.service';
 import { MenuItem } from 'primeng/api';
 import { Router } from "@angular/router"
 import { tap } from 'rxjs';
-import { TooltipModule } from 'primeng/tooltip';
 
 
 
@@ -43,49 +42,49 @@ export class NavbarComponent implements OnInit {
       let admin = (this.userRole == 0)
       let driver = (this.userRole == 1 || admin)
       let passengerOrDriver = (driver || this.userRole == 2)
-        this.items.push({
-          label: 'Rechercher un trajet',
-          icon: 'pi pi-fw pi-search',
+      this.items.push({
+        label: 'Rechercher un trajet',
+        icon: 'pi pi-fw pi-search',
+        command: () => {
+          this.navigate("/trips/search");
+        },
+        visible: passengerOrDriver
+      },
+        {
+          label: 'Trajets Passager',
+          icon: 'pi pi-fw pi-list',
           command: () => {
-            this.navigate("/trips/search");
+            this.navigate("/trips/passenger");
           },
           visible: passengerOrDriver
-        },
-          {
-            label: 'Trajets Passager',
-            icon: 'pi pi-fw pi-list',
-            command: () => {
-              this.navigate("/trips/passenger");
-            },
-            visible: passengerOrDriver
-          })
+        })
 
-        this.items.push(
-          {
-            label: 'Proposer un trajet ponctuel',
-            icon: 'pi pi-fw pi-plus-circle',
-            command: () => {
-              this.navigate("/trips/create");
-            },
-            visible: driver
+      this.items.push(
+        {
+          label: 'Proposer un trajet ponctuel',
+          icon: 'pi pi-fw pi-plus-circle',
+          command: () => {
+            this.navigate("/trips/create");
           },
-          {
-            label: 'Proposer un trajet quotidien',
-            icon: 'pi pi-fw pi-plus-circle',
-            command: () => {
-              this.navigate("/trips/create-daily");
-            },
-            visible: driver
+          visible: driver
+        },
+        {
+          label: 'Proposer un trajet quotidien',
+          icon: 'pi pi-fw pi-plus-circle',
+          command: () => {
+            this.navigate("/trips/create-daily");
           },
-          {
-            label: 'Trajets Proposés',
-            icon: 'pi pi-fw pi-list',
-            command: () => {
-              this.navigate("/trips/proposed");
-            },
-            visible: driver
-          }
-        )
+          visible: driver
+        },
+        {
+          label: 'Trajets Proposés',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/proposed");
+          },
+          visible: driver
+        }
+      )
 
       this.userItems = [
         {
