@@ -32,7 +32,7 @@
                 <th style="min-width:15rem">
                     <div class="flex align-items-center">
                         Utilisateur
-                        <p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false"
+                        <p-columnFilter field="etudiant" matchMode="in" display="menu" [showMatchModes]="false"
                             [showOperator]="false" [showAddButton]="false">
                             <ng-template pTemplate="header">
                                 <div class="px-3 pt-3 pb-0">
@@ -40,8 +40,8 @@
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-multiSelect [ngModel]="value" [options]="lisUsers" placeholder="Tous"
-                                    (onChange)="filter($event.value)" optionLabel="firstname">
+                                <p-multiSelect #userMultiSelect [ngModel]="value" [options]="lisUsers"
+                                    placeholder="Tous" (onChange)="filter($event.value)" optionLabel="firstname">
                                     <ng-template let-option pTemplate="item">
                                         <div class="inline-block vertical-align-middle">
                                             <img alt="photo de profil" src="{{ option.profile_picture }}" width="24"
@@ -62,54 +62,44 @@
                 </th>
                 <th style="min-width:10rem">
                     <div class="flex align-items-center">
-                        Rôle
-                        <p-columnFilter field="status" matchMode="equals" display="menu">
-                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                <p-dropdown [ngModel]="value" [options]="roles" (onChange)="filter($event.value)"
-                                    placeholder="Any">
-                                    <ng-template let-option pTemplate="item">
-                                        <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                                    </ng-template>
-                                </p-dropdown>
-                            </ng-template>
-                        </p-columnFilter>
-                    </div>
-                </th>
-                <th style="min-width:10rem">
-                    <div class="flex align-items-center">
-                        Action
-                    </div>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-lisUsers>
-            <tr>
-                <td>
-                    {{ lisUsers.id_user}}
-                </td>
-                <td>
-                    <img [alt]="lisUsers.lastname" src="{{ lisUsers.profile_picture }}" width="32"
-                        style="vertical-align: middle" />
-                    <span class="ml-1 vertical-align-middle">{{ lisUsers.lastname + " " + lisUsers.firstname }}</span>
-                </td>
-                <td>
-                    {{ lisUsers.last_modified_date | date: 'dd/MM/yyyy' }}
-                </td>
-                <td>
-                    <p-tag [value]="convertRole(lisUsers.role)" [severity]="getSeverity(lisUsers.role)"></p-tag>
-                </td>
+                <th pSortableColumn="role"> Rôle <p-sortIcon field="role"></p-sortIcon>
+</div>
+</th>
+<th style="min-width:10rem">
+    <div class="flex align-items-center">
+        Action
+    </div>
+</th>
+</tr>
+</ng-template>
+<ng-template pTemplate="body" let-lisUsers>
+    <tr>
+        <td>
+            {{ lisUsers.id}}
+        </td>
+        <td>
+            <img [alt]="lisUsers.lastname" src="{{ lisUsers.profile_picture }}" width="32"
+                style="vertical-align: middle" />
+            <span class="ml-1 vertical-align-middle">{{ lisUsers.lastname + " " + lisUsers.firstname }}</span>
+        </td>
+        <td>
+            {{ lisUsers.last_modified_date | date: 'dd/MM/yyyy' }}
+        </td>
+        <td>
+            <p-tag [value]="convertRole(lisUsers.role)" [severity]="getSeverity(lisUsers.role)"></p-tag>
+        </td>
 
-                <td>
-                    <a (click)="manageRequestVerificationDocument(lisUsers.id_user)">
-                        <p-button label="Gérer" [rounded]="true" severity="warning"></p-button>
-                    </a>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="7">Aucun utilisateur n'a été trouvé.</td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <td>
+            <a (click)="manageRequestVerificationDocument(lisUsers.id)">
+                <p-button label="Gérer" [rounded]="true" severity="warning"></p-button>
+            </a>
+        </td>
+    </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="7">Aucun utilisateur n'a été trouvé.</td>
+    </tr>
+</ng-template>
+</p-table>
 </div>

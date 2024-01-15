@@ -80,10 +80,10 @@ export class RankingComponent implements OnInit {
         })
 
         const successMessage = type === 'driver' ? 'Le classement des conducteurs a été récupéré avec succès.' : 'Le classement des passagers a été récupéré avec succès.';
-        this.toastr.success(successMessage, 'Succès ✅📄');
+        this.toastr.success(successMessage, 'Succès');
       },
       error: (error: any) => {
-        this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
   }

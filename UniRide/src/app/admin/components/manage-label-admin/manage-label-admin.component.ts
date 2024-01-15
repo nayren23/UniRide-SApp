@@ -57,16 +57,15 @@ export class ManageLabelAdminComponent implements OnInit {
           }
           this.labels.push(label);
         });
+
+        this.labels = [...this.labels];
+        this.toastr.success('Les labels ont bien été récupérés', 'Info');
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des labels a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des labels a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
         console.log('error:', error);
       },
-      complete: () => {
-        this.labels = [...this.labels];
-      }
     });
-    console.log('this.labels:', this.labels);
   }
 
   openNew() {
@@ -75,9 +74,13 @@ export class ManageLabelAdminComponent implements OnInit {
     this.labelDialog = true;
   }
 
+
+  /**
+   * Delete the selected labels
+   */
   deleteSelectedLabels() {
     this.confirmationService.confirm({
-      message: 'Etes vous sur de vouloir supprimer les labels selectionnés ?',
+      message: 'Êtes-vous sûr de vouloir supprimer les labels sélectionnés ?',
       header: 'Confirmer',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -88,14 +91,16 @@ export class ManageLabelAdminComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Hide the dialog, when the user click on the button cancel
+   */
   hideDialog() {
     this.labelDialog = false;
     this.submitted = false;
   }
 
   /**
-   * Save the label in the database
+   * Save the label in the database, when the user click on the button new or update
    * @param label 
    */
   saveLabel(label: Label) {
@@ -105,10 +110,10 @@ export class ManageLabelAdminComponent implements OnInit {
         this.labelService.updateLabel(label).subscribe({
           next: (data: any) => {
             this.getLabels();
-            this.toastr.success('Le label ' + label.name + ' a bien été modifié', 'Info ✅📄👍');
+            this.toastr.success('Le label ' + label.name + ' a bien été modifié', 'Info');
           },
           error: (error: any) => {
-            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
             console.log('error:', error);
           }
         });
@@ -117,16 +122,14 @@ export class ManageLabelAdminComponent implements OnInit {
         this.labelService.insertLabel(label).subscribe({
           next: (data: any) => {
             this.getLabels();
-            this.toastr.success('Le label ' + label.name + ' a bien été crée', 'Info ✅📄👍');
+            this.toastr.success('Le label ' + label.name + ' a bien été crée', 'Info');
           },
           error: (error: any) => {
-            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            this.toastr.error('La modification du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
             console.log('error:', error);
           }
         });
       }
-
-      this.labels = [...this.labels];
       this.labelDialog = false;
     }
   }
@@ -136,6 +139,10 @@ export class ManageLabelAdminComponent implements OnInit {
     this.labelDialog = true;
   }
 
+  /**
+   * Delete the label in the database, when the user click on the button delete
+   * @param label 
+   */
   deleteLabel(label: Label) {
     this.confirmationService.confirm({
       message: 'Êtes-vous sûr de vouloir supprimer ' + label.name + '?',
@@ -145,10 +152,10 @@ export class ManageLabelAdminComponent implements OnInit {
         this.labelService.deleteLabel(label.id_criteria).subscribe({
           next: (data: any) => {
             this.getLabels();
-            this.toastr.success('Le label ' + label.name + ' a bien été supprimé', 'Info ✅📄👍');
+            this.toastr.success('Le label ' + label.name + ' a bien été supprimé', 'Info');
           },
           error: (error: any) => {
-            this.toastr.error('La suppression du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+            this.toastr.error('La suppression du label a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
             console.log('error:', error);
           }
         });
@@ -198,5 +205,3 @@ export class ManageLabelAdminComponent implements OnInit {
     }
   }
 }
-
-
