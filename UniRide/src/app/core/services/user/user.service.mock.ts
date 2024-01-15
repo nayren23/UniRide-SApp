@@ -101,6 +101,216 @@ export class UserServiceMock implements UserInterface {
 
     ]
 
+    private listRanking = {
+        "message": "DRIVERS_RATING_CRITERIA_DISPLAYED_SUCCESSFULLY",
+        "ranking": [
+            {
+                "user": {
+                    "firstname": "Gabrielle",
+                    "id": 10,
+                    "lastname": "Moreau",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar.png",
+                    "role": 1,
+                },
+                "average": 3.00,
+
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 1
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 1
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 0
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 5
+                    }
+                ]
+            },
+            {
+                "user": {
+                    "firstname": "fraise",
+                    "id": 47,
+                    "lastname": "FRAISE",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar.png",
+                    "role": 1,
+                },
+                "average": 4.00,
+
+                "scoreCriteria": [
+
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 3
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 5
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 4
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 4
+                    }
+                ]
+            },
+            {
+                "user": {
+                    "firstname": "John",
+                    "id": 1,
+                    "lastname": "Doe",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar.png",
+                    "role": 1,
+                },
+                "average": 4.00,
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 5
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 5
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 3
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 3
+                    }
+                ]
+            }
+        ]
+    };
+
+    private listRankingPassenger = {
+        "message": "PASSENGERS_RATING_CRITERIA_DISPLAYED_SUCCESSFULLY",
+        "ranking": [
+            {
+                "user": {
+                    "firstname": "Alice",
+                    "id": 20,
+                    "lastname": "Smith",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar2.png",
+                    "role": 2,
+                },
+                "average": 4.00,
+
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 4
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 4
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 4
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 4
+                    }
+                ]
+            },
+            {
+                "user": {
+                    "firstname": "Bob",
+                    "id": 30,
+                    "lastname": "Johnson",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar2.png",
+                    "role": 2,
+                },
+                "average": 5.00,
+
+                "scoreCriteria": [
+
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 5
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 5
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 5
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 5
+                    }
+                ]
+            },
+            {
+                "user": {
+                    "firstname": "Charlie",
+                    "id": 40,
+                    "lastname": "Williams",
+                    "profile_picture": "https://www.w3schools.com/howto/img_avatar2.png",
+                    "role": 2,
+                },
+                "average": 3.00,
+                "scoreCriteria": [
+                    {
+                        "id": 83,
+                        "name": "Conduite sûre",
+                        "value": 3
+                    },
+                    {
+                        "id": 84,
+                        "name": "Courtoisie au volant",
+                        "value": 3
+                    },
+                    {
+                        "id": 87,
+                        "name": "Amabilité ",
+                        "value": 3
+                    },
+                    {
+                        "id": 117,
+                        "name": "ambiance",
+                        "value": 3
+                    },
+
+                ]
+            }
+        ]
+    };
     private listUsersById: any =
         {
             login: "jdoe",
@@ -113,6 +323,33 @@ export class UserServiceMock implements UserInterface {
             role: 1, // int
             profile_picture: "https://www.w3schools.com/howto/img_avatar.png"
         }
+
+
+    private listActifCriterias: any = {
+        "criterian": [
+            {
+                "id": 83,
+                "name": "Conduite sûre"
+            },
+            {
+                "id": 84,
+                "name": "Courtoisie au volant"
+            },
+            {
+                "id": 117,
+                "name": "ambiance"
+            },
+            {
+                "id": 87,
+                "name": "Amabilité "
+            }
+        ],
+        "message": "ACTIF_CRITERIA_DISPLAYED_SUCCESSFULLY"
+    };
+
+    getActiveCriterias(): Observable<any> {
+        return of(this.listActifCriterias); //return of is used to return an observable
+    }
 
     getUserInfoSummaryById(userId: number): Observable<any> {
         return of({}); //return of is used to return an observable
@@ -132,6 +369,18 @@ export class UserServiceMock implements UserInterface {
 
     deleteUserById(userId: number): Observable<any> {
         return of({}); //return of is used to return an observable
+    }
+
+    getDriverRanking(): Observable<any> {
+        return of(this.listRanking); //return of is used to return an observable
+    }
+
+    getActifCriterias(): Observable<any> {
+        return of(this.listActifCriterias); //return of is used to return an observable
+    }
+
+    getPassengerRanking(): Observable<any> {
+        return of(this.listRankingPassenger); //return of is used to return an observable
     }
 
     constructor() { }

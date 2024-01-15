@@ -49,30 +49,33 @@ export class DocumentVerificationDisplayComponent implements OnInit {
         this.getDataDocument(data.document_infos)
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des documents a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des statistiques des documents a echoué . Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
 
-    /**
-     * Call the API to get the document verification for the user
-     */
+    this.getDocumentVerification();
+  }
+
+  /**
+  * Call the API to get the document verification for the user
+  */
+  getDocumentVerification() {
     this.documentVerificationService.getDocumentVerification().subscribe({
       next: (data: any) => {
-        this.loading = false;
         data.request.forEach((verification: any) => {
           const student = new Student(verification.person.last_name, verification.person.first_name, verification.person.profile_picture, verification.person.id_user);
           const documentVerification = new DocumentVerificationDisplay(verification.request_number, verification.documents_to_verify, student);
           this.documentVerification.push(documentVerification);
           this.students.push(student);
         })
+        this.students = [...this.students];
+        this.loading = false;
+        this.toastr.success('La récupération des demandes a réussi', 'Succès');
       },
       error: (error: any) => {
         this.loading = true;
-        this.toastr.error('La récupération des demandes a échoué ', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des demandes a échoué ', 'Erreur');
       },
-      complete: () => {
-        this.table.clear();//We need to call this method to refresh the table, cause the table is not refreshed automatically, when we call the API
-      }
     })
   }
 
@@ -81,7 +84,7 @@ export class DocumentVerificationDisplayComponent implements OnInit {
    * @param table 
    */
   clear(table: Table) {
-    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info ✅📄🔄👍');
+    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info');
     table.clear();
   }
 

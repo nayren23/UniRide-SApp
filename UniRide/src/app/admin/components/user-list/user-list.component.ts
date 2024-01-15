@@ -25,7 +25,6 @@ export class UserListComponent implements OnInit {
   lisUsers: User[] = [];
 
   loading: boolean = true;
-  roles!: any[]
   @ViewChild('displayUsers') table!: Table;
 
   constructor(
@@ -47,7 +46,7 @@ export class UserListComponent implements OnInit {
         this.getDataTrip(data.trip_infos)
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
 
@@ -59,34 +58,37 @@ export class UserListComponent implements OnInit {
         this.getDataUser(data.user_infos)
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
 
     this.userService.getListUsers().subscribe({
       next: (data: any) => {
-        this.lisUsers = data.users;
-        this.toastr.success('La liste des utilisateurs a été récupérée avec succès.', 'Info ✅📄🔄👍');
+        console.log("data", data);
+        data.users.forEach((verification: any) => {
+          const user: User = {
+            id: verification.id_user,
+            firstname: verification.firstname,
+            lastname: verification.lastname,
+            last_modified_date: verification.last_modified_date,
+            profile_picture: verification.profile_picture,
+            role: verification.role,
+          }
+          this.lisUsers.push(user);
+        });
+        this.lisUsers = [...this.lisUsers];
+        this.toastr.success('La liste des utilisateurs a été récupérée avec succès.', 'Info');
+        this.loading = false;
       },
       error: (error: any) => {
         console.log(error);
-        this.toastr.error('La récupération de la liste des utilisateurs a échoué. Veuillez réessayer ultérieurement.', 'Erreur 📄❌🔄');
+        this.toastr.error('La récupération de la liste des utilisateurs a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
       },
-      complete: () => {
-        this.loading = false;
-      }
     })
-
-    this.roles = [
-      { label: 0, value: this.convertRole(0) },
-      { label: 1, value: this.convertRole(1) },
-      { label: 2, value: this.convertRole(2) },
-      { label: 3, value: this.convertRole(3) },
-    ];
   }
 
   clear(table: Table) {
-    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info ✅📄🔄👍');
+    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info');
     table.clear();
   }
 
