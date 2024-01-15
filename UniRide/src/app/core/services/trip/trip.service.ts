@@ -35,6 +35,22 @@ export class TripService {
     );
   }
 
+
+  createTripDaily(tripData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    // Effectuer la requête HTTP avec l'en-tête d'autorisation
+    return this.http.post(
+      `${this.backUrl}/trip/daily-trip`,
+      JSON.stringify(tripData),
+      { headers: headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   searchTrips(searchParams: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -84,24 +100,6 @@ export class TripService {
       `${this.backUrl}/trip/passenger/current`,
       { headers: headers }
     )
-    return of([
-      {
-        "arrival_address": "140 Rue de la Nouvelle France Montreuil 93100",
-        "departure_address": "8 Rue d'Amsterdam Paris 75008",
-        "id": 1,
-        "book_status": 1,
-        "status": 1,
-        "proposed_date": "2023-12-06 16:20:00"
-      },
-      {
-        "arrival_address": "8 Rue d'Amsterdam Paris 75008",
-        "departure_address": "140 Rue de la Nouvelle France Montreuil 93100",
-        "id": 16,
-        "book_status": 1,
-        "status": 4,
-        "proposed_date": "2023-12-03 09:20:00"
-      }
-    ]);
   }
 
   startTrip(tripId: number): Observable<any> {
