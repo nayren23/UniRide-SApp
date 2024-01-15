@@ -140,12 +140,12 @@
 
         <!-- Checkbox to add license -->
         <div class="mb-4 flex flex-column justify-content-center">
-            <p-checkbox label="Avez-vous un permis ?" formControlName="showLicenseSection" [binary]="true"></p-checkbox>
+            <p-checkbox label="Avez-vous un permis ?" formControlName="showDriverSection" [binary]="true"></p-checkbox>
         </div>
 
         <!-- License -->
         <div id="div_license" class="mb-4 flex flex-column justify-content-center"
-            *ngIf="inscriptionForm.get('showLicenseSection')?.value">
+            *ngIf="inscriptionForm.get('showDriverSection')?.value">
             <label for="license" class="block text-sm font-semibold mb-2">Permis</label>
             <div class="file-input-container">
                 <label for="license">Parcourir...</label>
@@ -160,9 +160,27 @@
                 [text]="messages['license'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
+        <!-- Insurance -->
+        <div id="div_insurance" class="mb-4 flex flex-column justify-content-center"
+            *ngIf="inscriptionForm.get('showDriverSection')?.value">
+            <label for="insurance" class="block text-sm font-semibold mb-2">Assurance</label>
+            <div class="file-input-container">
+                <label for="insurance">Parcourir...</label>
+                <div class="text-container">
+                    <span id="insurance_file_label">Aucun fichier sélectionné</span>
+                </div>
+                <input type="file" id="insurance" name="insurance" (change)="handleFileInput($event, 'insurance')"
+                    accept=".jpg,.jpeg,.png,.pdf">
+            </div>
+            <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+            <p-message *ngIf="messages['insurance'].severity" [severity]="messages['insurance'].severity"
+                [text]="messages['insurance'].summary" [style]="{'width':'100%'}"></p-message>
+        </div>
+
         <!-- Register Button -->
         <div class="flex justify-content-center flex-wrap">
-            <p-button type="submit" label="S'inscrire" [disabled]="!inscriptionForm.valid"></p-button>
+            <p-button type="submit" label="S'inscrire"
+                [disabled]="!inscriptionForm.valid || !passwordsMatch()"></p-button>
         </div>
         <div>
             <p class="text-justify">
