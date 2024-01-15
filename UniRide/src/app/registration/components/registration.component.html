@@ -6,59 +6,55 @@
 
         <!-- Nom utilisateur -->
         <div class="mb-4 flex flex-column justify-content-center">
-            <label for="username" class="block text-sm font-semibold mb-2">Nom utilisateur*</label>
-            <input type="text" pInputText formControlName="login" />
-            <p-message
-                *ngIf="inscriptionForm.get('login')?.errors?.['required'] && (inscriptionForm.get('login')?.dirty || inscriptionForm.get('login')?.touched)"
-                severity="error" text="Nom utilisateur est requis." [style]="{'width':'100%'}"></p-message>
+            <label for="login" class="block text-sm font-semibold mb-2">Nom utilisateur*</label>
+            <input type="text" pInputText formControlName="login" (blur)="checkLogin()" [maxlength]="50" />
+            <p-message *ngIf="messages['login'].severity" [severity]="messages['login'].severity"
+                [text]="messages['login'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Nom -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="lastName" class="block text-sm font-semibold mb-2">Nom*</label>
-            <input pInputText id="lastName" type="text" formControlName="lastname" inputId="lastName" required>
-            <p-message
-                *ngIf="inscriptionForm.get('lastname')?.errors?.['required'] && (inscriptionForm.get('lastname')?.dirty || inscriptionForm.get('lastname')?.touched)"
-                severity="error" text="Le nom est requis." [style]="{'width':'100%'}"></p-message>
+            <input pInputText id="lastName" type="text" formControlName="lastname" inputId="lastName" required
+                [maxlength]="50" (blur)="checkLastname()">
+            <p-message *ngIf="messages['lastname'].severity" [severity]="messages['lastname'].severity"
+                [text]="messages['lastname'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Prénom -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="firstName" class="block text-sm font-semibold mb-2">Prénom*</label>
-            <input pInputText id="firstName" type="text" formControlName="firstname" inputId="firstName" required>
-            <p-message
-                *ngIf="inscriptionForm.get('firstname')?.errors?.['required'] && (inscriptionForm.get('firstname')?.dirty || inscriptionForm.get('firstname')?.touched)"
-                severity="error" text="Le prénom est requis." [style]="{'width':'100%'}"></p-message>
+            <input pInputText id="firstName" type="text" formControlName="firstname" inputId="firstName" required
+                [maxlength]="50">
+            <p-message *ngIf="messages['firstname'].severity" [severity]="messages['firstname'].severity"
+                [text]="messages['firstname'].summary" [style]="{'width':'100%'}" (blur)="checkFirstname()"></p-message>
         </div>
 
         <!-- Adresse e-mail étudiante -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="email" class="block text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
-            <input pInputText id="email" type="email" formControlName="student_email" inputId="email" required>
-            <p-message
-                *ngIf="inscriptionForm.get('student_email')?.errors?.['required'] && (inscriptionForm.get('student_email')?.dirty || inscriptionForm.get('student_email')?.touched)"
-                severity="error" text="L'adresse e-mail est requise." [style]="{'width':'100%'}"></p-message>
-            <p-message
-                *ngIf="inscriptionForm.get('student_email')?.errors?.['email'] && (inscriptionForm.get('student_email')?.dirty || inscriptionForm.get('student_email')?.touched)"
-                severity="error" text="Adresse e-mail non valide." [style]="{'width':'100%'}"></p-message>
+            <input pInputText id="email" type="email" formControlName="student_email" inputId="email" required
+                (blur)="checkEmail()">
+            <p-message *ngIf="messages['student_email'].severity" [severity]="messages['student_email'].severity"
+                [text]="messages['student_email'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Mot De Passe -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="password" class="block text-sm font-semibold mb-2">Mot De Passe*</label>
             <p-password id="password" formControlName="password" inputId="password" required [toggleMask]="true"
-                [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-password>
-            <p-message
-                *ngIf="inscriptionForm.get('password')?.errors?.['required'] && (inscriptionForm.get('password')?.dirty || inscriptionForm.get('password')?.touched)"
-                severity="error" text="Le mot de passe est requis." [style]="{'width':'100%'}"></p-message>
+                [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [maxlength]="50"
+                (onBlur)="checkPassword()"></p-password>
+            <p-message *ngIf="messages['password'].severity" [severity]="messages['password'].severity"
+                [text]="messages['password'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Confirmer Mot De Passe -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="confirmPassword" class="block text-sm font-semibold mb-2">Confirmer le Mot De Passe*</label>
             <p-password id="confirmPassword" formControlName="password_confirmation" inputId="confirmPassword" required
-                [toggleMask]="true" [feedback]="false" [style]="{'width':'100%'}"
-                [inputStyle]="{'width':'100%'}"></p-password>
+                [toggleMask]="true" [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                [maxlength]="50"></p-password>
             <p-message *ngIf=" !passwordsMatch()" severity="error" text="Les mots de passe ne correspondent pas."
                 [style]="{'width':'100%'}"></p-message>
         </div>
@@ -66,18 +62,24 @@
         <!-- Dropdown list pour le genre -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="gender" class="block text-sm font-semibold mb-2">Genre*</label>
-            <p-dropdown [options]="genderOptions" optionLabel="label" formControlName="gender"
-                [required]="true"></p-dropdown>
+            <p-dropdown [options]="genderOptions" optionLabel="label" formControlName="gender" [required]="true"
+                [style]="{'width':'100%'}"></p-dropdown>
+            <p-message
+                *ngIf="inscriptionForm.get('gender')?.errors?.['required'] && (inscriptionForm.get('gender')?.dirty || inscriptionForm.get('gender')?.touched)"
+                severity="error" text="Le genre est requis." [style]="{'width':'100%'}"></p-message>
+
         </div>
 
         <!-- Numéro de téléphone -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="phoneNumber" class="block text-sm font-semibold mb-2">Numéro de téléphone*</label>
-            <div>
-                <label for="phoneNumber" class="mr-1">+33</label>
-                <p-inputNumber id="phoneNumber" formControlName="phone_number" inputId="phoneNumber" [maxlength]="9"
-                    [useGrouping]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"></p-inputNumber>
+            <div class="flex align-items-center justify-content-center ">
+                <label class="mr-1">+33</label>
+                <input pInputText id="phoneNumber" type="text" formControlName="phone_number" inputId="firstName"
+                    required pKeyFilter="int" [maxlength]="10" [style]="{'width':'100%'}">
             </div>
+            <p-message *ngIf="messages['phone_number'].severity" [severity]="messages['phone_number'].severity"
+                [text]="messages['phone_number'].summary" [style]="{'width':'100%'}"></p-message>
             <p-message
                 *ngIf="inscriptionForm.get('phone_number')?.errors?.['required'] && (inscriptionForm.get('phone_number')?.dirty || inscriptionForm.get('phone_number')?.touched)"
                 severity="error" text="Le numéro de téléphone est requis." [style]="{'width':'100%'}"></p-message>
@@ -86,8 +88,8 @@
         <!-- Description -->
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="description" class="block text-sm font-semibold mb-2">Description</label>
-            <textarea pInputTextarea id="description" formControlName="description" rows="5"
-                [autoResize]="true"></textarea>
+            <textarea pInputTextarea id="description" formControlName="description" rows="5" [autoResize]="true"
+                [maxlength]="500"></textarea>
         </div>
 
         <!-- Photo de profil -->
@@ -95,33 +97,46 @@
             <label for="pfp" class="block text-sm font-semibold mb-2">Photo de profil</label>
             <div class="file-input-container">
                 <label for="pfp">Parcourir...</label>
-                <span id="pfp_file_label">Aucun fichier sélectionné</span>
+                <div class="text-container">
+                    <span id="pfp_file_label">Aucun fichier sélectionné</span>
+                </div>
                 <input type="file" id="pfp" name="pfp" (change)="handleFileInput($event, 'pfp')"
                     accept=".jpg,.jpeg,.png">
             </div>
             <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG (MAX. 5 MO).</p>
+            <p-message *ngIf="messages['pfp'].severity" [severity]="messages['pfp'].severity"
+                [text]="messages['pfp'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="id_card" class="block text-sm font-semibold mb-2">Carte d'identité</label>
             <div class="file-input-container">
                 <label for="id_card">Parcourir...</label>
-                <span id="id_card_file_label">Aucun fichier sélectionné</span>
+                <div class="text-container">
+                    <span id="id_card_file_label">Aucun fichier sélectionné</span>
+                </div>
                 <input type="file" id="id_card" name="id_card" (change)="handleFileInput($event, 'id_card')"
                     accept=".jpg,.jpeg,.png,.pdf">
             </div>
             <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+            <p-message *ngIf="messages['id_card'].severity" [severity]="messages['id_card'].severity"
+                [text]="messages['id_card'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <div class="mb-4 flex flex-column justify-content-center">
             <label for="school_certificate" class="block text-sm font-semibold mb-2">Certificat de scolarité</label>
             <div class="file-input-container">
                 <label for="school_certificate">Parcourir...</label>
-                <span id="school_certificate_file_label">Aucun fichier sélectionné</span>
+                <div class="text-container">
+                    <span id="school_certificate_file_label">Aucun fichier sélectionné</span>
+                </div>
                 <input type="file" id="school_certificate" name="school_certificate"
                     (change)="handleFileInput($event, 'school_certificate')" accept=".jpg,.jpeg,.png,.pdf">
             </div>
             <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+            <p-message *ngIf="messages['school_certificate'].severity"
+                [severity]="messages['school_certificate'].severity" [text]="messages['school_certificate'].summary"
+                [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Checkbox pour afficher la section du permis -->
@@ -135,11 +150,15 @@
             <label for="license" class="block text-sm font-semibold mb-2">Permis</label>
             <div class="file-input-container">
                 <label for="license">Parcourir...</label>
-                <span id="license_file_label">Aucun fichier sélectionné</span>
+                <div class="text-container">
+                    <span id="license_file_label">Aucun fichier sélectionné</span>
+                </div>
                 <input type="file" id="license" name="license" (change)="handleFileInput($event, 'license')"
                     accept=".jpg,.jpeg,.png,.pdf">
             </div>
             <p class="mt-1 text-xs italique text-gray-400">PNG, JPG, JPEG, PDF (MAX. 5 MO).</p>
+            <p-message *ngIf="messages['license'].severity" [severity]="messages['license'].severity"
+                [text]="messages['license'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
         <!-- Bouton Suivant -->

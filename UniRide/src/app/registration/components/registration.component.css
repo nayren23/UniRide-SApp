@@ -59,3 +59,10 @@
         max-width: 30%;
     }
 }
+
+.text-container {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
