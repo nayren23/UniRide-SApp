@@ -13,23 +13,27 @@ const routes: Routes = [
     children: [
       {
         path: 'create', loadChildren: () => import('./create-trip/create-trip.module').then(m => m.CreateTripModule),
-        data: { roles: [ROLES.DRIVER] }
+        data: { roles: [ROLES.DRIVER, ROLES.ADMIN] }
+      },
+      {
+        path: 'create-daily', loadChildren: () => import('./create-daily-trip/create-daily-trip.module').then(m => m.CreateDailyTripModule),
+        data: { roles: [ROLES.DRIVER, ROLES.ADMIN] }
       },
       {
         path: 'search', loadChildren: () => import('./trip-search/trip-search.module').then(m => m.TripSearchModule),
-        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
+        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.ADMIN] }
       },
       {
         path: 'proposed', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule),
-        data: { roles: [ROLES.DRIVER] }
+        data: { roles: [ROLES.DRIVER, ROLES.ADMIN] }
       },
       {
         path: 'passenger', loadChildren: () => import('./trip-passenger/trip-passenger.module').then(m => m.TripPassengerModule),
-        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
+        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.ADMIN] }
       },
       {
         path: ':id', loadChildren: () => import('./trip-info/trip-info.module').then(m => m.TripInfoModule),
-        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
+        data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.ADMIN] }
       },
 
     ],
@@ -50,10 +54,15 @@ const routes: Routes = [
   },
   {
     path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule),
-    data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
+    data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.ADMIN] }
   },
 
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
+
+  {
+    path: '', loadChildren: () => import('./homepage/homepage.module').then(m => m.HomepageModule),
+    data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.DRIVER, ROLES.PENDING] }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

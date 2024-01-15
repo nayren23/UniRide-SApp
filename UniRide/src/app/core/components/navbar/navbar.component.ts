@@ -5,6 +5,8 @@ import { Router } from "@angular/router"
 import { tap } from 'rxjs';
 
 
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -37,51 +39,52 @@ export class NavbarComponent implements OnInit {
 
     if (this.isLoggedIn) {
       this.items = []
-
-      if (this.userRole == 1 || this.userRole == 2) {
-        this.items.push({
-          label: 'Rechercher un trajet',
-          icon: 'pi pi-fw pi-search',
-          command: () => {
-            this.navigate("/trips/search");
-          }
-        })
-      }
-
-      if (this.userRole == 1) {
-        this.items.push({
-          label: 'Proposer un trajet',
-          icon: 'pi pi-fw pi-plus-circle',
-          command: () => {
-            this.navigate("/trips/create");
-          }
-        }, {
-          label: 'Trajets Proposés',
-          icon: 'pi pi-fw pi-list',
-          command: () => {
-            this.navigate("/trips/proposed");
-          }
-        })
-      }
-
-      if (this.userRole == 1 || this.userRole == 2) {
-        this.items.push({
+      let admin = (this.userRole == 0)
+      let driver = (this.userRole == 1 || admin)
+      let passengerOrDriver = (driver || this.userRole == 2)
+      this.items.push({
+        label: 'Rechercher un trajet',
+        icon: 'pi pi-fw pi-search',
+        command: () => {
+          this.navigate("/trips/search");
+        },
+        visible: passengerOrDriver
+      },
+        {
           label: 'Trajets Passager',
           icon: 'pi pi-fw pi-list',
           command: () => {
             this.navigate("/trips/passenger");
-          }
+          },
+          visible: passengerOrDriver
         })
-      }
 
-      if (this.userRole == 0) {
-        this.items.push({
-          label: 'Admin',
+      this.items.push(
+        {
+          label: 'Proposer un trajet ponctuel',
+          icon: 'pi pi-fw pi-plus-circle',
           command: () => {
-            this.navigate("admin/documents");
-          }
-        })
-      }
+            this.navigate("/trips/create");
+          },
+          visible: driver
+        },
+        {
+          label: 'Proposer un trajet quotidien',
+          icon: 'pi pi-fw pi-plus-circle',
+          command: () => {
+            this.navigate("/trips/create-daily");
+          },
+          visible: driver
+        },
+        {
+          label: 'Trajets Proposés',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/proposed");
+          },
+          visible: driver
+        }
+      )
 
       this.userItems = [
         {
@@ -90,6 +93,37 @@ export class NavbarComponent implements OnInit {
           command: () => {
             this.navigate("/profil-information");
           }
+        },
+        {
+          label: 'Classement',
+          icon: 'pi pi-fw pi-star',
+          command: () => {
+            this.navigate("/ranking");
+          }
+        },
+        {
+          label: 'Admin',
+          icon: 'pi pi-fw pi-file',
+          command: () => {
+            this.navigate("admin/documents");
+          },
+          visible: admin
+        },
+        {
+          label: 'Liste des utilisateurs',
+          icon: 'pi pi-fw pi-users',
+          command: () => {
+            this.navigate("admin/users");
+          },
+          visible: admin
+        },
+        {
+          label: 'Critères de notations',
+          icon: 'pi pi-fw pi-star-fill',
+          command: () => {
+            this.navigate("admin/labels");
+          },
+          visible: admin
         },
         {
           label: 'Déconnexion',
@@ -131,7 +165,12 @@ export class NavbarComponent implements OnInit {
       })).subscribe();
   }
 
+  isDriver(): boolean {
+    return (Number(sessionStorage.getItem("user_r")) == 1)
+  }
+
   navigate(path: string): void {
+    this.sidebarVisible = false;
     this.router.navigate([path])
   }
 }

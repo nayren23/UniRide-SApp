@@ -45,7 +45,7 @@ export class LogInComponent implements OnInit {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);
-                this.router.navigate(['/']);
+                this.router.navigate(['']);
               },
               error: (error: any) => {
                 console.log('error:', error); this.toastr.error('Une erreur s\'est produite', 'Erreur')
