@@ -40,7 +40,7 @@ export class LabelService implements LabelInterface {
     });
     return this.http.put(
       `${this.backUrl}/user/label`,
-      { name: label.name, description: label.description, id_criteria: label.id_criteria },
+      { name: label.name, description: label.description, id_criteria: label.id_criteria, role: label.role },
       { headers: headers }
     )
   }
@@ -51,7 +51,7 @@ export class LabelService implements LabelInterface {
     });
     return this.http.post(
       `${this.backUrl}/user/label`,
-      { name: label.name, description: label.description },
+      { name: label.name, description: label.description, role: label.role },
       { headers: headers }
     )
   }

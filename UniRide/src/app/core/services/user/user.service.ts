@@ -43,7 +43,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/users_informations`,
+      `${this.backUrl}/user/users-informations`,
       { headers: headers }
     )
   }
@@ -63,9 +63,38 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.delete(
-      `${this.backUrl}/user/user_management/${userId}`,
+      `${this.backUrl}/user/user-management/${userId}`,
       { headers: headers }
     )
   }
 
+  getDriverRanking(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.backUrl}/user/drivers-ranking`,
+      { headers: headers }
+    )
+  }
+
+  getPassengerRanking(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.backUrl}/user/passengers-ranking`,
+      { headers: headers }
+    )
+  }
+
+  getActifCriterias(idRole: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.get(
+      `${this.backUrl}/user/actif-criterion/${idRole}`,
+      { headers: headers }
+    )
+  }
 }

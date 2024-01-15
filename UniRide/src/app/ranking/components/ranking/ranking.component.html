@@ -1,0 +1,190 @@
+<p-tabView>
+    <!-- Ranking for driver -->
+
+    <p-tabPanel header="Conducteur">
+        <div class="card">
+            <p-table sortMode="multiple" #dt [value]="driverRankingList" dataKey="id" [rowHover]="true" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
+                [paginator]="true"
+                currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
+                [filterDelay]="0">
+                <ng-template pTemplate="caption">
+                    <div class="table-header">
+                        Classement Conducteurs
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-rowIndex="rowIndex">
+                    <tr>
+                        <th style="width: 4rem">
+                            <span>Position</span>
+                        </th>
+                        <th pSortableColumn="user.lastname" style="min-width: 14rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Conducteur
+                                <p-sortIcon field="user.lastname"></p-sortIcon>
+                                <p-columnFilter field="user" matchMode="in" display="menu" [showMatchModes]="false"
+                                    [showOperator]="false" [showAddButton]="false" class="ml-auto">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Conducteur</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                        <p-multiSelect #usertMultiSelect [ngModel]="value" [options]="listDriver"
+                                            placeholder="Tous" (onChange)="filter($event.value)"
+                                            optionLabel="firstname">
+                                            <ng-template let-option pTemplate="item">
+                                                <div class="inline-block vertical-align-middle">
+                                                    <img [alt]="" src="{{ option.profile_picture }}" width="24"
+                                                        class="vertical-align-middle" />
+                                                    <span class="ml-1 mt-1">{{ option.firstname + " " +
+                                                        option.lastname}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="average"> Moyenne Globale <p-sortIcon field="average"></p-sortIcon>
+                        </th>
+
+                        <!--pSortableColumn="{{column.name}}.value"-->
+                        <th *ngFor="let column of scoreCriteriaColumsDriver" pSortableColumn="{{column.name}}">
+                            {{column.name}} <p-sortIcon field="{{column.name}}"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+
+
+
+                <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
+                    <tr class="p-selectable-row">
+                        <td>{{rowIndex +1}}</td>
+
+                        <td>
+                            <span class="p-column-title">Conducteur</span>
+                            <img alt="photo de profil" src="{{ rank.user.profile_picture }}" width="32"
+                                style="vertical-align: middle" />
+                            <span class="ml-1 vertical-align-middle">{{ rank.user.firstname +" " + rank.user.lastname
+                                }}</span>
+                        </td>
+
+                        <td>{{rank.average}}</td>
+
+                        <td *ngFor="let note of scoreCriteriaColumsDriver">
+                            <span class="p-column-title">{{ rank[note.name] }}</span>
+
+                            <div>
+                                <p-rating *ngIf="rank[note.name] !== null" [(ngModel)]="rank[note.name]"
+                                    [readonly]="true" [cancel]="false"></p-rating>
+                                <p> {{rank[note.name] }}</p>
+                            </div>
+                            <span *ngIf="rank[note.name] === null">Non noté</span>
+
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Aucun classement de disponible pour les conducteurs</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </p-tabPanel>
+
+    <!-- Ranking for passenger -->
+
+    <p-tabPanel header="Passager">
+        <div class="card">
+            <p-table sortMode="multiple" #dt [value]="passengerRankingList" dataKey="id" [rowHover]="true" [rows]="10"
+                [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading"
+                [paginator]="true"
+                currentPageReportTemplate="Affichage de {first} à {last} des entrées de {totalRecords}"
+                [filterDelay]="0">
+                <ng-template pTemplate="caption">
+                    <div class="table-header">
+                        Classement Passager
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-rowIndex="rowIndex">
+                    <tr>
+                        <th style="width: 4rem">
+                            <span>Position</span>
+                        </th>
+                        <th pSortableColumn="user.lastname" style="min-width: 14rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Passager
+                                <p-sortIcon field="user.lastname"></p-sortIcon>
+                                <p-columnFilter field="user" matchMode="in" display="menu" [showMatchModes]="false"
+                                    [showOperator]="false" [showAddButton]="false" class="ml-auto">
+                                    <ng-template pTemplate="header">
+                                        <div class="px-3 pt-3 pb-0">
+                                            <span class="font-bold">Passager</span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                        <p-multiSelect #usertMultiSelect [ngModel]="value" [options]="listPassenger"
+                                            placeholder="Tous" (onChange)="filter($event.value)"
+                                            optionLabel="firstname">
+                                            <ng-template let-option pTemplate="item">
+                                                <div class="inline-block vertical-align-middle">
+                                                    <img [alt]="" src="{{ option.profile_picture }}" width="24"
+                                                        class="vertical-align-middle" />
+                                                    <span class="ml-1 mt-1">{{ option.firstname + " " +
+                                                        option.lastname}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="average"> Moyenne Globale <p-sortIcon field="average"></p-sortIcon>
+                        </th>
+
+                        <!--pSortableColumn="{{column.name}}.value"-->
+                        <th *ngFor="let column of scoreCriteriaColumsPassenger" pSortableColumn="{{column.name}}">
+                            {{column.name}} <p-sortIcon field="{{column.name}}"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
+                    <tr class="p-selectable-row">
+                        <td>{{rowIndex +1}}</td>
+
+                        <td>
+                            <span class="p-column-title">Conducteur</span>
+                            <img alt="photo de profil" src="{{ rank.user.profile_picture }}" width="32"
+                                style="vertical-align: middle" />
+                            <span class="ml-1 vertical-align-middle">{{ rank.user.firstname +" " + rank.user.lastname
+                                }}</span>
+                        </td>
+
+                        <td>{{rank.average}}</td>
+
+                        <td *ngFor="let note of scoreCriteriaColumsPassenger">
+                            <span class="p-column-title">{{ rank[note.name] }}</span>
+                            <div>
+                                <p-rating *ngIf="rank[note.name] !== null" [(ngModel)]="rank[note.name]"
+                                    [readonly]="true" [cancel]="false"></p-rating>
+                                <p> {{rank[note.name] }}</p>
+                            </div>
+                            <span *ngIf="rank[note.name] === null">Non noté</span>
+                        </td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Aucun classement de disponible pour les passagers</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </p-tabPanel>
+</p-tabView>
