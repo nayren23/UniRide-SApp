@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environements/environement';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -25,10 +24,9 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private toastr: ToastrService,
     private router: Router,
-
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -109,10 +107,7 @@ export class RegistrationComponent implements OnInit {
   }
   onSubmit() {
     //Route pour insertion data
-    const backUrlRegister = environment.backUrl + "/user/register";
     console.log(this.inscriptionForm.value)
-
-
 
     if (this.inscriptionForm && this.inscriptionForm.valid) {
       const formData = new FormData();
@@ -138,32 +133,52 @@ export class RegistrationComponent implements OnInit {
         console.log(`Clé: ${key}, Valeur: ${value}`);
       });
 
-
-      const headers = new HttpHeaders({
-
-      });
-
-
       //Envoie des infos personnel
-      this.http.post(backUrlRegister, formData, { headers: headers }).subscribe(
-        (response) => {
+      this.authService.register(formData).subscribe({
+        next: (response) => {
           console.log(response);
-          this.toastr.success('Félicitations ! Votre inscription a réussi.', 'Inscription réussie');
-
-
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 2000); // Réglez la durée selon vos besoins (en millisecondes)
-
-
-
+          this.toastr.success('Inscription réussie !', 'Succès');
+          this.router.navigate(['/login']);
         },
-        (error) => {
-          console.error(error);
-          this.toastr.error('Une erreur est survenue lors de l\'inscription. Veuillez réessayer plus tard.', 'Erreur d\'inscription');
-
+        error: (error) => {
+          switch (error.error.message) {
+            case 'LOGIN_TAKEN':
+              this.messages['login'].severity = 'error';
+              this.messages['login'].summary = 'Ce nom d\'utilisateur est indisponible.';
+              this.scrollToSection('div_login');
+              break;
+            case 'EMAIL_TAKEN':
+              this.messages['student_email'].severity = 'error';
+              this.messages['student_email'].summary = 'Cette adresse email est déjà utilisée.';
+              this.scrollToSection('div_student_email');
+              break;
+            case 'EMAIL_INVALID_FORMAT':
+              this.messages['student_email'].severity = 'error';
+              this.messages['student_email'].summary = 'L\'adresse email est invalide.';
+              this.scrollToSection('div_student_email');
+              break;
+            case 'EMAIL_INVALID_DOMAIN':
+              this.messages['student_email'].severity = 'error';
+              this.messages['student_email'].summary = 'L\'adresse email doit être l\'adresse email de l\'université.';
+              this.scrollToSection('div_student_email');
+              break;
+            case 'PHONE_NUMBER_TAKEN':
+              this.messages['phone_number'].severity = 'error';
+              this.messages['phone_number'].summary = 'Ce numéro de téléphone est déjà utilisé.';
+              this.scrollToSection('div_phone_number');
+              break;
+            default:
+              this.toastr.error('Une erreur est survenue lors de l\'inscription.', 'Erreur');
+          }
         }
-      );
+      });
+    }
+  }
+
+  scrollToSection(section: string): void {
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
@@ -256,6 +271,18 @@ export class RegistrationComponent implements OnInit {
       this.messages['password'].summary = 'Le mot de passe doit contenir au moins 8 caractères, dont une minuscule, une majuscule et un caractère spécial.';
     } else {
       this.messages['password'].severity = '';
+    }
+  }
+
+  checkPhoneNumber(): void {
+    if (this.inscriptionForm.get('phone_number')?.errors?.['required']) {
+      this.messages['phone_number'].severity = 'error';
+      this.messages['phone_number'].summary = 'Le numéro de téléphone est requis.';
+    } else if (this.inscriptionForm.get('phone_number')?.errors?.['minlength']) {
+      this.messages['phone_number'].severity = 'error';
+      this.messages['phone_number'].summary = 'Le numéro de téléphone doit contenir 9 chiffres.';
+    } else {
+      this.messages['phone_number'].severity = '';
     }
   }
 }

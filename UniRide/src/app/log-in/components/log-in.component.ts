@@ -46,7 +46,19 @@ export class LogInComponent {
               }
             });
           } else {
-            this.toastr.error('Veuillez verifier votre adresse email pour vous connecter.', 'Verifier email');
+            this.authService.getUserIDAndRole().subscribe({
+              next: (data: any) => {
+                sessionStorage.setItem('user_id', data.id);
+                sessionStorage.setItem('user_r', data.role);
+                this.authService.setIsAuthentified(true);
+                this.toastr.error('Veuillez verifier votre adresse email pour vous connecter. Cliquer <a href="email/resend">ici</a> pour renvoyer', 'Verifier email', {
+                  enableHtml: true
+                });
+              },
+              error: (error: any) => {
+                console.log('error:', error);
+              }
+            });
           }
         },
         (error) => {

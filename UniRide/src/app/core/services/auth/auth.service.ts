@@ -104,4 +104,11 @@ export class AuthService {
     });
     return this.http.get(`${environment.backUrl}/user/refresh`)
   }
+
+  register(formData: any): Observable<any> {
+    const headers = new HttpHeaders({
+    });
+    console.log(formData);
+    return this.http.post(`${environment.backUrl}/user/register`, formData, { headers: headers })
+  }
 }
