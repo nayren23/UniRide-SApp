@@ -1,30 +1,32 @@
-
-<div class="flex-grow-1 mr-2" >
-    <p-menubar *ngIf="isLoggedIn()" [model]="items" class="" >
+<div class="flex-grow-1">
+    <p-menubar *ngIf="isLoggedIn" [model]="items" class="">
         <ng-template pTemplate="start">
             <div class="logo-container mr-1">
                 <img id="logo" src="assets/UniRide-logo.png">
             </div>
         </ng-template>
-        <ng-template *ngIf="isLoggedIn()" pTemplate="end">
+        <ng-template *ngIf="isLoggedIn" pTemplate="end">
             <app-books-list></app-books-list>
-            <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true" style="background-color: white; color: black;"></button>
+            <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true"
+                style="background-color: white; color: black;"></button>
         </ng-template>
     </p-menubar>
-    <p-menubar *ngIf="!isLoggedIn()" class="mr-2" >
+    <p-menubar *ngIf="!isLoggedIn" class="mr-2">
         <ng-template pTemplate="start">
             <div class="logo-container mr-2">
                 <img id="logo" src="assets/UniRide-logo.png">
             </div>
         </ng-template>
         <ng-template pTemplate="end" class="flex flex-row">
-            <button type="button" (click)="navigate('/logIn')" pButton label="Connexion" icon="pi pi-fw pi-check"></button>
-            <button type="button" (click)="navigate('/registration')" pButton label="Inscription" icon="pi pi-fw pi-align-justify" class="ml-1"></button>
+            <button type="button" (click)="navigate('/login')" pButton label="Connexion"
+                icon="pi pi-fw pi-check"></button>
+            <button type="button" (click)="navigate('/registration')" pButton label="Inscription"
+                icon="pi pi-fw pi-align-justify" class="ml-1"></button>
         </ng-template>
-    </p-menubar >
+    </p-menubar>
 </div>
-<p-sidebar *ngIf="isLoggedIn()" [(visible)]="sidebarVisible" position="right" styleClass="w-16rem">
-    <div class="items-center justify-content-end" >
+<p-sidebar *ngIf="isLoggedIn" [(visible)]="sidebarVisible" position="right" styleClass="w-16rem">
+    <div class="items-center justify-content-end">
         <p-menu [model]="userItems"></p-menu>
     </div>
 </p-sidebar>

@@ -4,8 +4,7 @@ import { CarService } from '../../../core/services/car/car.service';
 import { User } from '../../../../app/core/models/user.model'
 import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
-import { userDocuments } from '../../../core/models/user-documents.model';
-
+import { UserDocuments } from '../../../core/models/user-documents.model';
 
 interface FileUploadEvent {
   originalEvent: any;
@@ -24,7 +23,7 @@ export class ProfilInformationComponent implements OnInit {
   isNotDriver: boolean = true;
   hasCar!: boolean;
   hasProfilePicture: boolean = false;
-  userDocuments: userDocuments[] = [];
+  userDocuments: UserDocuments[] = [];
   uploadedFiles: { [key: string]: File[] } = {};
   showUploadPhoto: boolean = false;
   changePasswordFormData = {
@@ -40,6 +39,7 @@ export class ProfilInformationComponent implements OnInit {
     brand: '',
     total_places: 0
   };
+
   constructor(
     private profilService: ProfilService,
     private carService: CarService,
@@ -71,9 +71,8 @@ export class ProfilInformationComponent implements OnInit {
       next: (data: any) => {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
-            const userDocument = document as userDocuments;
+            const userDocument = document as UserDocuments;
             console.log('userDocument', userDocument.type);
-
             this.userDocuments.push(userDocument);
           });
         });
@@ -244,14 +243,14 @@ export class ProfilInformationComponent implements OnInit {
 
       this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
         (response) => {
-          console.log(`Modification du champ ${this.editingField} enregistrée avec succès`, response);
+          console.log(`Modification du champ enregistrée avec succès`, response);
           this.editingField = null;
           this.getuserInfo();
-          this.toastr.success(`Modification du champ ${this.editingField} enregistrée avec succès.`, 'Info ✅📄🔄👍');
+          this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info ✅📄🔄👍');
         },
         (error) => {
           console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
-          this.toastr.success(`Erreur lors de la Modification du champ ${this.editingField}.`, 'Erreur 📄❌🚗');
+          this.toastr.error(`Erreur lors de la Modification du champ.`, 'Erreur 📄❌🚗');
         }
       );
     }
@@ -282,19 +281,20 @@ export class ProfilInformationComponent implements OnInit {
     );
   }
 
-  onUpload(event: FileUploadEvent, document: userDocuments) {
+  onUpload(event: FileUploadEvent, document: UserDocuments) {
     const documentType = document.type;
+    const nomDocument = this.convertType(documentType);
 
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 
       this.profilService.saveDocument(file, this.convertDataType(documentType), this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
-          this.toastr.success(`Le document ${documentType} a été enregistré avec succès.`, 'Info ✅📄👍')
+          this.toastr.success(`Le document ${nomDocument} a été enregistré avec succès.`, 'Info ✅📄👍')
           document.url = URL.createObjectURL(file);
         },
         error: (error: any) => {
-          this.toastr.error(`Erreur lors de l'enregistrement du document ${documentType}.`, 'Erreur 📄❌🚫');
+          this.toastr.error(`Erreur lors de l'enregistrement du document ${nomDocument}.`, 'Erreur 📄❌🚫');
           console.log('error:', error);
         }
       });
@@ -345,7 +345,7 @@ export class ProfilInformationComponent implements OnInit {
       this.toastr.warning('Veuillez remplir tous les champs.', 'Avertissement');
       return;
     }
-    if(this.isSamePassword()){
+    if (this.isSamePassword()) {
       this.toastr.warning('Le nouveau mot de passe doit être différent de l\'ancien.', 'Avertissement');
       return;
     }
@@ -373,8 +373,6 @@ export class ProfilInformationComponent implements OnInit {
     const newPassword = this.changePasswordFormData.new_password_confirmation;
 
     return oldPassword === newPassword;
-
-
   }
 }
 

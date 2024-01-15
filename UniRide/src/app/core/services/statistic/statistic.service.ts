@@ -9,7 +9,7 @@ import { StatisticInterface } from '../../interface/statistic.interface';
 })
 export class StatisticService implements StatisticInterface {
 
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -49,7 +49,7 @@ export class StatisticService implements StatisticInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/statistics/${userId}`,
+      `${this.backUrl}/user/statistics/${userId}`,
       { headers: headers }
     )
   }

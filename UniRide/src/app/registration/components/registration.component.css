@@ -1,71 +1,61 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-#inscriptionDiv {
-    text-align: center;
-    width: 100%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-}
-
-.form {
+.file-input-container {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 2em;
-    padding-right: 2em;
-    padding-bottom: 0.4em;
-    background-color: #171717;
-    border-radius: 25px;
-    transition: .4s ease-in-out;
-    width: 20%;
-    margin-left: 40%;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.blur-backgroud {
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
+.file-input-container input[type="file"] {
+    display: none;
 }
 
-.text-white {
-    color: white;
+.file-input-container label {
+    background-color: #e7e7e7;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.button-disabled {
-    background-color: #ccc;
-    /* Remplacez ceci par la couleur grise que vous souhaitez utiliser */
-    color: #666;
-    /* Couleur de texte correspondante */
-    cursor: not-allowed;
+.file-input-container span {
+    flex-grow: 1;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.italique {
-    font-style: italic;
+@media (max-width: 768px) {
+    .file-input-container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .file-input-container label,
+    .file-input-container span {
+        width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
 }
 
-.font-bold {
-    font-weight: bold;
+#card {
+    justify-content: center;
 }
 
-.tailleTel {
-    width: 92%;
+@media (min-width: 768px) {
+    #card {
+        max-width: 60%;
+    }
 }
 
-.alignCenter {
-    margin-left: 135px;
-}
-
-.buttonInscription {
-    margin-bottom: 100px;
-    margin-top: 20px;
-}
-
-#taillePlus33 {
-    padding-right: 3px;
-    color: white;
+@media (min-width: 992px) {
+    #card {
+        max-width: 30%;
+    }
 }

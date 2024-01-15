@@ -9,7 +9,7 @@ import { CheckData } from 'src/app/core/models/check-data.model';
 })
 export class DocumentVerificationService {
 
-  private apiUrl = environment.apiUrl;
+  private backUrl = environment.backUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +22,7 @@ export class DocumentVerificationService {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.apiUrl}/user/verify/document`,
+      `${this.backUrl}/user/verify/document`,
       { headers: headers }
     )
   }
@@ -52,7 +52,7 @@ export class DocumentVerificationService {
     });
 
     return this.http.put(
-      `${this.apiUrl}/user/check`,
+      `${this.backUrl}/user/check`,
       JSON.stringify(checkData),
       { headers: headers }
     );

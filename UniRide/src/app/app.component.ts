@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { AuthService } from './core/services/auth/auth.service';
+import { SessionService } from './core/services/session/session.service';
 
 @Component({
   selector: 'app-root',
@@ -15,15 +16,37 @@ import { AuthService } from './core/services/auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'UniRide';
+  isLoaded = false;
 
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private sessionService: SessionService) {
 
   }
 
 
   ngOnInit(): void {
     initFlowbite();
+    if (this.sessionService.checkAndStartSession()) {
+      this.authService.setLoggedIn(this.authService.isAuthenticated())
+      if (this.isLoggedIn()) {
+        this.authService.getUserIDAndRole().subscribe({
+          next: (data:any) => {
+            sessionStorage.setItem('user_id', data.id);
+            sessionStorage.setItem('user_r', data.role);
+            this.isLoaded=true;
+          },
+          error: (err:any) => {
+            console.log(err)
+          }
+        });
+      }
+      else {
+        this.isLoaded=true;
+      }
+    }
+    else {
+      this.isLoaded=true;
+    }
 
 
   }
