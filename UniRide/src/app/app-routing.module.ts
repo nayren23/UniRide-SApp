@@ -58,6 +58,11 @@ const routes: Routes = [
   },
 
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
+
+  {
+    path: '', loadChildren: () => import('./homepage/homepage.module').then(m => m.HomepageModule),
+    data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.DRIVER, ROLES.PENDING] }
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
