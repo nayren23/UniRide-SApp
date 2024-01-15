@@ -2,7 +2,9 @@
     <p-menubar *ngIf="isLoggedIn" [model]="items" class="">
         <ng-template pTemplate="start">
             <div class="logo-container mr-1">
-                <img id="logo" src="assets/UniRide-logo.png">
+                <a href="/">
+                    <img id="logo" src="assets/UniRide-logo.png">
+                </a>
             </div>
         </ng-template>
         <ng-template *ngIf="isLoggedIn" pTemplate="end">
@@ -13,8 +15,10 @@
     </p-menubar>
     <p-menubar *ngIf="!isLoggedIn" class="mr-2">
         <ng-template pTemplate="start">
-            <div class="logo-container mr-2">
-                <img id="logo" src="assets/UniRide-logo.png">
+            <div class="logo-container mr-1">
+                <a href="/">
+                    <img id="logo" src="assets/UniRide-logo.png">
+                </a>
             </div>
         </ng-template>
         <ng-template pTemplate="end" class="flex flex-row">

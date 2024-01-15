@@ -1,18 +1,18 @@
 <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()" class="flex justify-content-center flex-wrap">
     <p-card id="card" class="flex justify-content-center flex-wrap">
         <div class="w-full flex justify-content-center">
-            <h2 class="text-2xl font-semibold mb-2">Inscription</h2>
+            <h1>Inscription</h1>
         </div>
 
-        <!-- Nom utilisateur -->
+        <!-- Login -->
         <div id="div_login" class="mb-4 flex flex-column justify-content-center">
-            <label for="login" class="block text-sm font-semibold mb-2">Nom utilisateur*</label>
+            <label for="login" class="block text-sm font-semibold mb-2">Nom d'Utilisateur*</label>
             <input type="text" pInputText formControlName="login" (blur)="checkLogin()" [maxlength]="50" />
             <p-message *ngIf="messages['login'].severity" [severity]="messages['login'].severity"
                 [text]="messages['login'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Nom -->
+        <!-- Lastname -->
         <div id="div_lastname" class="mb-4 flex flex-column justify-content-center">
             <label for="lastName" class="block text-sm font-semibold mb-2">Nom*</label>
             <input pInputText id="lastName" type="text" formControlName="lastname" inputId="lastName" required
@@ -21,7 +21,7 @@
                 [text]="messages['lastname'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Prénom -->
+        <!-- Firstname -->
         <div id="div_firstname" class="mb-4 flex flex-column justify-content-center">
             <label for="firstName" class="block text-sm font-semibold mb-2">Prénom*</label>
             <input pInputText id="firstName" type="text" formControlName="firstname" inputId="firstName" required
@@ -30,7 +30,7 @@
                 [text]="messages['firstname'].summary" [style]="{'width':'100%'}" (blur)="checkFirstname()"></p-message>
         </div>
 
-        <!-- Adresse e-mail étudiante -->
+        <!-- Student Email -->
         <div id="div_student_email" class="mb-4 flex flex-column justify-content-center">
             <label for="email" class="block text-sm font-semibold mb-2">Adresse e-mail étudiante*</label>
             <input pInputText id="email" type="email" formControlName="student_email" inputId="email" required
@@ -39,9 +39,9 @@
                 [text]="messages['student_email'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Mot De Passe -->
+        <!-- Password -->
         <div id="div_password" class="mb-4 flex flex-column justify-content-center">
-            <label for="password" class="block text-sm font-semibold mb-2">Mot De Passe*</label>
+            <label for="password" class="block text-sm font-semibold mb-2">Mot de Passe*</label>
             <p-password id="password" formControlName="password" inputId="password" required [toggleMask]="true"
                 [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [maxlength]="50"
                 (onBlur)="checkPassword()"></p-password>
@@ -49,9 +49,9 @@
                 [text]="messages['password'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Confirmer Mot De Passe -->
+        <!-- Password Confirmation -->
         <div id="div_password_confirmation" class="mb-4 flex flex-column justify-content-center">
-            <label for="confirmPassword" class="block text-sm font-semibold mb-2">Confirmer le Mot De Passe*</label>
+            <label for="confirmPassword" class="block text-sm font-semibold mb-2">Confirmer le Mot de Passe*</label>
             <p-password id="confirmPassword" formControlName="password_confirmation" inputId="confirmPassword" required
                 [toggleMask]="true" [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
                 [maxlength]="50"></p-password>
@@ -59,7 +59,7 @@
                 [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Dropdown list pour le genre -->
+        <!-- Gender -->
         <div id="div_gender" class="mb-4 flex flex-column justify-content-center">
             <label for="gender" class="block text-sm font-semibold mb-2">Genre*</label>
             <p-dropdown [options]="genderOptions" optionLabel="label" formControlName="gender" [required]="true"
@@ -70,7 +70,7 @@
 
         </div>
 
-        <!-- Numéro de téléphone -->
+        <!-- Phone Number -->
         <div id="div_phone_number" class="mb-4 flex flex-column justify-content-center">
             <label for="phoneNumber" class="block text-sm font-semibold mb-2">Numéro de téléphone*</label>
             <div class="flex align-items-center justify-content-center ">
@@ -89,7 +89,7 @@
                 [maxlength]="500"></textarea>
         </div>
 
-        <!-- Photo de profil -->
+        <!-- Profil Picture -->
         <div id="div_pfp" class="mb-4 flex flex-column justify-content-center">
             <label for="pfp" class="block text-sm font-semibold mb-2">Photo de profil</label>
             <div class="file-input-container">
@@ -105,6 +105,7 @@
                 [text]="messages['pfp'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
+        <!-- ID Card -->
         <div id="div_id_card" class="mb-4 flex flex-column justify-content-center">
             <label for="id_card" class="block text-sm font-semibold mb-2">Carte d'identité</label>
             <div class="file-input-container">
@@ -120,6 +121,7 @@
                 [text]="messages['id_card'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
+        <!-- School Certificate -->
         <div id="div_school_certificate" class="mb-4 flex flex-column justify-content-center">
             <label for="school_certificate" class="block text-sm font-semibold mb-2">Certificat de scolarité</label>
             <div class="file-input-container">
@@ -136,12 +138,12 @@
                 [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Checkbox pour afficher la section du permis -->
+        <!-- Checkbox to add license -->
         <div class="mb-4 flex flex-column justify-content-center">
             <p-checkbox label="Avez-vous un permis ?" formControlName="showLicenseSection" [binary]="true"></p-checkbox>
         </div>
 
-        <!-- Section du permis conditionnellement affichée -->
+        <!-- License -->
         <div id="div_license" class="mb-4 flex flex-column justify-content-center"
             *ngIf="inscriptionForm.get('showLicenseSection')?.value">
             <label for="license" class="block text-sm font-semibold mb-2">Permis</label>
@@ -158,7 +160,7 @@
                 [text]="messages['license'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
-        <!-- Bouton Suivant -->
+        <!-- Register Button -->
         <div class="flex justify-content-center flex-wrap">
             <p-button type="submit" label="S'inscrire" [disabled]="!inscriptionForm.valid"></p-button>
         </div>

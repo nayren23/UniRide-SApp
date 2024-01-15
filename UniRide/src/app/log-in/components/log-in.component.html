@@ -1,30 +1,35 @@
-<section>
-    <div class="form-box">
-        <div class="form-value">
-            <form class="form" [formGroup]="connexionForm" (ngSubmit)="onSubmit()">
-                <h2>Connexion</h2>
-                <!-- Nom utilisateur -->
-                <div class="mb-4">
-                    <label for="username" class="block text-white text-sm font-semibold mb-2">Nom utilisateur</label>
-                    <input type="text" id="username" name="username" class="w-full p-2 border rounded"
-                        formControlName="login" required>
-                </div>
-                <!-- Mot De Passe -->
-                <div class="mb-4">
-                    <label for="password" class="block text-white text-sm font-semibold mb-2">Mot De Passe</label>
-                    <input type="password" id="password" name="password" class="w-full p-2 border rounded"
-                        formControlName="password" required>
-                </div>
-                <!-- Rester connecté -->
-                <div class="mb-4">
-                    <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn" formControlName="keepLoggedIn">
-                    <label for="keepLoggedIn" class="text-white text-sm font-semibold">Rester connecté</label>
-                </div>
-                <button type="button" type="submit" pButton label="Connexion"></button>
-                <div class="register">
-                    <p>Vous n'avez pas de compte ? <a href="/registration">Inscription</a></p>
-                </div>
-            </form>
+<form [formGroup]="connexionForm" (ngSubmit)="onSubmit()" class="flex justify-content-center flex-wrap">
+    <p-card id="card" class="flex justify-content-center flex-wrap">
+        <div class="w-full flex justify-content-center">
+            <h2>Connexion</h2>
         </div>
-    </div>
-</section>
+
+        <p-message *ngIf="message.severity" [severity]="message.severity" [text]="message.summary"
+            [style]="{'width':'100%'}"></p-message>
+
+        <!-- Login -->
+        <div id="div_login" class="mb-4 flex flex-column justify-content-center">
+            <label for="login" class="block text-sm font-semibold mb-2">Nom d'Utilisateur ou Adresse Email</label>
+            <input type="text" pInputText formControlName="login" [maxlength]="50" />
+        </div>
+
+        <!-- Password -->
+        <div id="div_password" class="mb-4 flex flex-column justify-content-center">
+            <label for="password" class="block text-sm font-semibold mb-2">Mot de Passe</label>
+            <p-password id="password" formControlName="password" inputId="password" required [toggleMask]="true"
+                [feedback]="false" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                [maxlength]="50"></p-password>
+        </div>
+
+        <!-- Stay Connected -->
+        <div class="mb-4 flex flex-column justify-content-center">
+            <p-checkbox label="Rester connecté" formControlName="keepLoggedIn" [binary]="true"></p-checkbox>
+        </div>
+        <div class="flex justify-content-center flex-wrap">
+            <p-button type="submit" label="Se connecter" [disabled]="!connexionForm.valid"></p-button>
+        </div>
+        <div class="register">
+            <p>Vous n'avez pas de compte ? <a href="/registration">Créer un compte</a></p>
+        </div>
+    </p-card>
+</form>

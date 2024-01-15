@@ -1,5 +1,5 @@
 // log-in.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,15 +10,21 @@ import { Router } from '@angular/router';
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.css']
 })
-export class LogInComponent {
-  connexionForm: FormGroup;
+export class LogInComponent implements OnInit {
+  connexionForm!: FormGroup;
+  message = {
+    severity: '',
+    summary: '',
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private toastr: ToastrService,
     private router: Router,
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     this.connexionForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],
@@ -29,20 +35,20 @@ export class LogInComponent {
   onSubmit() {
     if (this.connexionForm.valid) {
       const formData = this.connexionForm.value;
-      this.authService.logIn(formData).subscribe(
-        (response: any) => {
-          console.log(response)
+      this.authService.logIn(formData).subscribe({
+        next: (response: any) => {
           if (response['informations_verified']['email_verified']) {
-            this.toastr.success('Félicitations ! Votre connexion a réussi.', 'Connexion réussie');
+            this.message.severity = 'success';
+            this.message.summary = 'Connexion réussie';
             this.authService.getUserIDAndRole().subscribe({
               next: (data: any) => {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);
-                this.router.navigate(['/trips/search']);
+                this.router.navigate(['/']);
               },
               error: (error: any) => {
-                console.log('error:', error);
+                console.log('error:', error); this.toastr.error('Une erreur s\'est produite', 'Erreur')
               }
             });
           } else {
@@ -51,23 +57,26 @@ export class LogInComponent {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);
-                this.toastr.error('Veuillez verifier votre adresse email pour vous connecter. Cliquer <a href="email/resend">ici</a> pour renvoyer', 'Verifier email', {
-                  enableHtml: true
-                });
+                this.router.navigate(['/email/resend']);
               },
               error: (error: any) => {
                 console.log('error:', error);
+                this.toastr.error('Une erreur s\'est produite', 'Erreur')
               }
             });
           }
         },
-        (error) => {
-          console.error(error);
-          this.toastr.error('Nom d\'utilisateur ou mot de passe incorrect', 'Erreur de connexion');
+        error: (error: any) => {
+          console.log('error:', error);
+          if (error.error.message == 'USER_NOT_FOUND' || error.error.message == 'PASSWORD_INCORRECT') {
+            this.message.severity = 'error';
+            this.message.summary = 'Identifiant ou mot de passe incorrect';
+          } else {
+            this.toastr.error('Une erreur s\'est produite', 'Erreur')
+          }
         }
-      );
+      });
     }
-
   }
 
 }

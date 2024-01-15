@@ -36,14 +36,7 @@ export class NavbarComponent implements OnInit {
       this.userRole = -1
 
     if (this.isLoggedIn) {
-      this.items = [
-        {
-          label: 'Accueil',
-          icon: 'pi pi-fw pi-home',
-          command: () => {
-            this.navigate("");
-          }
-        }]
+      this.items = []
 
       if (this.userRole == 1 || this.userRole == 2) {
         this.items.push({
@@ -52,14 +45,7 @@ export class NavbarComponent implements OnInit {
           command: () => {
             this.navigate("/trips/search");
           }
-        },
-          {
-            label: 'Trajets Passager',
-            icon: 'pi pi-fw pi-list',
-            command: () => {
-              this.navigate("/trips/passenger");
-            }
-          })
+        })
       }
 
       if (this.userRole == 1) {
@@ -74,6 +60,16 @@ export class NavbarComponent implements OnInit {
           icon: 'pi pi-fw pi-list',
           command: () => {
             this.navigate("/trips/proposed");
+          }
+        })
+      }
+
+      if (this.userRole == 1 || this.userRole == 2) {
+        this.items.push({
+          label: 'Trajets Passager',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/passenger");
           }
         })
       }
