@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
           label: 'Accueil',
           icon: 'pi pi-fw pi-home',
           command: () => {
-            this.navigate("");
+            this.navigate("/homepage");
           }
         }]
 
