@@ -42,6 +42,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DisplayPdfComponent } from './components/display-pdf/display-pdf.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { TooltipModule } from 'primeng/tooltip';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CalendarModule } from 'primeng/calendar';
+import { SelectButtonModule } from 'primeng/selectbutton';
+
+
 
 @NgModule({
   declarations: [
@@ -100,6 +106,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     InputNumberModule,
     CheckboxModule,
     DisplayPdfComponent,
+    TooltipModule,
+    RadioButtonModule,
+    CalendarModule,
+    SelectButtonModule
   ]
 })
 export class SharedModule { }

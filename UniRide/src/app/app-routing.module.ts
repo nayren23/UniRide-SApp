@@ -16,6 +16,10 @@ const routes: Routes = [
         data: { roles: [ROLES.DRIVER] }
       },
       {
+        path: 'create-daily', loadChildren: () => import('./create-daily-trip/create-daily-trip.module').then(m => m.CreateDailyTripModule),
+        data: { roles: [ROLES.DRIVER] }
+      },
+      {
         path: 'search', loadChildren: () => import('./trip-search/trip-search.module').then(m => m.TripSearchModule),
         data: { roles: [ROLES.DRIVER, ROLES.PASSENGER] }
       },

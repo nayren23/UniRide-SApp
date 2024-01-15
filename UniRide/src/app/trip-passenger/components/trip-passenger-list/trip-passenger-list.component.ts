@@ -28,7 +28,7 @@ export class TripPassengerListComponent implements OnInit {
           trips.forEach((trip: any) => {
             this.trips.push(
               {
-                id: trip.id,
+                id: trip.trip_id,
                 departure_address: trip.departure_address,
                 arrival_address: trip.arrival_address,
                 departure_date: new Date(trip.proposed_date),
@@ -84,7 +84,7 @@ export class TripPassengerListComponent implements OnInit {
   }
 
   goToTripDetails(trip_id: number) {
-    console.log("oui")
+    console.log(trip_id)
     this.router.navigate([`/trips/${trip_id}`]);
   }
 }

@@ -6,7 +6,7 @@
             </div>
         </ng-template>
         <ng-template *ngIf="isLoggedIn" pTemplate="end">
-            <app-books-list></app-books-list>
+            <app-books-list *ngIf="isDriver()"></app-books-list>
             <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true"
                 style="background-color: white; color: black;"></button>
         </ng-template>

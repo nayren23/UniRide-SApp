@@ -3,6 +3,9 @@ import { AuthService } from '../../services/auth/auth.service';
 import { MenuItem } from 'primeng/api';
 import { Router } from "@angular/router"
 import { tap } from 'rxjs';
+import { TooltipModule } from 'primeng/tooltip';
+
+
 
 
 @Component({
@@ -40,52 +43,65 @@ export class NavbarComponent implements OnInit {
         {
           label: 'Accueil',
           icon: 'pi pi-fw pi-home',
+          tooltip: "l'accueil",
           command: () => {
-            this.navigate("");
+            this.navigate("/trips/search");
           }
         }]
-
-      if (this.userRole == 1 || this.userRole == 2) {
+      let admin = (this.userRole == 0)
+      let driver = (this.userRole == 1)
+      let passengerOrDriver = (driver || this.userRole == 2 || admin)
         this.items.push({
           label: 'Rechercher un trajet',
           icon: 'pi pi-fw pi-search',
           command: () => {
             this.navigate("/trips/search");
-          }
+          },
+          visible: passengerOrDriver
         },
           {
             label: 'Trajets Passager',
             icon: 'pi pi-fw pi-list',
             command: () => {
               this.navigate("/trips/passenger");
-            }
+            },
+            visible: passengerOrDriver
           })
-      }
 
-      if (this.userRole == 1) {
-        this.items.push({
-          label: 'Proposer un trajet',
-          icon: 'pi pi-fw pi-plus-circle',
-          command: () => {
-            this.navigate("/trips/create");
+        this.items.push(
+          {
+            label: 'Proposer un trajet ponctuel',
+            icon: 'pi pi-fw pi-plus-circle',
+            command: () => {
+              this.navigate("/trips/create");
+            },
+            visible: driver
+          },
+          {
+            label: 'Proposer un trajet quotidien',
+            icon: 'pi pi-fw pi-plus-circle',
+            command: () => {
+              this.navigate("/trips/create-daily");
+            },
+            visible: driver
+          },
+          {
+            label: 'Trajets Proposés',
+            icon: 'pi pi-fw pi-list',
+            command: () => {
+              this.navigate("/trips/proposed");
+            },
+            visible: driver
           }
-        }, {
-          label: 'Trajets Proposés',
-          icon: 'pi pi-fw pi-list',
-          command: () => {
-            this.navigate("/trips/proposed");
-          }
-        })
-      }
+        )
 
-      if (this.userRole == 0) {
         this.items.push({
           label: 'Admin',
           command: () => {
             this.navigate("admin/documents");
-          }
+          },
+          visible: admin
         })
-      }
 
       this.userItems = [
         {
@@ -133,6 +149,10 @@ export class NavbarComponent implements OnInit {
         this.navigate("/login");
         this.updateMenuItems();
       })).subscribe();
+  }
+
+  isDriver(): boolean {
+    return (Number(sessionStorage.getItem("user_r")) == 1)
   }
 
   navigate(path: string): void {
