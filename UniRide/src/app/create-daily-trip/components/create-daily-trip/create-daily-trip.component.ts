@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 import { Tooltip } from 'primeng/tooltip';
 import { tap } from 'rxjs';
 import { AddressService } from 'src/app/core/services/address/address.service';
@@ -29,14 +30,15 @@ export class CreateDailyTripComponent implements OnInit {
   @ViewChild('searchInputArrival', { static: true }) searchInputArrival!: ElementRef<HTMLInputElement>;
   @ViewChild(Tooltip) tooltip!: Tooltip;
 
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private mapService: MapService,
     private addressService: AddressService,
     private tripService: TripService,
     private renderer: Renderer2,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class CreateDailyTripComponent implements OnInit {
   }
 
   onSubmit() {
+    this.messageService.clear();
     if (this.tripForm.valid) {
       // Utilise l'autocomplétion pour obtenir les données de l'address de départ
       const placeDeparture = this.mapService.getAutocompleteDeparture().getPlace();
@@ -93,32 +96,48 @@ export class CreateDailyTripComponent implements OnInit {
               };
               this.tripService.createTripDaily(tripData).subscribe(
                 (tripId) => {
-                  this.toastr.success('Trajet créé avec succès', 'Trajet créé');
-
+                  this.scrollToSection('map');
+                  this.messageService.add({ severity: 'success', summary: 'Trajet créé avec succès' });
+                  console.log('Trajet créé avec succès, ID :', tripId);
                 },
                 (tripError) => {
-                  console.error('Erreur lors de la création du trajet', tripError);
-                  this.toastr.error('Erreur lors de la création du trajet', 'Erreur');
-
+                  if (tripError.error.message == "INVALID_TIMESTAMP_PROPOSED") {
+                    this.scrollToSection('map');
+                    this.messageService.add({ severity: 'error', summary: 'La date et/ou l\'heure du trajet sont invalides' });
+                  } else if (tripError.error.message == "DATE_START_CANNOT_BE_HIGHER_THAN_DATE_END") {
+                    this.scrollToSection('map');
+                    this.messageService.add({ severity: 'error', summary: 'La date de début ne peut pas être supérieure à la date de fin' });
+                  } else {
+                    console.error('Erreur lors de la création du trajet', tripError);
+                    this.scrollToSection('map');
+                    this.messageService.add({ severity: 'error', summary: 'Une erreur s\'est produite. Veuillez réessayer plus tard.' });
+                  }
                 }
               );
             },
             (addressErrorArrival: any) => {
-              console.error('Erreur lors de la création de l\'address d\'arrivée', addressErrorArrival);
-              this.toastr.error('Erreur lors de la création de l\'address d\'arrivée', 'Erreur');
-
+              if (addressErrorArrival.error.message == "STREET_NUMBER_CANNOT_BE_NULL") {
+                this.scrollToSection('map');
+                this.messageService.add({ severity: 'error', summary: 'L\'adresse d\'arrivée n\'est pas valide' });
+              } else {
+                console.error('Erreur lors de la création du trajet', addressErrorArrival);
+                this.scrollToSection('map');
+                this.messageService.add({ severity: 'error', summary: 'Une erreur s\'est produite. Veuillez réessayer plus tard.' });
+              }
             }
           );
         },
         (addressErrorDeparture: any) => {
-          console.error('Erreur lors de la création de l\'address de départ', addressErrorDeparture);
-          this.toastr.error('Erreur lors de la création de l\'address de départ', 'Erreur');
+          if (addressErrorDeparture.error.message == "STREET_NUMBER_CANNOT_BE_NULL") {
+            this.scrollToSection('map');
+            this.messageService.add({ severity: 'error', summary: 'L\'adresse de départ n\'est pas valide' });
+          } else {
+            console.error('Erreur lors de la création du trajet', addressErrorDeparture);
+            this.scrollToSection('map');
+            this.messageService.add({ severity: 'error', summary: 'Une erreur s\'est produite. Veuillez réessayer plus tard.' });
+          }
         }
       );
-    } else {
-      console.error('Le formulaire est invalide');
-      this.toastr.error('Le formulaire est invalide', 'formulaire est invalide');
-
     }
   }
 
@@ -132,7 +151,7 @@ export class CreateDailyTripComponent implements OnInit {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ajoute un zéro si le mois est < 10
     const day = date.getDate().toString().padStart(2, '0'); // Ajoute un zéro si le jour est < 10
-  
+
     return `${year}-${month}-${day}`;
   }
 
@@ -141,11 +160,18 @@ export class CreateDailyTripComponent implements OnInit {
     const hours = date.getHours().toString().padStart(2, '0'); // Ajoute un zéro si l'heure est < 10
     const minutes = date.getMinutes().toString().padStart(2, '0'); // Ajoute un zéro si les minutes sont < 10
     const seconds = date.getSeconds().toString().padStart(2, '0'); // Ajoute un zéro si les secondes sont < 10
-  
+
     return `${hours}:${minutes}:${seconds}`;
   }
 
   onClick() {
     this.tooltip.activate();
+  }
+
+  scrollToSection(section: string): void {
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

@@ -30,8 +30,6 @@ export class TripService {
       `${this.backUrl}/trip/propose`,
       JSON.stringify(tripData),
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
@@ -46,8 +44,6 @@ export class TripService {
       `${this.backUrl}/trip/daily-trip`,
       JSON.stringify(tripData),
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
@@ -59,8 +55,6 @@ export class TripService {
       `${this.backUrl}/trip`,
       searchParams,
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 

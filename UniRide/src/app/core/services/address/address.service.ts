@@ -31,8 +31,6 @@ export class AddressService {
       `${this.backUrl}/address/add`,
       JSON.stringify(addressData),
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 

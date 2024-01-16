@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   userItems?: MenuItem[];
   isLoggedIn: boolean = false;
   userRole?: number;
+  isDriver: boolean = false;
 
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -38,10 +39,11 @@ export class NavbarComponent implements OnInit {
       this.userRole = -1
 
     if (this.isLoggedIn) {
-      this.items = []
-      let admin = (this.userRole == 0)
-      let driver = (this.userRole == 1 || admin)
-      let passengerOrDriver = (driver || this.userRole == 2)
+      this.items = [];
+      let admin = (this.userRole == 0);
+      let driver = (this.userRole == 1 || admin);
+      this.isDriver = driver;
+      let passengerOrDriver = (driver || this.userRole == 2);
       this.items.push({
         label: 'Rechercher un trajet',
         icon: 'pi pi-fw pi-search',
@@ -49,42 +51,51 @@ export class NavbarComponent implements OnInit {
           this.navigate("/trips/search");
         },
         visible: passengerOrDriver
-      },
-        {
-          label: 'Trajets Passager',
-          icon: 'pi pi-fw pi-list',
-          command: () => {
-            this.navigate("/trips/passenger");
-          },
-          visible: passengerOrDriver
-        })
+      });
 
       this.items.push(
         {
-          label: 'Proposer un trajet ponctuel',
-          icon: 'pi pi-fw pi-plus-circle',
-          command: () => {
-            this.navigate("/trips/create");
-          },
+          label: 'Proposer un trajet',
+          icon: 'pi pi-car',
+          items: [
+            {
+              label: 'Ponctuel',
+              icon: 'pi pi-fw pi-plus-circle',
+              command: () => {
+                this.navigate("/trips/create");
+              },
+              visible: driver
+            },
+            {
+              label: 'Quotidien',
+              icon: 'pi pi-fw pi-plus-circle',
+              command: () => {
+                this.navigate("/trips/create-daily");
+              },
+              visible: driver
+            }
+          ],
           visible: driver
         },
         {
-          label: 'Proposer un trajet quotidien',
-          icon: 'pi pi-fw pi-plus-circle',
-          command: () => {
-            this.navigate("/trips/create-daily");
-          },
-          visible: driver
-        },
-        {
-          label: 'Trajets Proposés',
+          label: 'Trajets Conducteurs',
           icon: 'pi pi-fw pi-list',
           command: () => {
             this.navigate("/trips/proposed");
           },
           visible: driver
         }
-      )
+      );
+
+      this.items.push(
+        {
+          label: 'Trajets Passagers',
+          icon: 'pi pi-fw pi-list',
+          command: () => {
+            this.navigate("/trips/passenger");
+          },
+          visible: passengerOrDriver
+        });
 
       this.userItems = [
         {
@@ -132,7 +143,7 @@ export class NavbarComponent implements OnInit {
             this.logout();
           }
         }
-      ]
+      ];
     }
     else {
       this.items = [
@@ -154,8 +165,6 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-
-
   logout(): void {
     this.authService.logout().pipe(
       tap(() => {
@@ -165,12 +174,8 @@ export class NavbarComponent implements OnInit {
       })).subscribe();
   }
 
-  isDriver(): boolean {
-    return (Number(sessionStorage.getItem("user_r")) == 1)
-  }
-
   navigate(path: string): void {
     this.sidebarVisible = false;
-    this.router.navigate([path])
+    this.router.navigate([path]);
   }
 }

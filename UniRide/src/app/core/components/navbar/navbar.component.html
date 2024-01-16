@@ -1,16 +1,16 @@
 <div class="flex-grow-1">
-    <p-menubar *ngIf="isLoggedIn" [model]="items" class="">
+    <p-menubar *ngIf="isLoggedIn" [model]="items" class="" [autoDisplay]="false">
         <ng-template pTemplate="start">
             <a href="">
-            <div class="logo-container mr-1">
-                <a href="/">
-                    <img id="logo" src="assets/UniRide-logo.png">
-                </a>
-            </div>
+                <div class="logo-container mr-1">
+                    <a href="/">
+                        <img id="logo" src="assets/UniRide-logo.png">
+                    </a>
+                </div>
             </a>
         </ng-template>
         <ng-template *ngIf="isLoggedIn" pTemplate="end">
-            <app-books-list *ngIf="isDriver()"></app-books-list>
+            <app-books-list *ngIf="isDriver"></app-books-list>
             <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true"
                 style="background-color: white; color: black;"></button>
         </ng-template>
