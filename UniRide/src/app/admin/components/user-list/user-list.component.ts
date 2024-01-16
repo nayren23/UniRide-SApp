@@ -77,7 +77,6 @@ export class UserListComponent implements OnInit {
           this.lisUsers.push(user);
         });
         this.lisUsers = [...this.lisUsers];
-        this.toastr.success('La liste des utilisateurs a été récupérée avec succès.', 'Info');
         this.loading = false;
       },
       error: (error: any) => {

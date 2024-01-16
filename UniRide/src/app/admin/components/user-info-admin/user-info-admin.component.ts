@@ -47,7 +47,6 @@ export class UserInfoAdminComponent implements OnInit {
     this.userService.getInfosUserById(this.id_user).subscribe({
       next: (data: any) => {
         this.user = data.user_information;
-        this.toastr.success('Les informations de l\'utilisateur ont été récupérées avec succès.', 'Info');
       },
       error: (error: any) => {
         console.log(error);

@@ -10,7 +10,7 @@ export class HomepageComponent {
 
   constructor(private router: Router) { }
 
-  redirectionDiscord() {
-    window.location.href = 'https://discord.gg/29En8s8qPT';
+  redirectionRegistration() {
+    this.router.navigate(['/registration']);
   }
 }

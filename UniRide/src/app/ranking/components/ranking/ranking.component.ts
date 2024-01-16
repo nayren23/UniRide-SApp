@@ -75,12 +75,8 @@ export class RankingComponent implements OnInit {
             this.passengerRankingList.push(rankingModel);
             this.passengerRankingList = [...this.passengerRankingList]; // refresh the table
           }
-
-          this.loading = false;
         })
-
-        const successMessage = type === 'driver' ? 'Le classement des conducteurs a été récupéré avec succès.' : 'Le classement des passagers a été récupéré avec succès.';
-        this.toastr.success(successMessage, 'Succès');
+        this.loading = false;
       },
       error: (error: any) => {
         this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
