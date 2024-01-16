@@ -48,6 +48,14 @@ export class UserService implements UserInterface {
     )
   }
 
+  getUserInfoDetails(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get(`${this.backUrl}/user/infos/${id}`, { headers })
+  }
+
   getInfosUserById(userId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

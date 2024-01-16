@@ -1,0 +1,19 @@
+        <div class="font-bold text-2xl flex">
+            <p-avatar *ngIf="user.profile_picture" [image]="user.profile_picture" class="mr-2" (click)="showDialog()"
+        size="xlarge" />
+            <p-avatar *ngIf="!user.profile_picture" icon="pi pi-user" class="mr-2" size="xlarge" (click)="showDialog()" />
+            <p>{{ user.firstname }} {{ user.lastname }}</p>
+        </div>
+        <p>Genre: {{ getGender() }}</p>
+        <p>{{ user.description }}</p>
+        <p-inplace>
+            <ng-template pTemplate="display">
+                <div class="inline-flex align-items-center">
+                    <span class="pi pi-phone" style="vertical-align: middle"></span>
+                    <span class="ml-2">Afficher le numéro de téléphone</span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <a href="tel:{{ getPhoneNumber() }}">{{ getPhoneNumber() }}</a>
+            </ng-template>
+        </p-inplace>
