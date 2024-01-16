@@ -5,13 +5,15 @@ import { SharedModule } from '../shared/shared.module';
 import { TripInfoRoutingModule } from './trip-info.rooting.module';
 import { PassengersListComponent } from './components/passengers-list/passengers-list.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 
 @NgModule({
   declarations: [
     TripInfoComponent,
     UserInfoSummaryComponent,
-    PassengersListComponent
+    PassengersListComponent,
+    UserInfoComponent
   ],
   imports: [
     SharedModule,
