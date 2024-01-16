@@ -46,6 +46,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { InplaceModule } from 'primeng/inplace';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 
 
@@ -109,7 +111,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     TooltipModule,
     RadioButtonModule,
     CalendarModule,
-    SelectButtonModule
+    SelectButtonModule,
+    InplaceModule,
+    DynamicDialogModule
   ]
 })
 export class SharedModule { }

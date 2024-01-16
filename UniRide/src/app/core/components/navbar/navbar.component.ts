@@ -166,7 +166,7 @@ export class NavbarComponent implements OnInit {
   }
 
   isDriver(): boolean {
-    return (Number(sessionStorage.getItem("user_r")) == 1)
+    return (Number(sessionStorage.getItem("user_r")) == 1 || Number(sessionStorage.getItem("user_r"))==0)
   }
 
   navigate(path: string): void {
