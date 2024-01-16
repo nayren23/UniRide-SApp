@@ -81,7 +81,7 @@ export class NavbarComponent implements OnInit {
           label: 'Trajets Conducteurs',
           icon: 'pi pi-fw pi-list',
           command: () => {
-            this.navigate("/trips/proposed");
+            this.navigate("/trips/driver");
           },
           visible: driver
         }

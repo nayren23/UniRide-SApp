@@ -24,7 +24,7 @@ const routes: Routes = [
         data: { roles: [ROLES.DRIVER, ROLES.PASSENGER, ROLES.ADMIN] }
       },
       {
-        path: 'proposed', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule),
+        path: 'driver', loadChildren: () => import('./trip-proposed/trip-proposed.module').then(m => m.TripProposedModule),
         data: { roles: [ROLES.DRIVER, ROLES.ADMIN] }
       },
       {

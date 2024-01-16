@@ -98,7 +98,7 @@ export class CreateDailyTripComponent implements OnInit {
                 (tripId) => {
                   this.scrollToSection('map');
                   this.messageService.add({ severity: 'success', summary: 'Trajet créé avec succès' });
-                  console.log('Trajet créé avec succès, ID :', tripId);
+                  console.log('Trajets créés avec succès, ID :', tripId);
                 },
                 (tripError) => {
                   if (tripError.error.message == "INVALID_TIMESTAMP_PROPOSED") {
