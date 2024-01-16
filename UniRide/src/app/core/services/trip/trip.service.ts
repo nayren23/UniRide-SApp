@@ -13,12 +13,7 @@ export class TripService {
 
   private backUrl = environment.backUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
-
-  private handleError(error: any): Observable<never> {
-    console.error(' error:', error);
-    return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
-  }
+  constructor(private http: HttpClient) { }
 
   createTrip(tripData: any): Observable<any> {
     const headers = new HttpHeaders({

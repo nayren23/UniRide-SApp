@@ -7,7 +7,7 @@
   <div #message class="mb-4">
     <p-messages [closable]=" false"></p-messages>
   </div>
-  <form [formGroup]="createTripForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
     <div class="p-inputgroup m-2">
       <span class="p-inputgroup-addon">
         <i class="pi pi-map"></i>
@@ -49,7 +49,7 @@
       </p-inputNumber>
     </div>
     <div class="flex justify-content-center mx-2 mt-4">
-      <button type="submit" pButton label="Créer" icon="pi pi-check" [disabled]="!createTripForm.valid"></button>
+      <button type="submit" pButton label="Créer" icon="pi pi-check" [disabled]="!tripForm.valid"></button>
     </div>
   </form>
 </p-card>

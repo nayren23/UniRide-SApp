@@ -88,8 +88,8 @@ export class CreateDailyTripComponent implements OnInit {
               const tripData = {
                 address_departure_id: addressIdDeparture,
                 address_arrival_id: addressIdArrival,
-                date_start: this.formatDate(this.tripForm.value.dateStart),
-                date_end: this.formatDate(this.tripForm.value.dateEnd),
+                date_start: this.formattedDate(this.tripForm.value.dateStart),
+                date_end: this.formattedDate(this.tripForm.value.dateEnd),
                 hour: this.formatTime(this.tripForm.value.hour),
                 total_passenger_count: this.tripForm.value.passengerNumber,
                 days: this.tripForm.value.days
@@ -146,7 +146,7 @@ export class CreateDailyTripComponent implements OnInit {
     return response.id_address || response.data?.id_address || null;
   }
 
-  private formatDate(dateString: string): string {
+  private formattedDate(dateString: string): string {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ajoute un zéro si le mois est < 10

@@ -13,7 +13,7 @@ import { MessageService } from 'primeng/api';
 })
 export class CreateTripComponent implements OnInit {
   minDate: Date = new Date();
-  createTripForm!: FormGroup;
+  tripForm!: FormGroup;
   description: string = " ";
 
   @ViewChild('searchInputDeparture', { static: true }) searchInputDeparture!: ElementRef<HTMLInputElement>;
@@ -31,7 +31,7 @@ export class CreateTripComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.createTripForm = this.formBuilder.group({
+    this.tripForm = this.formBuilder.group({
       addressDeparture: ['', Validators.required],
       addressArrival: ['', Validators.required],
       date: ['', Validators.required],
@@ -41,17 +41,17 @@ export class CreateTripComponent implements OnInit {
     if (!this.addressService.getUniversityAddress()) {
       this.addressService.callUniversityAddress().pipe(
         tap(() => {
-          this.mapService.addGoogleMapsScript(this.renderer, this.createTripForm, this.searchInputDeparture, this.searchInputArrival)
+          this.mapService.addGoogleMapsScript(this.renderer, this.tripForm, this.searchInputDeparture, this.searchInputArrival)
         })
       ).subscribe();
     } else {
-      this.mapService.addGoogleMapsScript(this.renderer, this.createTripForm, this.searchInputDeparture, this.searchInputArrival)
+      this.mapService.addGoogleMapsScript(this.renderer, this.tripForm, this.searchInputDeparture, this.searchInputArrival)
     }
   }
 
   onSubmit() {
     this.messageService.clear();
-    if (this.createTripForm.valid) {
+    if (this.tripForm.valid) {
       // Utilise l'autocomplétion pour obtenir les données de l'address de départ
       const placeDeparture = this.mapService.getAutocompleteDeparture().getPlace();
       const addressDataDeparture = this.addressService.extractAddressData(placeDeparture);
@@ -73,8 +73,8 @@ export class CreateTripComponent implements OnInit {
               const tripData = {
                 address_departure_id: addressIdDeparture,
                 address_arrival_id: addressIdArrival,
-                timestamp_proposed: this.formatDate(),
-                total_passenger_count: this.createTripForm.value.passengerNumber,
+                timestamp_proposed: this.formattedDate(),
+                total_passenger_count: this.tripForm.value.passengerNumber,
               };
               console.log("trip", tripData)
               this.tripService.createTrip(tripData).subscribe(
@@ -126,13 +126,13 @@ export class CreateTripComponent implements OnInit {
     return response.id_address || response.data?.id_address || null;
   }
 
-  private formatDate(): string {
-    const date = new Date(this.createTripForm.value.date);
+  private formattedDate(): string {
+    const date = new Date(this.tripForm.value.date);
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Ajoute un zéro si le mois est < 10
     const day = date.getDate().toString().padStart(2, '0'); // Ajoute un zéro si le jour est < 10
 
-    const time = new Date(this.createTripForm.value.time);
+    const time = new Date(this.tripForm.value.time);
     const hours = time.getHours().toString().padStart(2, '0'); // Ajoute un zéro si l'heure est < 10
     const minutes = time.getMinutes().toString().padStart(2, '0'); // Ajoute un zéro si les minutes sont < 10
     const seconds = time.getSeconds().toString().padStart(2, '0'); // Ajoute un zéro si les secondes sont < 10
