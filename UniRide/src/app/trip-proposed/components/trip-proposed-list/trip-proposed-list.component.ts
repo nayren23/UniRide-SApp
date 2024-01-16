@@ -73,6 +73,4 @@ export class TripProposedListComponent implements OnInit {
       default: return 'danger';
     }
   }
-
-
 }

@@ -24,20 +24,16 @@
     <ng-template pTemplate="body" let-trip>
         <tr [pSelectableRow]="trip" (click)="goToTripDetails(trip.id)">
             <td>
-                <span class="p-column-title">Status</span>
                 <p-tag [value]="getStatus(trip.status)" [severity]="getSeverity(trip.status)">
                 </p-tag>
             </td>
             <td>
-                <span class="p-column-title">Date</span>
                 {{trip.proposedDate | date: 'dd/MM/yyyy'}}
             </td>
             <td>
-                <span class="p-column-title">Départ</span>
                 {{trip.departure.name}}
             </td>
             <td>
-                <span class="p-column-title">Arrivée</span>
                 {{trip.arrival.name}}
             </td>
         </tr>
