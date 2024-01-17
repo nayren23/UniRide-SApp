@@ -13,12 +13,7 @@ export class TripService {
 
   private backUrl = environment.backUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
-
-  private handleError(error: any): Observable<never> {
-    console.error(' error:', error);
-    return throwError('Une erreur s\'est produite. Veuillez réessayer plus tard.');
-  }
+  constructor(private http: HttpClient) { }
 
   createTrip(tripData: any): Observable<any> {
     const headers = new HttpHeaders({
@@ -30,8 +25,6 @@ export class TripService {
       `${this.backUrl}/trip/propose`,
       JSON.stringify(tripData),
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
@@ -46,8 +39,6 @@ export class TripService {
       `${this.backUrl}/trip/daily-trip`,
       JSON.stringify(tripData),
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 
@@ -59,8 +50,6 @@ export class TripService {
       `${this.backUrl}/trip`,
       searchParams,
       { headers: headers }
-    ).pipe(
-      catchError(this.handleError)
     );
   }
 

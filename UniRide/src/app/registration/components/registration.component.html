@@ -177,17 +177,19 @@
                 [text]="messages['insurance'].summary" [style]="{'width':'100%'}"></p-message>
         </div>
 
+        <div class="mb-4">
+            <p-checkbox inputId="conditions" formControlName="acceptConditions" [binary]="true"></p-checkbox>
+            <label for="conditions" class="text-justify ml-2">En vous inscrivant vous acceptez les <a
+                    href="about/conditions">Conditions générales
+                    d'utilisation</a> de l'application.</label>
+        </div>
+
         <!-- Register Button -->
         <div class="flex justify-content-center flex-wrap">
             <p-button type="submit" label="S'inscrire"
                 [disabled]="!inscriptionForm.valid || !passwordsMatch()"></p-button>
         </div>
         <div>
-            <p class="text-justify">
-                En vous inscrivant vous acceptez les <a href="about/conditions">Conditions générales d'utilisation</a>
-                de
-                l'application.
-            </p>
         </div>
     </p-card>
 </form>

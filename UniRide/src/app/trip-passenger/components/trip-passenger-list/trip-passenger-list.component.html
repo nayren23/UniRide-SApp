@@ -1,19 +1,6 @@
-<p-table
-[value]="trips" 
-[tableStyle]="{'min-width': '60rem'}"
-[loading]="loading"
-dataKey="id"
-[rowHover]="true"
-[rows]="10"
-[rowsPerPageOptions]="[10, 25, 50]" 
-[paginator]="true"
-[filterDelay]="0"
->
-    <ng-template>
-        <div class="flex align-items-center justify-content-between">
-            Vos Trajets en tant que passagers
-        </div>
-    </ng-template>
+<h1 class="text-white">Trajets Passagers</h1>
+<p-table [value]="trips" [tableStyle]="{'min-width': '60rem'}" [loading]="loading" dataKey="id" [rowHover]="true"
+    [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [filterDelay]="0">
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="status">
@@ -38,9 +25,8 @@ dataKey="id"
         <tr [pSelectableRow]="trip" (click)="goToTripDetails(trip.id)">
             <td>
                 <span class="p-column-title">Status</span>
-                <p-tag [value]="getStatus(trip.status, trip.book_status)" 
-                [severity]="getSeverity(getStatus(trip.status, trip.book_status))"
-                [style]="gray(getStatus(trip.status, trip.book_status))">
+                <p-tag [value]="getStatus(trip.status, trip.book_status)"
+                    [severity]="getSeverity(getStatus(trip.status, trip.book_status))">
                 </p-tag>
             </td>
             <td>

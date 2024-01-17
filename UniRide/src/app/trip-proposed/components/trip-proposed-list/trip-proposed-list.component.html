@@ -1,3 +1,41 @@
-<h1 class="text-white">Trajets Proposés</h1>
-<p *ngIf="tripsProposed.length === 0 && subscriptionComplete" class="noTrips text-white">Vous n'avez proposés aucun trajets.</p>
-<app-trip-proposed class="tripProposed" *ngFor="let trip of tripsProposed" [trip]="trip"></app-trip-proposed>
+<h1 class="text-white">Trajets Conducteur</h1>
+<p-table [value]="trips" [tableStyle]="{'min-width': '60rem'}" [loading]="loading" dataKey="id" [rowHover]="true"
+    [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [filterDelay]="0">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="status">
+                Status
+                <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th pSortableColumn="proposedDate">
+                Date
+                <p-sortIcon field="proposedDate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="departure.name">
+                Départ
+                <p-sortIcon field="departure.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="arrival.name">
+                Arrivée
+                <p-sortIcon field="arrival.name"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-trip>
+        <tr [pSelectableRow]="trip" (click)="goToTripDetails(trip.id)">
+            <td>
+                <p-tag [value]="getStatus(trip.status)" [severity]="getSeverity(trip.status)">
+                </p-tag>
+            </td>
+            <td>
+                {{trip.proposedDate | date: 'dd/MM/yyyy'}}
+            </td>
+            <td>
+                {{trip.departure.name}}
+            </td>
+            <td>
+                {{trip.arrival.name}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
