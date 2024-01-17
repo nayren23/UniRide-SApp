@@ -399,7 +399,6 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   changePassword(): void {
-    // Assurez-vous que les champs requis sont remplis
     if (
       !this.changePasswordFormData.old_password ||
       !this.changePasswordFormData.new_password ||
@@ -432,8 +431,8 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   isSamePassword(): boolean {
-    const oldPassword = this.changePasswordFormData.new_password;
-    const newPassword = this.changePasswordFormData.new_password_confirmation;
+    const oldPassword = this.changePasswordFormData.old_password;
+    const newPassword = this.changePasswordFormData.new_password;
 
     return oldPassword === newPassword;
   }
