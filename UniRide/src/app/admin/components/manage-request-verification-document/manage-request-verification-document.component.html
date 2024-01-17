@@ -11,8 +11,9 @@
     <ng-template let-document pTemplate="listItem">
         <div class="col-12">
             <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                <app-display-pdf *ngIf="document.url.includes('pdf')" [document]="document"></app-display-pdf>
-                <p-image *ngIf="!document.url.includes('pdf')" src="{{document.url}}"
+                <app-display-pdf *ngIf="document.url.startsWith('data:application/pdf')"
+                    [document]="document"></app-display-pdf>
+                <p-image *ngIf="!document.url.startsWith('data:application/pdf')" src="{{document.url}}"
                     alt="image {{convertType(document.type)}}" width="250" [preview]="true"></p-image>
                 <div
                     class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">

@@ -45,7 +45,12 @@ export class LogInComponent implements OnInit {
                 sessionStorage.setItem('user_id', data.id);
                 sessionStorage.setItem('user_r', data.role);
                 this.authService.setIsAuthentified(true);
-                this.router.navigate(['']);
+                if (data.role == 3) {
+                  this.router.navigate(['/profil-information']);
+                  this.toastr.error('Pour accéder aux fonctionnalités, la carte d\'identité et le certificat de scolarité doivent être vérifiés', 'Informations manquantes')
+                } else {
+                  this.router.navigate(['']);
+                }
               },
               error: (error: any) => {
                 console.log('error:', error); this.toastr.error('Une erreur s\'est produite', 'Erreur')
