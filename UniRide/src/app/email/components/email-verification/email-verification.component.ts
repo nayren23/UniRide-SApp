@@ -37,7 +37,6 @@ export class EmailVerificationComponent implements OnInit {
               if (this.authService.isAuthenticated()) {
                 this.authService.logout().subscribe();
               } else {
-                console.log('Redirection vers la page de connexion');
                 this.router.navigate(['/login']);
               }
             }, 2000);

@@ -22,7 +22,7 @@ export class DocumentVerificationService {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.backUrl}/user/verify/document`,
+      `${this.backUrl}/admin/verify/document`,
       { headers: headers }
     )
   }
@@ -36,7 +36,7 @@ export class DocumentVerificationService {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.backUrl}/user/document-user/${id_user}`,
+      `${this.backUrl}/admin/document-user/${id_user}`,
       { headers: headers }
     )
   }
@@ -52,7 +52,7 @@ export class DocumentVerificationService {
     });
 
     return this.http.put(
-      `${this.backUrl}/user/check`,
+      `${this.backUrl}/admin/check`,
       JSON.stringify(checkData),
       { headers: headers }
     );

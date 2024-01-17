@@ -58,7 +58,6 @@ export class ProfilInformationComponent implements OnInit {
         this.hasCar = true;
       },
       error: (error) => {
-        console.log('Il n\'existe pas de voiture pour cette utilisateur', error.status);
         if (error.status === 422) {
           this.hasCar = false;
         }
@@ -72,7 +71,6 @@ export class ProfilInformationComponent implements OnInit {
         data.documents.forEach((documentGroup: any) => {
           documentGroup.document.forEach((document: any) => {
             const userDocument = document as UserDocuments;
-            console.log('userDocument', userDocument.type);
             this.userDocuments.push(userDocument);
           });
         });
@@ -248,7 +246,6 @@ export class ProfilInformationComponent implements OnInit {
 
       this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
         (response) => {
-          console.log(`Modification du champ enregistrée avec succès`, response);
           this.editingField = null;
           this.getuserInfo();
           this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info');
@@ -276,7 +273,6 @@ export class ProfilInformationComponent implements OnInit {
   updateCar(): void {
     this.carService.updateCar(this.car).subscribe(
       (response) => {
-        console.log('Car updated successfully', response);
         this.toastr.success('Les informations du véhicule ont été modifiés avec succès.', 'Info');
       },
       (error) => {

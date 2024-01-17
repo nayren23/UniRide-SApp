@@ -33,7 +33,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/infos/${userId}`,
+      `${this.backUrl}/admin/infos/${userId}`,
       { headers: headers }
     )
   }
@@ -43,7 +43,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/users-informations`,
+      `${this.backUrl}/admin/users-informations`,
       { headers: headers }
     )
   }
@@ -61,7 +61,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/infos/${userId}`,
+      `${this.backUrl}/admin/infos/${userId}`,
       { headers: headers }
     )
   }
@@ -71,7 +71,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.delete(
-      `${this.backUrl}/user/user-management/${userId}`,
+      `${this.backUrl}/admin/user-management/${userId}`,
       { headers: headers }
     )
   }
@@ -81,7 +81,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/drivers-ranking`,
+      `${this.backUrl}/admin/drivers-ranking`,
       { headers: headers }
     )
   }
@@ -91,7 +91,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/passengers-ranking`,
+      `${this.backUrl}/admin/passengers-ranking`,
       { headers: headers }
     )
   }
@@ -101,7 +101,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json'
     });
     return this.http.get(
-      `${this.backUrl}/user/actif-criterion/${idRole}`,
+      `${this.backUrl}/admin/actif-criterion/${idRole}`,
       { headers: headers }
     )
   }

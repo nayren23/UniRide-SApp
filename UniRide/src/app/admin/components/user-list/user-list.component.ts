@@ -64,7 +64,6 @@ export class UserListComponent implements OnInit {
 
     this.userService.getListUsers().subscribe({
       next: (data: any) => {
-        console.log("data", data);
         data.users.forEach((verification: any) => {
           const user: User = {
             id: verification.id_user,

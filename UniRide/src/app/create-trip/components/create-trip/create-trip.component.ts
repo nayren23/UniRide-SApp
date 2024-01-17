@@ -61,7 +61,6 @@ export class CreateTripComponent implements OnInit {
       const addressDataArrival = this.addressService.extractAddressData(placeArrival);
 
 
-      console.log("json", JSON.stringify(addressDataDeparture));
       this.addressService.createAddress(addressDataDeparture).subscribe(
         (addressResponseDeparture: any) => {
           const addressIdDeparture = this.extractIdFromResponse(addressResponseDeparture);
@@ -76,7 +75,6 @@ export class CreateTripComponent implements OnInit {
                 timestamp_proposed: this.formattedDate(),
                 total_passenger_count: this.tripForm.value.passengerNumber,
               };
-              console.log("trip", tripData)
               this.tripService.createTrip(tripData).subscribe(
                 (tripId) => {
                   this.scrollToSection('map');
