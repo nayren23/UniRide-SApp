@@ -1,6 +1,6 @@
 // trip-search-result-list.component.ts
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TripService } from '../../../core/services/trip/trip.service';
 import { tap } from 'rxjs';
 import { Trip } from '../../../core/models/trip.models';
@@ -12,18 +12,18 @@ import { Trip } from '../../../core/models/trip.models';
 })
 export class TripSearchResultListComponent implements OnInit {
 
-  searchResults: Trip[] = [];
-  subscriptionComplete: boolean = false;
+  trips: Trip[] = [];
+  loading: boolean = true;
 
-  constructor(private tripService: TripService, private route: ActivatedRoute) { }
+  constructor(private tripService: TripService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.pipe(
       tap((params: any) => {
-        this.tripService.searchTrips(params["params"]).pipe(
-          tap((data: any) => {
+        this.tripService.searchTrips(params["params"]).subscribe({
+          next: (data: any) => {
             data.trips.forEach((trip: any) => {
-              this.searchResults.push({
+              this.trips.push({
                 id: trip.trip_id,
                 driverId: trip.driver,
                 departure: {
@@ -43,21 +43,49 @@ export class TripSearchResultListComponent implements OnInit {
                 numberOfPassenger: trip.total_passenger_count,
                 distance: trip.address.distance,
               });
-
-            });
+            })
+          },
+          complete: () => {
             this.trierParDistance();
-          }),
-        ).subscribe(() => this.subscriptionComplete = true);
+            this.trips = [...this.trips]
+            this.loading = false;
+            console.log('trips:', this.trips);
+          }
+        });
       }),
     ).subscribe();
   }
 
   trierParDistance(): void {
-    this.searchResults.sort((a, b) => {
+    this.trips.sort((a, b) => {
       if (a.distance == undefined || b.distance == undefined) {
-        return 0; // or some other logic to handle undefined cases
+        return 0;
       }
       return a.distance - b.distance;
     });
+  }
+
+  getStatus(status: number): string {
+    switch (status) {
+      case 1: return 'À Venir';
+      case 2: return 'Annulé';
+      case 3: return 'Trajet Passé';
+      case 4: return 'En Cours';
+      default: return 'Inconnu';
+    }
+  }
+
+  getSeverity(status: number): string {
+    switch (status) {
+      case 1: return 'primary';
+      case 3: return 'warning';
+      case 4: return 'success';
+      default: return 'danger';
+    }
+  }
+
+  goToTripDetails(trip_id: number) {
+    console.log(trip_id)
+    this.router.navigate([`/trips/${trip_id}`]);
   }
 }

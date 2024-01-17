@@ -46,6 +46,7 @@ export class RegistrationComponent implements OnInit {
       school_certificate: [''],
       license: [''],
       insurance: [''],
+      acceptConditions: [false, Validators.requiredTrue],
     });
     this.messages = {
       login: {

@@ -246,7 +246,7 @@ export class TripInfoComponent implements OnInit {
     this.userId = Number(sessionStorage.getItem("user_id"))
     this.getTripDetails()
   }
-  
+
   displayBookingStatus(): void {
     this.messageService.clear();
     if (this.trip.status != 1 && this.book.accepted == 0) {
@@ -257,7 +257,9 @@ export class TripInfoComponent implements OnInit {
       case -1: this.messageService.add({ severity: 'error', summary: 'Réservation refusée' }); break;
       case 0:
         if (this.trip.status == 1)
-          this.messageService.add({ severity: 'info', summary: 'Réservation en attente' });
+          this.messageService.add({
+            severity: 'info', summary: 'Réservation en attente d\'une réponse'
+          });
         else
           this.messageService.add({ severity: 'error', summary: 'Réservation refusée' });
         break;

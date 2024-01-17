@@ -1,49 +1,55 @@
-<!-- trip-search.component.html -->
-<section class="container">
-  <section class="section trip-search">
-    <div class="form-box">
-      <div class="form-value">
-        <form class="form" [formGroup]="searchTripForm" (ngSubmit)="search()">
-          <h2>Rechercher un trajet</h2>
-
-          <div class="inputbox">
-            <input type="text" required formControlName="addressDeparture" id="addressDeparture" #searchInputDeparture
-              autocomplete="off">
-            <label class="text-white" for="">Adresse de Départ</label>
-          </div>
-
-          <div class="inputbox">
-            <input type="text" required formControlName="addressArrival" id="addressArrival" #searchInputArrival
-              autocomplete="off">
-            <label class="text-white" for="">Adresse d'Arrivée</label>
-          </div>
-
-          <div class="inputbox">
-            <input type="date" required formControlName="date">
-            <label class="text-white" for="">Date</label>
-          </div>
-
-          <div class="inputbox">
-            <input type="time" required formControlName="time">
-            <label class="text-white" for="">Horaire</label>
-          </div>
-
-          <div class="inputbox">
-            <input type="number" required formControlName="passengerNumber">
-            <label class="text-white" for="">Nombre de Passagers</label>
-          </div>
-
-          <!-- Display an error if the number of passengers is over 4 -->
-          <div *ngIf="searchTripForm?.get('passengerNumber')?.hasError('max')" class="error-message">
-            Le nombre de passagers ne peut pas dépasser 4.
-          </div>
-
-          <button class="text-white" type="button" (click)="search()">Rechercher</button>
-        </form>
+<p-card header="Rechercher un trajet">
+  <ng-template pTemplate="header">
+    <section class="section" id="map-section">
+      <div #map id="map"></div>
+    </section>
+  </ng-template>
+  <div #message class="mb-4">
+    <p-messages [closable]=" false"></p-messages>
+  </div>
+  <form [formGroup]="tripForm" (ngSubmit)="search()">
+    <div class="p-inputgroup m-2">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-map"></i>
+      </span>
+      <span class="p-float-label">
+        <input pInputText formControlName="addressDeparture" #searchInputDeparture />
+        <label htmlFor="addressDeparture">Adresse de départ</label>
+      </span>
+    </div>
+    <div class="p-inputgroup my-4 m-2">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-map"></i>
+      </span>
+      <span class="p-float-label">
+        <input pInputText formControlName="addressArrival" #searchInputArrival />
+        <label htmlFor="addressArrival">Adresse d'arrivée</label>
+      </span>
+    </div>
+    <div class="p-inputgroup m-2 my-4 flex">
+      <div class="flex-auto">
+        <label for="nbPassenger" class="font-bold block"> Date de départ </label>
+        <p-calendar formControlName="date" [showIcon]="true" [touchUI]="true" [minDate]="minDate" [showButtonBar]="true"
+          [readonlyInput]="true" placeholder="Date de départ" :pt="{
+                      :deep(.p-icon) {
+                          color: #3a82f6;
+                      },
+                    }"></p-calendar>
       </div>
     </div>
-  </section>
-  <section class="section" id="map-section">
-    <div #map id="map"></div>
-  </section>
-</section>
+    <div class="flex-auto m-2 my-4">
+      <label for="nbPassenger" class="font-bold block mb-2"> Heure de départ</label>
+      <p-calendar formControlName="time" [timeOnly]="true" [readonlyInput]="true"
+        placeholder="Heure de départ"></p-calendar>
+    </div>
+
+    <div class="flex-auto m-2 my-4">
+      <label for="nbPassenger" class="font-bold block mb-2"> Nombre de Passagers </label>
+      <p-inputNumber formControlName="passengerNumber" [showButtons]="true" inputId="stacked" [min]="1" [max]="8">
+      </p-inputNumber>
+    </div>
+    <div class="flex justify-content-center mx-2 mt-4">
+      <button type="submit" pButton label="Rechercher" icon="pi pi-check" [disabled]="!tripForm.valid"></button>
+    </div>
+  </form>
+</p-card>
