@@ -40,6 +40,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'validate-passenger', loadChildren: () => import('./validate-passenger/validate-passenger.module').then(m => m.ValidatePassengerModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule),
     canActivate: [AuthGuard]
   },
