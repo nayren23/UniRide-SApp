@@ -17,12 +17,14 @@ import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     BookComponent,
     BooksListComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -35,9 +37,10 @@ import { TagModule } from 'primeng/tag';
     AccordionModule,
     BlockUIModule,
     TagModule
-],
+  ],
   exports: [
     NavbarComponent,
+    FooterComponent
   ],
   providers: [
     ConfirmationService,

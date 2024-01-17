@@ -22,12 +22,10 @@ export class DisplayPdfComponent implements OnInit {
 
   zoomIn(): void {
     this.zoom += 0.1;
-    console.log(this.zoom);
   }
 
   zoomOut(): void {
     if (this.zoom > 0.1) this.zoom -= 0.1;
-    console.log(this.zoom);
   }
 
   render(): void {

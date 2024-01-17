@@ -55,7 +55,6 @@ export class AuthService {
   logout(): Observable<any> {
     return this.http.delete(`${environment.backUrl}/user/logout`).pipe(
       tap(() => {
-        console.log('logout');
         sessionStorage.clear();
         this.cookieService.delete('keepLoggedIn');
         this.cookieService.delete('IsAuthentified');
@@ -108,7 +107,6 @@ export class AuthService {
   register(formData: any): Observable<any> {
     const headers = new HttpHeaders({
     });
-    console.log(formData);
     return this.http.post(`${environment.backUrl}/user/register`, formData, { headers: headers })
   }
 }

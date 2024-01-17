@@ -39,6 +39,7 @@ export class TripPassengerListComponent implements OnInit {
           })
         },
         complete: () => {
+          this.trips = [...this.trips]
           this.loading = false;
         }
       }
@@ -71,20 +72,16 @@ export class TripPassengerListComponent implements OnInit {
   getSeverity(status: string): string {
     switch (status) {
       case "refusé": return "danger";
-      case "en cours": return "info";
+      case "trajet annulé": return "danger";
+      case "en cours": return "success";
       case "accepté": return "success";
-      default: return "";
+      case "trajet passé": return "warning";
+      case "sans réponse": return "info";
+      default: return "primary";
     }
   }
 
-  gray(status: string): any {
-    if (!["refusé", "en cours", "accepté"].includes(status))
-      return { 'background': 'gray' }
-    return {}
-  }
-
   goToTripDetails(trip_id: number) {
-    console.log(trip_id)
     this.router.navigate([`/trips/${trip_id}`]);
   }
 }

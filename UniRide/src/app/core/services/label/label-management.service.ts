@@ -19,7 +19,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.get(
-      `${this.backUrl}/user/label`,
+      `${this.backUrl}/admin/label`,
       { headers: headers }
     )
   }
@@ -29,7 +29,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.delete(
-      `${this.backUrl}/user/label/${id}`,
+      `${this.backUrl}/admin/label/${id}`,
       { headers: headers }
     )
   }
@@ -39,7 +39,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.put(
-      `${this.backUrl}/user/label`,
+      `${this.backUrl}/admin/label`,
       { name: label.name, description: label.description, id_criteria: label.id_criteria, role: label.role },
       { headers: headers }
     )
@@ -50,7 +50,7 @@ export class LabelService implements LabelInterface {
       'Content-Type': 'application/json',
     });
     return this.http.post(
-      `${this.backUrl}/user/label`,
+      `${this.backUrl}/admin/label`,
       { name: label.name, description: label.description, role: label.role },
       { headers: headers }
     )

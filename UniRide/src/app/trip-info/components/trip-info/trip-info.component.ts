@@ -255,7 +255,6 @@ export class TripInfoComponent implements OnInit {
     if (this.trip.driverId != this.userId) {
       this.bookService.get_booking(this.trip.id).pipe(
         tap((data: any) => {
-          console.log(data);
           this.book = data;
           this.alreadyBooked = true;
           this.displayBookingStatus();
@@ -270,7 +269,7 @@ export class TripInfoComponent implements OnInit {
     this.userId = Number(sessionStorage.getItem("user_id"))
     this.getTripDetails()
   }
-  
+
   displayBookingStatus(): void {
     this.messageService.clear();
     if (this.trip.status != 1 && this.book.accepted == 0) {
@@ -281,7 +280,9 @@ export class TripInfoComponent implements OnInit {
       case -1: this.messageService.add({ severity: 'error', summary: 'Réservation refusée' }); break;
       case 0:
         if (this.trip.status == 1)
-          this.messageService.add({ severity: 'info', summary: 'Réservation en attente' });
+          this.messageService.add({
+            severity: 'info', summary: 'Réservation en attente d\'une réponse'
+          });
         else
           this.messageService.add({ severity: 'error', summary: 'Réservation refusée' });
         break;
@@ -292,7 +293,6 @@ export class TripInfoComponent implements OnInit {
   getCode(): void {
     this.bookService.getCode(this.trip.id).pipe(
       tap((data: any) => {
-        console.log(data);
         this.qrCodeValue = `${environment.frontUrl}/validate-passenger?trip-id=${this.trip.id}&user-id=${this.userId}&code=${data.verification_code}`;
       })).subscribe();
   }
