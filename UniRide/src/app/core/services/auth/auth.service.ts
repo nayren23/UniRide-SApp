@@ -109,4 +109,22 @@ export class AuthService {
     });
     return this.http.post(`${environment.backUrl}/user/register`, formData, { headers: headers })
   }
+
+  changePassword(formData: any, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${environment.backUrl}/user/change/password/${token}`, formData, { headers: headers })
+  }
+
+  forgotPassword(student_email: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(
+      `${environment.backUrl}/user/request-password-change`,
+      student_email,
+      { headers: headers }
+    );
+  }
 }

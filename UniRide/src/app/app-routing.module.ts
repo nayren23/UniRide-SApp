@@ -1,4 +1,4 @@
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { roleGuardFactory } from './core/guards/role-guard';
@@ -7,6 +7,7 @@ import { ROLES } from './core/const/roles';
 const routes: Routes = [
   { path: 'registration', loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule) },
   { path: 'login', loadChildren: () => import('./log-in/log-in.module').then(m => m.LogInModule) },
+  { path: 'change-password', loadChildren: () => import('./forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) },
   {
     path: 'trips',
     canActivateChild: [roleGuardFactory],
