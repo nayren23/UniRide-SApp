@@ -12,4 +12,8 @@ export class AboutService {
   getConditions() {
     return this.http.get(`${environment.backUrl}/about/conditions`);
   }
+
+  getPrivacy() {
+    return this.http.get(`${environment.backUrl}/about/privacy`);
+  }
 }
