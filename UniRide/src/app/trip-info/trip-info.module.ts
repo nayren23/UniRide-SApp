@@ -6,6 +6,7 @@ import { TripInfoRoutingModule } from './trip-info.rooting.module';
 import { PassengersListComponent } from './components/passengers-list/passengers-list.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     TripInfoComponent,
     UserInfoSummaryComponent,
     PassengersListComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    RatingComponent
   ],
   imports: [
     SharedModule,
@@ -23,7 +25,8 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
   exports: [
     TripInfoComponent,
     UserInfoSummaryComponent,
-    PassengersListComponent
+    PassengersListComponent,
+    RatingComponent
   ]
 })
 export class TripInfoModule { }

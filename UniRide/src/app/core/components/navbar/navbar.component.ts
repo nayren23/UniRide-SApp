@@ -113,7 +113,7 @@ export class NavbarComponent implements OnInit {
           }
         },
         {
-          label: 'Admin',
+          label: 'Documents',
           icon: 'pi pi-fw pi-file',
           command: () => {
             this.navigate("admin/documents");

@@ -1,0 +1,16 @@
+<div class="flex justify-content-center">
+  <div [hidden]="visible">
+    <form [formGroup]="ratingForm" class="mb-2">
+        <div formArrayName="labels">
+            <div *ngFor="let labelGroup of labelsFormArray.controls; let i = index" [formGroupName]="i">
+                <p>{{labels[i].name}}</p>
+                <p-rating formControlName="rating" [cancel]="false"></p-rating>
+            </div>
+        </div>
+    </form>
+    <button (click)="submitRatings()" pButton label="Envoyer les notes" icon="pi pi-check"></button>
+    </div>
+    <div [hidden]="!visible" class="flex justify-content-center">
+        <p [hidden]="!visible">Merci de votre participation !</p>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { User } from '../../../../app/core/models/user.model'
 import { Car } from '../../../../app/core/models/car.model'
 import { ToastrService } from 'ngx-toastr';
 import { UserDocuments } from '../../../core/models/user-documents.model';
+import { FileUploadErrorEvent, FileUploadHandlerEvent } from 'primeng/fileupload';
 
 interface FileUploadEvent {
   originalEvent: any;
@@ -78,6 +79,7 @@ export class ProfilInformationComponent implements OnInit {
             this.userDocuments.push(userDocument);
           });
         });
+        console.log('userDocuments:', this.userDocuments);
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des informations sur les documents', error);
@@ -318,7 +320,8 @@ export class ProfilInformationComponent implements OnInit {
     );
   }
 
-  onUpload(event: FileUploadEvent, document: UserDocuments) {
+  onUpload(event: FileUploadHandlerEvent, document: UserDocuments, uploader: any) {
+    console.log('event:', event);
     const documentType = document.type;
     const nomDocument = this.convertType(documentType);
 
@@ -328,11 +331,16 @@ export class ProfilInformationComponent implements OnInit {
       this.profilService.saveDocument(file, this.convertDataType(documentType), this.convertRouteType(documentType)).subscribe({
         next: (data: any) => {
           this.toastr.success(`Le document ${nomDocument} a été enregistré avec succès.`, 'Info')
-          document.url = URL.createObjectURL(file);
+          this.convertFileToBase64(file).then(base64String => {
+            document.url = base64String;
+          })
         },
         error: (error: any) => {
           this.toastr.error(`Erreur lors de l'enregistrement du document ${nomDocument}.`, 'Erreur');
           console.log('error:', error);
+        },
+        complete: () => {
+          uploader.clear();
         }
       });
     } else {
@@ -340,7 +348,25 @@ export class ProfilInformationComponent implements OnInit {
       console.log('Aucun fichier sélectionné.');
     }
   }
-  updateProfilePicture(event: FileUploadEvent) {
+
+  convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        let base64String: string = reader.result as string;
+
+        console.log('base64String:', base64String);
+
+        resolve(base64String);
+      };
+
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  updateProfilePicture(event: FileUploadErrorEvent) {
     if (event.files && event.files.length > 0) {
       const file = event.files[0];
 

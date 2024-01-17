@@ -12,13 +12,15 @@ import { BookService } from '../../../core/services/book/book.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { environment } from 'src/environements/environement';
 import { Book } from 'src/app/core/models/book.models';
+import { RatingComponent } from '../rating/rating.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 
 @Component({
   selector: 'app-trip-info',
   templateUrl: './trip-info.component.html',
   styleUrls: ['./trip-info.component.css'],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService, MessageService, DialogService],
 })
 export class TripInfoComponent implements OnInit {
 
@@ -35,6 +37,8 @@ export class TripInfoComponent implements OnInit {
   msgs: any[] = [];
   severity!: string;
   label!: string;
+  ref: DynamicDialogRef | undefined;
+  alreadyRated: boolean = false;
 
   constructor(
     private tripService: TripService,
@@ -47,7 +51,8 @@ export class TripInfoComponent implements OnInit {
     private location: Location,
     private toastr: ToastrService,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -110,6 +115,7 @@ export class TripInfoComponent implements OnInit {
       default: this.label = 'Inconnu';
     }
   }
+  
 
   setSeverity(): void {
     switch (this.trip.status) {
@@ -222,6 +228,23 @@ export class TripInfoComponent implements OnInit {
       }
     });
   }
+
+  showDialog() {
+    this.ref = this.dialogService.open(RatingComponent, {
+      style: { width: '50vw' },
+      data: {
+        tripid: this.trip.id
+      },
+      header: "Noter le trajet"
+    })
+
+    this.ref.onClose.subscribe(data => {
+      console.log(data)
+      this.alreadyRated = data.dataSend
+    });
+  }
+
+  
 
 
   back(): void {
