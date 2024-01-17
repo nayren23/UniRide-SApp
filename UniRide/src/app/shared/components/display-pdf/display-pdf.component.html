@@ -1,7 +1,7 @@
-<p-button *ngIf="document.url.includes('pdf')" (click)="displayPDF()" icon="pi pi-external-link"
+<p-button *ngIf="document.url.startsWith('data:application/pdf')" (click)="displayPDF()" icon="pi pi-external-link"
     label="Afficher"></p-button>
-<p-dialog *ngIf="document.url.includes('pdf')" [(visible)]="display" #dialog (onShow)="dialog.maximize()"
-    (onMaximize)="render()">
+<p-dialog *ngIf="document.url.startsWith('data:application/pdf')" [(visible)]="display" #dialog
+    (onShow)="dialog.maximize()" (onMaximize)="render()">
     <div class="flex justify-content-center align-items-center">
         <p-button class="mt-2 mb-2 mr-1" severity="secondary" [text]="true" size="small" [rounded]="true"
             (click)="zoomIn()">+</p-button>
