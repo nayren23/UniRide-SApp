@@ -2,11 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../../core/models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { TripService } from 'src/app/core/services/trip/trip.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UserInfoComponent } from '../user-info/user-info.component';
 
 @Component({
   selector: 'app-passengers-list',
   templateUrl: './passengers-list.component.html',
-  styleUrls: ['./passengers-list.component.css']
+  styleUrls: ['./passengers-list.component.css'],
+  providers: [DialogService]
 })
 export class PassengersListComponent implements OnInit {
   @Input() tripId!: number;
@@ -14,10 +17,12 @@ export class PassengersListComponent implements OnInit {
   @Input() totalNumberOfPassenger!: number;
   @Input() numberOfPassenger!: number;
   passengers: User[] = [];
+  ref: DynamicDialogRef | undefined; 
 
   constructor(
     private tripService: TripService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
@@ -73,4 +78,22 @@ export class PassengersListComponent implements OnInit {
     }
   }
 
+  showDialog(passengerid: number) {
+    console.log(passengerid)
+    if (passengerid >= -1) {
+    this.ref = this.dialogService.open(UserInfoComponent, {
+      style: { width: '50vw' },
+      data: {
+        userid: passengerid
+      },
+      header: "Details du profil"
+    })
+  }
+}
+
+  ngOnDestroy() { 
+    if (this.ref) { 
+        this.ref.close(); 
+    } 
+} 
 }
