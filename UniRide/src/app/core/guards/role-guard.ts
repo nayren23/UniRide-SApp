@@ -9,7 +9,7 @@ export function roleGuardFactory(route: ActivatedRouteSnapshot, state: RouterSta
     if (authService.hasRole(requiredRoles)) {
       return true;
     } else {
-      router.navigate(['/login']);
+      router.navigate(['/unauthorized']);
       return false;
     }
 }

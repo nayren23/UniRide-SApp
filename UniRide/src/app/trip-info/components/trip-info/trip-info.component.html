@@ -63,6 +63,9 @@
                             <p-button severity="success" (click)="startTrip()" [disabled]="!canStartTrip"
                                 icon="pi pi-check" label="Commencer"></p-button>
                         </div>
+                    <div *ngIf="trip.status == 3 && (book.accepted == 1)">
+                        <p-button (click)="showDialog()" label="Noter le trajet" [disabled]="alreadyRated"></p-button>
+                    </div>
                         <p-button severity="danger" *ngIf="userId == trip.driverId && trip.status == 4"
                             (click)="endTrip()" icon="pi pi-times" label="Terminer"></p-button>
                         <p-button severity="danger"
