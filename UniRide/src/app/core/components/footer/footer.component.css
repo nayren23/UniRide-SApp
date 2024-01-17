@@ -3,14 +3,16 @@ body {
 }
 
 .new_footer_area {
-    margin-top: 20px;
     background: #fbfbfd;
 }
 
+
 .new_footer_top {
-    padding: 20px 0px 70px;
+    padding: 120px 0px 270px;
+    padding-top: 0%;
     position: relative;
       overflow-x: hidden;
+      margin-top: 20px;
 }
 .new_footer_area .footer_bottom {
     padding-top: 5px;
@@ -28,9 +30,11 @@ body {
     font-weight: 300;
     line-height: 28px;
     color: #6a7695;
+    margin-bottom: 20px;
 }
 .new_footer_top .company_widget .f_subscribe_two .btn_get {
     border-width: 1px;
+    margin-top: 20px;
 }
 .btn_get_two:hover {
     background: transparent;
@@ -49,16 +53,17 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 
-
 .new_footer_top .f_widget.about-widget .f_list li a:hover {
     color: #5e2ced;
 }
 .new_footer_top .f_widget.about-widget .f_list li {
+    margin-bottom: 11px;
 }
 .f_widget.about-widget .f_list li:last-child {
     margin-bottom: 0px;
 }
 .f_widget.about-widget .f_list li {
+    margin-bottom: 15px;
 }
 .f_widget.about-widget .f_list {
     margin-bottom: 0px;
@@ -120,6 +125,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
     margin-left: 4px;
 }
 .new_footer_top .f-title {
+    margin-bottom: 30px;
     color: #263b5e;
 }
 .f_600 {
@@ -196,6 +202,9 @@ h1, h2, h3, h4, h5, h6 {
     left: 100%;
   }
 }
+
+/*************footer End*****************/
+
 
 /*************footer End*****************/
 

@@ -84,7 +84,6 @@ export class TripPassengerListComponent implements OnInit {
   }
 
   goToTripDetails(trip_id: number) {
-    console.log(trip_id)
     this.router.navigate([`/trips/${trip_id}`]);
   }
 }

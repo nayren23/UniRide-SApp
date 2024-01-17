@@ -112,7 +112,6 @@ export class RegistrationComponent implements OnInit {
   }
   onSubmit() {
     //Route pour insertion data
-    console.log(this.inscriptionForm.value)
 
     if (this.inscriptionForm && this.inscriptionForm.valid) {
       const formData = new FormData();
@@ -135,14 +134,11 @@ export class RegistrationComponent implements OnInit {
       formData.append('insurance', this.inscriptionForm.get('insurance')?.value || '');
 
 
-      formData.forEach((value, key) => {
-        console.log(`Clé: ${key}, Valeur: ${value}`);
-      });
+
 
       //Envoie des infos personnel
       this.authService.register(formData).subscribe({
         next: (response) => {
-          console.log(response);
           this.toastr.success('Inscription réussie !', 'Succès');
           this.router.navigate(['/login']);
         },
@@ -189,7 +185,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   handleFileInput(event: Event, fileType: string): void {
-    console.log(fileType);
     const inputElement = event.target as HTMLInputElement;
     const file = (inputElement.files as FileList)[0];
 

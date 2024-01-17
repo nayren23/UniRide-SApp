@@ -22,7 +22,6 @@ export class TripSearchResultListComponent implements OnInit {
       tap((params: any) => {
         this.tripService.searchTrips(params["params"]).pipe(
           tap((data: any) => {
-            console.log('data:', data)
             data.trips.forEach((trip: any) => {
               this.searchResults.push({
                 id: trip.trip_id,
@@ -47,7 +46,6 @@ export class TripSearchResultListComponent implements OnInit {
 
             });
             this.trierParDistance();
-            console.log('searchResults:', this.searchResults);
           }),
         ).subscribe(() => this.subscriptionComplete = true);
       }),

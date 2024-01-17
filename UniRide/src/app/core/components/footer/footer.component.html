@@ -2,24 +2,24 @@
     <div class="new_footer_top">
         <div class="wrapper">
             <div class="one">
-                <h3 class="f-title f_600 t_color f_size_18">Liens Utiles</h3>
+                <h3 class="f-title f_600 t_color f_size_18">Navigation</h3>
                 <ul class="list-unstyled f_list">
-                    <li><p-button [routerLink]="['']" label="Accueil" [link]="true"></p-button></li>
-                    <li><p-button [routerLink]="['/registration']" label="Inscription" [link]="true"></p-button></li>
-                    <li><p-button [routerLink]="['/login']" label="Connexion" [link]="true"></p-button></li>
+                    <li> <a [routerLink]="['']"> Accueil </a></li>
+                    <li> <a [routerLink]="['registration']"> Inscription </a></li>
+                    <li> <a [routerLink]="['/login']"> Connexion </a></li>
                 </ul>
             </div>
             <div class="two">
                 <h3 class="f-title f_600 t_color f_size_18">Aide et Ressources</h3>
                 <ul class="list-unstyled f_list">
-                    <li><p-button [routerLink]="['/about/conditions']" label="Conditions d'utilisation"
-                            [link]="true"></p-button></li>
-                    <li> <a href="https://github.com/DUT-Info-Montreuil/UniRide-SApp/blob/main/README.md"
-                            target="_blank">
-                            <p-button label="Documentation" [link]="true"></p-button>
+                    <li> <a [routerLink]="['/about/conditions']"> Conditions d'utilisation
                         </a></li>
-                    <li><p-button [routerLink]="['/about/privacy']" label="Politique de confidentialité"
-                            [link]="true"></p-button></li>
+                    <li> <a href="https://github.com/DUT-Info-Montreuil/UniRide-SApp/blob/main/README.md"
+                            target="_blank"> Documentation
+                        </a></li>
+                    <li> <a [routerLink]="['/about/privacy']"> Politique de confidentialité
+                        </a></li>
+
                 </ul>
             </div>
         </div>

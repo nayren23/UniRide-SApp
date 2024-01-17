@@ -43,7 +43,6 @@ export class BookService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    console.log({ "trip_id": tripId, "booker_id": bookerId, "response": response })
     return this.http.put(
       `${this.backUrl}/book/respond`,
       { "trip_id": tripId, "booker_id": bookerId, "response": response },

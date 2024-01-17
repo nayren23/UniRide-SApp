@@ -41,7 +41,6 @@ export class TripProposedListComponent implements OnInit {
       }),
     ).subscribe(() => {
       this.subscriptionComplete = true;
-      console.log(this.tripsProposed);
     });
   }
 
