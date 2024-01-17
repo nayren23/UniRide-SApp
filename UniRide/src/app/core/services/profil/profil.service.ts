@@ -24,13 +24,13 @@ export class ProfilService {
     return this.http.get<User>(`${this.backUrl}/user/infos`, { headers });
   }
 
-  editUserInfo(field: keyof User, updatedValue: string): Observable<any> {
+  editUserInfo(fieldRoute: string,fieldData:string, updatedValue: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    const endpoint = `${this.backUrl}/user/change/${field.toLowerCase()}`;
-    const updatedUser = { [field]: updatedValue };
+    const endpoint = `${this.backUrl}/user/change/${fieldRoute.toLowerCase()}`;
+    const updatedUser = { [fieldData]: updatedValue };
 
     return this.http.post(endpoint, updatedUser, { headers });
   }

@@ -19,8 +19,12 @@ interface FileUploadEvent {
 export class ProfilInformationComponent implements OnInit {
   user!: User;
   editedUser: Partial<User> = {};
-  editingField: keyof User | null = null;
-  editepassword: boolean = false;
+  editLoginDialog: boolean = false;
+  editPasswordDialog: boolean = false;
+  editPrenomDialog: boolean = false;
+  editNomDialog: boolean = false;
+  editPhoneDialog: boolean = false;
+  editDescriptionDialog: boolean = false;
   isNotDriver: boolean = true;
   hasCar!: boolean;
   hasProfilePicture: boolean = false;
@@ -198,7 +202,27 @@ export class ProfilInformationComponent implements OnInit {
         return 'Document inconnu';
     }
   }
+  convertRouteTypeUser(type: string) {
+    switch (type) {
+      case'login':
+        return 'login';
 
+      case'firstname':
+        return 'firstname';
+
+      case'lastname': 
+        return 'lastname';
+
+      case'phone_number': 
+        return 'phone-number';
+
+      case'description':
+        return 'description';
+
+      default:
+        return 'Champs inconnu';
+    }
+  }
   /**
 * Return the severity of the document
 * @param document 
@@ -220,45 +244,57 @@ export class ProfilInformationComponent implements OnInit {
     }
   };
 
+  openDialog(field: string): void {
+    switch (field) {
+      case 'login':
+        this.editLoginDialog = true;
+        break;
+      case 'password':
+        this.editPasswordDialog = true;
+        break;
+      case 'firstname':
+        this.editPrenomDialog = true;
+        break;
+      case 'lastname':
+        this.editNomDialog = true;
+        break;
+      case 'phone_number':
+        this.editPhoneDialog = true;
+        break;
+      case 'description':
+        this.editDescriptionDialog = true;
+        break;
+      default:
+        break;
+    }
+  }
+
   toggleUploadPhoto(): void {
     this.showUploadPhoto = !this.showUploadPhoto;
   }
 
-  toggleEdit(field: keyof User): void {
-    if (this.editingField === null) {
-      // Commencez l'édition du champ spécifique
-      this.editingField = field;
-    } else if (this.editingField === field) {
-      // Enregistrez les modifications si le même champ est cliqué à nouveau
-      this.saveChanges();
-    } else {
-      // Annulez l'édition si un autre champ est cliqué
-      this.editingField = null;
-    }
-  }
 
-  saveChanges(): void {
-    if (this.editingField !== null) {
-      const updatedValue = this.editedUser[this.editingField] as string;
-
-      if (updatedValue === this.user[this.editingField]) {
-        this.editingField = null;
+  saveChanges(fieldName: keyof User): void {
+    console.log('fieldName:', fieldName);
+    const nameRoute = this.convertRouteTypeUser(fieldName);
+    const updatedValue = this.editedUser[fieldName] as string;
+  console.log('updatedValue:', updatedValue);
+      if (updatedValue === this.user[fieldName]) {
         return;
       }
-
-      this.profilService.editUserInfo(this.editingField, updatedValue).subscribe(
+  
+      this.profilService.editUserInfo(nameRoute,fieldName, updatedValue).subscribe(
         (response) => {
-          this.editingField = null;
           this.getuserInfo();
           this.toastr.success(`Modification du champ enregistrée avec succès.`, 'Info');
         },
         (error) => {
-          console.error(`Erreur lors de l'enregistrement de la modification du champ ${this.editingField}`, error);
-          this.toastr.error(`Erreur lors de la Modification du champ.`, 'Erreur');
+          console.error(`Erreur lors de l'enregistrement de la modification du champ ${fieldName}`, error);
+          this.toastr.error(`Erreur lors de la modification.`, 'Erreur');
         }
       );
     }
-  }
+  
 
   addCar(): void {
     this.carService.addCar(this.car).subscribe({
@@ -352,7 +388,7 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   openNew() {
-    this.editepassword = true;
+    this.editPasswordDialog = true;
   }
 
   passwordsMatch(): boolean {
@@ -363,7 +399,6 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   changePassword(): void {
-    // Assurez-vous que les champs requis sont remplis
     if (
       !this.changePasswordFormData.old_password ||
       !this.changePasswordFormData.new_password ||
@@ -396,8 +431,8 @@ export class ProfilInformationComponent implements OnInit {
   }
 
   isSamePassword(): boolean {
-    const oldPassword = this.changePasswordFormData.new_password;
-    const newPassword = this.changePasswordFormData.new_password_confirmation;
+    const oldPassword = this.changePasswordFormData.old_password;
+    const newPassword = this.changePasswordFormData.new_password;
 
     return oldPassword === newPassword;
   }

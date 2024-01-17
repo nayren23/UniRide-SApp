@@ -48,6 +48,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InplaceModule } from 'primeng/inplace';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { SplitterModule } from 'primeng/splitter';
 
 
 
@@ -113,7 +114,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     CalendarModule,
     SelectButtonModule,
     InplaceModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    SplitterModule
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,11 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    flex: 1 1 calc(50% - 20px); /* 50% de largeur avec un espacement de 20px entre les éléments */
+    margin: 10px;
+    box-sizing: border-box;
+  }
+  
