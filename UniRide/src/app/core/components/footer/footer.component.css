@@ -16,7 +16,6 @@ body {
 }
 .new_footer_area .footer_bottom {
     padding-top: 5px;
-    padding-bottom: 50px;
 }
 .footer_bottom {
     font-size: 14px;
@@ -211,8 +210,6 @@ h1, h2, h3, h4, h5, h6 {
 .wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
   }
 
   .one {
