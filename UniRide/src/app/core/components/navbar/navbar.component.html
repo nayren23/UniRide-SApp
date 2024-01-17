@@ -1,0 +1,38 @@
+<div class="flex-grow-1">
+    <p-menubar *ngIf="isLoggedIn" [model]="items" class="" [autoDisplay]="false">
+        <ng-template pTemplate="start">
+            <a href="">
+                <div class="logo-container mr-1">
+                    <a href="/">
+                        <img id="logo" src="assets/UniRide-logo.png">
+                    </a>
+                </div>
+            </a>
+        </ng-template>
+        <ng-template *ngIf="isLoggedIn" pTemplate="end">
+            <app-books-list *ngIf="isDriver"></app-books-list>
+            <button class="" pButton type="button" icon="pi pi-user" (click)="sidebarVisible = true"
+                style="background-color: white; color: black;"></button>
+        </ng-template>
+    </p-menubar>
+    <p-menubar *ngIf="!isLoggedIn" class="mr-2">
+        <ng-template pTemplate="start">
+            <div class="logo-container mr-1">
+                <a href="/">
+                    <img id="logo" src="assets/UniRide-logo.png">
+                </a>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="end" class="flex flex-row">
+            <button type="button" (click)="navigate('/login')" pButton label="Connexion"
+                icon="pi pi-fw pi-check"></button>
+            <button type="button" (click)="navigate('/registration')" pButton label="Inscription"
+                icon="pi pi-fw pi-align-justify" class="ml-1"></button>
+        </ng-template>
+    </p-menubar>
+</div>
+<p-sidebar *ngIf="isLoggedIn" [(visible)]="sidebarVisible" position="right" styleClass="w-16rem">
+    <div class="items-center justify-content-end">
+        <p-menu [model]="userItems"></p-menu>
+    </div>
+</p-sidebar>

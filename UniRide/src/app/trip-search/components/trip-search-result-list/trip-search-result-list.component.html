@@ -1,0 +1,48 @@
+<h1 class="text-white">Résultats de la recherche</h1>
+<p-table [value]="trips" [tableStyle]="{'min-width': '60rem'}" [loading]="loading" dataKey="id" [rowHover]="true"
+    [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [filterDelay]="0">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="proposedDate">
+                Date
+                <p-sortIcon field="proposedDate"></p-sortIcon>
+            </th>
+            <th pSortableColumn="departure.numberOfPassenger">
+                Nombre de Passager
+                <p-sortIcon field="departure.numberOfPassenger"></p-sortIcon>
+            </th>
+            <th pSortableColumn="distance">
+                Distance du départ
+                <p-sortIcon field="distance"></p-sortIcon>
+            </th>
+            <th pSortableColumn="departure.name">
+                Départ
+                <p-sortIcon field="departure.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="arrival.name">
+                Arrivée
+                <p-sortIcon field="arrival.name"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-trip>
+        <tr [pSelectableRow]="trip" (click)="goToTripDetails(trip.id)">
+            <td>
+                {{trip.proposedDate | date: 'dd/MM/yyyy HH:mm'}}
+            </td>
+            <td>
+                {{trip.numberOfPassenger}}
+            </td>
+            <td>
+                {{ trip.distance !== null && trip.distance !== undefined ?
+                (trip.distance | distance) : 'Distance indisponible' }}
+            </td>
+            <td>
+                {{trip.departure.name}}
+            </td>
+            <td>
+                {{trip.arrival.name}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

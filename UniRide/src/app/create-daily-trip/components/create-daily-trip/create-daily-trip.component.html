@@ -1,0 +1,76 @@
+<p-card header="Créer un trajet quotidien">
+    <ng-template pTemplate="header">
+        <section class="section" id="map-section">
+            <div #map id="map"></div>
+        </section>
+    </ng-template>
+    <div #message class="mb-4">
+        <p-messages [closable]=" false"></p-messages>
+    </div>
+    <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+        <div class="p-inputgroup m-2">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-map"></i>
+            </span>
+            <span class="p-float-label">
+                <input pInputText formControlName="addressDeparture" #searchInputDeparture />
+                <label htmlFor="addressDeparture">Adresse de départ</label>
+            </span>
+        </div>
+        <div class="p-inputgroup my-4 m-2">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-map"></i>
+            </span>
+            <span class="p-float-label">
+                <input pInputText formControlName="addressArrival" #searchInputArrival />
+                <label htmlFor="addressArrival">Adresse d'arrivée</label>
+            </span>
+        </div>
+        <div class="p-inputgroup m-2 my-4 flex">
+            <div class="flex-auto">
+
+                <label for="nbPassenger" class="font-bold block"> Date de début <span
+                        pTooltip="Entrez la date à partir de laquelle vos trajets quotidiens commencent"
+                        tooltipPosition="top" tabindex="0" tooltipEvent="focus" style="outline: 0;">
+                        <i class="pi pi-question-circle"></i>
+                    </span></label>
+                <p-calendar formControlName="dateStart" [showIcon]="true" [touchUI]="true" [minDate]="minDate"
+                    [showButtonBar]="true" [readonlyInput]="true" placeholder="Date de début" :pt="{
+                        :deep(.p-icon) {
+                            color: #3a82f6;
+                        },
+                      }"></p-calendar>
+            </div>
+            <div class="flex-auto">
+                <label for="nbPassenger" class="font-bold block"> Date de fin <span
+                        pTooltip="Entrez la date à partir laquelle vos trajets quotidiens se terminent"
+                        tooltipPosition="top" tabindex="0" tooltipEvent="focus" style="outline: 0;">
+                        <i class="pi pi-question-circle"></i>
+                    </span></label>
+                <p-calendar formControlName="dateEnd" [required]="true" [touchUI]="true" [showIcon]="true"
+                    [minDate]="minDate" [showButtonBar]="true" [readonlyInput]="true"
+                    placeholder="Date de fin"></p-calendar>
+
+            </div>
+        </div>
+        <div class="flex-auto m-2 my-4">
+            <label for="nbPassenger" class="font-bold block mb-2"> Heure de départ du trajet</label>
+            <p-calendar formControlName="hour" [timeOnly]="true" [readonlyInput]="true"
+                placeholder="Heure de départ"></p-calendar>
+        </div>
+
+        <div class="flex-auto m-2 my-4">
+            <label for="nbPassenger" class="font-bold block mb-2"> Nombre de Passagers </label>
+            <p-inputNumber formControlName="passengerNumber" [showButtons]="true" inputId="stacked" [min]="1" [max]="8">
+            </p-inputNumber>
+        </div>
+        <div class="flex-auto justify-content-center m-2 my-4">
+            <label for="days" class="font-bold block mb-2"> Jours du trajet </label>
+            <p-selectButton formControlName="days" [options]="weekDays" [multiple]="true" optionLabel="name"
+                optionValue="value"></p-selectButton>
+        </div>
+        <div class="flex justify-content-center mx-2 mt-4">
+            <button type="submit" pButton label="Créer" icon="pi pi-check" [disabled]="!tripForm.valid"></button>
+        </div>
+    </form>
+</p-card>

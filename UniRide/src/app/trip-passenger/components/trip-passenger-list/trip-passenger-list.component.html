@@ -1,0 +1,46 @@
+<h1 class="text-white">Trajets Passagers</h1>
+<p-table [value]="trips" [tableStyle]="{'min-width': '60rem'}" [loading]="loading" dataKey="id" [rowHover]="true"
+    [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [filterDelay]="0">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="status">
+                Status
+                <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th pSortableColumn="departure_date">
+                Date
+                <p-sortIcon field="departure_date"></p-sortIcon>
+            </th>
+            <th pSortableColumn="departure_address">
+                Départ
+                <p-sortIcon field="departure_address"></p-sortIcon>
+            </th>
+            <th pSortableColumn="arrival_address">
+                Arrivée
+                <p-sortIcon field="arrival_address"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-trip>
+        <tr [pSelectableRow]="trip" (click)="goToTripDetails(trip.id)">
+            <td>
+                <span class="p-column-title">Status</span>
+                <p-tag [value]="getStatus(trip.status, trip.book_status)"
+                    [severity]="getSeverity(getStatus(trip.status, trip.book_status))">
+                </p-tag>
+            </td>
+            <td>
+                <span class="p-column-title">Date</span>
+                {{trip.departure_date | date: 'dd/MM/yyyy'}}
+            </td>
+            <td>
+                <span class="p-column-title">Départ</span>
+                {{trip.departure_address}}
+            </td>
+            <td>
+                <span class="p-column-title">Arrivée</span>
+                {{trip.arrival_address}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,0 +1,13 @@
+<p-button *ngIf="document.url.startsWith('data:application/pdf')" (click)="displayPDF()" icon="pi pi-external-link"
+    label="Afficher"></p-button>
+<p-dialog *ngIf="document.url.startsWith('data:application/pdf')" [(visible)]="display" #dialog
+    (onShow)="dialog.maximize()" (onMaximize)="render()">
+    <div class="flex justify-content-center align-items-center">
+        <p-button class="mt-2 mb-2 mr-1" severity="secondary" [text]="true" size="small" [rounded]="true"
+            (click)="zoomIn()">+</p-button>
+        <p-button class="mt-2 mb-2 ml-1" severity="secondary" [text]="true" size="small" [rounded]="true"
+            (click)="zoomOut()">-</p-button>
+    </div>
+    <pdf-viewer [src]="document.url" [fit-to-page]="true" [zoom]="zoom" style="display: block; width:100%; height:90%">
+    </pdf-viewer>
+</p-dialog>

@@ -13,8 +13,7 @@
 
     <nav class=" border-gray-200 dark:bg-gray-900">
         <div class="w-auto mb-3">
-            <app-navbar *ngIf="isLoggedIn()" class="w-full"></app-navbar>
-            <app-navbar *ngIf="!isLoggedIn()" class="w-full"></app-navbar>
+            <app-navbar *ngIf="isLoaded" class="w-full"></app-navbar>
         </div>
     </nav>
 
@@ -24,7 +23,10 @@
     <router-outlet></router-outlet>
 
 
+<footer>
+    <app-footer></app-footer>
 
+</footer>
 
 </body>
 

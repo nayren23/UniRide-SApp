@@ -1,0 +1,11 @@
+
+<p-card header="Conducteur">
+    <div *ngIf="user" class="flex align-items-start">
+        <p-avatar *ngIf="!user.profile_picture" icon="pi pi-user" class="mr-2" size="xlarge" (click)="showDialog()"/>
+        <p-avatar *ngIf="user.profile_picture" [image]="user.profile_picture" class="mr-2" size="xlarge"/>
+        <div class="flex-grow-1 align-self-start">
+            <p class="md:text-2xl sm:xl">{{ user.firstname }} {{ user.lastname }}</p>
+        </div>
+    </div>
+    <p *ngIf="user">{{ user.description }}</p>
+</p-card>

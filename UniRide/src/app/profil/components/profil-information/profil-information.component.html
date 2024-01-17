@@ -1,0 +1,246 @@
+<p-tabView styleClass="tabview-custom">
+  <p-tabPanel header="Profil">
+    <ng-template pTemplate="header">
+      <i class="pi pi-user"></i>
+      <span>Profil</span>
+    </ng-template>
+    <p-card>
+      <div>
+        <div>
+          <p-image *ngIf="user.profile_picture" src="{{user.profile_picture}}" alt="image" width="250"
+            [preview]="true"></p-image>
+        </div>
+        <div class="col-fixed" style="width:100px">
+          <p-button *ngIf="!user.profile_picture && !showUploadPhoto" label="Ajouter Photo"
+            (click)="toggleUploadPhoto()" [link]="true"></p-button>
+          <p-button *ngIf="user.profile_picture && !showUploadPhoto" label="Modifier Photo"
+            (click)="toggleUploadPhoto()"></p-button>
+          <p-fileUpload *ngIf="showUploadPhoto" mode="basic" chooseLabel="Choisir une photo" name="demo[]"
+            accept=".jpg,.jpeg,.png" [customUpload]="true" (uploadHandler)="updateProfilePicture($event)"
+            [maxFileSize]="5000000"></p-fileUpload>
+        </div>
+      </div>
+
+      <strong>Rôle:</strong>
+      <span class="p-float-label">
+        <p-tag value="{{convertRole(user.role)}}" />
+      </span>
+
+    </p-card>
+    <div class="card">
+    <p-card header="Utilisateur">
+
+      <p class="m-0">Login:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.login }}" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="openDialog('login')"></p-button>
+
+        <p-dialog [(visible)]="editLoginDialog" [style]="{ width: '450px' }" header="Modification du login"
+        [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="new_login">Nouveau login</label>
+            <input pInputText type="text" [(ngModel)]="editedUser.login" required />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveChanges('login')"></button>
+        </ng-template>
+      </p-dialog>
+      </p>
+
+      <p class="m-0" id="pwd">Mot de passe:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="*********" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity=" " (click)="openNew()"></p-button>
+
+        <p-dialog [(visible)]="editPasswordDialog" [style]="{ width: '450px' }" header="Modification du mot de passe"
+          [modal]="true" styleClass="p-fluid">
+          <ng-template pTemplate="content">
+            <div class="field">
+              <label for="old_password">Ancien mot de passe</label>
+              <p-password [(ngModel)]="changePasswordFormData.old_password" [toggleMask]="true" required></p-password>
+            </div>
+            <div class="mb-4">
+              <div class="field">
+                <label for="new_password">Nouveau mot de passe</label>
+                <p-password [(ngModel)]="changePasswordFormData.new_password" [toggleMask]="true" required></p-password>
+              </div>
+              <div class="field">
+                <label for="confirmnew_password">Confirmer le Nouveau mot de passe</label>
+                <p-password [(ngModel)]="changePasswordFormData.new_password_confirmation" [toggleMask]="true"
+                  required></p-password>
+
+                <div *ngIf="!passwordsMatch()" class="ng-invalid ng-dirty">
+                  Les mots de passe ne correspondent pas.
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="footer">
+            <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text"
+              (click)="changePassword()"></button>
+          </ng-template>
+        </p-dialog>
+      </p>
+      <p class="m-0">Prénom:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.firstname }}" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="openDialog('firstname')"></p-button>
+
+        <p-dialog [(visible)]="editPrenomDialog" [style]="{ width: '450px' }" header="Modification du Prénom"
+        [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="new_firstname">Nouveau Prénom</label>
+            <input pInputText type="text" [(ngModel)]="editedUser.firstname" required />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveChanges('firstname')"></button>
+        </ng-template>
+      </p-dialog>
+      </p>
+      <p class="m-0">Nom:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.lastname }}" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="openDialog('lastname')"></p-button>
+
+        <p-dialog [(visible)]="editNomDialog" [style]="{ width: '450px' }" header="Modification du nom"
+        [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="new_lastname">Nouveau Nom</label>
+            <input pInputText type="text" [(ngModel)]="editedUser.lastname" required />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveChanges('lastname')"></button>
+        </ng-template>
+      </p-dialog>
+      </p>
+      <p class="m-0">Email:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.student_email }}" [disabled]="true" />
+      </p>
+      <p class="m-0">Genre:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.gender }}" [disabled]="true" />
+      </p>
+
+      <p class="m-0">Numéro de téléphone:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.phone_number }}" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="openDialog('phone_number')"></p-button>
+      
+        <p-dialog [(visible)]="editPhoneDialog" [style]="{ width: '450px' }" header="Modification du numéro de téléphone"
+        [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="new_phone_number">Nouveau numéro de téléphone</label>
+            <input pInputText type="text" [(ngModel)]="editedUser.phone_number" required />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveChanges('phone_number')"></button>
+        </ng-template>
+      </p-dialog>
+      </p>
+      <p class="m-0">Description:
+        <input pInputText type="text" class="p-inputtext-sm" placeholder="{{ user.description }}" [disabled]="true" />
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="openDialog('description')"></p-button>
+      
+        <p-dialog [(visible)]="editDescriptionDialog" [style]="{ width: '450px' }" header="Modification de la description"
+        [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="field">
+            <label for="new_description">Nouvelle description</label>
+            <input pInputText type="text" [(ngModel)]="editedUser.description" required />
+          </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveChanges('description')"></button>
+        </ng-template>
+        </p-dialog>
+      </p>
+    </p-card>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Header II" [disabled]="isNotDriver">
+    <ng-template pTemplate="header">
+      <i class="pi pi-car"></i>
+      <span>Voiture</span>
+    </ng-template>
+    <p-card header="Information Véhicule">
+      <form>
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col mb-4">
+            <label for="model">Modèle :</label>
+            <input type="text" id="model" [(ngModel)]="car.model" name="model" pInputText required>
+          </div>
+          <div class="p-field p-col mb-4">
+            <label for="licensePlate">Plaque d'immatriculation :</label>
+            <input type="text" id="licensePlate" [(ngModel)]="car.license_plate" name="licensePlate" pInputText
+              pattern="[A-Z]{2}-\d{3}-[A-Z]{2}" required
+              title="Veuillez saisir une plaque d'immatriculation valide selon le format AA-123-BB" />
+            <small>Saisissez en suivant ce modèle : AA-123-BB</small>
+          </div>
+          <div class="p-field p-col mb-4">
+            <label for="countryLicensePlate">Pays de la plaque d'immatriculation :</label>
+            <input type="text" id="countryLicensePlate" [(ngModel)]="car.country_license_plate"
+              name="countryLicensePlate" pInputText pattern="[A-Z]{2}" required
+              title="Veuillez saisir un code de pays à deux lettres" />
+            <small>Saisissez en suivant ce modèle : AA</small>
+          </div>
+          <div class="p-field p-col mb-4">
+            <label for="color">Couleur :</label>
+            <input type="text" id="color" [(ngModel)]="car.color" name="color" pInputText required>
+          </div>
+          <div class="p-field p-col mb-4">
+            <label for="brand">Marque :</label>
+            <input type="text" id="brand" [(ngModel)]="car.brand" name="brand" pInputText required>
+          </div>
+          <div class="p-field p-col mb-4">
+            <label for="totalPlaces">Nombre de places :</label>
+            <input type="number" id="totalPlaces" [(ngModel)]="car.total_places" name="totalPlaces" pInputText required
+              min="0" max="4">
+          </div>
+        </div>
+        <p-button *ngIf="!hasCar" label="Ajouter Véhicule" (onClick)="addCar()"></p-button>
+        <p-button *ngIf="hasCar" label="Mettre à Jour Véhicule" (onClick)="updateCar()"></p-button>
+      </form>
+    </p-card>
+  </p-tabPanel>
+  <p-tabPanel header="Header III">
+    <ng-template pTemplate="header">
+      <i class="pi pi-file"></i>
+      <span>Documents</span>
+    </ng-template>
+    <ng-container *ngFor="let document of userDocuments">
+      <div class="col-12">
+        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+          <app-display-pdf *ngIf="document.url.startsWith('data:application/pdf')"
+            [document]="document"></app-display-pdf>
+          <p-image *ngIf="!document.url.startsWith('data:application/pdf')" src="{{document.url}}"
+            alt="image {{convertType(document.type)}}" width="250" [preview]="true"></p-image>
+          <div
+            class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+            <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+              <div class="text-2xl font-bold text-900">{{ convertType(document.type)}}</div>
+
+              <div class="flex align-items-center gap-3">
+                <p-tag [value]="convertirStatus(document.status)" [severity]="getSeverity(document.status)"></p-tag>
+              </div>
+              <div *ngIf="document.status === '-1'" class="text-danger">{{ document.description }}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p-fileUpload #uploader name="{{ document.type }}" [customUpload]="true"
+            (uploadHandler)="onUpload($event, document, uploader)" [multiple]="false" accept=".jpg,.jpeg,.png,.pdf"
+            [maxFileSize]="5000000">
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles[document.type]?.length">
+                <li *ngFor="let file of uploadedFiles[document.type]">{{ file.name }} - {{ file.size }} bytes</li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+    </ng-container>
+  </p-tabPanel>
+</p-tabView>
