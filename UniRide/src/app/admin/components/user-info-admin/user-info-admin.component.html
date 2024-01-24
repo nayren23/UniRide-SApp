@@ -5,7 +5,7 @@
                 <div class="card flex justify-content-center">
                     <p-image src="{{user.profile_picture}}" alt="Image" width="165"></p-image>
                 </div>
-                <p-tag severity="info" value="{{convertRole(user.role)}}"></p-tag>
+                <p-tag [severity]="getSeverityUser(user.role)" value="{{convertRoleUser(user.role)}}"></p-tag>
                 <p-card header="Note Moyenne">
                     <div class="card flex justify-content-center">
                         <p-rating [(ngModel)]="average_rating" [readonly]="true" [cancel]="false"></p-rating>

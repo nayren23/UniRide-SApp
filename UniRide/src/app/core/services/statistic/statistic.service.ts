@@ -53,4 +53,17 @@ export class StatisticService implements StatisticInterface {
       { headers: headers }
     )
   }
+
+  setOptionsDoughnut() {
+    return {
+      cutout: '60%',
+      plugins: {
+        legend: {
+          labels: {
+            color: 'black'
+          }
+        }
+      }
+    };
+  }
 }

@@ -57,4 +57,70 @@ export class DocumentVerificationService {
       { headers: headers }
     );
   }
+
+  /**
+ * Function to convert the status of the document
+ * @param status 
+ * @returns 
+ */
+  convertStatus(status: string) {
+    switch (status) {
+      case "1":
+        return 'Validé';
+
+      case "0":
+        return 'En attente';
+
+      case "-1":
+        return 'Refusé';
+
+      default:
+        return 'Erreur';
+    }
+  }
+
+  /**
+* Return the severity of the document
+* @param document 
+* @returns 
+*/
+  getSeverity(status: string) {
+    switch (status) {
+      case "1":
+        return 'success';
+
+      case "0":
+        return 'warning';
+
+      case "-1":
+        return 'danger';
+
+      default:
+        return 'danger';
+    }
+  };
+
+  /**
+ * Function to convert the type of the document
+ * @param type 
+ * @returns 
+ */
+  convertType(type: string) {
+    switch (type) {
+      case 'license':
+        return 'Permis de conduire';
+
+      case 'card':
+        return 'Carte d\'identité';
+
+      case 'school_certificate':
+        return 'Certificat de scolarité';
+
+      case 'insurance':
+        return 'Attestation d\'assurance';
+
+      default:
+        return 'Document inconnu';
+    }
+  }
 }
