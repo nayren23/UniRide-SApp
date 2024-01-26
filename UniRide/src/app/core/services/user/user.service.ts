@@ -105,4 +105,44 @@ export class UserService implements UserInterface {
       { headers: headers }
     )
   }
+
+  /**
+* This method is used to convert the role from a number to a string
+* @param role 
+* @returns 
+*/
+  convertRole(role: any): string {
+    switch (role) {
+      case 0:
+        return 'Administrateur';
+      case 1:
+        return 'Conducteur';
+      case 2:
+        return 'Passager';
+      case 3:
+        return 'En attente';
+      default:
+        return 'Inconnu';
+    }
+  }
+
+  getSeverity(status: number) {
+    switch (status) {
+      case 0:
+        return 'danger';
+
+      case 1:
+        return 'success';
+
+      case 2:
+        return 'info';
+
+      case 3:
+        return 'warning';
+
+      default:
+        return 'warning';
+    }
+  }
+
 }

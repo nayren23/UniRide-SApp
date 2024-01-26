@@ -43,8 +43,8 @@
                 <td>{{ label.name }}</td>
                 <td>{{ label.description }}</td>
                 <td>
-                    <p-tag [value]="convertRoleIntoString(label.role).toUpperCase()"
-                        [severity]="getSeverity(convertRoleIntoString(label.role))"></p-tag>
+                    <p-tag [value]="convertRoleLabel(label.role).toUpperCase()"
+                        [severity]="getLabelSeverity(convertRoleLabel(label.role))"></p-tag>
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2"
@@ -68,11 +68,11 @@
             <label for="labelRole">Rôle</label>
             <p-dropdown [(ngModel)]="label.role" inputId="labelRole" [options]="statuses">
                 <ng-template pTemplate="selectedItem">
-                    <p-tag [value]="convertRoleIntoString(label.role).toUpperCase()"
-                        [severity]="getSeverity(convertRoleIntoString(label.role)).toUpperCase()"></p-tag>
+                    <p-tag [value]="convertRoleLabel(label.role).toUpperCase()"
+                        [severity]="getLabelSeverity(convertRoleLabel(label.role)).toUpperCase()"></p-tag>
                 </ng-template>
                 <ng-template let-option pTemplate="item">
-                    <p-tag [value]="option.label" [severity]="getSeverity(option.label)"></p-tag>
+                    <p-tag [value]="option.label" [severity]="getLabelSeverity(option.label)"></p-tag>
                 </ng-template>
             </p-dropdown>
         </div>

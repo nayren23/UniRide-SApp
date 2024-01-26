@@ -77,7 +77,7 @@ export class LabelService implements LabelInterface {
     )
   }
 
-  submitRating(trip_id: number, label_value: number, rating_criteria_id: number ) {
+  submitRating(trip_id: number, label_value: number, rating_criteria_id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -91,5 +91,47 @@ export class LabelService implements LabelInterface {
       { headers: headers }
     )
 
+  }
+
+  /**
+ * Return the severity of the status
+ * @param status 
+ * @returns 
+ */
+  getSeverity(status: any) {
+    switch (status) {
+      case 'PASSAGER':
+        return 'success';
+
+      case 'CONDUCTEUR':
+        return 'warning';
+
+      case "NON_ATTRIBUE":
+        return 'danger';
+
+      default:
+        return 'erreur';
+    }
+  }
+
+  /**
+   * Convert the role into a string
+   * @param role 
+   * @returns 
+   */
+  convertRoleIntoString(role: any) {
+    switch (role) {
+      case 1:
+        return "CONDUCTEUR";
+
+      case 2:
+        return "PASSAGER";
+
+      case null:
+        return "NON_ATTRIBUE";
+
+      default:
+        return "ERREUR";
+    }
   }
 }

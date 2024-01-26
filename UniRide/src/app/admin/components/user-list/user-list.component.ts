@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../../../core/services/user/user.service';
-import { User } from '../../../core/models/user.model';
-import { Table } from 'primeng/table';
-import { UserServiceMock } from '../../../core/services/user/user.service.mock';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { StatisticService } from '../../../core/services/statistic/statistic.service';
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { UserService } from '../../../core/services/user/user.service'
+import { User } from '../../../core/models/user.model'
+import { Table } from 'primeng/table'
+import { UserServiceMock } from '../../../core/services/user/user.service.mock'
+import { Router } from '@angular/router'
+import { ToastrService } from 'ngx-toastr'
+import { StatisticService } from '../../../core/services/statistic/statistic.service'
 
 @Component({
   selector: 'app-user-list',
@@ -17,51 +17,62 @@ export class UserListComponent implements OnInit {
   /**
    * Arguments for the chart
    */
-  dataTrip: any;
-  dataUser: any;
-  options: any;
-  textColor: string = 'black';
+  dataTrip: any
+  dataUser: any
+  options: any
 
-  lisUsers: User[] = [];
+  lisUsers: User[] = []
 
-  loading: boolean = true;
-  @ViewChild('displayUsers') table!: Table;
+  loading: boolean = true
+  @ViewChild('displayUsers') table!: Table
 
   constructor(
     private userService: UserService,
     private userServiceMock: UserServiceMock,
     private router: Router,
     private toastr: ToastrService,
-    private statistiqueService: StatisticService,
+    private statisticsService: StatisticService,
   ) { }
 
   ngOnInit() {
-    this.setOptionsDoughnut();
+    this.setOptionsDoughnutStatistic()
+    this.getStatisticUser()
+    this.getStatisticTrip()
+    this.getUsers()
+  }
 
-    /**
-     * Call the API to get sstatistics of the trip
-     */
-    this.statistiqueService.getTripsNumber().subscribe({
-      next: (data: any) => {
-        this.getDataTrip(data.trip_infos)
-      },
-      error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur');
-      },
-    })
-
-    /**
-     * Call the API to get statistics of the user
-     */
-    this.statistiqueService.getNumberOfUsers().subscribe({
+  /**
+   * Call the API to get statistics of the user
+   */
+  getStatisticUser() {
+    this.statisticsService.getNumberOfUsers().subscribe({
       next: (data: any) => {
         this.getDataUser(data.user_infos)
       },
       error: (error: any) => {
-        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur');
+        this.toastr.error('La récupération des statistiques des utilisateurs a echoué . Veuillez réessayer ultérieurement.', 'Erreur')
       },
     })
+  }
 
+  /**
+   * Call the API to get sstatistics of the trip
+   */
+  getStatisticTrip() {
+    this.statisticsService.getTripsNumber().subscribe({
+      next: (data: any) => {
+        this.getDataTrip(data.trip_infos)
+      },
+      error: (error: any) => {
+        this.toastr.error('La récupération des statistiques des trajets a echoué . Veuillez réessayer ultérieurement.', 'Erreur')
+      },
+    })
+  }
+
+  /**
+   * Call the API to get the list of users
+   */
+  getUsers() {
     this.userService.getListUsers().subscribe({
       next: (data: any) => {
         data.users.forEach((verification: any) => {
@@ -73,68 +84,57 @@ export class UserListComponent implements OnInit {
             profile_picture: verification.profile_picture,
             role: verification.role,
           }
-          this.lisUsers.push(user);
-        });
-        this.lisUsers = [...this.lisUsers];
-        this.loading = false;
+          this.lisUsers.push(user)
+        })
+        this.lisUsers = [...this.lisUsers]
+        this.loading = false
       },
       error: (error: any) => {
-        console.log(error);
-        this.toastr.error('La récupération de la liste des utilisateurs a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
+        this.loading = true
+        console.log(error)
+        this.toastr.error('La récupération de la liste des utilisateurs a échoué. Veuillez réessayer ultérieurement.', 'Erreur')
       },
     })
   }
 
+  /**
+   * Clear the filters of the table
+   * @param table 
+   */
   clear(table: Table) {
-    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info');
-    table.clear();
+    this.toastr.success('Tous les filtres ont été réinitialisés avec succès.', 'Info')
+    table.clear()
   }
 
   /**
-   * This method is used to convert the role from a number to a string
-   * @param role 
-   * @returns 
-   */
-  convertRole(role: number): string {
-    switch (role) {
-      case 0:
-        return 'Administrateur';
-      case 1:
-        return 'Conducteur';
-      case 2:
-        return 'Passager';
-      case 3:
-        return 'En attente';
-      default:
-        return 'Inconnu';
-    }
+ * This method is used to convert the role from a number to a string
+ * @param role 
+ * @returns 
+ */
+  convertRoleUser(role: any) {
+    return this.userService.convertRole(role)
   }
 
-  getSeverity(status: number) {
-    switch (status) {
-      case 0:
-        return 'danger';
-
-      case 1:
-        return 'success';
-
-      case 2:
-        return 'info';
-
-      case 3:
-        return 'warning';
-
-      default:
-        return 'warning';
-    }
+  /**
+   * Return the severity of role  user
+   * @param status 
+   * @returns 
+   */
+  getSeverityUser(status: number) {
+    return this.userService.getSeverity(status)
   }
 
   manageRequestVerificationDocument(id_user: number) {
     this.router.navigate([`/admin/users/${id_user}`], { queryParams: { id_user: id_user } })
   }
 
+  /**
+   * Retur the chart of the number of trips
+   * @param status 
+   * @returns
+   */
   getDataTrip(trip_infos: any) {
-    const color = ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"];
+    const color = ['#ffa630', "#d7e8ba", "#4da1a9", "#2e5077", "#611c35"]
     this.dataTrip = {
       labels: ['Total des trajets en attente', 'Total des trajets en cours', 'Total des trajets terminés', 'Total des trajets annulés'],
       datasets: [
@@ -144,11 +144,16 @@ export class UserListComponent implements OnInit {
           hoverBackgroundColor: color
         }
       ]
-    };
+    }
   }
 
+  /**
+   * Return the chart of the number of users
+   * @param status 
+   * @returns
+   */
   getDataUser(user_infos: any) {
-    const color = ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"];
+    const color = ['#b74f6f', "#adbdff", "#3185fc", "#34e5ff"]
     this.dataUser = {
       labels: ['Total des administrateurs', 'Total compte en attente', 'Total des conducteurs', 'Total des passagers'],
       datasets: [
@@ -158,19 +163,13 @@ export class UserListComponent implements OnInit {
           hoverBackgroundColor: color
         }
       ]
-    };
+    }
   }
 
-  setOptionsDoughnut() {
-    this.options = {
-      cutout: '60%',
-      plugins: {
-        legend: {
-          labels: {
-            color: this.textColor
-          }
-        }
-      }
-    };
+  /**
+   * Set the options of the doughnut chart
+   */
+  setOptionsDoughnutStatistic() {
+    this.options = this.statisticsService.setOptionsDoughnut()
   }
 }
