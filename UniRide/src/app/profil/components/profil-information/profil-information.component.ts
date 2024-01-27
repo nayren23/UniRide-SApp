@@ -17,7 +17,7 @@ interface FileUploadEvent {
   styleUrls: ['./profil-information.component.css']
 })
 export class ProfilInformationComponent implements OnInit {
-  user!: User;
+  user: User = {} as User;
   editedUser: Partial<User> = {};
   editLoginDialog: boolean = false;
   editPasswordDialog: boolean = false;

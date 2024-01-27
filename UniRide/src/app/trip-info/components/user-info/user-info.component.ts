@@ -20,7 +20,6 @@ export class UserInfoComponent implements OnInit {
   }
 
   getUserInfoDetails() {
-    console.log("test")
     this.userService.getUserInfoDetails(this.config.data.userid).subscribe({
       next: (data: any) => {
         this.user = {
