@@ -53,7 +53,7 @@ export class UserService implements UserInterface {
       'Content-Type': 'application/json',
     });
 
-    return this.http.get(`${this.backUrl}/user/infos/${id}`, { headers })
+    return this.http.get(`${this.backUrl}/admin/infos/${id}`, { headers })
   }
 
   getInfosUserById(userId: number): Observable<any> {

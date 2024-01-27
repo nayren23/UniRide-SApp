@@ -38,7 +38,7 @@ export class RegistrationComponent implements OnInit {
       student_email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/^((?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])){8,50}/),],],
       password_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-      gender: ['', Validators.required],
+      // gender: ['', Validators.required],
       phone_number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
       description: ['', Validators.maxLength(500)],
       pfp: [''],
@@ -125,7 +125,7 @@ export class RegistrationComponent implements OnInit {
       formData.append('student_email', this.inscriptionForm.get('student_email')?.value || '');
       formData.append('password', this.inscriptionForm.get('password')?.value || '');
       formData.append('password_confirmation', this.inscriptionForm.get('password_confirmation')?.value || '');
-      formData.append('gender', this.inscriptionForm.get('gender')?.value.value || '');
+      formData.append('gender', 'N');
       formData.append('phone_number', 0 + this.inscriptionForm.get('phone_number')?.value || '');
       formData.append('description', this.inscriptionForm.get('description')?.value || '');
       formData.append('pfp', this.inscriptionForm.get('pfp')?.value || '');
