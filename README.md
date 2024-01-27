@@ -51,4 +51,3 @@ Pour obtenir davantage d'aide sur PrimeNG, consultez le site [PrimeNG](https://p
 - [BOUAZIZ Ayoub / Ayoub-Bouaziz](https://github.com/Ayoub-Bouaziz)
 - [YANG Steven / G8LD](https://github.com/G8LD)
 - [FAURE Grégoire / Pawpawzz](https://github.com/Pawpawzz)
-

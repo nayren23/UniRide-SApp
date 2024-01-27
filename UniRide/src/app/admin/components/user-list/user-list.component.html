@@ -86,7 +86,7 @@
             {{ lisUsers.last_modified_date | date: 'dd/MM/yyyy' }}
         </td>
         <td>
-            <p-tag [value]="convertRole(lisUsers.role)" [severity]="getSeverity(lisUsers.role)"></p-tag>
+            <p-tag [value]="convertRoleUser(lisUsers.role)" [severity]="getSeverityUser(lisUsers.role)"></p-tag>
         </td>
 
         <td>

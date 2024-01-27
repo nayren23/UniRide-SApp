@@ -3,14 +3,8 @@ FROM node:20.9-alpine
 WORKDIR /app
 
 ARG PRODUCTION
-ARG API_URL
-ARG GOOGLE_MAPS_API_KEY
 
-
-ENV PRODUCTION=$PRODUCTION \
-    API_URL=$API_URL \
-    GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
-
+ENV PRODUCTION=$PRODUCTION
 
 #Copy package.json and package-lock.json to avoid reinstalling dependencies when only code changes
 COPY package*.json ./

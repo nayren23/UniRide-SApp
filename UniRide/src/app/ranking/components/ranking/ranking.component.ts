@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../../core/services/user/user.service';
 import { User } from '../../../core/models/user.model';
@@ -14,16 +14,15 @@ export class RankingComponent implements OnInit {
 
   loading: boolean = true;
   /**
- * Attributes for driver ranking table
- */
-
+   * Attributes for driver ranking table
+   */
   listDriver: User[] = [];
   driverRankingList: Ranking[] = [];
   scoreCriteriaColumsDriver: ScoreCriteria[] = [];
 
   /**
- * Attributes for passenger ranking table
- */
+   * Attributes for passenger ranking table
+   */
   listPassenger: User[] = [];
   passengerRankingList: Ranking[] = [];
   scoreCriteriaColumsPassenger: ScoreCriteria[] = [];
@@ -38,6 +37,10 @@ export class RankingComponent implements OnInit {
     this.getRankingList('passenger');
   }
 
+  /**
+   * Call the API to get the ranking list
+   * @param type 
+   */
   getRankingList(type: 'driver' | 'passenger') {
     const rankingObservable = type === 'driver' ? this.userService.getDriverRanking() : this.userService.getPassengerRanking();
 
@@ -82,10 +85,5 @@ export class RankingComponent implements OnInit {
         this.toastr.error('La récupération du classement a échoué. Veuillez réessayer ultérieurement.', 'Erreur');
       },
     })
-  }
-
-  getCriterionRating(scoreCriteria: any[], criterionName: string): number {
-    const criterion = scoreCriteria.find(criteria => criteria.name === criterionName);
-    return criterion ? criterion.notes : 0; // Ou une valeur par défaut si nécessaire
   }
 }

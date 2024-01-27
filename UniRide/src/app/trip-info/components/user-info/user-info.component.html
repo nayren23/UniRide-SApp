@@ -4,7 +4,7 @@
             <p-avatar *ngIf="!user.profile_picture" icon="pi pi-user" class="mr-2" size="xlarge" (click)="showDialog()" />
             <p>{{ user.firstname }} {{ user.lastname }}</p>
         </div>
-        <p>Genre: {{ getGender() }}</p>
+        <!-- <p>Genre: {{ getGender() }}</p> -->
         <p>{{ user.description }}</p>
         <p-inplace>
             <ng-template pTemplate="display">

@@ -37,7 +37,7 @@ export class LogInComponent implements OnInit {
       const formData = this.connexionForm.value;
       this.authService.logIn(formData).subscribe({
         next: (response: any) => {
-          if (response['informations_verified']['email_verified']) {
+          if (response['email_verified']) {
             this.message.severity = 'success';
             this.message.summary = 'Connexion réussie';
             this.authService.getUserIDAndRole().subscribe({
